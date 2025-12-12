@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { BackgroundShapes } from '../components';
+---
+
+<BaseLayout title="About - Sarcoma.dev" description="Learn about Sarcoma.dev and our mission to find treatments for Alveolar Soft Part Sarcoma.">
+  <BackgroundShapes />
+  <div class="relative min-h-screen px-6 pt-8 pb-12 md:pt-12 md:pb-16">
+    <div class="max-w-4xl mx-auto z-10">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-purple-700 mb-8 md:mb-12 text-center">
+        About
+      </h1>
+      
+      <div class="bg-white/80 backdrop-blur-sm rounded-lg p-8 md:p-12 border border-purple-100 shadow-sm mb-12">
+        <div class="prose prose-lg max-w-none text-gray-700 space-y-6">
+          <p class="text-lg md:text-xl leading-relaxed">
+            "Sarkome" is a project that will be responsible for finding treatments and medications to heal alveolar sarcoma, a cancer that killed my brother. After meditating on it a lot, I have decided to start this project with the goal of continuing it until I die. All this in honor of my brother and to make sure his death is not in vain, with the intention of helping people and fighting for life.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <div class="w-48 h-48 md:w-64 md:h-64 rounded-lg overflow-hidden border-4 border-purple-200 shadow-lg mb-6">
+          <img 
+            src="/garp.jpg" 
+            alt="In memory" 
+            class="w-full h-full object-cover rounded-lg"
+          />
+        </div>
+        <p class="text-2xl md:text-3xl font-bold text-purple-700 italic text-center">
+          "Ante la vida, la eterna lucha"
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ResearchProject",
+    "name": "ASPS Therapeutics Discovery Initiative",
+    "alternateName": "Sarcoma.dev",
+    "description": "A computational and experimental research program dedicated to finding new therapeutic targets for Alveolar Soft Part Sarcoma.",
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "ASPS Therapeutics Discovery Initiative"
+    },
+    "areaServed": "Global",
+    "knowsAbout": ["Alveolar Soft Part Sarcoma", "Computational Biology", "Drug Discovery"]
+  }
+  </script>
+</BaseLayout>
+

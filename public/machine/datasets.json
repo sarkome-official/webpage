@@ -1,0 +1,6 @@
+{
+  "datasets": [
+    { "name": "Transcriptomic Profiles", "type": "RNA-seq", "description": "Gene expression data from ASPS tumor samples" },
+    { "name": "ChIP-seq TFE3", "type": "ChIP-seq", "description": "Binding sites of TFE3 fusion protein" }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "targets": [
+    { "symbol": "VEGFA", "mechanism": "Angiogenesis", "status": "Validated" },
+    { "symbol": "MET", "mechanism": "Signaling", "status": "Validated" },
+    { "symbol": "TFE3", "mechanism": "Transcription Factor", "status": "Driver" }
+  ]
+}

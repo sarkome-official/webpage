@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Silk, ReadmeTerminal } from '../components';
+---
+
+<BaseLayout>
+  <div class="fixed inset-0 -z-20">
+    <Silk client:load speed={5} scale={1} color="#6B46C1" noiseIntensity={1.5} rotation={0} />
+  </div>
+  <div class="fixed inset-0 flex items-center justify-center px-6 overflow-hidden z-0">
+    <div class="w-full max-w-4xl text-center z-10">
+      <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+        ASPS Therapeutics Discovery Initiative
+      </h1>
+      <p class="text-lg md:text-xl text-white max-w-2xl mx-auto leading-relaxed mb-8">
+        Advances new therapeutic targets and drug candidates for Alveolar Soft Part Sarcoma through integrated computational and experimental research.
+      </p>
+      
+      <ReadmeTerminal client:load />
+    </div>
+  </div>
+
+  <script type="application/ld+json">
+  {
+    "page": "Home",
+    "disease": "Alveolar Soft Part Sarcoma",
+    "driver": "ASPSCR1–TFE3 fusion",
+    "mechanisms": ["angiogenesis dependency", "TFE3-driven transcription"],
+    "therapeutic_vulnerabilities": ["VEGF pathway", "MET signaling"],
+    "current_therapies": ["atezolizumab", "pazopanib"],
+    "research_focus": ["target discovery", "computational modeling"]
+  }
+  </script>
+</BaseLayout>
+
+<script>
+  document.documentElement.style.overflow = 'hidden';
+  document.documentElement.style.height = '100%';
+  document.body.style.overflow = 'hidden';
+  document.body.style.height = '100%';
+</script>
+
