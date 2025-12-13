@@ -3,15 +3,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { BackgroundShapes } from '../components';
 ---
 
-<BaseLayout title="Contact - Sarcoma.dev" description="Get in touch with the Sarcoma.dev team.">
+<BaseLayout title="Contact - Sarkome.com" description="Get in touch with the Sarkome.com team.">
   <BackgroundShapes />
-  <div class="relative min-h-screen px-6 pt-8 pb-12 md:pt-12 md:pb-16">
-    <div class="max-w-2xl mx-auto z-10">
-      <h1 class="text-4xl md:text-5xl font-bold text-purple-700 mb-8 text-center">
+  <div class="min-h-screen-section">
+    <div class="container-main max-w-2xl z-10">
+      <h1 class="page-title">
         Contact Us
       </h1>
       
-      <div class="bg-white/80 backdrop-blur-sm rounded-lg p-8 border border-purple-100 shadow-sm">
+      <div class="card">
         <form class="space-y-6">
           <div>
             <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
@@ -28,7 +28,7 @@ import { BackgroundShapes } from '../components';
             <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all" placeholder="How can we help?" required></textarea>
           </div>
           
-          <button type="submit" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-semibold py-3 rounded-lg transition-colors">
+          <button type="submit" class="btn-primary w-full rounded-lg">
             Send Message
           </button>
         </form>

@@ -3,189 +3,117 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { BackgroundShapes } from '../components';
 ---
 
-<BaseLayout title="Roadmap - Sarcoma.dev" description="Our roadmap for advancing Alveolar Soft Part Sarcoma research through technology and data-driven insights.">
+<BaseLayout title="Sarkome — Roadmap" description="Mission: To algorithmically identify, validate, and license therapeutic assets for Alveolar Soft Part Sarcoma (ASPSCR1-TFE3) without building physical infrastructure.">
   <BackgroundShapes />
-  <div class="relative min-h-screen px-6 pt-8 pb-12 md:pt-12 md:pb-16">
-    <div class="max-w-4xl mx-auto z-10">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-purple-700 mb-8 md:mb-12 text-center">
-        Alveolar Soft Part Sarcoma Roadmap
-      </h1>
-      
-      <div class="space-y-8">
-        <div class="bg-white/80 backdrop-blur-sm rounded-lg p-6 md:p-8 border border-purple-100 shadow-sm">
-          <h2 class="text-xl md:text-2xl font-bold text-purple-700 mb-4">
-            Phase 1 — The Synthetic Foundation & Data Engine (2026)
-          </h2>
-          <div class="space-y-3 text-gray-700">
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Goal:</p>
-              <p>Solve the data scarcity problem and establish the API architecture.</p>
-            </div>
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Actions:</p>
-              <ul class="list-disc list-inside space-y-1 ml-2">
-                <li>Ingest & Transfer Learn: Aggregate sparse public ASPS data and ingest large-scale Renal Cell Carcinoma (Xp11 translocation) datasets to "teach" the model the shared transcriptional logic of TFE3 fusions.</li>
-                <li>Deploy Synthetic Generators: Implement BioGAN or CTGAN architectures to expand the dataset from n&lt;50 real samples to n&gt;5,000 statistically valid synthetic transcriptomes.</li>
-                <li>Define "The ASPS Atlas" API: Build the schema for the API now. It should not just serve raw data, but serve inferred relationships (e.g., "GET /targets/&#123;gene&#125;/confidence_score").</li>
-              </ul>
-            </div>
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Deliverables:</p>
-              <ul class="list-disc list-inside space-y-1 ml-2">
-                <li>A proprietary, augmented ASPS dataset (largest in existence).</li>
-                <li>API Documentation (v0.1) defining endpoints for genes, drugs, and structural liabilities.</li>
-              </ul>
-            </div>
-          </div>
+  <div class="min-h-screen-section">
+    <div class="container-main z-10">
+      <h1 class="page-title">Roadmap</h1>
+
+      <div class="space-y-8 text-gray-800">
+        <div class="card-sm">
+          <h2 class="text-2xl font-bold text-purple-700 mb-3">Mission</h2>
+          <p class="mb-2">To algorithmically identify, validate, and license therapeutic assets for Alveolar Soft Part Sarcoma (ASPSCR1-TFE3) without building physical infrastructure.</p>
+
+          <h2 class="text-2xl font-bold text-purple-700 mt-6 mb-3">Architecture</h2>
+          <p class="mb-2">Agentic AI (In Silico) → CRO Validation (Wet Lab) → IP Licensing (Commercial)</p>
         </div>
 
-        <div class="bg-white/80 backdrop-blur-sm rounded-lg p-6 md:p-8 border border-purple-100 shadow-sm">
-          <h2 class="text-xl md:text-2xl font-bold text-purple-700 mb-4">
-            Phase 2 — The Agentic Loop & "Cloud Lab" Integration (2026–2027)
-          </h2>
-          <div class="space-y-3 text-gray-700">
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Goal:</p>
-              <p>Convert static data into verified knowledge using AI Agents and automated wet-lab loops.</p>
-            </div>
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Actions:</p>
-              <ul class="list-disc list-inside space-y-1 ml-2">
-                <li>Deploy Multi-Agent AI: Launch "Curator" (literature scan), "Hypothesis" (gap finding), and "Critic" (toxicity check) agents to populate the knowledge graph.</li>
-                <li>Cloud Lab API Integration: Connect your Intelligence API to a remote lab (e.g., Strateos/Emerald). When the AI flags a contradiction, it automatically triggers a basic assay on ASPS-1 cell lines (accessible via NCI-DTP).</li>
-                <li>Structural Refinement: Use AlphaFold-Metainference to model the intrinsically disordered regions (IDRs) of the ASPSCR1-TFE3 fusion, replacing standard static models that "hallucinate" structures.</li>
-              </ul>
-            </div>
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Deliverables:</p>
-              <ul class="list-disc list-inside space-y-1 ml-2">
-                <li>"Self-Correcting" Dataset (AI predictions validated by Cloud Lab data).</li>
-                <li>Structure-corrected PDB files for the fusion protein (high-value asset).</li>
-              </ul>
-            </div>
-          </div>
+        <div class="card-sm">
+          <h2 class="text-2xl font-bold text-purple-700 mb-3">1. System Architecture</h2>
+          <p class="mb-3">This project does not build a "platform" first. It builds a Product Pipeline. We operate as a "Single Asset Entity" (SAE)—a company that exists solely to find and sell one specific drug asset.</p>
+
+          <h3 class="font-semibold mt-4">The Pipeline Flow</h3>
+          <ul class="list-disc list-inside ml-4">
+            <li>Input: Global biomedical data (PubMed, ChEMBL, PDB)</li>
+            <li>Processing: A stack of 3 AI Agents filters noise to find signal</li>
+            <li>Output: A Target Product Profile (TPP) ready for wet-lab purchase</li>
+          </ul>
         </div>
 
-        <div class="bg-white/80 backdrop-blur-sm rounded-lg p-6 md:p-8 border border-purple-100 shadow-sm">
-          <h2 class="text-xl md:text-2xl font-bold text-purple-700 mb-4">
-            Phase 3 — The "ASPS API" Launch & TME Simulation (2027)
-          </h2>
-          <div class="space-y-3 text-gray-700">
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Goal:</p>
-              <p>Commercialize access to the dataset and simulate the Tumor Microenvironment (TME).</p>
-            </div>
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Actions:</p>
-              <ul class="list-disc list-inside space-y-1 ml-2">
-                <li>Public API Launch: Open the "ASPS Intelligence API" to academic partners. Charges or token-gates access to the high-fidelity synthetic data and structural models.</li>
-                <li>Simulate the TME: Model the specific interaction between the tumor and the vascular system (angiogenesis), which is critical in highly vascularized ASPS tumors.</li>
-                <li>Deconvolution: Use algorithms to separate immune signals from bulk data, specifically identifying why ASPS responds to atezolizumab (PD-L1) despite low mutational burden.</li>
-              </ul>
-            </div>
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Deliverables:</p>
-              <ul class="list-disc list-inside space-y-1 ml-2">
-                <li>Live API (SaaS/Data-as-a-Service model).</li>
-                <li>TME Simulation Module identifying combinatorial targets (e.g., VEGF inhibitor + Immuno-oncology).</li>
-              </ul>
-            </div>
-          </div>
+        <div class="card-sm">
+          <h2 class="text-2xl font-bold text-purple-700 mb-3">2. Technical Stack (The "Agentic Core")</h2>
+          <p class="mb-3">We replace a human R&D team with three specific software agents.</p>
+
+          <h3 class="font-semibold">Agent A: The Miner (Knowledge Extraction)</h3>
+          <p class="italic">Function:</p>
+          <p>Scrapes unstructured text to find hidden relationships.</p>
+          <p class="mt-2"><strong>Tech Stack:</strong> Python, LangChain, PubMed API, LLM</p>
+          <p class="mt-2"><strong>Logic:</strong></p>
+          <ul class="list-disc list-inside ml-4">
+            <li>Query PubMed for <em>TFE3</em> AND (Kinase OR Inhibitor)</li>
+            <li>Use LLM to extract entity pairs: (Drug X) --inhibits--> (Target Y)</li>
+            <li>Filter for targets that interact with the TFE3 fusion protein</li>
+            <li>Output: <strong>candidates_raw.json</strong> (List of ~50 potential drugs)</li>
+          </ul>
+
+          <h3 class="font-semibold mt-4">Agent B: The Physicist (Structural Validation)</h3>
+          <p class="italic">Function:</p>
+          <p>Simulates physics to see if the drug fits the target.</p>
+          <p class="mt-2"><strong>Tech Stack:</strong> Google Colab, AlphaFold 3, DiffDock</p>
+          <p class="mt-2"><strong>Logic:</strong></p>
+          <ul class="list-disc list-inside ml-4">
+            <li>Generate 3D PDB structure of ASPSCR1-TFE3 IDR</li>
+            <li>Dock each candidate from Agent A into the protein pocket</li>
+            <li>Calculate Gibbs Free Energy (ΔG). Threshold: If Binding Energy &gt; -8.0 kcal/mol, DISCARD</li>
+            <li>Output: <strong>docked_results.csv</strong> (Ranked list of ~10 high-fit drugs)</li>
+          </ul>
+
+          <h3 class="font-semibold mt-4">Agent C: The Skeptic (Safety & Tox)</h3>
+          <p class="italic">Function:</p>
+          <p>Checks for chemical toxicity and commercial viability.</p>
+          <p class="mt-2"><strong>Tech Stack:</strong> RDKit, ChEMBL API, Tox21 Database</p>
+          <p class="mt-2"><strong>Logic:</strong></p>
+          <ul class="list-disc list-inside ml-4">
+            <li>Check molecular weight (&lt;500 Da for oral bioavailability)</li>
+            <li>Flag PAINS (Pan-Assay Interference Compounds)</li>
+            <li>Check prior FDA toxicity flags</li>
+            <li>Output: <strong>final_shortlist.md</strong> (Top 3 Candidates)</li>
+          </ul>
         </div>
 
-        <div class="bg-white/80 backdrop-blur-sm rounded-lg p-6 md:p-8 border border-purple-100 shadow-sm">
-          <h2 class="text-xl md:text-2xl font-bold text-purple-700 mb-4">
-            Phase 4 — Organoid Validation & IP Generation (2028)
-          </h2>
-          <div class="space-y-3 text-gray-700">
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Goal:</p>
-              <p>Generate "Gold Standard" preclinical data using organoids.</p>
-            </div>
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Actions:</p>
-              <ul class="list-disc list-inside space-y-1 ml-2">
-                <li>Organoid Screening Campaign: Fund a specific project with the Kondo Lab (Japan) or Crown Bio to test top API-generated hits on ASPS Patient-Derived Organoids (PDSOs).</li>
-                <li>IP-NFT Minting: As the organoid data validates specific drug repurposing candidates, wrap the data package (Computational Prediction + Wet Lab Confirmation) into an IP-NFT.</li>
-              </ul>
-            </div>
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Deliverables:</p>
-              <ul class="list-disc list-inside space-y-1 ml-2">
-                <li>Regulatory-grade preclinical data packages.</li>
-                <li>Tokenized IP assets ready for licensing or DAO funding.</li>
-              </ul>
-            </div>
-          </div>
+        <div class="card-sm">
+          <h2 class="text-2xl font-bold text-purple-700 mb-3">3. Execution Roadmap (2026–2031)</h2>
+
+          <h3 class="font-semibold mt-2">Phase 1: Signal Identification (2026 Q1)</h3>
+          <ul class="list-disc list-inside ml-4">
+            <li>Initialize this repository structure</li>
+            <li>Run <strong>miner_agent.py</strong> to scan 50,000 abstracts</li>
+            <li>Run <strong>docking_agent.py</strong> on the top hits</li>
+            <li>Generate the Target Product Profile (TPP) document</li>
+          </ul>
+
+          <h3 class="font-semibold mt-3">Phase 2: Biological Proof (2026 Q2–Q4)</h3>
+          <ul class="list-disc list-inside ml-4">
+            <li>Synthesize: Order small batches (5–10 mg) of the Top 3 compounds from a synthesis CRO (e.g., WuXi AppTec)</li>
+            <li>Validate: Ship compounds to a biology CRO (e.g., Charles River)</li>
+            <li>Assays: Cell Viability (IC50 on ASPS-1), Western Blot (TFE3 levels)</li>
+            <li>Success Metric: IC50 &lt; 100 nM</li>
+          </ul>
+
+          <h3 class="font-semibold mt-3">Phase 3: Regulatory Asset Generation (2027)</h3>
+          <ul class="list-disc list-inside ml-4">
+            <li>ADME/Tox panels</li>
+            <li>Submit Pre-IND meeting request to FDA</li>
+            <li>Propose a Basket Trial combining ASPS and RCC with TFE3 fusions</li>
+          </ul>
+
+          <h3 class="font-semibold mt-3">Phase 4: The Exit (2028)</h3>
+          <ul class="list-disc list-inside ml-4">
+            <li>Package AI predictions + Wet Lab proof + FDA minutes</li>
+            <li>Pitch to Pharma for licensing (Upfront + Royalties)</li>
+          </ul>
+
+          <h3 class="font-semibold mt-3">Phase 5: Scale & Automation (2029–2031)</h3>
+          <ul class="list-disc list-inside ml-4">
+            <li>2029: Re-invest to target Epithelioid Sarcoma</li>
+            <li>2030: Launch ASPS Atlas API</li>
+            <li>2031: Automate discovery with Cloud Labs for fully robotic pipelines</li>
+          </ul>
         </div>
 
-        <div class="bg-white/80 backdrop-blur-sm rounded-lg p-6 md:p-8 border border-purple-100 shadow-sm">
-          <h2 class="text-xl md:text-2xl font-bold text-purple-700 mb-4">
-            Phase 5 — Clinical Translation & Strategic Expansion (2029+)
-          </h2>
-          <div class="space-y-3 text-gray-700">
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Goal:</p>
-              <p>Validate therapeutic efficacy through regulatory-aligned clinical trials and scale the platform.</p>
-            </div>
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Actions:</p>
-              <ul class="list-disc list-inside space-y-1 ml-2">
-                <li>Design "Basket Trials": instead of conducting isolated ASPS trials, design a clinical protocol that pools ASPS patients with Xp11 Translocation Renal Cell Carcinoma patients. Since both cancers are driven by TFE3 fusions, grouping them increases the statistical power of the trial, making it feasible to demonstrate efficacy to the FDA despite the small ASPS patient population.</li>
-                <li>License to Pharma: Leverage the "ASPS Atlas" API's credibility (backed by organoid data) to license validated targets to major biotech firms specifically for these Phase 1/2 basket trials.</li>
-                <li>Launch N-of-1 Registry: Continue to use the API as a clinical decision support tool for individual "compassionate use" cases, but formally aggregate this data into a Real-World Evidence (RWE) registry to support the primary trial data.</li>
-                <li>Platform Generalization: Apply the successful "Synthetic Data + Agentic Cloud Lab" operating model to other rare sarcomas (e.g., Epithelioid Sarcoma) to diversify the platform's value.</li>
-              </ul>
-            </div>
-            <div>
-              <p class="font-semibold text-gray-900 mb-2">Deliverables:</p>
-              <ul class="list-disc list-inside space-y-1 ml-2">
-                <li>FDA Pre-IND (Investigational New Drug) Meeting Package supporting the Basket Trial design.</li>
-                <li>Revenue from IP licensing of validated targets.</li>
-                <li>Expansion of the system into a "Universal Rare-Cancer Engine."</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        
       </div>
     </div>
   </div>
-
-  <script type="application/ld+json">
-  {
-    "page": "Roadmap",
-    "disease": "Alveolar Soft Part Sarcoma",
-    "driver": "ASPSCR1–TFE3 fusion",
-    "mechanisms": ["angiogenesis dependency", "TFE3-driven transcription"],
-    "therapeutic_vulnerabilities": ["VEGF pathway", "MET signaling"],
-    "current_therapies": ["atezolizumab", "pazopanib"],
-    "research_focus": ["target discovery", "computational modeling"]
-  }
-  </script>
 </BaseLayout>
 
-<script type="application/ld+json">
-{
-  "page": "Roadmap",
-  "phases": [
-    {
-      "name": "Phase 1: Data Lake & Target Prediction",
-      "status": "Current",
-      "activities": ["Data aggregation", "LLM analysis", "Graph Neural Network training"]
-    },
-    {
-      "name": "Phase 2: High-Throughput Screening",
-      "status": "Planned",
-      "activities": ["In silico screening", "Compound selection"]
-    },
-    {
-      "name": "Phase 3: Validation",
-      "status": "Planned",
-      "activities": ["In vitro testing", "Mouse models"]
-    }
-  ]
-}
-</script>
 

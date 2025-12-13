@@ -3,33 +3,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { BackgroundShapes } from '../components';
 ---
 
-<BaseLayout title="About - Sarcoma.dev" description="Learn about Sarcoma.dev and our mission to find treatments for Alveolar Soft Part Sarcoma.">
+<BaseLayout title="About Sarkome" description="Learn about Sarkome and our mission to find treatments for Alveolar Soft Part Sarcoma.">
   <BackgroundShapes />
-  <div class="relative min-h-screen px-6 pt-8 pb-12 md:pt-12 md:pb-16">
-    <div class="max-w-4xl mx-auto z-10">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-purple-700 mb-8 md:mb-12 text-center">
-        About
+  <div class="min-h-screen-section">
+    <div class="container-main z-10">
+      <h1 class="page-title">
+        About Sarkome
       </h1>
       
-      <div class="bg-white/80 backdrop-blur-sm rounded-lg p-8 md:p-12 border border-purple-100 shadow-sm mb-12">
-        <div class="prose prose-lg max-w-none text-gray-700 space-y-6">
-          <p class="text-lg md:text-xl leading-relaxed">
-            "Sarkome" is a project that will be responsible for finding treatments and medications to heal alveolar sarcoma, a cancer that killed my brother. After meditating on it a lot, I have decided to start this project with the goal of continuing it until I die. All this in honor of my brother and to make sure his death is not in vain, with the intention of helping people and fighting for life.
-          </p>
-        </div>
+      <div class="max-w-3xl mx-auto mb-12">
+        <p class="text-lead text-center">
+          'Sarkome' is a project born from deep love and a heartfelt promise to honor my late brother, who bravely fought Alveolar Soft Part Sarcoma. Our mission is to compassionately and professionally dedicate our lives to researching treatments and finding medications to heal this cancer, ensuring his legacy inspires hope and life for others.
+        </p>
       </div>
 
       <div class="flex flex-col items-center">
-        <div class="w-48 h-48 md:w-64 md:h-64 rounded-lg overflow-hidden border-4 border-purple-200 shadow-lg mb-6">
+        <div class="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-8 border-purple-200 shadow-lg mb-4">
           <img 
             src="/garp.jpg" 
-            alt="In memory" 
-            class="w-full h-full object-cover rounded-lg"
+            alt="In loving memory" 
+            class="w-full h-full object-cover"
           />
         </div>
-        <p class="text-2xl md:text-3xl font-bold text-purple-700 italic text-center">
-          "Ante la vida, la eterna lucha"
-        </p>
+        <p class="text-sm text-gray-600 mt-2 text-center">In loving memory & inspired dedication.</p>
       </div>
     </div>
   </div>

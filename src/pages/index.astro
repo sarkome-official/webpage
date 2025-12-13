@@ -1,11 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { Silk, ReadmeTerminal } from '../components';
+import { Silk, ReadmeTerminal, SocialDock } from '../components';
 ---
 
 <BaseLayout>
-  <div class="fixed inset-0 -z-20">
-    <Silk client:load speed={5} scale={1} color="#6B46C1" noiseIntensity={1.5} rotation={0} />
+  <div class="fixed inset-0">
+    <div class="absolute inset-0 -z-30 bg-gradient-to-br from-purple-700 via-purple-900 to-black" aria-hidden="true"></div>
+    <div class="absolute inset-0 -z-20">
+      <Silk client:idle speed={5} scale={1} color="#6B46C1" noiseIntensity={1.5} rotation={0} />
+    </div>
   </div>
   <div class="fixed inset-0 flex items-center justify-center px-6 overflow-hidden z-0">
     <div class="w-full max-w-4xl text-center z-10">
@@ -19,6 +22,8 @@ import { Silk, ReadmeTerminal } from '../components';
       <ReadmeTerminal client:load />
     </div>
   </div>
+
+      <SocialDock />
 
   <script type="application/ld+json">
   {

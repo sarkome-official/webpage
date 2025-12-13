@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Project Information - ASPS Therapeutics Discovery Initiative";
+const description = "Comprehensive documentation of the ASPS Therapeutics Discovery Initiative: Molecular pathology, research methodology, roadmap, and datasets for Alveolar Soft Part Sarcoma.";
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="container-main py-12 bg-white text-gray-900">
+    <article itemscope itemtype="https://schema.org/ResearchProject">
+      <header class="mb-12 border-b pb-8">
+        <h1 class="page-title text-purple-900" itemprop="name">ASPS Therapeutics Discovery Initiative</h1>
+        <p class="text-lead" itemprop="description">
+          A computational and experimental research program dedicated to finding new therapeutic targets for Alveolar Soft Part Sarcoma (ASPS) through integrated AI agents and wet-lab validation.
+        </p>
+      </header>
+
+      <section class="mb-12">
+        <h2 class="section-heading">1. Project Overview</h2>
+        <p class="mb-4 text-lg leading-relaxed">
+          The ASPS Therapeutics Discovery Initiative (Sarkome) operates as a "Single Asset Entity" focused on identifying, validating, and licensing therapeutic assets for ASPS. We replace traditional R&D infrastructure with an agentic AI core that filters global biomedical data to generate high-confidence Target Product Profiles (TPPs).
+        </p>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="section-heading">2. Molecular Pathology</h2>
+        <div class="info-box">
+          <ul class="space-y-4">
+            <li class="flex flex-col md:flex-row md:items-start gap-2">
+              <strong class="min-w-[150px] text-purple-700">Disease:</strong>
+              <span>Alveolar Soft Part Sarcoma (ASPS), a rare, translocation-associated sarcoma.</span>
+            </li>
+            <li class="flex flex-col md:flex-row md:items-start gap-2">
+              <strong class="min-w-[150px] text-purple-700">Driver Mutation:</strong>
+              <span><strong>t(X;17)(p11;q25)</strong> translocation resulting in the <strong>ASPSCR1-TFE3</strong> fusion oncoprotein.</span>
+            </li>
+            <li class="flex flex-col md:flex-row md:items-start gap-2">
+              <strong class="min-w-[150px] text-purple-700">Mechanism:</strong>
+              <span>The fusion protein acts as a constitutively active transcription factor, upregulating MET signaling, angiogenesis (VEGF), and immune evasion pathways.</span>
+            </li>
+            <li class="flex flex-col md:flex-row md:items-start gap-2">
+              <strong class="min-w-[150px] text-purple-700">Vulnerabilities:</strong>
+              <span>Extreme angiogenesis dependence and transcriptional addiction to the TFE3 fusion program.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="section-heading">3. Research Methodology: The Agentic Core</h2>
+        <p class="mb-6 text-lg">
+          Our discovery pipeline utilizes three specialized AI agents to process data and generate candidates:
+        </p>
+        
+        <div class="grid gap-6 md:grid-cols-3">
+          <div class="border p-4 rounded shadow-sm">
+            <h3 class="font-bold text-lg mb-2 text-purple-700">Agent A: The Miner</h3>
+            <p class="text-sm text-gray-600 mb-2">Knowledge Extraction</p>
+            <p class="text-sm">Scrapes PubMed/ChEMBL to find hidden relationships between TFE3 and potential inhibitors using Large Language Models.</p>
+          </div>
+          <div class="border p-4 rounded shadow-sm">
+            <h3 class="font-bold text-lg mb-2 text-purple-700">Agent B: The Physicist</h3>
+            <p class="text-sm text-gray-600 mb-2">Structural Validation</p>
+            <p class="text-sm">Uses AlphaFold 3 and DiffDock to simulate binding affinity (Gibbs Free Energy) of candidates against the ASPSCR1-TFE3 IDR.</p>
+          </div>
+          <div class="border p-4 rounded shadow-sm">
+            <h3 class="font-bold text-lg mb-2 text-purple-700">Agent C: The Skeptic</h3>
+            <p class="text-sm text-gray-600 mb-2">Safety & Toxicity</p>
+            <p class="text-sm">Filters for oral bioavailability (<500 Da), PAINS, and known toxicity using Tox21 and FDA databases.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="section-heading">4. Roadmap</h2>
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-xl font-bold text-gray-800">Phase 1: Signal Identification (2026 Q1)</h3>
+            <p class="text-gray-700">Data lake construction, agent deployment, and generation of the initial Target Product Profile (TPP).</p>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-gray-800">Phase 2: Biological Proof (2026 Q2–Q4)</h3>
+            <p class="text-gray-700">Wet-lab validation of top 3 compounds via CROs (WuXi AppTec, Charles River). Assays: IC50 on ASPS-1 cell lines, Western Blot for TFE3 levels.</p>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-gray-800">Phase 3: Regulatory Asset Generation (2027)</h3>
+            <p class="text-gray-700">ADME/Tox panels and Pre-IND meeting request with the FDA for a Basket Trial design (ASPS + RCC).</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="section-heading">5. Datasets & Endpoints</h2>
+        <p class="mb-4">We provide machine-readable access to our findings:</p>
+        <ul class="list-disc pl-6 space-y-2 text-purple-700 font-mono">
+          <li><a href="/machine/knowledge.json" class="hover:underline">/machine/knowledge.json</a> - Knowledge graph of entities.</li>
+          <li>/machine/asps-targets.json - Predicted therapeutic targets.</li>
+          <li>/machine/datasets.json - Index of aggregated transcriptomic data.</li>
+        </ul>
+      </section>
+
+      <footer class="mt-16 pt-8 border-t text-gray-600 text-sm">
+        <p>Last updated: December 2025</p>
+        <p>Contact: <a href="mailto:research@sarkome.com" class="text-purple-600 hover:underline">research@sarkome.com</a></p>
+      </footer>
+    </article>
+  </main>
+
+  <!-- Comprehensive JSON-LD for LLMs -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ResearchProject",
+          "@id": "https://sarkome.com/#project",
+          "name": "ASPS Therapeutics Discovery Initiative",
+          "alternateName": "Sarkome",
+          "description": "A computational and experimental research program dedicated to finding new therapeutic targets for Alveolar Soft Part Sarcoma.",
+          "parentOrganization": {
+            "@type": "Organization",
+            "name": "Sarkome",
+            "url": "https://sarkome.com"
+          },
+          "areaServed": "Global",
+          "knowsAbout": [
+            {
+              "@type": "MedicalCondition",
+              "name": "Alveolar Soft Part Sarcoma",
+              "alternateName": "ASPS",
+              "associatedAnatomy": {
+                "@type": "AnatomicalStructure",
+                "name": "Soft tissue"
+              },
+              "possibleTreatment": ["Atezolizumab", "Pazopanib", "Anti-angiogenic agents"]
+            },
+            "Computational Biology",
+            "Drug Discovery",
+            "ASPSCR1-TFE3 fusion"
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://sarkome.com/project-info",
+          "url": "https://sarkome.com/project-info",
+          "name": "Project Information - Sarkome",
+          "description": "Detailed documentation of the ASPS Therapeutics Discovery Initiative for researchers and AI agents.",
+          "isPartOf": {
+            "@id": "https://sarkome.com/#website"
+          },
+          "about": {
+            "@id": "https://sarkome.com/#project"
+          }
+        }
+      ]
+    }
+  </script>
+</BaseLayout>

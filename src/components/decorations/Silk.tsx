@@ -2,7 +2,7 @@
 
 import React, { forwardRef, useMemo, useRef, useLayoutEffect } from 'react';
 
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 
 import { Color, Mesh, ShaderMaterial } from 'three';
 
@@ -146,48 +146,45 @@ interface SilkPlaneProps {
 
 const SilkPlane = forwardRef<Mesh, SilkPlaneProps>(function SilkPlane({ uniforms }, ref) {
 
-  const { viewport } = useThree();
+  const { viewport, invalidate } = useThree();
 
   useLayoutEffect(() => {
-
     const mesh = ref as React.MutableRefObject<Mesh | null>;
-
     if (mesh.current) {
-
       mesh.current.scale.set(viewport.width, viewport.height, 1);
-
     }
-
   }, [ref, viewport]);
 
-  useFrame((_state, delta: number) => {
-
+  // Throttle updates to ~30fps and use invalidate() with frameloop="demand" to reduce CPU/GPU
+  useLayoutEffect(() => {
     const mesh = ref as React.MutableRefObject<Mesh | null>;
+    let mounted = true;
+    const fps = 30;
+    const interval = 1000 / fps;
+    let last = performance.now();
 
-    if (mesh.current) {
-
-      const material = mesh.current.material as ShaderMaterial & {
-
-        uniforms: SilkUniforms;
-
-      };
-
+    const id = window.setInterval(() => {
+      if (!mounted || !mesh.current) return;
+      const material = mesh.current.material as ShaderMaterial & { uniforms: SilkUniforms };
+      const now = performance.now();
+      const delta = (now - last) / 1000;
+      last = now;
       material.uniforms.uTime.value += 0.1 * delta;
+      // Request a render
+      invalidate();
+    }, interval);
 
-    }
-
-  });
+    return () => {
+      mounted = false;
+      clearInterval(id);
+    };
+  }, [ref, invalidate]);
 
   return (
-
     <mesh ref={ref}>
-
       <planeGeometry args={[1, 1, 1, 1]} />
-
       <shaderMaterial uniforms={uniforms} vertexShader={vertexShader} fragmentShader={fragmentShader} />
-
     </mesh>
-
   );
 
 });
@@ -235,13 +232,9 @@ const Silk: React.FC<SilkProps> = ({ speed = 5, scale = 1, color = '#7B7481', no
   );
 
   return (
-
-    <Canvas dpr={[1, 2]} frameloop="always">
-
+    <Canvas dpr={[1, 1.5]} frameloop="demand">
       <SilkPlane ref={meshRef} uniforms={uniforms} />
-
     </Canvas>
-
   );
 
 };

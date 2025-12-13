@@ -29,3 +29,69 @@
   }
 }
 
+@layer components {
+  /* Page titles */
+  .page-title {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold mb-8 md:mb-12 text-center text-purple-700;
+  }
+
+  /* Section headings */
+  .section-heading {
+    @apply text-3xl font-bold mb-6 text-purple-800 border-l-4 border-purple-600 pl-4;
+  }
+
+  /* Card containers */
+  .card {
+    @apply bg-white/80 backdrop-blur-sm rounded-lg p-8 md:p-12 border border-purple-100 shadow-sm;
+  }
+
+  .card-sm {
+    @apply bg-white/80 backdrop-blur-sm rounded-lg p-6 md:p-8 border border-purple-100 shadow-sm;
+  }
+
+  /* Info boxes */
+  .info-box {
+    @apply bg-gray-50 p-6 rounded-lg border border-gray-200;
+  }
+
+  .highlight-box {
+    @apply bg-purple-800/30 border border-purple-600/50 rounded-lg p-6;
+  }
+
+  /* Button styles */
+  .btn-primary {
+    @apply bg-purple-600 hover:bg-purple-500 text-white font-semibold px-8 py-3 rounded-full transition-colors;
+  }
+
+  .btn-secondary {
+    @apply bg-purple-500 hover:bg-purple-600 text-white uppercase font-semibold px-8 py-3 rounded-lg transition-colors;
+  }
+
+  .btn-readme {
+    @apply inline-block px-8 py-3 text-lg font-semibold text-white border-2 border-white rounded-full hover:bg-white hover:text-purple-900 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] active:scale-95 transition-all duration-300 cursor-pointer;
+  }
+
+  /* Text utilities */
+  .text-lead {
+    @apply text-lg md:text-xl text-gray-700 leading-relaxed;
+  }
+
+  .text-section {
+    @apply text-lg leading-relaxed;
+  }
+
+  /* Layout utilities */
+  .container-main {
+    @apply max-w-4xl mx-auto px-6;
+  }
+
+  .min-h-screen-section {
+    @apply relative min-h-screen px-6 pt-8 pb-12 md:pt-12 md:pb-16;
+  }
+
+  /* Link styles */
+  .link-hover {
+    @apply hover:underline text-purple-600;
+  }
+}
+

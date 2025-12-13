@@ -1,9 +1,0 @@
-{
-  "initiative": "ASPS Therapeutics Discovery Initiative",
-  "focus": "Target discovery and drug development for Alveolar Soft Part Sarcoma",
-  "key_elements": {
-    "driver": "ASPSCR1–TFE3",
-    "targets": ["VEGFA", "MET", "TFE3-regulated genes"],
-    "therapeutic_areas": ["angiogenesis inhibition", "transcription modulation"]
-  }
-}

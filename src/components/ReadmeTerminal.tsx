@@ -44,10 +44,6 @@ The ASPS Therapeutics Discovery Initiative is a computational and experimental r
 - **Phase 2**: High-throughput screening of predicted compounds.
 - **Phase 3**: Pre-clinical validation in mouse models.
 
-## 5. Machine-Readable Endpoints
-- /machine/knowledge.json
-- /machine/asps-targets.json
-- /machine/datasets.json
 `;
 
   return (
@@ -65,7 +61,7 @@ The ASPS Therapeutics Discovery Initiative is a computational and experimental r
             {/* Window Header */}
             <div className="bg-[#2d2d2d] px-4 py-2 flex items-center justify-between border-b border-black">
               <div className="flex items-center gap-2">
-                <span className="ml-0 text-gray-400 text-xs">README.md — sarkome</span>
+                <span className="ml-0 text-gray-400 text-xs">README.md</span>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}

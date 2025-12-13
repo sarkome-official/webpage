@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { Header, SocialDock } from '../components';
+import { Header } from '../components';
 
 interface Props {
   title?: string;
@@ -31,13 +31,23 @@ const { title = 'Sarkome', description = 'Advances new therapeutic targets and d
     <meta property="twitter:url" content={Astro.url} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
+    <link rel="alternate" type="text/html" href="/project-info" title="Research Documentation" />
+    <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: title || 'Sarkome',
+      url: Astro.url,
+      description
+    })}
+    </script>
   </head>
   <body class="bg-white">
     <Header />
     <main class="relative">
       <slot />
     </main>
-    <SocialDock />
+    
   </body>
 </html>
 
