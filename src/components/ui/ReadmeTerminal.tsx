@@ -23,36 +23,26 @@ const ReadmeTerminal = () => {
 
   const content = `
 # ASPS Therapeutics Discovery Initiative
-> OPTIMIZED FOR MACHINE READABILITY AND SEO
 
 ## 1. Project Overview
-The ASPS Therapeutics Discovery Initiative (Sarkome) operates as a "Single Asset Entity" focused on identifying, validating, and licensing therapeutic assets for ASPS. We replace traditional R&D infrastructure with an agentic AI core that filters global biomedical data to generate high-confidence Target Product Profiles (TPPs).
+The ASPS Therapeutics Discovery Initiative is a computational and experimental research program dedicated to finding new therapeutic targets for Alveolar Soft Part Sarcoma (ASPS).
 
 ## 2. Molecular Pathology
 - **Disease**: Alveolar Soft Part Sarcoma (ASPS)
-- **Driver Mutation**: t(X;17)(p11;q25) translocation -> ASPSCR1-TFE3 fusion oncoprotein.
-- **Mechanism**: Constitutively active transcription factor upregulating MET signaling, angiogenesis (VEGF), and immune evasion.
-- **Vulnerabilities**: Extreme angiogenesis dependence and transcriptional addiction to the TFE3 fusion program.
+- **Driver Mutation**: ASPSCR1-TFE3 fusion oncoprotein
+- **Mechanism**: Aberrant transcription factor activity driving angiogenesis and immune evasion.
+- **Key Pathways**: VEGF, MET, HIF-1alpha.
 
-## 3. Research Methodology: The Agentic Core
-### Agent A: The Miner (Knowledge Extraction)
-Scrapes PubMed/ChEMBL to find hidden relationships between TFE3 and potential inhibitors using Large Language Models.
-
-### Agent B: The Physicist (Structural Validation)
-Uses AlphaFold 3 and DiffDock to simulate binding affinity (Gibbs Free Energy) of candidates against the ASPSCR1-TFE3 IDR.
-
-### Agent C: The Skeptic (Safety & Toxicity)
-Filters for oral bioavailability (<500 Da), PAINS, and known toxicity using Tox21 and FDA databases.
+## 3. Research Methodology
+1. **Data Aggregation**: Integrating transcriptomics (RNA-seq), proteomics, and clinical data.
+2. **Computational Modeling**: Using LLMs and graph neural networks to predict drug targets.
+3. **Validation**: In vitro testing on ASPS cell lines (e.g., ASPS-1).
 
 ## 4. Roadmap
-- **Phase 1 (2026 Q1)**: Signal Identification. Data lake construction, agent deployment, and TPP generation.
-- **Phase 2 (2026 Q2–Q4)**: Biological Proof. Wet-lab validation of top 3 compounds via CROs.
-- **Phase 3 (2027)**: Regulatory Asset Generation. ADME/Tox panels and Pre-IND meeting request.
+- **Phase 1**: Data Lake construction and initial target prediction (Current).
+- **Phase 2**: High-throughput screening of predicted compounds.
+- **Phase 3**: Pre-clinical validation in mouse models.
 
-## 5. Machine-Readable Endpoints
-- /machine/knowledge.json
-- /machine/asps-targets.json
-- /machine/datasets.json
 `;
 
   return (
@@ -64,19 +54,13 @@ Filters for oral bioavailability (<500 Da), PAINS, and known toxicity using Tox2
         README
       </button>
 
-      <noscript>
-        <div className="mt-2">
-          <a href="/machine/readme.md" className="text-sm text-white/80">View README (plain)</a>
-        </div>
-      </noscript>
-
       {isOpen && mounted && createPortal(
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className="w-full max-w-4xl h-[80vh] bg-[#1e1e1e] rounded-lg shadow-2xl flex flex-col overflow-hidden border border-gray-700 font-mono text-sm animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
             {/* Window Header */}
             <div className="bg-[#2d2d2d] px-4 py-2 flex items-center justify-between border-b border-black">
               <div className="flex items-center gap-2">
-                <span className="ml-0 text-gray-400 text-xs">README.md — sarkome</span>
+                <span className="ml-0 text-gray-400 text-xs">README.md</span>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
