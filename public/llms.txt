@@ -30,13 +30,13 @@
 
 ## Science & Technical Content
 
-- [SAR-001: The Program](/sar-001.md): Target definition (ASPSCR1-TFE3), modality (PROTACs), differentiation vs. failed VCP inhibitors (CB-5083), and unmet medical need.
-- [Platform: The Virtual Engine](/platform.md): Agentic AI design loop, technical stack (AlphaFold 3, DiffDock, DeepTernary), and cloud partner ecosystem.
-- [Development: Roadmap to Clinic](/development.md): 5-phase strategic plan (2026–2031) with detailed milestones, deliverables, and go/no-go decision points. Regulatory strategy (ODD, basket trials, IP fortress).
+- [SAR-001: The Program](sar-001.md): Target definition (ASPSCR1-TFE3), modality (PROTACs), differentiation vs. failed VCP inhibitors (CB-5083), and unmet medical need.
+- [Platform: The Virtual Engine](platform.md): Agentic AI design loop, technical stack (AlphaFold 3, DiffDock, DeepTernary), and cloud partner ecosystem.
+- [Development: Roadmap to Clinic](development.md): 5-phase strategic plan (2026–2031) with detailed milestones, deliverables, and go/no-go decision points. Regulatory strategy (ODD, basket trials, IP fortress).
 
 ## Investor & Commercial Content
 
-- [Investors: Investment Opportunity](/investors.md): Investment thesis, market opportunity (ASPS + tRCC expansion), Virtual Data Room access, and news/updates.
+- [Investors: Investment Opportunity](investors.md): Investment thesis, market opportunity (ASPS + tRCC expansion), Virtual Data Room access, and news/updates.
 
 ## Optional
 
@@ -52,4 +52,4 @@ This `llms.txt` is designed for LLM consumption. Each section provides:
 - **Science Pages**: Linked markdown files for detailed technical information
 - **Investor Content**: Commercial and investment-focused pages
 
-For maximum LLM utility, the markdown files at `/sar-001.md`, `/platform.md`, `/development.md`, and `/investors.md` provide clean, structured content without HTML or styling.
+For maximum LLM utility, the markdown files at `sar-001.md`, `platform.md`, `development.md`, and `investors.md` provide clean, structured content without HTML or styling.
