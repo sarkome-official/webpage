@@ -22,27 +22,25 @@ const ReadmeTerminal = () => {
   }, [isOpen]);
 
   const content = `
-# ASPS Therapeutics Discovery Initiative
+# Sarkome: ASPSCR1-TFE3 Therapeutics
 
-## 1. Project Overview
-The ASPS Therapeutics Discovery Initiative is a computational and experimental research program dedicated to finding new therapeutic targets for Alveolar Soft Part Sarcoma (ASPS).
+## 1. Mission
+To operate as a "Single Asset Entity" (SAE) dedicated to identifying, validating, and licensing a selective degrader for Alveolar Soft Part Sarcoma (ASPS).
 
-## 2. Molecular Pathology
-- **Disease**: Alveolar Soft Part Sarcoma (ASPS)
-- **Driver Mutation**: ASPSCR1-TFE3 fusion oncoprotein
-- **Mechanism**: Aberrant transcription factor activity driving angiogenesis and immune evasion.
-- **Key Pathways**: VEGF, MET, HIF-1alpha.
+## 2. The Target
+- **Driver**: ASPSCR1-TFE3 fusion protein.
+- **Modality**: Targeted Protein Degradation (PROTACs).
+- **Differentiation**: Selective degradation vs. systemic VCP inhibition.
 
-## 3. Research Methodology
-1. **Data Aggregation**: Integrating transcriptomics (RNA-seq), proteomics, and clinical data.
-2. **Computational Modeling**: Using LLMs and graph neural networks to predict drug targets.
-3. **Validation**: In vitro testing on ASPS cell lines (e.g., ASPS-1).
+## 3. The Platform (Virtual Engine)
+- **Agent A (Miner)**: Knowledge extraction from PubMed/ChEMBL.
+- **Agent B (Physicist)**: Structural validation via AlphaFold 3 & DiffDock.
+- **Agent C (Skeptic)**: Toxicity filtering & safety profiling.
 
-## 4. Roadmap
-- **Phase 1**: Data Lake construction and initial target prediction (Current).
-- **Phase 2**: High-throughput screening of predicted compounds.
-- **Phase 3**: Pre-clinical validation in mouse models.
-
+## 4. Development Roadmap
+- **Q3 2026**: Lead Declaration.
+- **Q1 2027**: IND-Enabling Studies.
+- **Q4 2027**: IND Filing.
 `;
 
   return (

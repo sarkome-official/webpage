@@ -232,7 +232,7 @@ const Silk: React.FC<SilkProps> = ({ speed = 5, scale = 1, color = '#7B7481', no
   );
 
   return (
-    <Canvas dpr={[1, 1.5]} frameloop="demand">
+    <Canvas dpr={1} frameloop="demand">
       <SilkPlane ref={meshRef} uniforms={uniforms} />
     </Canvas>
   );

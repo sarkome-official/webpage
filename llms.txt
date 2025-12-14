@@ -1,0 +1,55 @@
+# Sarkome
+
+> Sarkome is a single-asset entity (SAE) dedicated to identifying, validating, and licensing a selective protein degrader (SAR-001) for Alveolar Soft Part Sarcoma (ASPS). We replace traditional R&D infrastructure with agentic AI agents coupled to cloud-based CRO partners, executing drug discovery efficiently and at a fraction of traditional biotech costs.
+
+## Company Overview
+
+**Mission**: To develop SAR-001, a selective PROTAC degrader targeting the ASPSCR1-TFE3 fusion protein in Alveolar Soft Part Sarcoma.
+
+**Business Model**: Single Asset Entity (SAE) with virtual-first drug discovery platform.
+
+**Execution**: Agentic AI core (AlphaFold 3, DiffDock, DeepTernary) + cloud-based CRO partners (WuXi AppTec, Charles River, Emerald Cloud Lab).
+
+**Timeline**: 5-year roadmap (2026–2031) from in silico design through clinical proof of concept.
+
+**Exit Strategy**: Phase 1 data readout triggers large pharma acquisition interest or IPO positioning.
+
+## Key Scientific Facts
+
+- **Target Disease**: Alveolar Soft Part Sarcoma (ASPS), a rare (~500–1,000 new cases/year) translocation-driven sarcoma
+- **Genetic Driver**: ASPSCR1-TFE3 fusion protein (found in ~100% of ASPS cases) - a constitutively active transcription factor
+- **Therapeutic Modality**: Targeted Protein Degradation (PROTACs) - recruits the ubiquitin-proteasome system to degrade the fusion protein
+- **Regulatory Path**: Orphan Drug Designation (7-year exclusivity) + Basket Trial strategy (ASPS + tRCC)
+- **Current Status**: Phase 1 In Silico Validation (9 months); lead compounds in optimization
+
+## Investment Thesis (3 Pillars)
+
+1. **Monogenic Driver**: Single fusion protein reduces biological complexity; ~100% disease association eliminates polygenicity risk
+2. **Validated Modality**: Targeted Protein Degradation is a proven clinical platform (multiple clinical programs); unlocks "undruggable" transcription factors
+3. **Capital Efficient**: Virtual model eliminates fixed lab costs; capital flows directly to asset generation via CRO partnerships; extended runway
+
+## Science & Technical Content
+
+- [SAR-001: The Program](/sar-001.md): Target definition (ASPSCR1-TFE3), modality (PROTACs), differentiation vs. failed VCP inhibitors (CB-5083), and unmet medical need.
+- [Platform: The Virtual Engine](/platform.md): Agentic AI design loop, technical stack (AlphaFold 3, DiffDock, DeepTernary), and cloud partner ecosystem.
+- [Development: Roadmap to Clinic](/development.md): 5-phase strategic plan (2026–2031) with detailed milestones, deliverables, and go/no-go decision points. Regulatory strategy (ODD, basket trials, IP fortress).
+
+## Investor & Commercial Content
+
+- [Investors: Investment Opportunity](/investors.md): Investment thesis, market opportunity (ASPS + tRCC expansion), Virtual Data Room access, and news/updates.
+
+## Optional
+
+- [Home Page](/): Landing page with interactive README terminal and company mission statement.
+- [About Page](/about): Team background and company story.
+
+---
+
+## How to Use This File
+
+This `llms.txt` is designed for LLM consumption. Each section provides:
+- **Overview**: Quick context for model understanding
+- **Science Pages**: Linked markdown files for detailed technical information
+- **Investor Content**: Commercial and investment-focused pages
+
+For maximum LLM utility, the markdown files at `/sar-001.md`, `/platform.md`, `/development.md`, and `/investors.md` provide clean, structured content without HTML or styling.
