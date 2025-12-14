@@ -46,6 +46,17 @@ module.exports = {
           400: '#F472B6',
           500: '#EC4899',
         },
+        ref: {
+          bg: {
+            light: '#F8FAFC',
+            dark: '#020617',
+          },
+          surface: {
+            light: '#FFFFFF',
+            dark: '#0F172A',
+          },
+          primary: '#6B46C1',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',

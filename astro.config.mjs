@@ -4,16 +4,13 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 
+import icon from 'astro-icon';
+
 export default defineConfig({
   site: 'https://sarkome.com',
   trailingSlash: 'never',
   adapter: vercel(),
-  integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    react(),
-    sitemap(),
-  ],
+  integrations: [tailwind({
+    applyBaseStyles: false,
+  }), react(), sitemap(), icon()],
 });
-

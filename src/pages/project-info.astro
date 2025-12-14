@@ -1,12 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { BackgroundShapes } from '../components';
 
 const title = "Project Information - ASPS Therapeutics Discovery Initiative";
 const description = "Comprehensive documentation of the ASPS Therapeutics Discovery Initiative: Molecular pathology, research methodology, roadmap, and datasets for Alveolar Soft Part Sarcoma.";
 ---
 
 <BaseLayout title={title} description={description}>
-  <main class="container-main py-12 bg-white text-gray-900">
+  <BackgroundShapes />
+  <main class="container-main py-12 text-gray-900">
     <article itemscope itemtype="https://schema.org/ResearchProject">
       <header class="mb-12 border-b pb-8">
         <h1 class="page-title text-purple-900" itemprop="name">ASPS Therapeutics Discovery Initiative</h1>

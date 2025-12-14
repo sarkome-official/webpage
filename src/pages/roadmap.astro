@@ -1,118 +1,220 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { BackgroundShapes } from '../components';
+import { Icon } from 'astro-icon/components';
 ---
 
 <BaseLayout title="Sarkome — Roadmap" description="Mission: To algorithmically identify, validate, and license therapeutic assets for Alveolar Soft Part Sarcoma (ASPSCR1-TFE3) without building physical infrastructure.">
   <BackgroundShapes />
-  <div class="min-h-screen-section">
-    <div class="container-main z-10">
-      <h1 class="page-title">Roadmap</h1>
-
-      <div class="space-y-8 text-gray-800">
-        <div class="card-sm">
-          <h2 class="text-2xl font-bold text-purple-700 mb-3">Mission</h2>
-          <p class="mb-2">To algorithmically identify, validate, and license therapeutic assets for Alveolar Soft Part Sarcoma (ASPSCR1-TFE3) without building physical infrastructure.</p>
-
-          <h2 class="text-2xl font-bold text-purple-700 mt-6 mb-3">Architecture</h2>
-          <p class="mb-2">Agentic AI (In Silico) → CRO Validation (Wet Lab) → IP Licensing (Commercial)</p>
+  <div class="relative z-10 text-slate-800 dark:text-slate-200 font-sans">
+    
+    <!-- Header Section -->
+    <header class="relative pt-6 pb-16 w-full">
+        <div class="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6 leading-tight">
+                The Roadmap to <br class="hidden md:block"/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-ref-primary to-indigo-600 dark:from-purple-400 dark:to-indigo-400">
+                    Clinical Translation
+                </span>
+            </h1>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
+                Algorithmically identifying, validating, and licensing therapeutic assets for Alveolar Soft Part Sarcoma without building physical infrastructure.
+            </p>
         </div>
+    </header>
 
-        <div class="card-sm">
-          <h2 class="text-2xl font-bold text-purple-700 mb-3">1. System Architecture</h2>
-          <p class="mb-3">This project does not build a "platform" first. It builds a Product Pipeline. We operate as a "Single Asset Entity" (SAE)—a company that exists solely to find and sell one specific drug asset.</p>
+    <main class="max-w-[85%] mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-16">
+        
+        <!-- Mission Hero Card -->
+        <section class="relative group">
+            <div class="absolute -inset-4 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-slate-800/50 dark:to-slate-900/50 rounded-[2.5rem] -z-10 opacity-50 blur-xl transition duration-500 group-hover:opacity-100"></div>
+            <div class="bg-ref-surface-light dark:bg-ref-surface-dark rounded-2xl p-8 md:p-12 shadow-xl border border-slate-200 dark:border-slate-700 text-center">
+                <div class="w-16 h-16 mx-auto bg-purple-100 dark:bg-purple-900/50 text-ref-primary dark:text-purple-400 rounded-2xl flex items-center justify-center mb-6">
+                    <Icon name="mdi:rocket-launch" class="w-8 h-8" />
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4">The Mission</h2>
+                <p class="text-lg text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                    To operate as a "Single Asset Entity" (SAE)—a company that exists solely to find and sell one specific drug asset. We replace a human R&D team with three specific software agents.
+                </p>
+                <div class="mt-8 flex flex-wrap justify-center gap-4">
+                    <div class="px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                        <Icon name="mdi:robot" class="w-4 h-4 text-ref-primary" /> Agentic AI (In Silico)
+                    </div>
+                    <Icon name="mdi:arrow-right" class="w-4 h-4 text-slate-400 self-center hidden sm:block" />
+                    <div class="px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                        <Icon name="mdi:flask" class="w-4 h-4 text-indigo-500" /> CRO Validation (Wet Lab)
+                    </div>
+                    <Icon name="mdi:arrow-right" class="w-4 h-4 text-slate-400 self-center hidden sm:block" />
+                    <div class="px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                        <Icon name="mdi:license" class="w-4 h-4 text-emerald-500" /> IP Licensing (Commercial)
+                    </div>
+                </div>
+            </div>
+        </section>
 
-          <h3 class="font-semibold mt-4">The Pipeline Flow</h3>
-          <ul class="list-disc list-inside ml-4">
-            <li>Input: Global biomedical data (PubMed, ChEMBL, PDB)</li>
-            <li>Processing: A stack of 3 AI Agents filters noise to find signal</li>
-            <li>Output: A Target Product Profile (TPP) ready for wet-lab purchase</li>
-          </ul>
-        </div>
+        <!-- Agentic Core Grid -->
+        <section>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">The Agentic Core</h2>
+                <p class="max-w-2xl mx-auto text-slate-600 dark:text-slate-400">
+                    Our technical stack replaces traditional R&D with specialized AI agents.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Agent A -->
+                <div class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:border-ref-primary/50 transition-all hover:shadow-xl hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center mb-4">
+                        <Icon name="mdi:database-search" class="w-6 h-6" />
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Agent A: The Miner</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 font-medium uppercase tracking-wide">Knowledge Extraction</p>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">Scrapes unstructured text to find hidden relationships between TFE3 and potential inhibitors.</p>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-3 border border-slate-100 dark:border-slate-700">
+                        <div class="text-xs font-bold text-slate-400 uppercase mb-2">Tech Stack</div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-white dark:bg-slate-800 rounded text-xs border border-slate-200 dark:border-slate-600">Python</span>
+                            <span class="px-2 py-1 bg-white dark:bg-slate-800 rounded text-xs border border-slate-200 dark:border-slate-600">LangChain</span>
+                            <span class="px-2 py-1 bg-white dark:bg-slate-800 rounded text-xs border border-slate-200 dark:border-slate-600">PubMed API</span>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="card-sm">
-          <h2 class="text-2xl font-bold text-purple-700 mb-3">2. Technical Stack (The "Agentic Core")</h2>
-          <p class="mb-3">We replace a human R&D team with three specific software agents.</p>
+                <!-- Agent B -->
+                <div class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:border-purple-500/50 transition-all hover:shadow-xl hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center mb-4">
+                        <Icon name="mdi:molecule" class="w-6 h-6" />
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Agent B: The Physicist</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 font-medium uppercase tracking-wide">Structural Validation</p>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">Simulates physics to see if the drug fits the target using AlphaFold 3 and DiffDock.</p>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-3 border border-slate-100 dark:border-slate-700">
+                        <div class="text-xs font-bold text-slate-400 uppercase mb-2">Tech Stack</div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-white dark:bg-slate-800 rounded text-xs border border-slate-200 dark:border-slate-600">AlphaFold 3</span>
+                            <span class="px-2 py-1 bg-white dark:bg-slate-800 rounded text-xs border border-slate-200 dark:border-slate-600">DiffDock</span>
+                        </div>
+                    </div>
+                </div>
 
-          <h3 class="font-semibold">Agent A: The Miner (Knowledge Extraction)</h3>
-          <p class="italic">Function:</p>
-          <p>Scrapes unstructured text to find hidden relationships.</p>
-          <p class="mt-2"><strong>Tech Stack:</strong> Python, LangChain, PubMed API, LLM</p>
-          <p class="mt-2"><strong>Logic:</strong></p>
-          <ul class="list-disc list-inside ml-4">
-            <li>Query PubMed for <em>TFE3</em> AND (Kinase OR Inhibitor)</li>
-            <li>Use LLM to extract entity pairs: (Drug X) --inhibits--> (Target Y)</li>
-            <li>Filter for targets that interact with the TFE3 fusion protein</li>
-            <li>Output: <strong>candidates_raw.json</strong> (List of ~50 potential drugs)</li>
-          </ul>
+                <!-- Agent C -->
+                <div class="group bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 hover:border-emerald-500/50 transition-all hover:shadow-xl hover:-translate-y-1">
+                    <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center mb-4">
+                        <Icon name="mdi:shield-check" class="w-6 h-6" />
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Agent C: The Skeptic</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 font-medium uppercase tracking-wide">Safety & Tox</p>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">Checks for chemical toxicity, PAINS, and commercial viability using ChEMBL and Tox21.</p>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-3 border border-slate-100 dark:border-slate-700">
+                        <div class="text-xs font-bold text-slate-400 uppercase mb-2">Tech Stack</div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-white dark:bg-slate-800 rounded text-xs border border-slate-200 dark:border-slate-600">RDKit</span>
+                            <span class="px-2 py-1 bg-white dark:bg-slate-800 rounded text-xs border border-slate-200 dark:border-slate-600">ChEMBL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-          <h3 class="font-semibold mt-4">Agent B: The Physicist (Structural Validation)</h3>
-          <p class="italic">Function:</p>
-          <p>Simulates physics to see if the drug fits the target.</p>
-          <p class="mt-2"><strong>Tech Stack:</strong> Google Colab, AlphaFold 3, DiffDock</p>
-          <p class="mt-2"><strong>Logic:</strong></p>
-          <ul class="list-disc list-inside ml-4">
-            <li>Generate 3D PDB structure of ASPSCR1-TFE3 IDR</li>
-            <li>Dock each candidate from Agent A into the protein pocket</li>
-            <li>Calculate Gibbs Free Energy (ΔG). Threshold: If Binding Energy &gt; -8.0 kcal/mol, DISCARD</li>
-            <li>Output: <strong>docked_results.csv</strong> (Ranked list of ~10 high-fit drugs)</li>
-          </ul>
+        <!-- Execution Roadmap -->
+        <section class="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 rounded-3xl p-8 md:p-12">
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-8 text-center">Execution Timeline (2026–2031)</h2>
+            
+            <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
+                
+                <!-- Phase 1 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-300 group-[.is-active]:bg-ref-primary text-slate-500 group-[.is-active]:text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                        <Icon name="mdi:flag-checkered" class="w-5 h-5" />
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-slate-900 dark:text-white">Phase 1: Signal Identification</h3>
+                            <span class="text-xs font-bold text-ref-primary bg-purple-100 dark:bg-purple-900/30 px-2 py-1 rounded">2026 Q1</span>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300 list-disc list-inside">
+                            <li>Run miner_agent.py to scan 50,000 abstracts</li>
+                            <li>Run docking_agent.py on the top hits</li>
+                            <li>Generate the Target Product Profile (TPP)</li>
+                        </ul>
+                    </div>
+                </div>
 
-          <h3 class="font-semibold mt-4">Agent C: The Skeptic (Safety & Tox)</h3>
-          <p class="italic">Function:</p>
-          <p>Checks for chemical toxicity and commercial viability.</p>
-          <p class="mt-2"><strong>Tech Stack:</strong> RDKit, ChEMBL API, Tox21 Database</p>
-          <p class="mt-2"><strong>Logic:</strong></p>
-          <ul class="list-disc list-inside ml-4">
-            <li>Check molecular weight (&lt;500 Da for oral bioavailability)</li>
-            <li>Flag PAINS (Pan-Assay Interference Compounds)</li>
-            <li>Check prior FDA toxicity flags</li>
-            <li>Output: <strong>final_shortlist.md</strong> (Top 3 Candidates)</li>
-          </ul>
-        </div>
+                <!-- Phase 2 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-300 text-slate-500 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                        <Icon name="mdi:test-tube" class="w-5 h-5" />
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-slate-900 dark:text-white">Phase 2: Biological Proof</h3>
+                            <span class="text-xs font-bold text-slate-500 bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded">2026 Q2–Q4</span>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300 list-disc list-inside">
+                            <li>Synthesize Top 3 compounds (WuXi AppTec)</li>
+                            <li>Validate via biology CRO (Charles River)</li>
+                            <li>Success Metric: IC50 &lt; 100 nM</li>
+                        </ul>
+                    </div>
+                </div>
 
-        <div class="card-sm">
-          <h2 class="text-2xl font-bold text-purple-700 mb-3">3. Execution Roadmap (2026–2031)</h2>
+                <!-- Phase 3 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-300 text-slate-500 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                        <Icon name="mdi:file-document-check" class="w-5 h-5" />
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-slate-900 dark:text-white">Phase 3: Regulatory Asset</h3>
+                            <span class="text-xs font-bold text-slate-500 bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded">2027</span>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300 list-disc list-inside">
+                            <li>ADME/Tox panels</li>
+                            <li>Submit Pre-IND meeting request to FDA</li>
+                            <li>Propose Basket Trial (ASPS + RCC)</li>
+                        </ul>
+                    </div>
+                </div>
 
-          <h3 class="font-semibold mt-2">Phase 1: Signal Identification (2026 Q1)</h3>
-          <ul class="list-disc list-inside ml-4">
-            <li>Initialize this repository structure</li>
-            <li>Run <strong>miner_agent.py</strong> to scan 50,000 abstracts</li>
-            <li>Run <strong>docking_agent.py</strong> on the top hits</li>
-            <li>Generate the Target Product Profile (TPP) document</li>
-          </ul>
+                <!-- Phase 4 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-300 text-slate-500 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                        <Icon name="mdi:handshake" class="w-5 h-5" />
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-slate-900 dark:text-white">Phase 4: The Exit</h3>
+                            <span class="text-xs font-bold text-slate-500 bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded">2028</span>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300 list-disc list-inside">
+                            <li>Package AI predictions + Wet Lab proof</li>
+                            <li>Pitch to Pharma for licensing</li>
+                            <li>Target: Upfront + Royalties</li>
+                        </ul>
+                    </div>
+                </div>
 
-          <h3 class="font-semibold mt-3">Phase 2: Biological Proof (2026 Q2–Q4)</h3>
-          <ul class="list-disc list-inside ml-4">
-            <li>Synthesize: Order small batches (5–10 mg) of the Top 3 compounds from a synthesis CRO (e.g., WuXi AppTec)</li>
-            <li>Validate: Ship compounds to a biology CRO (e.g., Charles River)</li>
-            <li>Assays: Cell Viability (IC50 on ASPS-1), Western Blot (TFE3 levels)</li>
-            <li>Success Metric: IC50 &lt; 100 nM</li>
-          </ul>
+                 <!-- Phase 5 -->
+                 <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-300 text-slate-500 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                        <Icon name="mdi:chart-line-variant" class="w-5 h-5" />
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-slate-900 dark:text-white">Phase 5: Scale</h3>
+                            <span class="text-xs font-bold text-slate-500 bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded">2029-2031</span>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300 list-disc list-inside">
+                            <li>Re-invest to target Epithelioid Sarcoma</li>
+                            <li>Launch ASPS Atlas API</li>
+                            <li>Automate with Cloud Labs</li>
+                        </ul>
+                    </div>
+                </div>
 
-          <h3 class="font-semibold mt-3">Phase 3: Regulatory Asset Generation (2027)</h3>
-          <ul class="list-disc list-inside ml-4">
-            <li>ADME/Tox panels</li>
-            <li>Submit Pre-IND meeting request to FDA</li>
-            <li>Propose a Basket Trial combining ASPS and RCC with TFE3 fusions</li>
-          </ul>
+            </div>
+        </section>
 
-          <h3 class="font-semibold mt-3">Phase 4: The Exit (2028)</h3>
-          <ul class="list-disc list-inside ml-4">
-            <li>Package AI predictions + Wet Lab proof + FDA minutes</li>
-            <li>Pitch to Pharma for licensing (Upfront + Royalties)</li>
-          </ul>
-
-          <h3 class="font-semibold mt-3">Phase 5: Scale & Automation (2029–2031)</h3>
-          <ul class="list-disc list-inside ml-4">
-            <li>2029: Re-invest to target Epithelioid Sarcoma</li>
-            <li>2030: Launch ASPS Atlas API</li>
-            <li>2031: Automate discovery with Cloud Labs for fully robotic pipelines</li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
+    </main>
   </div>
 </BaseLayout>
 
