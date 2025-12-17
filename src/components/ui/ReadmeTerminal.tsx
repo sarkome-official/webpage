@@ -24,23 +24,37 @@ const ReadmeTerminal = () => {
   const content = `
 # Sarkome: ASPSCR1-TFE3 Therapeutics
 
-## 1. Mission
-To operate as a "Single Asset Entity" (SAE) dedicated to identifying, validating, and licensing a selective degrader for Alveolar Soft Part Sarcoma (ASPS).
+> Sarkome is a single-asset entity (SAE) dedicated to identifying, validating, and licensing a selective protein degrader (SAR-001) for Alveolar Soft Part Sarcoma (ASPS).
 
-## 2. The Target
+## 1. The Problem: The Epistemological Gap
+In the context of ultra-rare diseases like ASPS, our current operating model—facilitating bibliographic search and data retrieval—is **epistemologically insufficient**.
+- **Stochastic Hallucination**: LLMs operate on statistical probability, not biological truth.
+- **Fragmented Causality**: Search engines cannot independently infer causality from scattered correlation.
+- **Inability to Reason**: Standard systems fail at **multi-hop reasoning**.
+
+## 2. The Target: ASPS
+Alveolar Soft Part Sarcoma (ASPS) is an ultra-rare, malignant soft tissue sarcoma driven by a single chromosomal translocation: **t(X;17)(p11;q25)**, fusing **ASPSCR1** and **TFE3**.
 - **Driver**: ASPSCR1-TFE3 fusion protein.
-- **Modality**: Targeted Protein Degradation (PROTACs).
-- **Differentiation**: Selective degradation vs. systemic VCP inhibition.
+- **Mechanism**: Nuclear hijacking, epigenetic rewiring, and massive angiogenesis.
+- **Challenge**: Chemotherapy resistance and "orphan" status.
 
-## 3. The Platform (Virtual Engine)
-- **Agent A (Miner)**: Knowledge extraction from PubMed/ChEMBL.
-- **Agent B (Physicist)**: Structural validation via AlphaFold 3 & DiffDock.
-- **Agent C (Skeptic)**: Toxicity filtering & safety profiling.
+## 3. The Platform: Discovery Engine
+A Neuro-Symbolic pipeline designed to ingest unstructured data, reason about it logically, and validate findings via simulation.
+- **Ingestion**: NLP agents extract semantic "triplets" from literature.
+- **The Brain**: Biomedical Knowledge Graph (BKG) as the "Ground Truth".
+- **Reasoning**: DeepProbLog fuses neural pattern matching with symbolic logic.
+- **Validation**: *In Silico* filtering via AlphaFold-Multimer and Causal Inference.
 
 ## 4. Development Roadmap
-- **Q3 2026**: Lead Declaration.
-- **Q1 2027**: IND-Enabling Studies.
-- **Q4 2027**: IND Filing.
+- **Phase 1: Semantic Ingestion**: Constructing the Biomedical Knowledge Graph.
+- **Phase 2: The Neuro-Symbolic Logic Engine**: Enabling the system to generate novel hypotheses.
+- **Phase 3: *In Silico* Simulation**: Validating candidates via structural docking and digital twins.
+- **Phase 4: The Wet-Lab Validation Loop**: Converting digital code into biological results.
+
+## 5. Investment Thesis
+- **Monogenic Driver**: Single fusion protein reduces biological complexity.
+- **Validated Modality**: Targeted Protein Degradation (PROTACs).
+- **Capital Efficient**: Virtual model eliminates fixed lab costs.
 `;
 
   return (
@@ -69,19 +83,21 @@ To operate as a "Single Asset Entity" (SAE) dedicated to identifying, validating
             </div>
 
             {/* Editor Area */}
-            <div className="flex-1 flex overflow-hidden">
-              {/* Line Numbers */}
-              <div className="bg-[#1e1e1e] text-[#858585] py-4 px-2 text-right select-none border-r border-[#333] w-12 hidden md:block">
-                {content.trim().split('\n').map((_, i) => (
-                  <div key={i} className="leading-6">{i + 1}</div>
-                ))}
-              </div>
-              
-              {/* Content */}
-              <div className="flex-1 p-4 overflow-auto text-[#d4d4d4] bg-[#1e1e1e]">
-                <pre className="font-mono whitespace-pre-wrap leading-6">
-                  {content.trim()}
-                </pre>
+            <div className="flex-1 overflow-auto bg-[#1e1e1e]">
+              <div className="flex min-h-full min-w-max">
+                {/* Line Numbers */}
+                <div className="bg-[#1e1e1e] text-[#858585] py-4 px-2 text-right select-none border-r border-[#333] w-12 hidden md:block shrink-0 sticky left-0 z-10">
+                  {content.trim().split('\n').map((_, i) => (
+                    <div key={i} className="leading-6">{i + 1}</div>
+                  ))}
+                </div>
+                
+                {/* Content */}
+                <div className="flex-1 p-4 text-[#d4d4d4]">
+                  <pre className="font-mono whitespace-pre leading-6">
+                    {content.trim()}
+                  </pre>
+                </div>
               </div>
             </div>
             

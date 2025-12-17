@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Icon } from 'astro-icon/components';
+---
+
+<BaseLayout title="The Gap" description="The limitations of LLMs and search engines in scientific discovery. Why we need causal inference, not just retrieval.">
+  <Fragment slot="head">
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  </Fragment>
+
+  <!-- Fixed Background Layer -->
+  <div class="fixed inset-0 z-0 pointer-events-none bg-ref-bg-light dark:bg-ref-bg-dark transition-colors duration-300">
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      <div class="absolute left-0 right-0 top-0 -z-10 m-auto h-[500px] w-[500px] rounded-full bg-purple-500/20 opacity-50 blur-[100px]"></div>
+  </div>
+
+  <!-- Scrollable Content Layer -->
+  <div class="relative z-10 text-slate-800 dark:text-slate-200 font-sans">
+    
+    <!-- Header Section -->
+    <header class="relative pt-6 pb-16 w-full">
+        <div class="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6 leading-tight">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-ref-primary to-indigo-600 dark:from-purple-400 dark:to-indigo-400">
+                    The Gap
+                </span>
+            </h1>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
+                The epistemological insufficiency of search and LLMs in precision oncology. Why discovery requires causal inference, not just retrieval.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-[85%] mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-16">
+        
+        <!-- The Problem -->
+        <section class="relative group">
+            <div class="absolute -inset-4 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-slate-800/50 dark:to-slate-900/50 rounded-[2.5rem] -z-10 opacity-50 blur-xl transition duration-500 group-hover:opacity-100"></div>
+            <div class="bg-ref-surface-light dark:bg-ref-surface-dark rounded-2xl p-8 md:p-12 shadow-xl border border-slate-200 dark:border-slate-700">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2 bg-red-100 dark:bg-red-900/50 rounded-lg text-red-600">
+                        <Icon name="mdi:alert" class="w-6 h-6" />
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white">The Problem: Why Search is Not Discovery</h2>
+                </div>
+                <p class="text-lg text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
+                    In the context of ultra-rare diseases like ASPS, our current operating model—facilitating bibliographic search and data retrieval—is <span class="font-semibold">epistemologically insufficient</span> for the urgent demands of precision oncology.
+                </p>
+                <p class="text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
+                    While modern AI tools like Large Language Models (LLMs) excel at processing text, they face critical limitations when applied to scientific discovery:
+                </p>
+                
+                <!-- Limitation 1: Stochastic Hallucination -->
+                <div class="mb-8 pb-8 border-b border-slate-200 dark:border-slate-700 last:border-b-0">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 pt-1">
+                            <div class="w-8 h-8 bg-red-100 dark:bg-red-900/30 text-red-600 rounded-full flex items-center justify-center font-bold text-sm">1</div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Stochastic Hallucination</h3>
+                            <p class="text-slate-600 dark:text-slate-300 mb-2">
+                                LLMs operate on statistical probability, not biological truth. Without symbolic constraints, they are prone to scientific hallucination—inventing plausible-sounding interactions that are biologically impossible.
+                            </p>
+                            <p class="text-sm text-red-600 dark:text-red-400 italic">
+                                Example: Suggesting a kinase inhibitor for a transcription factor. In biomedicine, a statistical probability of truth is insufficient; verifiable veracity is required.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Limitation 2: Fragmented Causality -->
+                <div class="mb-8 pb-8 border-b border-slate-200 dark:border-slate-700 last:border-b-0">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 pt-1">
+                            <div class="w-8 h-8 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 rounded-full flex items-center justify-center font-bold text-sm">2</div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Fragmented Causality</h3>
+                            <p class="text-slate-600 dark:text-slate-300 mb-2">
+                                Search engines can retrieve documents mentioning individual facts, but they cannot independently infer causality unless that specific statement exists verbatim in the corpus.
+                            </p>
+                            <p class="text-sm text-yellow-600 dark:text-yellow-400 italic">
+                                Example: Documents mention "ASPSCR1-TFE3" and separately mention "Cyclin D1," but the system cannot deduce that upregulation of Cyclin D1 is a necessary downstream effector of the fusion.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Limitation 3: No Multi-Hop Reasoning -->
+                <div class="mb-8">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 pt-1">
+                            <div class="w-8 h-8 bg-orange-100 dark:bg-orange-900/30 text-orange-600 rounded-full flex items-center justify-center font-bold text-sm">3</div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Inability to Reason Across Distant Knowledge</h3>
+                            <p class="text-slate-600 dark:text-slate-300 mb-2">
+                                Standard Vector RAG systems fail at multi-hop reasoning. Discovery often requires connecting distant nodes that never appear together in a single document.
+                            </p>
+                            <p class="text-sm text-orange-600 dark:text-orange-400 italic">
+                                Example: Fact A + Fact B → Inference C. The fusion recruits VCP → VCP is essential for angiogenesis → Therefore, blocking VCP blocks the cancer's growth mechanism.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Consequence -->
+        <section class="bg-red-50 dark:bg-red-900/10 rounded-2xl p-8 md:p-12 border border-red-200 dark:border-red-800/30">
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">The Consequence</h2>
+            <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+                For ultra-rare diseases like ASPS where patient numbers are limited and clinical data is sparse, these gaps are not academic—they are life-threatening.
+            </p>
+            <ul class="space-y-4 text-slate-600 dark:text-slate-300">
+                <li class="flex gap-3">
+                    <span class="text-red-600 dark:text-red-400 font-bold">•</span>
+                    <span>We cannot rely on "probable" answers when designing treatments for a terminal disease.</span>
+                </li>
+                <li class="flex gap-3">
+                    <span class="text-red-600 dark:text-red-400 font-bold">•</span>
+                    <span>We cannot wait for researchers to manually connect scattered facts across thousands of papers.</span>
+                </li>
+                <li class="flex gap-3">
+                    <span class="text-red-600 dark:text-red-400 font-bold">•</span>
+                    <span>We need a system that can reason causally, verify constraints, and propose novel solutions systematically.</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- What's Needed -->
+        <section class="relative group">
+            <div class="absolute -inset-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-slate-800/50 dark:to-slate-900/50 rounded-[2.5rem] -z-10 opacity-50 blur-xl transition duration-500 group-hover:opacity-100"></div>
+            <div class="bg-ref-surface-light dark:bg-ref-surface-dark rounded-2xl p-8 md:p-12 shadow-xl border border-slate-200 dark:border-slate-700">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-2 bg-green-100 dark:bg-green-900/50 rounded-lg text-green-600">
+                        <Icon name="mdi:lightbulb" class="w-6 h-6" />
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white">What's Needed: Neuro-Symbolic AI</h2>
+                </div>
+                <p class="text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
+                    The solution is not a better search engine or a more powerful language model. It is a hybrid system that fuses the pattern-matching power of neural networks with the logical rigor of symbolic AI.
+                </p>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-100 dark:border-slate-700">
+                        <div class="text-xs font-bold text-green-500 uppercase tracking-wide mb-3">Neural</div>
+                        <h3 class="font-bold text-slate-900 dark:text-white mb-3">Pattern Recognition</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">
+                            LLMs excel at processing unstructured text and identifying correlations in massive datasets.
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-center text-slate-300 dark:text-slate-600 hidden md:block">
+                        <Icon name="mdi:plus" class="w-6 h-6" />
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-100 dark:border-slate-700">
+                        <div class="text-xs font-bold text-blue-500 uppercase tracking-wide mb-3">Symbolic</div>
+                        <h3 class="font-bold text-slate-900 dark:text-white mb-3">Logical Reasoning</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300">
+                            Symbolic AI enforces inviolable biological rules and enables causal deduction across knowledge graphs.
+                        </p>
+                    </div>
+                </div>
+                <p class="text-center text-slate-600 dark:text-slate-300 mt-8 text-sm">
+                    Together: <span class="font-semibold">Verifiable, explainable, and causally sound discovery.</span>
+                </p>
+            </div>
+        </section>
+
+    </main>
+  </div>
+</BaseLayout>

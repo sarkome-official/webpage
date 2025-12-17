@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Icon } from 'astro-icon/components';
+import { Fragment } from 'astro/jsx-runtime';
+---
+
+<BaseLayout title="Discovery Engine - Neuro-Symbolic AI" description="The technical architecture enabling autonomous drug discovery through causal inference and LLM-driven reasoning.">
+  <Fragment slot="head">
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  </Fragment>
+
+  <!-- Fixed Background Layer -->
+  <div class="fixed inset-0 z-0 pointer-events-none bg-ref-bg-light dark:bg-ref-bg-dark transition-colors duration-300">
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      <div class="absolute left-0 right-0 top-0 -z-10 m-auto h-[500px] w-[500px] rounded-full bg-purple-500/20 opacity-50 blur-[100px]"></div>
+  </div>
+
+  <!-- Scrollable Content Layer -->
+  <div class="relative z-10 text-slate-800 dark:text-slate-200 font-sans">
+    
+    <!-- Header Section -->
+    <header class="relative pt-6 pb-16 w-full">
+        <div class="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6 leading-tight">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-ref-primary to-indigo-600 dark:from-purple-400 dark:to-indigo-400">
+                    Discovery Engine
+                </span>
+            </h1>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
+                A Neuro-Symbolic pipeline designed to ingest unstructured data, reason about it logically, and validate findings via simulation.
+            </p>
+            <p class="max-w-2xl mx-auto text-sm text-slate-500 dark:text-slate-500 mt-4">
+                For Developers, Computational Biologists, and Data Scientists.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-[85%] mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-16">
+        
+        <!-- Introduction -->
+        <section class="text-center mb-8">
+            <p class="text-lg text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                GenDiscovery is not a standard web application; it is a <span class="font-semibold text-purple-600 dark:text-purple-400">Neuro-Symbolic pipeline</span> designed to ingest unstructured data, reason about it logically, and validate findings via simulation.
+            </p>
+        </section>
+
+        <!-- Data Flow Pipeline -->
+        <section class="relative group">
+            <div class="absolute -inset-4 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-slate-800/50 dark:to-slate-900/50 rounded-[2.5rem] -z-10 opacity-50 blur-xl transition duration-500 group-hover:opacity-100"></div>
+            <div class="bg-ref-surface-light dark:bg-ref-surface-dark rounded-2xl p-8 md:p-12 shadow-xl border border-slate-200 dark:border-slate-700">
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">The Data Flow Pipeline</h2>
+                <p class="text-slate-500 dark:text-slate-400 mb-10 text-sm italic">
+                    Unstructured Data → NLP Agents → Knowledge Graph → Inference Engine → Simulation
+                </p>
+                
+                <!-- Step 1: Ingestion -->
+                <div class="mb-12 pb-12 border-b border-slate-200 dark:border-slate-700 last:border-b-0">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="p-3 bg-blue-100 dark:bg-blue-900/50 rounded-lg text-blue-600 flex-shrink-0">
+                            <div class="text-xl font-black">1</div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Ingestion: From Text to Structure</h3>
+                            <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                                We cannot reason on raw text. We deploy a fleet of NLP agents (fine-tuned <strong>BioBERT</strong> models) to mine scientific literature and clinical trials.
+                            </p>
+                            <div class="space-y-3">
+                                <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg p-4">
+                                    <p class="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">Task:</p>
+                                    <p class="text-sm text-blue-800 dark:text-blue-200">
+                                        Extract semantic "triplets" (Subject → Predicate → Object) from unstructured papers.
+                                    </p>
+                                    <p class="text-xs text-blue-700 dark:text-blue-300 mt-2 italic">
+                                        Example: "ASPSCR1 <em>physically_interacts_with</em> VCP"
+                                    </p>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+                                    <p class="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1">Normalization:</p>
+                                    <p class="text-sm text-slate-600 dark:text-slate-300">
+                                        Entities are mapped to strict ontologies (Mondo, ChEMBL, Gene Ontology) to ensure interoperability.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: The Brain -->
+                <div class="mb-12 pb-12 border-b border-slate-200 dark:border-slate-700 last:border-b-0">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="p-3 bg-purple-100 dark:bg-purple-900/50 rounded-lg text-purple-600 flex-shrink-0">
+                            <div class="text-xl font-black">2</div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">The Brain: Biomedical Knowledge Graph (BKG)</h3>
+                            <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                                The core truth of the system is hosted on a scalable <strong>Graph Database</strong>. Unlike vector stores that only know semantic proximity, the BKG understands network topology.
+                            </p>
+                            <div class="space-y-3">
+                                <div class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800/30 rounded-lg p-4">
+                                    <p class="text-sm font-semibold text-purple-900 dark:text-purple-100 mb-1">Structure:</p>
+                                    <p class="text-sm text-purple-800 dark:text-purple-200">
+                                        Nodes represent biological entities (Genes, Drugs, Pathways), and edges represent functional relationships (Inhibits, Upregulates, Synthetically Lethal).
+                                    </p>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+                                    <p class="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1">Function:</p>
+                                    <p class="text-sm text-slate-600 dark:text-slate-300">
+                                        This graph serves as the "Ground Truth" that anchors our AI, preventing hallucination by restricting generation to existing nodes.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Reasoning -->
+                <div class="mb-12 pb-12 border-b border-slate-200 dark:border-slate-700 last:border-b-0">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="p-3 bg-green-100 dark:bg-green-900/50 rounded-lg text-green-600 flex-shrink-0">
+                            <div class="text-xl font-black">3</div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Reasoning: The Neuro-Symbolic Layer</h3>
+                            <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                                We utilize <strong>DeepProbLog</strong> to fuse the pattern-matching power of Neural Networks with the rigor of Symbolic Logic.
+                            </p>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/30 rounded-lg p-4">
+                                    <p class="text-sm font-semibold text-green-900 dark:text-green-100 mb-1">Neural Component:</p>
+                                    <p class="text-sm text-green-800 dark:text-green-200">
+                                        Handles noisy data and predicts link probabilities (e.g., "Drug A <em>might</em> bind to Target B").
+                                    </p>
+                                </div>
+                                <div class="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/30 rounded-lg p-4">
+                                    <p class="text-sm font-semibold text-emerald-900 dark:text-emerald-100 mb-1">Symbolic Component:</p>
+                                    <p class="text-sm text-emerald-800 dark:text-emerald-200">
+                                        Enforces inviolable biological rules. Rejects hypotheses that violate constraints, regardless of neural score.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Validation -->
+                <div class="mb-0">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="p-3 bg-orange-100 dark:bg-orange-900/50 rounded-lg text-orange-600 flex-shrink-0">
+                            <div class="text-xl font-black">4</div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Validation: <em>In Silico</em> Filtering</h3>
+                            <p class="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                                Before any hypothesis reaches a wet lab, it must survive two virtual gauntlets:
+                            </p>
+                            <div class="space-y-3">
+                                <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800/30 rounded-lg p-4">
+                                    <p class="text-sm font-semibold text-orange-900 dark:text-orange-100 mb-1">Structural Docking:</p>
+                                    <p class="text-sm text-orange-800 dark:text-orange-200">
+                                        We trigger <strong>AlphaFold-Multimer</strong> pipelines to verify if a proposed molecule can physically bind to the fusion protein interface.
+                                    </p>
+                                </div>
+                                <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 rounded-lg p-4">
+                                    <p class="text-sm font-semibold text-red-900 dark:text-red-100 mb-1">Causal Inference:</p>
+                                    <p class="text-sm text-red-800 dark:text-red-200">
+                                        We employ <strong>Do-Calculus</strong> to simulate counterfactuals ("What happens if we inhibit X?"). This distinguishes true drivers from mere passengers.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Stack -->
+        <section>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">Tech Stack</h2>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-8 border border-slate-200 dark:border-slate-700">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="flex gap-3">
+                        <div class="flex-shrink-0">
+                            <Icon name="mdi:language-python" class="w-6 h-6 text-blue-600" />
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Language:</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Python (PyTorch/DeepProbLog)</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="flex-shrink-0">
+                            <Icon name="mdi:server" class="w-6 h-6 text-green-600" />
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Compute:</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Serverless Functions</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="flex-shrink-0">
+                            <Icon name="mdi:graph" class="w-6 h-6 text-purple-600" />
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Database:</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Managed Graph Database</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="flex-shrink-0">
+                            <Icon name="mdi:web" class="w-6 h-6 text-indigo-600" />
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Frontend:</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Astro</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Loop -->
+        <section class="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-slate-800/30 dark:to-slate-900/30 rounded-2xl p-8 md:p-12 border border-purple-200 dark:border-slate-700">
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4 text-center">The Discovery Loop</h2>
+            <p class="text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto text-center">
+                Hypothesis generation → validation → experimental testing → model refinement.
+            </p>
+            <div class="flex flex-wrap justify-center items-center gap-3">
+                <div class="bg-white dark:bg-slate-800 rounded-xl px-5 py-3 border border-purple-200 dark:border-slate-700 shadow">
+                    <p class="text-sm font-bold text-purple-600 dark:text-purple-400">Generate</p>
+                </div>
+                <Icon name="mdi:arrow-right" class="w-5 h-5 text-slate-400" />
+                <div class="bg-white dark:bg-slate-800 rounded-xl px-5 py-3 border border-blue-200 dark:border-slate-700 shadow">
+                    <p class="text-sm font-bold text-blue-600 dark:text-blue-400">Validate</p>
+                </div>
+                <Icon name="mdi:arrow-right" class="w-5 h-5 text-slate-400" />
+                <div class="bg-white dark:bg-slate-800 rounded-xl px-5 py-3 border border-green-200 dark:border-slate-700 shadow">
+                    <p class="text-sm font-bold text-green-600 dark:text-green-400">Experiment</p>
+                </div>
+                <Icon name="mdi:arrow-right" class="w-5 h-5 text-slate-400" />
+                <div class="bg-white dark:bg-slate-800 rounded-xl px-5 py-3 border border-orange-200 dark:border-slate-700 shadow">
+                    <p class="text-sm font-bold text-orange-600 dark:text-orange-400">Learn</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+  </div>
+</BaseLayout>
