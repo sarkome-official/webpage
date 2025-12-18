@@ -2,11 +2,11 @@
 
 ### Why "Search" is Not "Discovery"
 
-In the context of ultra-rare diseases like ASPS, our current operating model—facilitating bibliographic search and data retrieval—is **epistemologically insufficient** for the urgent demands of precision oncology.
+In the context of ultra-rare diseases like ASPS, our current operating model, facilitating bibliographic search and data retrieval, is **epistemologically insufficient** for the urgent demands of precision oncology.
 
 While modern AI tools like Large Language Models (LLMs) excel at processing text, they face critical limitations when applied to scientific discovery:
 
-1. **Stochastic Hallucination:** LLMs operate on statistical probability, not biological truth. Without symbolic constraints, they are prone to scientific hallucination—inventing plausible-sounding interactions (e.g., suggesting a kinase inhibitor for a transcription factor) that are biologically impossible. In biomedicine, a statistical probability of truth is insufficient; verifiable veracity is required.
+1. **Stochastic Hallucination:** LLMs operate on statistical probability, not biological truth. Without symbolic constraints, they are prone to scientific hallucination, inventing plausible-sounding interactions (e.g., suggesting a kinase inhibitor for a transcription factor) that are biologically impossible. In biomedicine, a statistical probability of truth is insufficient; verifiable veracity is required.
 
 
 2. 

@@ -40,7 +40,7 @@ In this phase, we activate the "intelligence" of the system. We move beyond retr
 * Deployment of Autonomous Agents: The "Structural Biologist" (hunting for binding pockets) and the "Medicinal Chemist" (scanning for molecular fits).
 
 
-* Quantifying "Epistemological Uncertainty"—teaching the AI to know what it *doesn't* know.
+* Quantifying "Epistemological Uncertainty", teaching the AI to know what it *doesn't* know.
 
 
 

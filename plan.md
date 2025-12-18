@@ -7,7 +7,7 @@ Constraints / assumptions
 - Do not introduce new UX surfaces (no new pages/modals). The Investors “form” will live on the Investors page and the button will jump to it.
 - Reuse existing Tailwind/design tokens; no new theme/colors.
 
-### Step 1 — Decide URL strategy (pick one)
+### Step 1: Decide URL strategy (pick one)
 Option A (clean URLs, recommended):
 - New canonical routes: `/sar-001`, `/platform`, `/development`, `/investors`.
 - Keep old routes working via minimal redirect stubs (no new UX):
@@ -19,11 +19,11 @@ Option A (clean URLs, recommended):
 Option B (keep existing URLs):
 - Keep `/science`, `/roadmap`, `/contact`, `/project-info` but replace the content + nav labels only.
 
-### Step 2 — Fix current broken nav
+### Step 2: Fix current broken nav
 - Today the header links to `/research`, but there is no `src/pages/research.astro`.
 - Replace that nav item with the chosen “Platform” route.
 
-### Step 3 — Implement page content (4 pages)
+### Step 3: Implement page content (4 pages)
 For each page, update copy exactly as provided and structure it into clear sections with consistent typography.
 
 Positioning goals (why these page names)
@@ -82,11 +82,11 @@ Positioning goals (why these page names)
 	- Add a small section for public updates (e.g., patent filing milestones, advisory board appointments).
 	- If no items are provided yet, include the section with a minimal “Updates coming soon” placeholder.
 
-### Step 4 — Update shared chrome
+### Step 4: Update shared chrome
 - Update Header nav labels + hrefs to match the chosen canonical routes.
 - Update Footer if it contains “Research Documentation” links so they point to Platform.
 
-### Step 5 — Verification / acceptance checks
+### Step 5: Verification / acceptance checks
 - No 404s for any nav link.
 - All four pages render inside BaseLayout with consistent spacing.
 - Mobile: timeline stacks cleanly; nav still works.

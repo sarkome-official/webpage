@@ -8,7 +8,7 @@ It is a disease of contradictions: it grows slowly (indolent) but spreads aggres
 
 ### The Biological Driver: The "Fusion"
 
-While most cancers are chaotic, ASPS is deterministic. It is caused by a single chromosomal translocation—**t(X;17)(p11;q25)**—which fuses two genes that should never meet: **ASPSCR1** and **TFE3**.
+While most cancers are chaotic, ASPS is deterministic. It is caused by a single chromosomal translocation, **t(X;17)(p11;q25)**, which fuses two genes that should never meet: **ASPSCR1** and **TFE3**.
 
 This creates a chimeric oncoprotein, **ASPSCR1-TFE3**, which acts as a "molecular dictator":
 

@@ -1,1 +1,2 @@
-export { default as ReadmeTerminal } from './ReadmeTerminal.tsx';
+// export { default as ReadmeTerminal } from './ReadmeTerminal.tsx';
+
