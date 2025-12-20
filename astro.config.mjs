@@ -20,23 +20,16 @@ export default defineConfig({
       ],
       sidebar: [
         {
-          label: 'Overview',
-          items: [
-            { label: 'Introduction', slug: 'docs' },
-            { label: 'The Problem', slug: 'docs/problem' },
-            { label: 'The Target', slug: 'docs/target' },
-            { label: 'The Platform', slug: 'docs/platform' },
-            { label: 'Roadmap', slug: 'docs/roadmap' },
-            { label: 'Investment Thesis', slug: 'docs/investment' },
-          ],
+          label: 'Documentation',
+          link: '/docs',
         },
       ],
     }),
     tailwind({
       applyBaseStyles: false,
-    }), 
-    react(), 
-    sitemap(), 
+    }),
+    react(),
+    sitemap(),
     icon(),
     robotsTxt()
   ],
