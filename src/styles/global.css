@@ -5,17 +5,75 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* #ffffff */
+    --foreground: 220 13% 11%;
+    /* #111827 - text-main-light */
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 13% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 13% 11%;
+
+    --primary: 263 83% 58%;
+    /* #7c3aed */
     --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
+
+    --muted: 220 14% 96%;
+    /* #f9fafb - surface-light */
+    --muted-foreground: 220 9% 46%;
+    /* #6b7280 - text-muted-light */
+
+    --accent: 220 14% 96%;
     --accent-foreground: 222.2 47.4% 11.2%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 13% 91%;
+    /* #e5e7eb - border-light */
+    --input: 220 13% 91%;
+    --ring: 263 83% 58%;
+
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 0 0% 2%;
+    /* #050505 - background-dark */
+    --foreground: 0 0% 93%;
+    /* #ededed - text-main-dark */
+
+    --card: 0 0% 2%;
+    --card-foreground: 0 0% 93%;
+
+    --popover: 0 0% 2%;
+    --popover-foreground: 0 0% 93%;
+
+    --primary: 263 83% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 0 0% 7%;
+    /* #121212 - surface-dark */
+    --muted-foreground: 240 5% 65%;
+    /* #a1a1aa - text-muted-dark */
+
+    --accent: 0 0% 7%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 240 4% 16%;
+    /* #27272a - border-dark */
+    --input: 240 4% 16%;
+    --ring: 263 83% 58%;
   }
 }
 
@@ -23,75 +81,35 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: 'rlig' 1, 'calt' 1;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Custom scrollbar from code.html */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-300 dark:bg-zinc-700;
+    border-radius: 20px;
   }
 }
 
-@layer components {
-  /* Page titles */
-  .page-title {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold mb-8 md:mb-12 text-center text-purple-700;
+@layer utilities {
+  .bg-grid {
+    background-size: 24px 24px;
+    background-image: radial-gradient(hsl(var(--border)) 1px, transparent 1px);
+    mask-image: linear-gradient(to bottom, white, transparent);
   }
 
-  /* Section headings */
-  .section-heading {
-    @apply text-3xl font-bold mb-6 text-purple-800 border-l-4 border-purple-600 pl-4;
-  }
-
-  /* Card containers */
-  .card {
-    @apply bg-white/80 backdrop-blur-sm rounded-lg p-8 md:p-12 border border-purple-100 shadow-sm;
-  }
-
-  .card-sm {
-    @apply bg-white/80 backdrop-blur-sm rounded-lg p-6 md:p-8 border border-purple-100 shadow-sm;
-  }
-
-  /* Info boxes */
-  .info-box {
-    @apply bg-gray-50 p-6 rounded-lg border border-gray-200;
-  }
-
-  .highlight-box {
-    @apply bg-purple-800/30 border border-purple-600/50 rounded-lg p-6;
-  }
-
-  /* Button styles */
-  .btn-primary {
-    @apply bg-purple-600 hover:bg-purple-500 text-white font-semibold px-8 py-3 rounded-full transition-colors;
-  }
-
-  .btn-secondary {
-    @apply bg-purple-500 hover:bg-purple-600 text-white uppercase font-semibold px-8 py-3 rounded-lg transition-colors;
-  }
-
-  .btn-readme {
-    @apply inline-block px-8 py-3 text-lg font-semibold text-white border-2 border-white rounded-full hover:bg-white hover:text-purple-900 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] active:scale-95 transition-all duration-300 cursor-pointer;
-  }
-
-  /* Text utilities */
-  .text-lead {
-    @apply text-lg md:text-xl text-gray-700 leading-relaxed;
-  }
-
-  .text-section {
-    @apply text-lg leading-relaxed;
-  }
-
-  /* Layout utilities */
-  .container-main {
-    @apply max-w-4xl mx-auto px-6;
-  }
-
-  .min-h-screen-section {
-    @apply relative min-h-screen px-6 pt-8 pb-12 md:pt-12 md:pb-16;
-  }
-
-  /* Link styles */
-  .link-hover {
-    @apply hover:underline text-purple-600;
+  .mono-text {
+    font-family: 'JetBrains Mono', monospace;
   }
 }
-
