@@ -14,14 +14,22 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [
     starlight({
-      title: 'Sarkome Docs',
+      title: 'Sarkome Institute',
       social: [
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/sarkome-official' },
+        { icon: 'github', label: 'GitHub', href: 'un' },
       ],
       sidebar: [
         {
-          label: 'Documentation',
+          label: 'The Institute',
           link: '/docs',
+        },
+        {
+          label: 'Causal Engine',
+          link: '/docs/causa_engine',
+        },
+        {
+          label: 'GARP',
+          link: '/docs/garp',
         },
       ],
     }),

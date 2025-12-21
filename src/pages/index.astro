@@ -7,8 +7,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <!-- Using exact structure from code.html -->
   <section class="space-y-8">
     <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center">
-        <span class="material-symbols-outlined text-primary text-xl">all_inclusive</span>
+      <div class="w-20 h-20 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center">
+        <img src="/logo_purple_nobackground.svg" alt="Sarkome Logo" class="w-12 h-12 object-contain" />
       </div>
       <div>
         <h1 class="font-semibold text-lg">Sarkome Institute</h1>
@@ -20,7 +20,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         The Industrialization of <span class="text-primary">Causal Discovery</span>
       </h2>
       <p class="text-lg text-text-muted-light dark:text-text-muted-dark leading-relaxed max-w-xl">
-        Sarkome is a generative biotechnology institute based in Cambridge, MA. We specialize in leveraging neuro-symbolic AI to decode biological complexity and accelerate cures for rare diseases.
+        Sarkome is a generative biotechnology institute based in Chile. We specialize in leveraging neuro-symbolic AI to decode biological complexity and accelerate cures for rare diseases.
       </p>
       <div class="pt-2">
         <button class="inline-flex items-center gap-2 bg-text-main-light dark:bg-white text-white dark:text-black px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-all group">
@@ -52,9 +52,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 <div class="text-xl font-bold text-white">98.4%</div>
               </div>
               <div class="flex gap-2">
-                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
-                  <span class="material-symbols-outlined text-sm">hub</span>
-                </div>
               </div>
             </div>
           </div>
@@ -98,10 +95,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="relative pl-8 group">
         <div class="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-border-light dark:border-border-dark group-hover:bg-primary transition-colors"></div>
         <div class="grid md:grid-cols-[1fr_3fr] gap-2 md:gap-8">
-          <div class="text-xs font-mono text-text-muted-light dark:text-text-muted-dark pt-0.5">PHASE 01 — DATA</div>
+          <div class="text-xs font-mono text-text-muted-light dark:text-text-muted-dark pt-0.5">PHASE 01 — INGEST</div>
           <div>
-            <h4 class="font-medium text-text-main-light dark:text-text-main-dark mb-1 group-hover:text-primary transition-colors">Multi-omics Ingestion</h4>
-            <p class="text-sm text-text-muted-light dark:text-text-muted-dark">Aggregating genomic, transcriptomic, and proteomic datasets from diverse patient cohorts to establish a ground truth baseline.</p>
+            <h4 class="font-medium text-text-main-light dark:text-text-main-dark mb-1 group-hover:text-primary transition-colors">Ingest Data</h4>
+            <p class="text-sm text-text-muted-light dark:text-text-muted-dark">We gather vast quantities of noisy clinical and biological data, combining different sources that traditional models often overlook.</p>
           </div>
         </div>
       </div>
@@ -109,21 +106,43 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="relative pl-8 group">
         <div class="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-border-light dark:border-border-dark group-hover:bg-primary transition-colors"></div>
         <div class="grid md:grid-cols-[1fr_3fr] gap-2 md:gap-8">
-          <div class="text-xs font-mono text-text-muted-light dark:text-text-muted-dark pt-0.5">PHASE 02 — MODEL</div>
+          <div class="text-xs font-mono text-text-muted-light dark:text-text-muted-dark pt-0.5">PHASE 02 — CLEAN</div>
           <div>
-            <h4 class="font-medium text-text-main-light dark:text-text-main-dark mb-1 group-hover:text-primary transition-colors">Causal Graph Learning</h4>
-            <p class="text-sm text-text-muted-light dark:text-text-muted-dark">Applying neuro-symbolic architectures to infer causal relationships between genes, proteins, and phenotypic outcomes, going beyond mere correlation.</p>
+            <h4 class="font-medium text-text-main-light dark:text-text-main-dark mb-1 group-hover:text-primary transition-colors">Sanitize Data</h4>
+            <p class="text-sm text-text-muted-light dark:text-text-muted-dark">We clean this data using strict logic rules (solving problems like "hemangioma mimicry") to create a reliable "ground truth" that competitors lack.</p>
           </div>
         </div>
       </div>
 
-       <div class="relative pl-8 group">
+      <div class="relative pl-8 group">
         <div class="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-border-light dark:border-border-dark group-hover:bg-primary transition-colors"></div>
         <div class="grid md:grid-cols-[1fr_3fr] gap-2 md:gap-8">
-          <div class="text-xs font-mono text-text-muted-light dark:text-text-muted-dark pt-0.5">PHASE 03 — VALIDATE</div>
+          <div class="text-xs font-mono text-text-muted-light dark:text-text-muted-dark pt-0.5">PHASE 03 — HYPOTHESIS</div>
           <div>
-            <h4 class="font-medium text-text-main-light dark:text-text-main-dark mb-1 group-hover:text-primary transition-colors">In Silico Perturbation</h4>
-            <p class="text-sm text-text-muted-light dark:text-text-muted-dark">Simulating billions of therapeutic interventions digitally to identify high-probability candidates before wet lab synthesis.</p>
+            <h4 class="font-medium text-text-main-light dark:text-text-main-dark mb-1 group-hover:text-primary transition-colors">Generate Hypotheses</h4>
+            <p class="text-sm text-text-muted-light dark:text-text-muted-dark">We create high-quality therapeutic theories (e.g., interface-specific PROTACs) that are chemically possible and biologically plausible.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative pl-8 group">
+        <div class="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-border-light dark:border-border-dark group-hover:bg-primary transition-colors"></div>
+        <div class="grid md:grid-cols-[1fr_3fr] gap-2 md:gap-8">
+          <div class="text-xs font-mono text-text-muted-light dark:text-text-muted-dark pt-0.5">PHASE 04 — PHYSICAL</div>
+          <div>
+            <h4 class="font-medium text-text-main-light dark:text-text-main-dark mb-1 group-hover:text-primary transition-colors">Validate Physically</h4>
+            <p class="text-sm text-text-muted-light dark:text-text-muted-dark">We confirm these theories in the lab using fast testing loops (NanoBRET, Cryo-EM) to prove structural reality before major capital investment.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative pl-8 group">
+        <div class="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-border-light dark:border-border-dark group-hover:bg-primary transition-colors"></div>
+        <div class="grid md:grid-cols-[1fr_3fr] gap-2 md:gap-8">
+          <div class="text-xs font-mono text-text-muted-light dark:text-text-muted-dark pt-0.5">PHASE 05 — EXIT</div>
+          <div>
+            <h4 class="font-medium text-text-main-light dark:text-text-main-dark mb-1 group-hover:text-primary transition-colors">Spin Out</h4>
+            <p class="text-sm text-text-muted-light dark:text-text-muted-dark">Finally, we spin out the validated asset into a focused commercial entity.</p>
           </div>
         </div>
       </div>
@@ -131,30 +150,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </section>
 
   <section>
-    <h3 class="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-8">Advisory Board</h3>
+    <h3 class="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-8">Team</h3>
     <div class="grid md:grid-cols-2 gap-6">
       <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 rounded-2xl hover:border-primary/50 dark:hover:border-primary/50 transition-colors cursor-default">
         <p class="text-sm leading-relaxed mb-6 text-text-main-light dark:text-text-main-dark">
-          "Sarkome's approach to causal discovery represents the paradigm shift we've been waiting for in computational biology. The fidelity of their simulations is unprecedented."
+          "Building Sarkome as a generative biotechnology institute that uses AI to create missing biological knowledge, turning rare-disease treatment, such as ASPS, from probabilistic guessing into systematic causal discovery."
         </p>
         <div class="flex items-center gap-3">
-          <img alt="Dr. Elena Foster" class="w-10 h-10 rounded-full object-cover border border-border-light dark:border-border-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd2lQWX8zElvKZ7BhRXeYQPtQn7f25wGq4x5lsPYR4WLUN04xvlTEDsM3B1rYxGVB2q2fEUe8Msh3X8WpgKuGAWjjm538tXODlpsrdRSrDg4ro340JlIa-FILn_MFjIgfOEbCY0S4M7VD2XLO3LLObrRIVm8heABD5LHwuOdQGBY1shhmnCeiAK0QmOzW0pLu7bnV0CvfSONPUqkWC1NK40v2rOprHgJH6EaoB4EyZNtTlLjKOnCHBeMMEhLGcG7aoIO2whwWBAK7-"/>
+          <img alt="Bryan Ramírez Palacios" class="w-10 h-10 rounded-full object-cover border border-border-light dark:border-border-dark" src="/bry.png"/>
           <div>
-            <div class="text-sm font-medium">Dr. Elena Foster</div>
-            <div class="text-xs text-text-muted-light dark:text-text-muted-dark">Former Head of AI, Genentech</div>
+            <div class="text-sm font-medium">Bryan Ramírez Palacios</div>
+            <div class="text-xs text-text-muted-light dark:text-text-muted-dark">Founder & Lead Architect, Sarkome Institute</div>
           </div>
         </div>
       </div>
 
        <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 rounded-2xl hover:border-primary/50 dark:hover:border-primary/50 transition-colors cursor-default">
           <p class="text-sm leading-relaxed mb-6 text-text-main-light dark:text-text-main-dark">
-            "By structuring biological data as causal graphs rather than unstructured tokens, Sarkome is solving the hallucinations problem that plagues most generative models in pharma."
+            "Sarkome is looking for a founding partner in biological sciences to help build a new discovery engine from the ground up, focused on rare cancers and driven by strong technical skills, resilience, and the courage to leave a traditional career path to create global impact."
           </p>
           <div class="flex items-center gap-3">
-            <img alt="Prof. David Chen" class="w-10 h-10 rounded-full object-cover border border-border-light dark:border-border-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnd3xT1o_zUoDJS2wBCJlfOWGGvkgkuUTxyEHOzd_iPfy-YjxS2bye78G9UV0Ap9L-sntpuVxm3APsPni1f5ppsSiIhaY7zliDlPgQNFZjPxNZ55L8iChZ7fa3ybsxVOnTXeyeiTDGqKZ_mD7m5mDOgKqBr17nkXyq81UAqkPhcPVZB26GFKXhIGeWVq4pSEx2NHigpaxOnQUmYxGls6-_Um-jF8tHrnJwL3mYLkKM07QIv-KooZRDTYh0CKkJjNDGOQugZGlA8YOT"/>
+            <div class="w-10 h-10 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center">
+                <span class="material-symbols-outlined text-text-muted-light">person_add</span>
+            </div>
             <div>
-              <div class="text-sm font-medium">Prof. David Chen</div>
-              <div class="text-xs text-text-muted-light dark:text-text-muted-dark">Computational Biology, MIT</div>
+              <div class="text-sm font-medium">[ Selection in Progress ]</div>
+              <div class="text-xs text-text-muted-light dark:text-text-muted-dark">Founding Partner, Biological Sciences</div>
             </div>
           </div>
       </div>
@@ -204,37 +225,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <section>
     <h3 class="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-8">Latest Research</h3>
-    <div class="flex flex-col gap-4">
-        <div class="flex justify-between items-start group cursor-pointer">
-            <div>
-                <div class="text-xs text-text-muted-light dark:text-text-muted-dark mb-1 mono-text">FEB 2024</div>
-                <h4 class="text-sm font-medium group-hover:text-primary transition-colors">Graph Neural Networks in Protein Folding</h4>
-            </div>
-            <div class="flex items-center gap-1 text-xs text-text-muted-light dark:text-text-muted-dark">
-                <span class="material-symbols-outlined text-[14px]">schedule</span>
-                5 m
-            </div>
-        </div>
-        <div class="flex justify-between items-start group cursor-pointer">
-            <div>
-                <div class="text-xs text-text-muted-light dark:text-text-muted-dark mb-1 mono-text">JAN 2024</div>
-                <h4 class="text-sm font-medium group-hover:text-primary transition-colors">Causal Inference for Target Validation</h4>
-            </div>
-            <div class="flex items-center gap-1 text-xs text-text-muted-light dark:text-text-muted-dark">
-                <span class="material-symbols-outlined text-[14px]">schedule</span>
-                12 m
-            </div>
-        </div>
-        <div class="flex justify-between items-start group cursor-pointer">
-            <div>
-                <div class="text-xs text-text-muted-light dark:text-text-muted-dark mb-1 mono-text">DEC 2023</div>
-                <h4 class="text-sm font-medium group-hover:text-primary transition-colors">The Future of In-Silico Trials</h4>
-            </div>
-            <div class="flex items-center gap-1 text-xs text-text-muted-light dark:text-text-muted-dark">
-                <span class="material-symbols-outlined text-[14px]">schedule</span>
-                8 m
-            </div>
-        </div>
+    <div class="py-12 border border-dashed border-border-light dark:border-border-dark rounded-2xl flex flex-col items-center justify-center text-center">
+        <span class="material-symbols-outlined text-text-muted-light mb-2">science</span>
+        <p class="text-sm font-medium text-text-muted-light">In coming</p>
+        <p class="text-xs text-text-muted-light/60 mt-1">Foundational papers and technical reports.</p>
     </div>
   </section>
 
@@ -266,9 +260,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </section>
   
   <section class="border-t border-dashed border-border-light dark:border-border-dark pt-12">
-    <h3 class="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-6">Request Access</h3>
+    <h3 class="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-6">Contact</h3>
     <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-8">
-        Partnership inquiries and investor relations can reach us using the form below.
+        Communicate with us for partnership inquiries, scientific collaboration, or investor relations.
     </p>
     <form class="space-y-4">
         <div class="grid grid-cols-2 gap-4">
@@ -298,7 +292,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 <span class="material-symbols-outlined text-lg">mail</span>
                 <span>Email</span>
             </div>
-            <span class="mono-text text-xs opacity-60">partners@sarkome.bio ↗</span>
+            <span class="mono-text text-xs opacity-60">contact@sarkome.com ↗</span>
         </a>
         <a class="flex justify-between items-center group text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors" href="https://twitter.com/sarkome_ai">
             <div class="flex items-center gap-3">
