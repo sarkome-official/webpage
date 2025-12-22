@@ -9,7 +9,7 @@ import robotsTxt from 'astro-robots-txt';
 import icon from 'astro-icon';
 
 export default defineConfig({
-  site: 'https://sarkome.com',
+  // site: 'https://sarkome.com',
   trailingSlash: 'never',
   adapter: vercel(),
   integrations: [
