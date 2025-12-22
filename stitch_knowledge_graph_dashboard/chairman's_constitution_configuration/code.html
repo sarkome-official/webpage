@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sarkome - Chairman's Constitution Configuration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1132d4",
+                        "primary-hover": "#0e29b0",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101322",
+                        "surface-dark": "#1c1f2e",
+                        "surface-border": "#282b39",
+                        "text-secondary": "#9da1b9",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Space Grotesk", sans-serif;
+        }
+        .code-editor {
+            background-color: #0d0f1a;
+            color: #d1d5db;
+            font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", monospace;
+            line-height: 1.6;
+        }
+        .code-keyword { color: #c084fc; } /* Purple for keywords */
+        .code-string { color: #4ade80; } /* Green for strings */
+        .code-variable { color: #60a5fa; } /* Blue for variables */
+        
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101322; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #282b39; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f445a; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-white min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 w-full border-b border-surface-border bg-[#111218]/80 backdrop-blur-md">
+<div class="px-6 lg:px-10 py-3 flex items-center justify-between">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-[32px]">hub</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-tight">Sarkome</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+<nav class="flex items-center gap-6">
+<a class="text-text-secondary hover:text-white text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-white text-sm font-medium transition-colors border-b-2 border-primary py-1" href="#">Refinery</a>
+<a class="text-text-secondary hover:text-white text-sm font-medium transition-colors" href="#">Knowledge Graph</a>
+<a class="text-text-secondary hover:text-white text-sm font-medium transition-colors" href="#">Settings</a>
+</nav>
+<div class="h-6 w-px bg-surface-border"></div>
+<div class="flex items-center gap-3">
+<button class="relative p-2 text-text-secondary hover:text-white transition-colors rounded-full hover:bg-surface-border/50">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full"></span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-surface-border cursor-pointer" data-alt="User profile avatar showing a stylized scientist" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD1r2FxQ05DeNEklISHzGaQft6MKQrGWI1Ewdc56ckNxPGqD8xjSL5R4Oeysoq8zBjO50492XnRAJ3auP4_Xr-9iUskwUAOP3le8NJfwcW7oxKbLmzICJBLZfIGxbFoJgs00PvPDo9_bFry3EncEEpX25XcdDwODd6EAOj18yUpEauWndQS_UTe7WDSVeUIH5EXWjiDygVsU0XBz0Ma6jE0d3a0m_BXh-SH3THW56Gey8TeqHWVU-eyBGMm_KcXGdmPg-bNhxvRyIo");'>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Layout -->
+<main class="flex-1 flex flex-col max-w-[1600px] w-full mx-auto p-4 md:p-6 lg:p-10 gap-6">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap items-center gap-2 text-sm">
+<a class="text-text-secondary hover:text-primary transition-colors font-medium" href="#">Refinery Overview</a>
+<span class="text-surface-border font-medium text-lg">/</span>
+<a class="text-text-secondary hover:text-primary transition-colors font-medium" href="#">Agent Configuration</a>
+<span class="text-surface-border font-medium text-lg">/</span>
+<div class="flex items-center gap-2 bg-primary/10 px-2 py-0.5 rounded text-primary border border-primary/20">
+<span class="material-symbols-outlined text-[16px]">gavel</span>
+<span class="font-bold">Chairman</span>
+</div>
+</div>
+<!-- Page Header & Actions -->
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 pb-2 border-b border-surface-border">
+<div class="flex flex-col gap-2 max-w-3xl">
+<div class="flex items-center gap-3">
+<h1 class="text-white text-3xl md:text-4xl font-bold tracking-tight">Chairman's Constitution</h1>
+<span class="hidden sm:flex px-2 py-1 rounded-full bg-green-500/10 text-green-500 text-xs font-bold border border-green-500/20 uppercase tracking-wider">Active v2.4</span>
+</div>
+<p class="text-text-secondary text-base md:text-lg font-light leading-relaxed">
+                    Define the governance protocols for the Knowledge Mining Refinery. Rules defined here act as the final gatekeeper, directly impacting the <code class="bg-surface-border px-1.5 py-0.5 rounded text-xs font-mono text-white">(:Approved)</code> label assignment in Neo4j.
+                </p>
+</div>
+<div class="flex flex-wrap gap-3 w-full lg:w-auto">
+<button class="flex-1 lg:flex-none h-11 px-5 rounded-lg border border-surface-border bg-surface-dark text-white hover:bg-surface-border transition-colors font-medium flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">history</span>
+<span>History</span>
+</button>
+<button class="flex-1 lg:flex-none h-11 px-6 rounded-lg bg-primary hover:bg-primary-hover text-white shadow-[0_0_20px_rgba(17,50,212,0.3)] transition-all font-bold flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined text-[20px] group-hover:rotate-180 transition-transform duration-500">deployed_code</span>
+<span>Deploy Configuration</span>
+</button>
+</div>
+</div>
+<!-- Main Workspace Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-[600px]">
+<!-- Left Column: Constitution Editor -->
+<div class="lg:col-span-7 xl:col-span-8 flex flex-col gap-4">
+<!-- Toolbar -->
+<div class="flex flex-wrap items-center justify-between gap-3 bg-surface-dark border border-surface-border p-2 rounded-t-xl">
+<div class="flex items-center gap-1">
+<span class="px-3 py-1.5 text-xs font-bold text-white uppercase tracking-wider">Editor Mode</span>
+<div class="h-4 w-px bg-surface-border mx-2"></div>
+<button class="p-2 hover:bg-surface-border rounded text-text-secondary hover:text-white" title="Insert Variable">
+<span class="material-symbols-outlined text-[18px]">data_object</span>
+</button>
+<button class="p-2 hover:bg-surface-border rounded text-text-secondary hover:text-white" title="Insert Template">
+<span class="material-symbols-outlined text-[18px]">library_add</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-text-secondary">Last saved: 2 mins ago</span>
+<button class="text-xs text-primary hover:text-primary-hover font-medium">Save Draft</button>
+</div>
+</div>
+<!-- Editor Container -->
+<div class="flex-1 relative bg-surface-dark border border-t-0 border-surface-border rounded-b-xl overflow-hidden flex flex-col">
+<!-- Quick Insert Chips -->
+<div class="flex flex-wrap gap-2 p-3 bg-[#151720] border-b border-surface-border/50">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded bg-surface-border/50 hover:bg-surface-border text-xs text-white transition-colors border border-surface-border">
+<span class="material-symbols-outlined text-[14px] text-green-400">add</span>
+                            Human Trial Req
+                        </button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded bg-surface-border/50 hover:bg-surface-border text-xs text-white transition-colors border border-surface-border">
+<span class="material-symbols-outlined text-[14px] text-blue-400">add</span>
+                            FDA Approval Filter
+                        </button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded bg-surface-border/50 hover:bg-surface-border text-xs text-white transition-colors border border-surface-border">
+<span class="material-symbols-outlined text-[14px] text-purple-400">add</span>
+                            Post-2020 Data
+                        </button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded bg-surface-border/50 hover:bg-surface-border text-xs text-white transition-colors border border-surface-border">
+<span class="material-symbols-outlined text-[14px] text-yellow-400">add</span>
+                            Peer Review Only
+                        </button>
+</div>
+<!-- Code Text Area -->
+<div class="flex-1 p-0 relative group">
+<textarea class="w-full h-full bg-[#0d0f1a] text-gray-300 p-6 font-mono text-sm resize-none focus:outline-none focus:ring-1 focus:ring-primary/50" spellcheck="false">### SYSTEM PROMPT: CHAIRMAN
+
+ROLE: 
+You are the &lt;span class="code-keyword"&gt;Chairman&lt;/span&gt; of the Scientific Review Board for Alveolar Soft Part Sarcoma (ASPS). Your function is to validate relationships extracted by miner agents before they enter the Knowledge Graph.
+
+CORE DIRECTIVES:
+1.  **Skepticism**: Default to rejection unless evidence is overwhelming.
+2.  **Accuracy**: Prioritize precision over recall.
+
+[SECTION: DRUG APPROVAL]
+IF entity_type == "Drug" OR "Therapeutic":
+    REQUIRE &lt;span class="code-variable"&gt;{evidence_level}&lt;/span&gt; &gt;= "Phase 1 Clinical Trial"
+    REJECT IF &lt;span class="code-variable"&gt;{study_type}&lt;/span&gt; == "in_vitro" AND &lt;span class="code-variable"&gt;{publication_date}&lt;/span&gt; &lt; 2018
+    
+[SECTION: CONFLICT RESOLUTION]
+WHEN conflicting_claims_detected:
+    PRIORITIZE sources with &lt;span class="code-variable"&gt;{impact_factor}&lt;/span&gt; &gt; 10.0
+    PRIORITIZE &lt;span class="code-variable"&gt;{publication_date}&lt;/span&gt; &gt; 2021
+    
+[SECTION: THRESHOLDS]
+CONFIDENCE_THRESHOLD = &lt;span class="code-string"&gt;0.85&lt;/span&gt;
+RELATIONSHIP_STRENGTH_MIN = &lt;span class="code-string"&gt;0.70&lt;/span&gt;
+                        </textarea>
+<!-- Visual indicator for scroll -->
+<div class="absolute bottom-4 right-4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="bg-surface-border text-xs px-2 py-1 rounded text-text-secondary">Ln 18, Col 45</span>
+</div>
+</div>
+</div>
+<!-- Warnings/Alerts -->
+<div class="flex items-start gap-3 p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+<span class="material-symbols-outlined text-yellow-500 mt-0.5">warning</span>
+<div class="flex flex-col gap-1">
+<h4 class="text-yellow-500 text-sm font-bold">Constitution Integrity Warning</h4>
+<p class="text-text-secondary text-sm">
+                            The current <code class="text-white bg-surface-border/50 px-1 rounded">CONFIDENCE_THRESHOLD</code> of 0.85 is extremely strict. This may result in valid but older research being discarded. Recommended range: 0.75 - 0.90.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Right Column: Validation & Logic -->
+<div class="lg:col-span-5 xl:col-span-4 flex flex-col gap-6">
+<!-- Rule Simulator Panel -->
+<div class="bg-surface-dark border border-surface-border rounded-xl flex flex-col overflow-hidden h-full max-h-[800px]">
+<div class="p-4 border-b border-surface-border flex items-center justify-between bg-[#151720]">
+<h3 class="text-white font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary">science</span>
+                            Impact Simulator
+                        </h3>
+<span class="text-xs font-mono text-text-secondary bg-surface-border/30 px-2 py-1 rounded">LIVE PREVIEW</span>
+</div>
+<div class="p-5 flex flex-col gap-6 overflow-y-auto">
+<!-- Simulation Input -->
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-text-secondary uppercase tracking-wider">Test Proposition</label>
+<div class="relative">
+<textarea class="w-full bg-background-dark border border-surface-border rounded-lg p-3 text-sm text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none min-h-[100px]" placeholder="Paste a claim or abstract snippet here to test...">Cediranib demonstrates significant tumor reduction in murine models of ASPS, suggesting potential therapeutic value.</textarea>
+<div class="absolute bottom-2 right-2 flex gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-border/50 text-[10px] text-text-secondary">Source Date: 2019</span>
+<span class="px-2 py-0.5 rounded bg-surface-border/50 text-[10px] text-text-secondary">Type: Murine</span>
+</div>
+</div>
+<button class="mt-1 w-full py-2 bg-surface-border hover:bg-[#323648] text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+                                Run Simulation
+                            </button>
+</div>
+<!-- Simulation Result -->
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-text-secondary uppercase tracking-wider">Chairman Decision</label>
+<!-- Result Card: Rejected -->
+<div class="border border-red-500/30 bg-red-500/5 rounded-lg p-4 flex gap-4 items-start">
+<div class="size-10 rounded-full bg-red-500/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-red-500">block</span>
+</div>
+<div class="flex flex-col gap-1">
+<h4 class="text-red-400 font-bold text-lg">REJECTED</h4>
+<p class="text-sm text-text-secondary">
+                                        The proposition fails the <span class="text-white font-mono">Human Trial Req</span> check.
+                                    </p>
+<div class="mt-2 text-xs bg-red-950/50 p-2 rounded border border-red-900/50 font-mono text-red-200/70">
+                                        &gt;&gt; Entity is "Murine Model" <br/>
+                                        &gt;&gt; Current Constitution requires "Phase 1" for Drug approval.
+                                    </div>
+</div>
+</div>
+</div>
+<div class="h-px bg-surface-border w-full my-2"></div>
+<!-- Threshold Controls -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<label class="text-sm font-medium text-white">Confidence Threshold</label>
+<span class="text-primary font-mono font-bold">0.85</span>
+</div>
+<input class="w-full h-2 bg-surface-border rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="0" type="range" value="85"/>
+<div class="flex justify-between text-[10px] text-text-secondary font-mono mt-[-8px]">
+<span>Permissive</span>
+<span>Strict</span>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<label class="text-sm font-medium text-white">Citation Age Limit</label>
+<span class="text-primary font-mono font-bold">2018</span>
+</div>
+<input class="w-full h-2 bg-surface-border rounded-lg appearance-none cursor-pointer accent-primary" max="2024" min="2010" type="range" value="2018"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Documentation Drawer (Bottom) -->
+<div class="bg-surface-dark border border-surface-border rounded-xl p-6">
+<h3 class="text-white text-lg font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary">menu_book</span>
+                Reference Logic
+            </h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex flex-col gap-2">
+<h4 class="text-primary text-sm font-bold uppercase tracking-wider">Node Creation</h4>
+<p class="text-sm text-text-secondary leading-relaxed">
+                        Entities approved by the Chairman are labeled <code class="text-xs bg-surface-border px-1 py-0.5 rounded text-white">(:Approved)</code>. Only approved nodes are eligible for pathfinding algorithms in the Refinery.
+                    </p>
+</div>
+<div class="flex flex-col gap-2">
+<h4 class="text-primary text-sm font-bold uppercase tracking-wider">Conflict Protocol</h4>
+<p class="text-sm text-text-secondary leading-relaxed">
+                        When multiple miners extract conflicting relationship properties (e.g. "treats" vs "causes"), the Chairman uses the citation's <code class="text-xs bg-surface-border px-1 py-0.5 rounded text-white">impact_factor</code> as the tie-breaker.
+                    </p>
+</div>
+<div class="flex flex-col gap-2">
+<h4 class="text-primary text-sm font-bold uppercase tracking-wider">Variables</h4>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-border/50 rounded text-xs text-blue-300 font-mono">{evidence_level}</span>
+<span class="px-2 py-1 bg-surface-border/50 rounded text-xs text-blue-300 font-mono">{study_type}</span>
+<span class="px-2 py-1 bg-surface-border/50 rounded text-xs text-blue-300 font-mono">{publication_date}</span>
+<span class="px-2 py-1 bg-surface-border/50 rounded text-xs text-blue-300 font-mono">{p_value}</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

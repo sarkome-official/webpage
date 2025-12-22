@@ -24,6 +24,10 @@ export default defineConfig({
           link: '/docs',
         },
         {
+          label: 'Technology',
+          link: '/docs/technology',
+        },
+        {
           label: 'Causal Engine',
           link: '/docs/causa_engine',
         },

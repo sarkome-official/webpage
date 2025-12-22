@@ -8,7 +8,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section class="space-y-8">
     <div class="flex items-center gap-3">
       <div class="w-20 h-20 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center">
-        <img src="/logo_purple_nobackground.svg" alt="Sarkome Logo" class="w-12 h-12 object-contain" />
+        <img src="/logo_purple_nobackground.svg" alt="Sarkome Logo" class="w-12 h-12 object-contain" width="48" height="48" />
       </div>
       <div>
         <h1 class="font-semibold text-lg">Sarkome Institute</h1>
@@ -20,14 +20,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         The Industrialization of <span class="text-primary">Causal Discovery</span>
       </h2>
       <p class="text-lg text-text-muted-light dark:text-text-muted-dark leading-relaxed max-w-xl">
-        Sarkome is a generative biotechnology institute based in Chile. We specialize in leveraging neuro-symbolic AI to decode biological complexity and accelerate cures for rare diseases.
+        Accelerating the identification of therapeutic targets for Sarcoma through advanced multimodal data synthesis. Sarkome In-Silico bridges the gap between raw genomic data and actionable clinical insights.
       </p>
       <div class="pt-2">
-        <button class="inline-flex items-center gap-2 bg-text-main-light dark:bg-white text-white dark:text-black px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-all group">
-          <span class="mono-text">[ REQUEST ACCESS ]</span>
+        <a href="/platform/query" class="inline-flex items-center gap-2 bg-text-main-light dark:bg-white text-white dark:text-black px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-all group">
+          <span class="mono-text">[ ENTER PLATFORM ]</span>
           <span class="material-symbols-outlined text-sm group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
-        </button>
-        <span class="ml-4 text-xs text-text-muted-light dark:text-text-muted-dark">Press <kbd class="font-mono bg-surface-light dark:bg-surface-dark px-1 py-0.5 rounded border border-border-light dark:border-border-dark">R</kbd> for research papers</span>
+        </a>
+
       </div>
     </div>
     <div class="relative py-12 md:py-16">
@@ -44,7 +44,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <div class="text-[10px] font-mono text-text-muted-light dark:text-text-muted-dark">causal_inference_engine_v4.py</div>
           </div>
           <div class="relative h-[200px] md:h-[280px] bg-black rounded-lg overflow-hidden flex items-center justify-center">
-            <img alt="Abstract Data Visualization" class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTu0_VpIa_addIxGdTpsucwH6Q83MTH8RS60p-EV4FyTg1BasX_a-IozLR5yNXBU5cAZqNlbSFGFFvs4jvddCDRvfdFmHtS76ZipuSrXg532wHWW6BbuaUyissY6pbHc4Myau1g2eIyhr40TuZtADOJSoBHoqPe_OHtMx2_A0E7RjsCZS3Ah25YSXU4kmX1_hdeSPhwfkkgr7MkB-dkQxmFll7BzIJ4g9hrj9RwPo33LfkBWMjZtyxuPHt4mywlha_qlMtEpke4jCJ"/>
+            <img alt="Abstract Data Visualization" class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTu0_VpIa_addIxGdTpsucwH6Q83MTH8RS60p-EV4FyTg1BasX_a-IozLR5yNXBU5cAZqNlbSFGFFvs4jvddCDRvfdFmHtS76ZipuSrXg532wHWW6BbuaUyissY6pbHc4Myau1g2eIyhr40TuZtADOJSoBHoqPe_OHtMx2_A0E7RjsCZS3Ah25YSXU4kmX1_hdeSPhwfkkgr7MkB-dkQxmFll7BzIJ4g9hrj9RwPo33LfkBWMjZtyxuPHt4mywlha_qlMtEpke4jCJ" width="800" height="600" fetchpriority="high" />
             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
             <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
               <div class="bg-white/10 backdrop-blur-md p-3 rounded border border-white/20">
@@ -76,7 +76,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="hidden md:block absolute top-24 -right-12 w-2/3 h-[280px] z-10 transform rotate-3 scale-95 origin-bottom-left">
           <div class="floating-card h-full w-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl shadow-xl p-4 opacity-40 blur-[1px] transition-all">
             <div class="h-full w-full bg-black rounded overflow-hidden relative">
-              <img alt="Gradient Texture" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvDgJ4_q465Dz4iqJsvyGzeugCfeRsZngNxI5FPVs9gWqq25cS70TshBDYbyU9eLxxjuzXfIK0OZAJAGKQukLR3cUwE2NOQU-9htsh_RveC3PjoMAMPlOeqxGL9Txi4Tl0liQH_EJICvjegk5sqF-vL_VqpGLYil3gj9aZ2VWcWAgmA5mcpKJyLiiSeLBDs-CVV_eY2Xzf4ZpjO3Y4PTG3eQHLygrx-O92m31zrOH4Bs669YPUgp3QdXsg4ncFQ6MytiDsU32-XTXW"/>
+              <img alt="Gradient Texture" class="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvDgJ4_q465Dz4iqJsvyGzeugCfeRsZngNxI5FPVs9gWqq25cS70TshBDYbyU9eLxxjuzXfIK0OZAJAGKQukLR3cUwE2NOQU-9htsh_RveC3PjoMAMPlOeqxGL9Txi4Tl0liQH_EJICvjegk5sqF-vL_VqpGLYil3gj9aZ2VWcWAgmA5mcpKJyLiiSeLBDs-CVV_eY2Xzf4ZpjO3Y4PTG3eQHLygrx-O92m31zrOH4Bs669YPUgp3QdXsg4ncFQ6MytiDsU32-XTXW" loading="lazy" />
             </div>
           </div>
         </div>
@@ -185,19 +185,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <h3 class="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-8">Technology Stack</h3>
     <div class="flex flex-wrap gap-4 md:gap-6 opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
         <div class="w-10 h-10 bg-surface-light dark:bg-surface-dark rounded-full flex items-center justify-center border border-border-light dark:border-border-dark" title="PyTorch">
-            <img alt="PyTorch" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAet9hmSVrgCnOaMvj85Hdn6uN2n1D8vqUsZEjWpeWQvuirD9kcHDM-x5V_OfiMzPecPu5wjuxuT1NbZOGggjSKeLYjOUF5ShVd50B30prBVIIX8ARWQtrJFygf0o4b1y3q4BGC7I8NE7EPhqPXoYXJBGaDnzdn8kXNtsqrAOMHS--FSCCLsdgVTlglMDFMAJLaMoPo5sGO8pGPFH21k7XtNn8nu3gXR_GKcvMy1cOpJzIRjLVfLK_ufR8FMeqi16Yo6gbbk7fLwsy" />
+            <img alt="PyTorch" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAet9hmSVrgCnOaMvj85Hdn6uN2n1D8vqUsZEjWpeWQvuirD9kcHDM-x5V_OfiMzPecPu5wjuxuT1NbZOGggjSKeLYjOUF5ShVd50B30prBVIIX8ARWQtrJFygf0o4b1y3q4BGC7I8NE7EPhqPXoYXJBGaDnzdn8kXNtsqrAOMHS--FSCCLsdgVTlglMDFMAJLaMoPo5sGO8pGPFH21k7XtNn8nu3gXR_GKcvMy1cOpJzIRjLVfLK_ufR8FMeqi16Yo6gbbk7fLwsy" width="20" height="20" loading="lazy" />
         </div>
         <div class="w-10 h-10 bg-surface-light dark:bg-surface-dark rounded-full flex items-center justify-center border border-border-light dark:border-border-dark" title="Python">
-            <img alt="Python" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYB0x9rb65YtVt0oWqwYoLzz3f3DhIkX8oOMMOREy2Ed6Y2kbIzku_VnbgrpNp3GfLXCwk_CCZX1QgaSdFuMFcCLfvsFWVjYPTmnb1ciax91R85CXcHAO3Km5Bx70UEzDTEXHKgcge1-sOr6W32GGZbyTkFOgqXQ2seoBwlcYhx5loDhNe-Yy6b2nqpC8_H15sxP1Skkf1NOY17uCCgrLCyYMzBdR8DAnySzvPRlq0C8CW4plPPI6Zcst6XhZBVEaAWxhtWOp5AnmV" />
+            <img alt="Python" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYB0x9rb65YtVt0oWqwYoLzz3f3DhIkX8oOMMOREy2Ed6Y2kbIzku_VnbgrpNp3GfLXCwk_CCZX1QgaSdFuMFcCLfvsFWVjYPTmnb1ciax91R85CXcHAO3Km5Bx70UEzDTEXHKgcge1-sOr6W32GGZbyTkFOgqXQ2seoBwlcYhx5loDhNe-Yy6b2nqpC8_H15sxP1Skkf1NOY17uCCgrLCyYMzBdR8DAnySzvPRlq0C8CW4plPPI6Zcst6XhZBVEaAWxhtWOp5AnmV" width="20" height="20" loading="lazy" />
         </div>
         <div class="w-10 h-10 bg-surface-light dark:bg-surface-dark rounded-full flex items-center justify-center border border-border-light dark:border-border-dark" title="TensorFlow">
-            <img alt="TensorFlow" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBg4SQyGpjJmOoR-t1G33MzGvzFV0h2U62dScNrUqjGjvyAf4gwQoGtwnxzbIVC7KFCm3SMsop_YMBa2VVPua4GXCDDH0Le4OLtQd8nsgiHSE02V9le1LpcuUtsRYc_lz05h_i2aEqs_4-5maIkfONDdhVM1amsHxNofGd2QtHPyW0kKLZEIenaUpzkMhmfUCHBbZg28wbgL7Ergcp8so4r6zFwsWaSQVWCbCYBmZkag91ycAJMTDuqMXQaW4dN8pWzy6Z4AcbBRZsP" />
+            <img alt="TensorFlow" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBg4SQyGpjJmOoR-t1G33MzGvzFV0h2U62dScNrUqjGjvyAf4gwQoGtwnxzbIVC7KFCm3SMsop_YMBa2VVPua4GXCDDH0Le4OLtQd8nsgiHSE02V9le1LpcuUtsRYc_lz05h_i2aEqs_4-5maIkfONDdhVM1amsHxNofGd2QtHPyW0kKLZEIenaUpzkMhmfUCHBbZg28wbgL7Ergcp8so4r6zFwsWaSQVWCbCYBmZkag91ycAJMTDuqMXQaW4dN8pWzy6Z4AcbBRZsP" width="20" height="20" loading="lazy" />
         </div>
         <div class="w-10 h-10 bg-surface-light dark:bg-surface-dark rounded-full flex items-center justify-center border border-border-light dark:border-border-dark" title="Docker">
-            <img alt="Docker" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI5MENw9kVQRWFIzs9QehU5jZH9XX4OAwNJRhD9CWNi-6IItoKxRpbO3wU0HgGdEjaPP4rZZIgTOx3dUruf4Gi_2FnO_mTJdMzl8yAC4hatsge5k-e5B79COs_Jem-jnfFBYx-uIBdfMlLkWYwWcUk-rXzX2892urrXb0RhU7nlC1IQkBEWx1QcHGON47bArmy3LlTQLDPECmm0Wl1hJFsL0rkIQvSGDoMNp6jQcq1LB5uXoRsqLfXkrsPraF6556owywExGt89Jfi" />
+            <img alt="Docker" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI5MENw9kVQRWFIzs9QehU5jZH9XX4OAwNJRhD9CWNi-6IItoKxRpbO3wU0HgGdEjaPP4rZZIgTOx3dUruf4Gi_2FnO_mTJdMzl8yAC4hatsge5k-e5B79COs_Jem-jnfFBYx-uIBdfMlLkWYwWcUk-rXzX2892urrXb0RhU7nlC1IQkBEWx1QcHGON47bArmy3LlTQLDPECmm0Wl1hJFsL0rkIQvSGDoMNp6jQcq1LB5uXoRsqLfXkrsPraF6556owywExGt89Jfi" width="20" height="20" loading="lazy" />
         </div>
         <div class="w-10 h-10 bg-surface-light dark:bg-surface-dark rounded-full flex items-center justify-center border border-border-light dark:border-border-dark" title="Google Cloud">
-            <img alt="GCP" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7likBGn-VhzvkIY-mNT9rnFSs1mzCmMyh-CdUJ3fqtpswFjsGkjxudHAH8EwZt09fmHdFENmkowlgN0fI6u4E4Qeh6mp2KCSgGQxCbnQzZv4STYuJGmDviBESgFPCllyMKf_GdCkARqxpEYN9NrW3wxxHZasEzlIRTttDuQxZx0-YjcNtksRNO6jWYxrWDBuEDzAvqGdTjTTdgB5649pRmN65QK0PiK1qkjvz52hdpVV8Lrd1_yi7PlSP8w3IYxQHQJC-iRJ7UXKi" />
+            <img alt="GCP" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7likBGn-VhzvkIY-mNT9rnFSs1mzCmMyh-CdUJ3fqtpswFjsGkjxudHAH8EwZt09fmHdFENmkowlgN0fI6u4E4Qeh6mp2KCSgGQxCbnQzZv4STYuJGmDviBESgFPCllyMKf_GdCkARqxpEYN9NrW3wxxHZasEzlIRTttDuQxZx0-YjcNtksRNO6jWYxrWDBuEDzAvqGdTjTTdgB5649pRmN65QK0PiK1qkjvz52hdpVV8Lrd1_yi7PlSP8w3IYxQHQJC-iRJ7UXKi" width="20" height="20" loading="lazy" />
         </div>
         <div class="w-10 h-10 bg-surface-light dark:bg-surface-dark rounded-full flex items-center justify-center border border-border-light dark:border-border-dark text-text-main-light dark:text-text-main-dark" title="Biology">
             <span class="material-symbols-outlined text-lg">biotech</span>
@@ -239,17 +239,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </p>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 h-48 md:h-64">
         <div class="col-span-1 h-full rounded-2xl overflow-hidden relative group">
-            <img alt="Lab Equipment" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNKDlFib6AZKnh32dRkk-aLpn591NWremRhUatLgWJwj6_iJTiBzC2iyTw2QL-ojNYXtH9Tb8a-cEm5CPHROsh-OULatrfoljGIReaLcy9X4dQU36JWHrOMQI-T8J_cn0K4lv17EMcFzwlbW2m0UV-KRM0uZKu06sxCjWvAtBXQU2NpZ6HJDSjFD-KjHpIu9I8WBukydVLHCGZJx14pz7p1sPdLV7C6wTJeOGwbZ37MAT77mwhmATq7Y6LXcPYM2zuP5ut5xrsHQyf" />
+            <img alt="Lab Equipment" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNKDlFib6AZKnh32dRkk-aLpn591NWremRhUatLgWJwj6_iJTiBzC2iyTw2QL-ojNYXtH9Tb8a-cEm5CPHROsh-OULatrfoljGIReaLcy9X4dQU36JWHrOMQI-T8J_cn0K4lv17EMcFzwlbW2m0UV-KRM0uZKu06sxCjWvAtBXQU2NpZ6HJDSjFD-KjHpIu9I8WBukydVLHCGZJx14pz7p1sPdLV7C6wTJeOGwbZ37MAT77mwhmATq7Y6LXcPYM2zuP5ut5xrsHQyf" loading="lazy" />
             <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
         </div>
         <div class="col-span-1 h-full rounded-2xl overflow-hidden relative group translate-y-4 md:translate-y-8">
-            <img alt="Scientist working" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm6A_hlu7YcnV7qXvPzqzRo3Rt-FoyBZnJV_zv62qWPI9kjqiGd3CKZhELunA8ZRueFCu9tELV4DPBGo9gA4OVKFuYXas6v46thrB5aj8Z05WzgZMSIfkb43i8_tZuFeLX77bQt9DNpQMmaHspVYAs4fjuwMJgVHeAmPxGzK5OwtBRrtT5xT7IOh12np_oyg1V-L3f2uiWrqID4lsPbuJajWWOUWhaylapNWTPcDpzx5AnQwzJcdyZBz8QEtKHg38xaERij3QbJleW" />
+            <img alt="Scientist working" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm6A_hlu7YcnV7qXvPzqzRo3Rt-FoyBZnJV_zv62qWPI9kjqiGd3CKZhELunA8ZRueFCu9tELV4DPBGo9gA4OVKFuYXas6v46thrB5aj8Z05WzgZMSIfkb43i8_tZuFeLX77bQt9DNpQMmaHspVYAs4fjuwMJgVHeAmPxGzK5OwtBRrtT5xT7IOh12np_oyg1V-L3f2uiWrqID4lsPbuJajWWOUWhaylapNWTPcDpzx5AnQwzJcdyZBz8QEtKHg38xaERij3QbJleW" loading="lazy" />
         </div>
         <div class="col-span-1 h-full rounded-2xl overflow-hidden relative group">
-            <img alt="Data Visualization" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYwVBglgF0xeJ1Qkxm5pIs9jWnSkY_X4G4hHfbWswuwE3ZR7WWs2zXlhG3CGJRvuEVnBBK5N911XLFKPGpg7_qR11R9pvhjB0YIB5oMrOWWiaduA7jLQttU3awPwF3RCnF9sStnI1tGu-jfqU_AQzjz5lE4fMUE2sWx0ptZzeUQ5iXj18fUMxkLX2BcGfM-97znYMSOj2oaT_JRDrK34OVYKIZxrxXIkwQheNHbWV1KahZoE_G-vhxrqDxk-uzg4ckgSwOEEIUSwU_" />
+            <img alt="Data Visualization" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYwVBglgF0xeJ1Qkxm5pIs9jWnSkY_X4G4hHfbWswuwE3ZR7WWs2zXlhG3CGJRvuEVnBBK5N911XLFKPGpg7_qR11R9pvhjB0YIB5oMrOWWiaduA7jLQttU3awPwF3RCnF9sStnI1tGu-jfqU_AQzjz5lE4fMUE2sWx0ptZzeUQ5iXj18fUMxkLX2BcGfM-97znYMSOj2oaT_JRDrK34OVYKIZxrxXIkwQheNHbWV1KahZoE_G-vhxrqDxk-uzg4ckgSwOEEIUSwU_" loading="lazy" />
         </div>
         <div class="col-span-1 h-full rounded-2xl overflow-hidden relative group translate-y-4 md:translate-y-8">
-            <img alt="Code on screen" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBowVOMD1mGapNdw_MeyuxVgkFrMvlIFeA0ueKZRbUUgZlZ7qnwxAY0evNTC-EErGl1jNOUE3mgyGUF2swZDmICFw7DIiUsUqhq3qYSxEBrWjV0J1xmS0JdkKvmnW6pqaELPmhGMSn5rWIneJ9_jOXHQFfgEyRCxz572BCz4qHedhF077LfwwhbOT7sCePOa0WFo4h6OsL8_ef_wgTHDbzct7bYVi9xSHZEKJ90rIzeDspff1968osoxDBJusGEhI3D97LhVWgmlzkR" />
+            <img alt="Code on screen" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBowVOMD1mGapNdw_MeyuxVgkFrMvlIFeA0ueKZRbUUgZlZ7qnwxAY0evNTC-EErGl1jNOUE3mgyGUF2swZDmICFw7DIiUsUqhq3qYSxEBrWjV0J1xmS0JdkKvmnW6pqaELPmhGMSn5rWIneJ9_jOXHQFfgEyRCxz572BCz4qHedhF077LfwwhbOT7sCePOa0WFo4h6OsL8_ef_wgTHDbzct7bYVi9xSHZEKJ90rIzeDspff1968osoxDBJusGEhI3D97LhVWgmlzkR" loading="lazy" />
         </div>
     </div>
     <div class="flex justify-end mt-12">
@@ -266,10 +266,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </p>
     <form class="space-y-4">
         <div class="grid grid-cols-2 gap-4">
-            <input class="w-full bg-surface-light dark:bg-surface-dark border-0 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark/50" placeholder="Name" type="text" />
-            <input class="w-full bg-surface-light dark:bg-surface-dark border-0 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark/50" placeholder="Email" type="email" />
+            <input class="w-full bg-surface-light dark:bg-surface-dark border-0 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark/50" placeholder="Name" type="text" aria-label="Name" />
+            <input class="w-full bg-surface-light dark:bg-surface-dark border-0 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark/50" placeholder="Email" type="email" aria-label="Email" />
         </div>
-        <textarea class="w-full bg-surface-light dark:bg-surface-dark border-0 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark/50 resize-none" placeholder="Message" rows="4"></textarea>
+        <textarea class="w-full bg-surface-light dark:bg-surface-dark border-0 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark/50 resize-none" placeholder="Message" rows="4" aria-label="Message"></textarea>
         <div class="flex items-center justify-between pt-2">
             <button class="bg-text-main-light dark:bg-white text-white dark:text-black px-6 py-2 rounded-full text-sm font-medium hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-colors" type="button">
                 Send message

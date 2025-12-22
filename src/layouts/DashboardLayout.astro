@@ -1,0 +1,100 @@
+---
+import '../styles/global.css';
+
+const { title = 'Sarkome Platform' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+  </head>
+  <body class="bg-black text-white transition-colors duration-300 antialiased font-sans overflow-hidden h-screen flex">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 border-r border-white/10 flex flex-col bg-zinc-950/50 backdrop-blur-sm">
+      <div class="h-16 flex items-center px-6 border-b border-white/10">
+         <a href="/platform/query" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <div class="w-6 h-6 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                <span class="material-symbols-outlined text-sm">hub</span>
+            </div>
+            <span class="font-mono text-xs font-bold tracking-widest uppercase">Sarkome<span class="text-indigo-400">Refinery</span></span>
+         </a>
+      </div>
+
+      <nav class="flex-1 p-4 space-y-6 overflow-y-auto">
+        
+        {/* Investigation */}
+        <div class="space-y-1">
+            <h3 class="px-3 text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-2">Investigation</h3>
+            <a href="/platform/query" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
+                <span class="material-symbols-outlined text-lg group-hover:text-indigo-400">search</span>
+                <span>Query Builder</span>
+            </a>
+            <a href="/platform/logs" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
+                <span class="material-symbols-outlined text-lg group-hover:text-indigo-400">forum</span>
+                <span>Council Logs</span>
+            </a>
+        </div>
+
+        {/* Intelligence */}
+        <div class="space-y-1">
+             <h3 class="px-3 text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-2">Intelligence</h3>
+             <a href="/platform/knowledge-graph" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
+                <span class="material-symbols-outlined text-lg group-hover:text-indigo-400">schema</span>
+                <span>Knowledge Graph</span>
+            </a>
+            <a href="/platform/agents" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
+                <span class="material-symbols-outlined text-lg group-hover:text-indigo-400">groups</span>
+                <span>Agent Status</span>
+            </a>
+        </div>
+
+        {/* Governance & Ops */}
+        <div class="space-y-1">
+             <h3 class="px-3 text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-2">Governance & Ops</h3>
+            <a href="/platform/constitution" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
+                <span class="material-symbols-outlined text-lg group-hover:text-indigo-400">gavel</span>
+                <span>Constitution</span>
+            </a>
+            <a href="/platform/ingestion" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
+                <span class="material-symbols-outlined text-lg group-hover:text-indigo-400">cloud_upload</span>
+                <span>Data Ingestion</span>
+            </a>
+            <a href="/platform/export" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
+                <span class="material-symbols-outlined text-lg group-hover:text-indigo-400">api</span>
+                <span>Export & API</span>
+            </a>
+        </div>
+      </nav>
+
+      <div class="p-4 border-t border-white/10">
+        <div class="text-[10px] text-zinc-500 font-mono mb-2 uppercase tracking-widest">Active Model</div>
+        <div class="flex items-center gap-2">
+           <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+           <span class="text-xs text-zinc-300">Council v2.1 (Async)</span>
+        </div>
+      </div>
+      
+       <div class="p-4 border-t border-white/10">
+           <a href="/" class="flex items-center gap-2 text-xs text-zinc-500 hover:text-white transition-colors">
+             <span class="material-symbols-outlined text-sm">arrow_back</span>
+             Back to Site
+           </a>
+       </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-auto bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900 via-black to-black">
+      <slot />
+    </main>
+
+  </body>
+</html>

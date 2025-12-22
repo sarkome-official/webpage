@@ -5,6 +5,7 @@ export function Footer() {
                 src="/logo_purple_nobackground.svg"
                 alt="Sarkome Logo"
                 className="h-20 w-auto opacity-80"
+                loading="lazy"
             />
             <div className={"text-[10px] text-text-muted-light dark:text-text-muted-dark text-center space-y-2"}>
                 <p>Designed for Scientific Discovery</p>

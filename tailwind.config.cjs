@@ -66,7 +66,8 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
-        display: ["Inter", "sans-serif"],
+        display: ["Space Grotesk", "Inter", "sans-serif"],
+        body: ["Noto Sans", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
       backgroundImage: {
