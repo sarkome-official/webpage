@@ -1,3 +1,8 @@
+---
+title: The Virtual Mind
+description: Sarkome's cognitive architecture and the philosophy of generative discovery.
+---
+
 # The Philosophy: The Virtual Mind
 
 Sarkome is built on the belief that a discovery engine should function as a **cognitive architecture**, not a search tool. The system doesn't merely retrieve information—it *thinks*.
