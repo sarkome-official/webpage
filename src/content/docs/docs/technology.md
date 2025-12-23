@@ -31,6 +31,20 @@ Para manejar la complejidad del cáncer, Sarkome implementa tecnologías de visu
 *   **Detección de Clusters**: Facilita ver agrupaciones naturales de fármacos o genes que trabajan en vías similares.
 *   **Navegación Intuitiva**: Permite a los investigadores "viajar" a través de las vías metabólicas usando rotación, zoom y desplazamiento (pan/tilt).
 
+## La Filosofía: La Mente Virtual (Virtual Mind)
+
+Sarkome no ve el Knowledge Graph como una simple base de datos, sino como una **arquitectura cognitiva**. El sistema funciona como una "Mente Virtual" especializada en el descubrimiento de conocimiento oncológico.
+
+### Temperatura de Memoria (Memory Temperature)
+Inspirado en la poda sináptica biológica, Sarkome implementa un mecanismo de gestión de recursos basado en la activación:
+
+*   **Memoria Caliente (Hot Memory)**: Índices vectoriales activos para una recuperación instantánea. Contiene el núcleo de la investigación sobre ASPS y dianas terapéuticas críticas.
+*   **Memoria Templada (Warm Memory)**: Nodos del grafo que son navegables pero no están indexados activamente. Representa el conocimiento adyacente (oncología general).
+*   **Memoria Fría (Cold Memory)**: Conocimiento archivado que no consume recursos de computación activos pero permanece en la estructura profunda del grafo, listo para ser "reactivado" mediante una señal semántica específica.
+
+### Cognición Generativa
+El Consejo de Agentes no solo lee el grafo; **piensa con él**. Utilizan inferencia transitiva y razonamiento analógico para descubrir cadenas causales que aún no han sido escritas en la literatura científica.
+
 ## Beneficios para la Investigación Oncológica
 
 *   **Descubrimiento de Patrones**: Facilita la detección de conexiones indirectas (ej. un fármaco que trata un síntoma que activa una vía genética opuesta).

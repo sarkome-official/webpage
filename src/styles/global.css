@@ -93,7 +93,6 @@
     }
   }
 
-  /* Custom scrollbar from code.html */
   ::-webkit-scrollbar {
     width: 8px;
   }

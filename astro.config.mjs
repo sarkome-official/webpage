@@ -23,6 +23,14 @@ export default defineConfig({
           link: '/docs',
         },
         {
+          label: 'Philosophy',
+          link: '/docs/philosophy',
+        },
+        {
+          label: 'Economic Model',
+          link: '/docs/economic',
+        },
+        {
           label: 'Technology',
           link: '/docs/technology',
         },

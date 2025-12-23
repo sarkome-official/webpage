@@ -2,7 +2,11 @@ import React, { useState, useMemo, useCallback, useRef } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 
 // --- DATA MODEL: SEMANTIC ENTITIES & RELATIONSHIPS ---
-// Nodos: Entidades con tipo semántico claro (ej. "Drug", "Gene", "Fusion")
+// The Knowledge Graph functions as the "Virtual Mind" of Sarkome.
+// Future Implementation: Memory Temperature (Hot/Warm/Cold)
+// - Hot: High opacity, active vector index.
+// - Warm: Medium opacity, traversable but not indexed.
+// - Cold: Low opacity/Hidden, archived metadata awaiting reactivation.
 const MOCK_GRAPH_DATA = {
     nodes: [
         { id: 'ASPSCR1-TFE3', name: 'ASPSCR1-TFE3', label: 'Fusion', val: 40, color: '#a855f7', pmid: '30123456', description: 'Central driver of Alveolar Soft Part Sarcoma.' },
