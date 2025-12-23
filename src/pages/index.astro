@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { diseases } from '../data/diseases';
 // Button not used here to match code.html exactly, we use raw button with classes
 ---
 
@@ -17,10 +18,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
     <div class="space-y-6">
       <h2 class="text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">
-        The Industrialization of <span class="text-primary">Causal Discovery</span>
+        Will this drug work?
       </h2>
       <p class="text-lg text-text-muted-light dark:text-text-muted-dark leading-relaxed max-w-xl">
-        Accelerating the identification of therapeutic targets for Sarcoma through advanced multimodal data synthesis. Sarkome In-Silico bridges the gap between raw genomic data and actionable clinical insights.
+        Sarkome In-Silico: A Multi-Agent Graph Reasoning System powered by Gemini 3, accelerating therapeutic target identification for Rare Sarcoma (ASPS).
       </p>
       <div class="pt-2">
         <a href="/platform/query" class="inline-flex items-center gap-2 bg-text-main-light dark:bg-white text-white dark:text-black px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-all group">
@@ -167,7 +168,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
        <div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 rounded-2xl hover:border-primary/50 dark:hover:border-primary/50 transition-colors cursor-default">
           <p class="text-sm leading-relaxed mb-6 text-text-main-light dark:text-text-main-dark">
-            "Sarkome is looking for a founding partner in biological sciences to help build a new discovery engine from the ground up, focused on rare cancers and driven by strong technical skills, resilience, and the courage to leave a traditional career path to create global impact."
+            "Sarkome seeks a Founding Biological Sciences Partner to build a causal-first discovery engine for single-driver cancers, starting with ASPS. The role focuses on mechanism-based wet-lab validation, isogenic models, transcriptional dependency testing, and disciplined hypothesis generation beyond traditional screening or career paths."
           </p>
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex items-center justify-center">
@@ -208,18 +209,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section>
     <h3 class="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-8">Active Programs</h3>
     <div class="space-y-4">
-        <a class="group flex items-center justify-between p-4 -mx-4 rounded-xl hover:bg-surface-light dark:hover:bg-surface-dark transition-colors" href="#">
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center">
-                    <span class="material-symbols-outlined">neurology</span>
+        {diseases.filter(d => d.type === 'active').map(disease => (
+            <a class="group flex items-center justify-between p-4 -mx-4 rounded-xl hover:bg-surface-light dark:hover:bg-surface-dark transition-colors" href={`/programs/${disease.id}`}>
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                        <span class="material-symbols-outlined">neurology</span>
+                    </div>
+                    <div>
+                        <div class="font-medium text-sm">{disease.code}</div>
+                        <div class="text-xs text-text-muted-light dark:text-text-muted-dark">Rare Oncology / {disease.name}</div>
+                    </div>
                 </div>
-                <div>
-                    <div class="font-medium text-sm">SRK-101</div>
-                    <div class="text-xs text-text-muted-light dark:text-text-muted-dark">Rare Oncology / Alveolar Soft Part Sarcoma (ASPS)</div>
+                <span class="material-symbols-outlined text-text-muted-light dark:text-text-muted-dark group-hover:text-primary transition-colors transform group-hover:translate-x-1">arrow_outward</span>
+            </a>
+        ))}
+    </div>
+  </section>
+
+  <section>
+    <h3 class="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-8">Pipeline Candidates</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {diseases.filter(d => d.type === 'candidate').map(disease => (
+            <a class="group p-4 border border-border-light dark:border-border-dark rounded-xl hover:border-primary transition-colors" href={`/programs/${disease.id}`}>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[10px] font-mono text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider">{disease.code}</span>
+                    <span class="material-symbols-outlined text-sm text-text-muted-light group-hover:text-primary transition-colors">arrow_forward</span>
                 </div>
-            </div>
-            <span class="material-symbols-outlined text-text-muted-light dark:text-text-muted-dark group-hover:text-primary transition-colors transform group-hover:translate-x-1">arrow_outward</span>
-        </a>
+                <div class="font-medium text-sm mb-1">{disease.name}</div>
+                <div class="text-xs text-text-muted-light dark:text-text-muted-dark line-clamp-1">{disease.fusion} → {disease.mechanism}</div>
+            </a>
+        ))}
     </div>
   </section>
 
