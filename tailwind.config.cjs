@@ -28,6 +28,11 @@ module.exports = {
         "text-main-dark": "#ededed",
         "text-muted-light": "#6b7280",
         "text-muted-dark": "#a1a1aa",
+        brand: {
+          DEFAULT: "#6366f1", // indigo-500
+          light: "#818cf8",   // indigo-400
+          dark: "#4f46e5",    // indigo-600
+        },
         primary: {
           DEFAULT: "#7c3aed",
           foreground: "#ffffff",

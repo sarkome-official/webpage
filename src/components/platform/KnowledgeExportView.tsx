@@ -4,44 +4,44 @@ export const KnowledgeExportView = () => {
     return (
         <div className="flex flex-col min-h-screen font-display bg-[#101322] text-white">
             {/* Header */}
-            <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#282b39] bg-[#111218] px-6 lg:px-10 py-3 sticky top-0 z-30">
+            <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#282b39] bg-[#111218] px-4 md:px-6 lg:px-10 py-3 md:sticky top-0 z-20">
                 <div className="flex items-center gap-4">
-                    <div className="size-8 text-[#1132d4] flex items-center justify-center bg-[#1132d4]/10 rounded-lg">
+                    <div className="size-8 text-[#1132d4] flex items-center justify-center bg-[#1132d4]/10 rounded-lg shrink-0">
                         <span className="material-symbols-outlined text-[24px]">hub</span>
                     </div>
-                    <div>
-                        <h2 className="text-lg font-bold leading-tight tracking-tight text-white">Developer Hub</h2>
-                        <p className="text-xs text-[#9da1b9] font-medium">Export & API Integration</p>
+                    <div className="min-w-0">
+                        <h2 className="text-base md:text-lg font-bold leading-tight tracking-tight text-white truncate">Developer Hub</h2>
+                        <p className="text-[10px] md:text-xs text-[#9da1b9] font-medium truncate">Export & API Integration</p>
                     </div>
                 </div>
-                <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-[#1132d4]/20" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAs7eXv_elH2SbDPaTC4YbG65r6ZfQYwFMxuPdEHT1KH55cdk1GNPmDpWLvfzae21Hjzgz9V3WBoHEZMRdtpF5e4z8_RYrWMb6gzD4-qVgiKpBcEa1GmvpOTyb__cFpLgCw-Mc46DQkXmsNNYqyju5bDR3uP-D6spfIr8ossdCYFDKBdoJQBARlcSVIjWjKfucFBWdnrYaq1sluEtBzD3Eq0BjH1hh8GRQDi3jQun1Kfp3PIGRvs3UhpNW5lqBatnbXlDQqrL2GL8E")' }}></div>
+                <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8 md:size-9 ring-2 ring-[#1132d4]/20 shrink-0" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAs7eXv_elH2SbDPaTC4YbG65r6ZfQYwFMxuPdEHT1KH55cdk1GNPmDpWLvfzae21Hjzgz9V3WBoHEZMRdtpF5e4z8_RYrWMb6gzD4-qVgiKpBcEa1GmvpOTyb__cFpLgCw-Mc46DQkXmsNNYqyju5bDR3uP-D6spfIr8ossdCYFDKBdoJQBARlcSVIjWjKfucFBWdnrYaq1sluEtBzD3Eq0BjH1hh8GRQDi3jQun1Kfp3PIGRvs3UhpNW5lqBatnbXlDQqrL2GL8E")' }}></div>
             </header>
 
-            <div className="flex-1 flex flex-col md:flex-row max-w-[1600px] mx-auto w-full p-6 gap-8">
+            <div className="flex-1 flex flex-col lg:flex-row max-w-[1600px] mx-auto w-full p-4 md:p-6 gap-6 md:gap-8">
                 {/* Left Column: Export Options */}
                 <section className="flex-1 flex flex-col gap-6">
                     <div>
-                        <h2 className="text-2xl font-bold text-white mb-2">Knowledge Graph Snippets</h2>
-                        <p className="text-[#9da1b9]">Download high-fidelity, conflict-resolved slices of the ASPS Knowledge Graph.</p>
+                        <h2 className="text-xl md:text-2xl font-bold text-white mb-2">Knowledge Graph Snippets</h2>
+                        <p className="text-sm md:text-base text-[#9da1b9]">Download high-fidelity, conflict-resolved slices of the ASPS Knowledge Graph.</p>
                     </div>
 
                     <div className="grid grid-cols-1 gap-4">
                         {/* Option 1: Neo4j Dump */}
-                        <div className="bg-[#1c1d27] border border-[#282b39] p-6 rounded-xl flex items-start justify-between group hover:border-[#1132d4]/50 transition-colors">
+                        <div className="bg-[#1c1d27] border border-[#282b39] p-4 md:p-6 rounded-xl flex flex-col sm:flex-row items-start justify-between gap-4 group hover:border-[#1132d4]/50 transition-colors">
                             <div className="flex items-start gap-4">
-                                <div className="size-12 rounded bg-[#1132d4]/10 flex items-center justify-center text-[#1132d4]">
-                                    <span className="material-symbols-outlined text-[28px]">database</span>
+                                <div className="size-10 md:size-12 rounded bg-[#1132d4]/10 flex items-center justify-center text-[#1132d4] shrink-0">
+                                    <span className="material-symbols-outlined text-[24px] md:text-[28px]">database</span>
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-white text-lg">Neo4j Dump (.dump)</h3>
-                                    <p className="text-sm text-[#9da1b9] mt-1 max-w-md">Full graph binary dump compatible with Neo4j Enterprise 5.x. Includes all nodes, relationships, and metadata properties.</p>
+                                    <h3 className="font-bold text-white text-base md:text-lg">Neo4j Dump (.dump)</h3>
+                                    <p className="text-xs md:text-sm text-[#9da1b9] mt-1 max-w-md">Full graph binary dump compatible with Neo4j Enterprise 5.x.</p>
                                     <div className="flex gap-2 mt-3">
-                                        <span className="text-[10px] bg-[#282b39] text-[#9da1b9] px-2 py-0.5 rounded border border-[#282b39]">Updated: 2h ago</span>
-                                        <span className="text-[10px] bg-[#282b39] text-[#9da1b9] px-2 py-0.5 rounded border border-[#282b39]">Size: 1.2 GB</span>
+                                        <span className="text-[9px] md:text-[10px] bg-[#282b39] text-[#9da1b9] px-2 py-0.5 rounded border border-[#282b39]">Updated: 2h ago</span>
+                                        <span className="text-[9px] md:text-[10px] bg-[#282b39] text-[#9da1b9] px-2 py-0.5 rounded border border-[#282b39]">Size: 1.2 GB</span>
                                     </div>
                                 </div>
                             </div>
-                            <button className="px-4 py-2 bg-[#282b39] hover:bg-[#34384b] text-white rounded-lg font-bold text-sm transition-colors border border-[#383d52] group-hover:bg-[#1132d4] group-hover:border-[#1132d4] group-hover:text-white">
+                            <button className="w-full sm:w-auto px-4 py-2 bg-[#282b39] hover:bg-[#34384b] text-white rounded-lg font-bold text-xs md:text-sm transition-colors border border-[#383d52] group-hover:bg-[#1132d4] group-hover:border-[#1132d4] group-hover:text-white">
                                 Download
                             </button>
                         </div>

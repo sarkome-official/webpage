@@ -102,61 +102,61 @@ export const ConstitutionEditor: React.FC = () => {
     };
 
     return (
-        <div className="min-h-full font-display bg-[#101322] text-[#9da1b9] p-8">
+        <div className="min-h-full font-display bg-[#101322] text-[#9da1b9] p-4 md:p-8">
             {/* Header */}
-            <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+            <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6 md:mb-8">
                 <div>
-                    <h1 className="text-3xl text-white font-bold tracking-tight">Council Constitution</h1>
-                    <p className="mt-1 text-[#9da1b9]">Configure the behavior and decision logic of the Sarkome Agents.</p>
+                    <h1 className="text-2xl md:text-3xl text-white font-bold tracking-tight">Council Constitution</h1>
+                    <p className="mt-1 text-sm md:text-base text-[#9da1b9]">Configure the behavior and decision logic of the Sarkome Agents.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <button className="px-4 py-2 bg-[#282b39] hover:bg-[#34384b] text-white rounded-lg transition-colors text-sm font-bold border border-[#383d52]">
-                        Discard Changes
+                    <button className="flex-1 md:flex-none px-4 py-2 bg-[#282b39] hover:bg-[#34384b] text-white rounded-lg transition-colors text-xs md:text-sm font-bold border border-[#383d52]">
+                        Discard
                     </button>
-                    <button className="px-6 py-2 bg-[#1132d4] hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-bold shadow-lg shadow-blue-900/20">
-                        Deploy System Prompts
+                    <button className="flex-1 md:flex-none px-6 py-2 bg-[#1132d4] hover:bg-blue-700 text-white rounded-lg transition-colors text-xs md:text-sm font-bold shadow-lg shadow-blue-900/20">
+                        Deploy Prompts
                     </button>
                 </div>
             </header>
 
-            <main className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <main className="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8">
                 {/* Agent Selector Sidebar */}
                 <div className="lg:col-span-1 flex flex-col gap-4">
                     <h3 className="text-sm font-bold text-white uppercase tracking-widest px-1">Council Members</h3>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
                         {AGENTS.map((agent) => (
                             <button
                                 key={agent.id}
                                 onClick={() => setSelectedAgentId(agent.id)}
-                                className={`flex items-center gap-3 p-4 rounded-xl border transition-all text-left group ${selectedAgentId === agent.id
+                                className={`flex items-center gap-3 p-3 md:p-4 rounded-xl border transition-all text-left group shrink-0 lg:shrink ${selectedAgentId === agent.id
                                         ? `${agent.bg} ${agent.border} border-opacity-100 shadow-lg shadow-black/20`
                                         : 'bg-[#1c1d27]/50 border-transparent hover:border-[#282b39] hover:bg-[#1c1d27]'
                                     }`}
                             >
-                                <div className={`size-10 rounded-lg flex items-center justify-center border transition-colors ${selectedAgentId === agent.id
+                                <div className={`size-8 md:size-10 rounded-lg flex items-center justify-center border transition-colors ${selectedAgentId === agent.id
                                         ? `${agent.border} ${agent.color} bg-[#111218]`
                                         : 'border-[#282b39] text-[#9da1b9] bg-[#111218] group-hover:text-white group-hover:border-[#383d52]'
                                     }`}>
-                                    <span className="material-symbols-outlined text-[20px]">{agent.icon}</span>
+                                    <span className="material-symbols-outlined text-[18px] md:text-[20px]">{agent.icon}</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className={`text-sm font-bold transition-colors ${selectedAgentId === agent.id ? 'text-white' : 'text-[#9da1b9] group-hover:text-white'
+                                    <span className={`text-xs md:text-sm font-bold transition-colors ${selectedAgentId === agent.id ? 'text-white' : 'text-[#9da1b9] group-hover:text-white'
                                         }`}>
                                         {agent.name}
                                     </span>
-                                    <span className="text-[10px] text-[#6b7280] font-mono uppercase tracking-tighter">
+                                    <span className="hidden md:block text-[10px] text-[#6b7280] font-mono uppercase tracking-tighter">
                                         {agent.id === 'chairman' ? 'Executive' : 'Specialist Agent'}
                                     </span>
                                 </div>
                                 {selectedAgentId === agent.id && (
-                                    <span className={`material-symbols-outlined ml-auto text-sm ${agent.color}`}>chevron_right</span>
+                                    <span className={`hidden lg:block material-symbols-outlined ml-auto text-sm ${agent.color}`}>chevron_right</span>
                                 )}
                             </button>
                         ))}
                     </div>
 
-                    <div className="mt-4 p-5 rounded-xl bg-gradient-to-br from-[#1132d4]/5 to-transparent border border-[#1132d4]/10">
-                        <div className="flex items-center gap-2 text-[#1132d4] mb-2">
+                    <div className="mt-4 p-5 rounded-xl bg-gradient-to-br from-indigo-500/5 to-transparent border border-indigo-500/10">
+                        <div className="flex items-center gap-2 text-indigo-400 mb-2">
                             <span className="material-symbols-outlined text-sm">info</span>
                             <span className="text-xs font-bold uppercase tracking-wide">Multi-Agent Protocol</span>
                         </div>
@@ -172,9 +172,9 @@ export const ConstitutionEditor: React.FC = () => {
                         <div className="flex items-center justify-between px-4 py-3 bg-[#111218] rounded-t-xl border-b border-[#282b39]">
                             <div className="flex items-center gap-3">
                                 <div className={`size-3 rounded-full ${selectedAgent.color.replace('text-', 'bg-')} animate-pulse`}></div>
-                                <span className="text-xs font-mono text-white">constitution_{selectedAgent.id}.md</span>
+                                <span className="text-[10px] md:text-xs font-mono text-white">constitution_{selectedAgent.id}.md</span>
                             </div>
-                            <div className="flex items-center gap-4 text-[#6b7280]">
+                            <div className="hidden sm:flex items-center gap-4 text-[#6b7280]">
                                 <span className="text-[10px] font-mono">Lines: {currentConstitution.split('\n').length}</span>
                                 <span className="text-[10px] font-mono">UTF-8</span>
                             </div>
@@ -183,42 +183,41 @@ export const ConstitutionEditor: React.FC = () => {
                             <textarea
                                 value={currentConstitution}
                                 onChange={handleConstitutionChange}
-                                className="w-full h-[600px] bg-transparent text-white font-mono text-sm leading-relaxed p-6 outline-none resize-none placeholder:text-[#282b39]"
+                                className="w-full h-[400px] md:h-[600px] bg-transparent text-white font-mono text-xs md:text-sm leading-relaxed p-4 md:p-6 pl-10 md:pl-12 outline-none resize-none placeholder:text-[#282b39]"
                                 spellCheck="false"
                             />
                             {/* Line Numbers Simulation */}
-                            <div className="absolute left-0 top-0 bottom-0 w-10 border-r border-[#282b39] bg-[#111218]/30 flex flex-col items-center py-6 pointer-events-none">
+                            <div className="absolute left-0 top-0 bottom-0 w-8 md:w-10 border-r border-[#282b39] bg-[#111218]/30 flex flex-col items-center py-4 md:py-6 pointer-events-none">
                                 {[...Array(20)].map((_, i) => (
-                                    <span key={i} className="text-[10px] text-[#282b39] leading-relaxed mb-[1px]">{i + 1}</span>
+                                    <span key={i} className="text-[9px] md:text-[10px] text-[#282b39] leading-relaxed mb-[1px]">{i + 1}</span>
                                 ))}
                             </div>
                         </div>
                     </div>
 
                     {/* Documentation / Guide */}
-                    <div className="bg-[#1c1f2d] border border-[#282b39] rounded-xl p-6 shadow-sm">
-                        <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                            <span className="material-symbols-outlined text-[#1132d4]">menu_book</span>
+                    <div className="bg-[#1c1f2d] border border-[#282b39] rounded-xl p-4 md:p-6 shadow-sm">
+                        <h3 className="text-white font-bold mb-4 flex items-center gap-2 text-sm md:text-base">
+                            <span className="material-symbols-outlined text-indigo-400">menu_book</span>
                             Constitution Reference Guide
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="flex flex-col gap-2">
-                                <h4 className={`text-sm font-bold uppercase tracking-wider ${selectedAgent.color}`}>{selectedAgent.name} Logic</h4>
-                                <p className="text-sm text-[#9da1b9] leading-relaxed">
-                                    Define the strict boundaries for {selectedAgent.name}. Use <code className="text-xs bg-[#282b39] px-1 py-0.5 rounded text-white"># RULES</code> to enforce specific extraction constraints.
+                                <h4 className={`text-xs md:text-sm font-bold uppercase tracking-wider ${selectedAgent.color}`}>{selectedAgent.name} Logic</h4>
+                                <p className="text-xs md:text-sm text-[#9da1b9] leading-relaxed">
+                                    Define the strict boundaries for {selectedAgent.name}. Use <code className="text-[10px] md:text-xs bg-[#282b39] px-1 py-0.5 rounded text-white"># RULES</code> to enforce specific extraction constraints.
                                 </p>
                             </div>
                             <div className="flex flex-col gap-2">
-                                <h4 className="text-[#1132d4] text-sm font-bold uppercase tracking-wider">Available Variables</h4>
+                                <h4 className="text-indigo-400 text-xs md:text-sm font-bold uppercase tracking-wider">Available Variables</h4>
                                 <div className="flex flex-wrap gap-2">
-                                    <span className="px-2 py-1 bg-[#282b39]/50 rounded text-xs text-blue-300 font-mono">{'{evidence_level}'}</span>
-                                    <span className="px-2 py-1 bg-[#282b39]/50 rounded text-xs text-blue-300 font-mono">{'{study_type}'}</span>
-                                    <span className="px-2 py-1 bg-[#282b39]/50 rounded text-xs text-blue-300 font-mono">{'{p_value}'}</span>
+                                    <span className="px-2 py-1 bg-[#282b39]/50 rounded text-[10px] md:text-xs text-blue-300 font-mono">{'{evidence_level}'}</span>
+                                    <span className="px-2 py-1 bg-[#282b39]/50 rounded text-[10px] md:text-xs text-blue-300 font-mono">{'{study_type}'}</span>
                                 </div>
                             </div>
-                            <div className="flex flex-col gap-2 text-right">
-                                <button className="text-[#1132d4] hover:underline text-sm font-bold flex items-center gap-1 justify-end transition-all">
-                                    View Logic Documentation
+                            <div className="flex flex-col gap-2 md:text-right">
+                                <button className="text-indigo-400 hover:underline text-xs md:text-sm font-bold flex items-center gap-1 md:justify-end transition-all">
+                                    View Documentation
                                     <span className="material-symbols-outlined text-[16px]">open_in_new</span>
                                 </button>
                                 <p className="text-[10px] text-[#6b7280]">Last audited: Today, 10:44 AM</p>

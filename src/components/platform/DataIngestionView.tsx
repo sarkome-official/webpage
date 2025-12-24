@@ -4,58 +4,59 @@ export const DataIngestionView = () => {
     return (
         <div className="flex flex-col min-h-screen font-display bg-[#101322] text-white">
             {/* Top Navigation - Inner Header */}
-            <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#282b39] bg-[#111218] px-6 lg:px-10 py-3 sticky top-0 z-30">
+            <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#282b39] bg-[#111218] px-4 md:px-6 lg:px-10 py-3 md:sticky top-0 z-20">
                 <div className="flex items-center gap-4">
-                    <div className="size-8 text-[#1132d4] flex items-center justify-center bg-[#1132d4]/10 rounded-lg">
+                    <div className="size-8 text-[#1132d4] flex items-center justify-center bg-[#1132d4]/10 rounded-lg shrink-0">
                         <span className="material-symbols-outlined text-[24px]">hub</span>
                     </div>
-                    <div>
-                        <h2 className="text-lg font-bold leading-tight tracking-tight text-white">Data Refinery</h2>
-                        <p className="text-xs text-[#9da1b9] font-medium">Ingestion & Management Console</p>
+                    <div className="min-w-0">
+                        <h2 className="text-base md:text-lg font-bold leading-tight tracking-tight text-white truncate">Data Refinery</h2>
+                        <p className="text-[10px] md:text-xs text-[#9da1b9] font-medium truncate">Ingestion & Management Console</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-4">
-                    <button className="flex items-center gap-2 px-4 py-2 bg-[#1132d4] text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-bold shadow-lg shadow-blue-900/20">
-                        <span className="material-symbols-outlined text-[18px]">cloud_upload</span>
-                        Upload Documents
+                <div className="flex items-center gap-2 md:gap-4">
+                    <button className="flex items-center gap-2 px-3 md:px-4 py-2 bg-[#1132d4] text-white rounded-lg hover:bg-blue-700 transition-colors text-xs md:text-sm font-bold shadow-lg shadow-blue-900/20">
+                        <span className="material-symbols-outlined text-[18px]">add_database</span>
+                        <span className="hidden sm:inline">Connect Database</span>
+                        <span className="sm:hidden">Connect</span>
                     </button>
-                    <div className="h-8 w-px bg-[#282b39]"></div>
-                    <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-[#1132d4]/20" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAs7eXv_elH2SbDPaTC4YbG65r6ZfQYwFMxuPdEHT1KH55cdk1GNPmDpWLvfzae21Hjzgz9V3WBoHEZMRdtpF5e4z8_RYrWMb6gzD4-qVgiKpBcEa1GmvpOTyb__cFpLgCw-Mc46DQkXmsNNYqyju5bDR3uP-D6spfIr8ossdCYFDKBdoJQBARlcSVIjWjKfucFBWdnrYaq1sluEtBzD3Eq0BjH1hh8GRQDi3jQun1Kfp3PIGRvs3UhpNW5lqBatnbXlDQqrL2GL8E")' }}></div>
+                    <div className="hidden sm:block h-8 w-px bg-[#282b39]"></div>
+                    <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8 md:size-9 ring-2 ring-[#1132d4]/20 shrink-0" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAs7eXv_elH2SbDPaTC4YbG65r6ZfQYwFMxuPdEHT1KH55cdk1GNPmDpWLvfzae21Hjzgz9V3WBoHEZMRdtpF5e4z8_RYrWMb6gzD4-qVgiKpBcEa1GmvpOTyb__cFpLgCw-Mc46DQkXmsNNYqyju5bDR3uP-D6spfIr8ossdCYFDKBdoJQBARlcSVIjWjKfucFBWdnrYaq1sluEtBzD3Eq0BjH1hh8GRQDi3jQun1Kfp3PIGRvs3UhpNW5lqBatnbXlDQqrL2GL8E")' }}></div>
                 </div>
             </header>
 
             {/* Main Content Info */}
-            <main className="flex-1 p-6 lg:p-10 flex flex-col gap-8 max-w-[1600px] w-full mx-auto">
+            <main className="flex-1 p-4 md:p-6 lg:p-10 flex flex-col gap-6 md:gap-8 max-w-[1600px] w-full mx-auto">
                 {/* Stats Overview */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {/* Stat Card 1 */}
                     <div className="bg-[#1c1d27] border border-[#282b39] rounded-xl p-5 flex flex-col gap-3 relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <span className="material-symbols-outlined text-[60px]">description</span>
+                            <span className="material-symbols-outlined text-[60px]">database</span>
                         </div>
-                        <div className="text-[#9da1b9] text-xs font-bold uppercase tracking-wider">Total Documents</div>
+                        <div className="text-[#9da1b9] text-xs font-bold uppercase tracking-wider">Connected Databases</div>
                         <div className="flex items-baseline gap-2">
-                            <span className="text-3xl font-bold text-white">1,248</span>
+                            <span className="text-3xl font-bold text-white">12</span>
                             <span className="text-xs text-emerald-400 font-bold flex items-center">
-                                <span className="material-symbols-outlined text-[14px]">arrow_upward</span>
-                                12 this week
+                                <span className="material-symbols-outlined text-[14px]">add</span>
+                                2 new
                             </span>
                         </div>
                         <div className="h-1 w-full bg-[#282b39] rounded-full overflow-hidden mt-1">
-                            <div className="h-full bg-[#1132d4] w-[70%]"></div>
+                            <div className="h-full bg-[#1132d4] w-[85%]"></div>
                         </div>
                     </div>
                     {/* Stat Card 2 */}
                     <div className="bg-[#1c1d27] border border-[#282b39] rounded-xl p-5 flex flex-col gap-3 relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <span className="material-symbols-outlined text-[60px]">database</span>
+                            <span className="material-symbols-outlined text-[60px]">hub</span>
                         </div>
-                        <div className="text-[#9da1b9] text-xs font-bold uppercase tracking-wider">Vector Index Size</div>
+                        <div className="text-[#9da1b9] text-xs font-bold uppercase tracking-wider">Total Knowledge Nodes</div>
                         <div className="flex items-baseline gap-2">
-                            <span className="text-3xl font-bold text-white">4.2 GB</span>
+                            <span className="text-3xl font-bold text-white">12.4M</span>
                         </div>
                         <div className="h-1 w-full bg-[#282b39] rounded-full overflow-hidden mt-1">
-                            <div className="h-full bg-purple-500 w-[45%]"></div>
+                            <div className="h-full bg-purple-500 w-[92%]"></div>
                         </div>
                     </div>
                     {/* Stat Card 3 */}
@@ -73,14 +74,14 @@ export const DataIngestionView = () => {
                     {/* Stat Card 4 */}
                     <div className="bg-[#1c1d27] border border-[#282b39] rounded-xl p-5 flex flex-col gap-3 relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <span className="material-symbols-outlined text-[60px]">warning</span>
+                            <span className="material-symbols-outlined text-[60px]">bolt</span>
                         </div>
-                        <div className="text-[#9da1b9] text-xs font-bold uppercase tracking-wider">Pending Issues</div>
+                        <div className="text-[#9da1b9] text-xs font-bold uppercase tracking-wider">API Latency</div>
                         <div className="flex items-baseline gap-2">
-                            <span className="text-3xl font-bold text-amber-500">3</span>
-                            <span className="text-xs text-[#9da1b9]">Files flagged</span>
+                            <span className="text-3xl font-bold text-indigo-400">24ms</span>
+                            <span className="text-xs text-[#9da1b9]">Avg response</span>
                         </div>
-                        <p className="text-xs text-[#6b7280]">Requires manual review</p>
+                        <p className="text-xs text-[#6b7280]">Optimized via Edge</p>
                     </div>
                 </div>
 
@@ -90,10 +91,10 @@ export const DataIngestionView = () => {
                     <div className="lg:col-span-2 flex flex-col gap-4">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                                <span className="material-symbols-outlined text-[#1132d4]">queue_music</span>
-                                Ingestion Queue
+                                <span className="material-symbols-outlined text-[#1132d4]">database</span>
+                                Embedded Databases
                             </h3>
-                            <button className="text-xs font-bold text-[#1132d4] hover:text-blue-400 transition-colors">View All History</button>
+                            <button className="text-xs font-bold text-[#1132d4] hover:text-blue-400 transition-colors">Manage Connections</button>
                         </div>
 
                         <div className="bg-[#1c1d27] border border-[#282b39] rounded-xl overflow-hidden shadow-sm">
@@ -101,10 +102,10 @@ export const DataIngestionView = () => {
                                 <table className="w-full text-left border-collapse">
                                     <thead>
                                         <tr className="bg-[#111218] border-b border-[#282b39] text-xs uppercase tracking-wider text-[#9da1b9]">
-                                            <th className="px-6 py-4 font-bold">Document Name</th>
-                                            <th className="px-6 py-4 font-bold">Source</th>
-                                            <th className="px-6 py-4 font-bold">Size</th>
-                                            <th className="px-6 py-4 font-bold">Status</th>
+                                            <th className="px-6 py-4 font-bold">Database Name</th>
+                                            <th className="px-6 py-4 font-bold">Modality</th>
+                                            <th className="px-6 py-4 font-bold">Records</th>
+                                            <th className="px-6 py-4 font-bold">Sync Status</th>
                                             <th className="px-6 py-4 font-bold text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -112,21 +113,44 @@ export const DataIngestionView = () => {
                                         <tr className="group hover:bg-[#282b39]/50 transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="size-8 rounded bg-red-500/10 flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform">
-                                                        <span className="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                                                    <div className="size-8 rounded bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
+                                                        <span className="material-symbols-outlined text-[18px]">biotech</span>
                                                     </div>
                                                     <div>
-                                                        <p className="font-medium text-white">ASPS_Clinical_Study_2023.pdf</p>
-                                                        <p className="text-xs text-[#6b7280]">Added by Dr. Vance</p>
+                                                        <p className="font-medium text-white">AlphaFold Database API</p>
+                                                        <p className="text-xs text-[#6b7280]">Structural Biology Modality</p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 text-[#9da1b9]">Local Upload</td>
-                                            <td className="px-6 py-4 font-mono text-xs text-[#9da1b9]">4.2 MB</td>
+                                            <td className="px-6 py-4 text-[#9da1b9]">Protein Structures</td>
+                                            <td className="px-6 py-4 font-mono text-xs text-[#9da1b9]">214,681 Models</td>
                                             <td className="px-6 py-4">
                                                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">
                                                     <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-                                                    Processing (OCR)
+                                                    Live Connection
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4 text-right">
+                                                <button className="p-1.5 text-[#9da1b9] hover:text-white hover:bg-[#282b39] rounded transition-colors"><span className="material-symbols-outlined text-[18px]">settings</span></button>
+                                            </td>
+                                        </tr>
+                                        <tr className="group hover:bg-[#282b39]/50 transition-colors">
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="size-8 rounded bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
+                                                        <span className="material-symbols-outlined text-[18px]">hub</span>
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-medium text-white">PrimeKG Knowledge Substrate</p>
+                                                        <p className="text-xs text-[#6b7280]">Causal Graph Modality</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 text-[#9da1b9]">Relational Graph</td>
+                                            <td className="px-6 py-4 font-mono text-xs text-[#9da1b9]">110M Edges</td>
+                                            <td className="px-6 py-4">
+                                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                                    Synced
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-right">
@@ -140,43 +164,20 @@ export const DataIngestionView = () => {
                                                         <span className="material-symbols-outlined text-[18px]">article</span>
                                                     </div>
                                                     <div>
-                                                        <p className="font-medium text-white">Cediranib_Phase2_Results.html</p>
-                                                        <p className="text-xs text-[#6b7280]">Scraped from ClinicalTrials.gov</p>
+                                                        <p className="font-medium text-white">PubMed Central (PMC)</p>
+                                                        <p className="text-xs text-[#6b7280]">Natural Language Modality</p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 text-[#9da1b9]">Web Scraper</td>
-                                            <td className="px-6 py-4 font-mono text-xs text-[#9da1b9]">156 KB</td>
+                                            <td className="px-6 py-4 text-[#9da1b9]">Scientific Literature</td>
+                                            <td className="px-6 py-4 font-mono text-xs text-[#9da1b9]">5.2M Articles</td>
                                             <td className="px-6 py-4">
                                                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                                                    Complete
+                                                    Indexed
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 <button className="p-1.5 text-[#9da1b9] hover:text-white hover:bg-[#282b39] rounded transition-colors"><span className="material-symbols-outlined text-[18px]">more_vert</span></button>
-                                            </td>
-                                        </tr>
-                                        <tr className="group hover:bg-[#282b39]/50 transition-colors">
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="size-8 rounded bg-red-500/10 flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform">
-                                                        <span className="material-symbols-outlined text-[18px]">picture_as_pdf</span>
-                                                    </div>
-                                                    <div>
-                                                        <p className="font-medium text-white">J_Oncology_Review_21.pdf</p>
-                                                        <p className="text-xs text-[#6b7280]">Batch #8820</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 text-[#9da1b9]">S3 Bucket</td>
-                                            <td className="px-6 py-4 font-mono text-xs text-[#9da1b9]">2.8 MB</td>
-                                            <td className="px-6 py-4">
-                                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-500/10 text-red-400 border border-red-500/20">
-                                                    Failed
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 text-right">
-                                                <button className="p-1.5 text-[#9da1b9] hover:text-white hover:bg-[#282b39] rounded transition-colors"><span className="material-symbols-outlined text-[18px]">refresh</span></button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -216,17 +217,17 @@ export const DataIngestionView = () => {
                                 <div className="flex gap-3 text-slate-500">
                                     <span className="opacity-50 w-16">10:42:15</span>
                                     <span className="text-blue-400">[INFO]</span>
-                                    <span>Starting batch processing for pipeline ID #8821 (ASPS_Clinical_Study_2023.pdf)</span>
+                                    <span>Establishing secure handshake with AlphaFold API (v4)...</span>
                                 </div>
                                 <div className="flex gap-3 text-slate-500">
                                     <span className="opacity-50 w-16">10:42:18</span>
                                     <span className="text-yellow-400">[WARN]</span>
-                                    <span>PDF text extraction low confidence on page 14 (Table 3). Switching to OCR fallback.</span>
+                                    <span>Rate limit threshold approaching for UniProt endpoint. Throttling requests.</span>
                                 </div>
                                 <div className="flex gap-3 text-slate-500">
                                     <span className="opacity-50 w-16">10:42:22</span>
                                     <span className="text-red-400">[ERROR]</span>
-                                    <span>J_Oncology_Review_21.pdf: Malformed encoding.</span>
+                                    <span>PrimeKG Sync: Connection timeout on node resolution. Retrying...</span>
                                 </div>
                                 <div className="flex gap-3 text-slate-500">
                                     <span className="opacity-50 w-16">10:43:05</span>
