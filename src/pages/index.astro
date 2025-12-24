@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { diseases } from '../data/diseases';
+import { RotatingHeading } from '../components/molecules/RotatingHeading';
 // Button not used here to match code.html exactly, we use raw button with classes
 ---
 
@@ -17,9 +18,7 @@ import { diseases } from '../data/diseases';
       </div>
     </div>
     <div class="space-y-6">
-      <h2 class="text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">
-        Will this drug work?
-      </h2>
+      <RotatingHeading client:load />
       <p class="text-lg text-text-muted-light dark:text-text-muted-dark leading-relaxed max-w-xl">
         Sarkome In-Silico: A Multi-Agent Graph Reasoning System powered by Gemini 3, accelerating therapeutic target identification for Rare Sarcoma (ASPS).
       </p>
@@ -299,12 +298,12 @@ import { diseases } from '../data/diseases';
         </div>
     </form>
     <div class="mt-16 space-y-3 text-sm">
-        <a class="flex justify-between items-center group text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors" href="/docs">
+        <a class="flex justify-between items-center group text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors" href="/intro">
             <div class="flex items-center gap-3">
                 <span class="material-symbols-outlined text-lg">menu_book</span>
                 <span>Documentation</span>
             </div>
-            <span class="mono-text text-xs opacity-60">/docs ↗</span>
+            <span class="mono-text text-xs opacity-60">/intro ↗</span>
         </a>
         <a class="flex justify-between items-center group text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors" href="mailto:partners@sarkome.bio">
             <div class="flex items-center gap-3">

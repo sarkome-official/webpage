@@ -20,27 +20,27 @@ export default defineConfig({
       sidebar: [
         {
           label: 'The Institute',
-          link: '/docs',
+          link: '/intro',
         },
         {
           label: 'Philosophy',
-          link: '/docs/philosophy',
+          link: '/philosophy',
         },
         {
           label: 'Economic Model',
-          link: '/docs/economic',
+          link: '/economic',
         },
         {
           label: 'Technology',
-          link: '/docs/technology',
+          link: '/technology',
         },
         {
           label: 'Causal Engine',
-          link: '/docs/causa_engine',
+          link: '/causa_engine',
         },
         {
           label: 'GARP',
-          link: '/docs/garp',
+          link: '/garp',
         },
       ],
     }),
