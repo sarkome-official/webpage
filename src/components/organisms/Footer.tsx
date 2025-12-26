@@ -1,3 +1,5 @@
+import { MapPin, Sun } from 'lucide-react';
+
 export function Footer() {
     return (
         <footer className={"pt-12 pb-8 flex flex-col items-center gap-6 border-t border-border-light dark:border-border-dark mt-12"}>
@@ -8,11 +10,11 @@ export function Footer() {
             </div>
             <div className={"w-full flex justify-between text-[10px] text-text-muted-light dark:text-text-muted-dark mt-4"}>
                 <div className={"flex items-center gap-1"}>
-                    <span className={"material-symbols-outlined text-[12px]"}>location_on</span>
+                    <MapPin className="w-3 h-3" />
                     Chile, Santiago
                 </div>
                 <div className={"flex items-center gap-1"}>
-                    <span className={"material-symbols-outlined text-[12px]"}>wb_sunny</span>
+                    <Sun className="w-3 h-3" />
                     24°C
                 </div>
             </div>

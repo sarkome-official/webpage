@@ -3,6 +3,7 @@ import { RotatingHeading } from '../components/molecules/RotatingHeading';
 import { Header } from '../components/organisms/Header';
 import { Footer } from '../components/organisms/Footer';
 import { Link } from 'react-router-dom';
+import { ArrowRight, Activity, Beaker } from 'lucide-react';
 import '../index.css';
 
 export default function LandingPage() {
@@ -33,7 +34,7 @@ export default function LandingPage() {
                             <div className="pt-2">
                                 <Link to="/platform" className="inline-flex items-center gap-2 bg-neutral-900 dark:bg-white text-white dark:text-black px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-all group">
                                     <span className="mono-text">[ ENTER PLATFORM ]</span>
-                                    <span className="material-symbols-outlined text-sm group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                                 </Link>
                             </div>
                         </div>
@@ -144,7 +145,7 @@ export default function LandingPage() {
                                 </p>
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 rounded-full bg-card border-border flex items-center justify-center">
-                                        <span className="material-symbols-outlined text-muted-foreground">person_add</span>
+                                        <Activity className="w-5 h-5 text-muted-foreground" />
                                     </div>
                                     <div>
                                         <div className="text-sm font-medium">[ Selection in Progress ]</div>
@@ -160,18 +161,18 @@ export default function LandingPage() {
                         <h3 className="text-xs font-bold tracking-widest text-muted-foreground uppercase mb-8">Active Programs</h3>
                         <div className="space-y-4">
                             {diseases.filter(d => d.type === 'active').map(disease => (
-                                <div key={disease.id} className="group flex items-center justify-between p-4 -mx-4 rounded-xl hover:bg-card transition-colors">
+                                <Link key={disease.id} to={`/programs/${disease.id}`} className="group flex items-center justify-between p-4 -mx-4 rounded-xl hover:bg-card transition-colors">
                                     <div className="flex items-center gap-4">
                                         <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                                            <span className="material-symbols-outlined">neurology</span>
+                                            <Activity className="w-5 h-5" />
                                         </div>
                                         <div>
                                             <div className="font-medium text-sm">{disease.code}</div>
                                             <div className="text-xs text-muted-foreground">Rare Oncology / {disease.name}</div>
                                         </div>
                                     </div>
-                                    <span className="material-symbols-outlined text-muted-foreground group-hover:text-primary transition-colors transform group-hover:translate-x-1">arrow_outward</span>
-                                </div>
+                                    <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors transform group-hover:translate-x-1" />
+                                </Link>
                             ))}
                         </div>
                     </section>

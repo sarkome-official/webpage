@@ -1,4 +1,5 @@
 import React from 'react';
+import { Database, Plus, Network, RefreshCw, CheckCircle2, Zap, FlaskConical, Settings, MoreVertical, FileText, Terminal } from 'lucide-react';
 
 export const DataIngestionView = () => {
     return (
@@ -12,13 +13,13 @@ export const DataIngestionView = () => {
                     {/* Stat Card 1 */}
                     <div className="bg-[#1c1d27] border border-[#282b39] rounded-xl p-5 flex flex-col gap-3 relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <span className="material-symbols-outlined text-[60px]">database</span>
+                            <Database className="w-[60px] h-[60px]" />
                         </div>
                         <div className="text-[#9da1b9] text-xs font-bold uppercase tracking-wider">Connected Databases</div>
                         <div className="flex items-baseline gap-2">
                             <span className="text-3xl font-bold text-white">12</span>
                             <span className="text-xs text-emerald-400 font-bold flex items-center">
-                                <span className="material-symbols-outlined text-[14px]">add</span>
+                                <Plus className="w-3.5 h-3.5" />
                                 2 new
                             </span>
                         </div>
@@ -29,7 +30,7 @@ export const DataIngestionView = () => {
                     {/* Stat Card 2 */}
                     <div className="bg-[#1c1d27] border border-[#282b39] rounded-xl p-5 flex flex-col gap-3 relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <span className="material-symbols-outlined text-[60px]">hub</span>
+                            <Network className="w-[60px] h-[60px]" />
                         </div>
                         <div className="text-[#9da1b9] text-xs font-bold uppercase tracking-wider">Total Knowledge Nodes</div>
                         <div className="flex items-baseline gap-2">
@@ -42,19 +43,19 @@ export const DataIngestionView = () => {
                     {/* Stat Card 3 */}
                     <div className="bg-[#1c1d27] border border-[#282b39] rounded-xl p-5 flex flex-col gap-3 relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <span className="material-symbols-outlined text-[60px]">sync</span>
+                            <RefreshCw className="w-[60px] h-[60px]" />
                         </div>
                         <div className="text-[#9da1b9] text-xs font-bold uppercase tracking-wider">PrimeKG Sync</div>
                         <div className="flex items-center gap-2">
                             <span className="text-lg font-bold text-emerald-400">Up to Date</span>
-                            <span className="material-symbols-outlined text-emerald-400 text-sm">check_circle</span>
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                         </div>
                         <p className="text-xs text-[#6b7280]">Last synced: 2 hours ago</p>
                     </div>
                     {/* Stat Card 4 */}
                     <div className="bg-[#1c1d27] border border-[#282b39] rounded-xl p-5 flex flex-col gap-3 relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <span className="material-symbols-outlined text-[60px]">bolt</span>
+                            <Zap className="w-[60px] h-[60px]" />
                         </div>
                         <div className="text-[#9da1b9] text-xs font-bold uppercase tracking-wider">API Latency</div>
                         <div className="flex items-baseline gap-2">
@@ -71,7 +72,7 @@ export const DataIngestionView = () => {
                     <div className="lg:col-span-2 flex flex-col gap-4">
                         <div className="flex justify-between items-center">
                             <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                                <span className="material-symbols-outlined text-[#1132d4]">database</span>
+                                <Database className="w-5 h-5 text-[#1132d4]" />
                                 Embedded Databases
                             </h3>
                             <button className="text-xs font-bold text-[#1132d4] hover:text-blue-400 transition-colors">Manage Connections</button>
@@ -94,7 +95,7 @@ export const DataIngestionView = () => {
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
                                                     <div className="size-8 rounded bg-indigo-500/10 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
-                                                        <span className="material-symbols-outlined text-[18px]">biotech</span>
+                                                        <FlaskConical className="w-[18px] h-[18px]" />
                                                     </div>
                                                     <div>
                                                         <p className="font-medium text-white">AlphaFold Database API</p>
@@ -111,14 +112,14 @@ export const DataIngestionView = () => {
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-right">
-                                                <button className="p-1.5 text-[#9da1b9] hover:text-white hover:bg-[#282b39] rounded transition-colors"><span className="material-symbols-outlined text-[18px]">settings</span></button>
+                                                <button className="p-1.5 text-[#9da1b9] hover:text-white hover:bg-[#282b39] rounded transition-colors"><Settings className="w-[18px] h-[18px]" /></button>
                                             </td>
                                         </tr>
                                         <tr className="group hover:bg-[#282b39]/50 transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
                                                     <div className="size-8 rounded bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
-                                                        <span className="material-symbols-outlined text-[18px]">hub</span>
+                                                        <Network className="w-[18px] h-[18px]" />
                                                     </div>
                                                     <div>
                                                         <p className="font-medium text-white">PrimeKG Knowledge Substrate</p>
@@ -134,14 +135,14 @@ export const DataIngestionView = () => {
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-right">
-                                                <button className="p-1.5 text-[#9da1b9] hover:text-white hover:bg-[#282b39] rounded transition-colors"><span className="material-symbols-outlined text-[18px]">more_vert</span></button>
+                                                <button className="p-1.5 text-[#9da1b9] hover:text-white hover:bg-[#282b39] rounded transition-colors"><MoreVertical className="w-[18px] h-[18px]" /></button>
                                             </td>
                                         </tr>
                                         <tr className="group hover:bg-[#282b39]/50 transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
                                                     <div className="size-8 rounded bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
-                                                        <span className="material-symbols-outlined text-[18px]">article</span>
+                                                        <FileText className="w-[18px] h-[18px]" />
                                                     </div>
                                                     <div>
                                                         <p className="font-medium text-white">PubMed Central (PMC)</p>
@@ -157,7 +158,7 @@ export const DataIngestionView = () => {
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-right">
-                                                <button className="p-1.5 text-[#9da1b9] hover:text-white hover:bg-[#282b39] rounded transition-colors"><span className="material-symbols-outlined text-[18px]">more_vert</span></button>
+                                                <button className="p-1.5 text-[#9da1b9] hover:text-white hover:bg-[#282b39] rounded transition-colors"><MoreVertical className="w-[18px] h-[18px]" /></button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -174,7 +175,7 @@ export const DataIngestionView = () => {
                         <div className="bg-[#111218] rounded-xl border border-[#282b39] overflow-hidden flex flex-col h-[500px]">
                             <div className="px-4 py-3 bg-[#161926] border-b border-[#282b39] flex justify-between items-center">
                                 <div className="flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-slate-400 text-[16px]">terminal</span>
+                                    <Terminal className="w-4 h-4 text-slate-400" />
                                     <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Console Output</span>
                                 </div>
                                 <div className="flex gap-1.5">

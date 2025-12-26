@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Database, FileJson, Table, Copy, FileText, Lock, Webhook } from 'lucide-react';
 
 export const KnowledgeExportView = () => {
     return (
@@ -18,7 +19,7 @@ export const KnowledgeExportView = () => {
                         <div className="bg-[#1c1d27] border border-[#282b39] p-4 md:p-6 rounded-xl flex flex-col sm:flex-row items-start justify-between gap-4 group hover:border-[#1132d4]/50 transition-colors">
                             <div className="flex items-start gap-4">
                                 <div className="size-10 md:size-12 rounded bg-[#1132d4]/10 flex items-center justify-center text-[#1132d4] shrink-0">
-                                    <span className="material-symbols-outlined text-[24px] md:text-[28px]">database</span>
+                                    <Database className="w-6 h-6 md:w-7 md:h-7" />
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-white text-base md:text-lg">Neo4j Dump (.dump)</h3>
@@ -38,7 +39,7 @@ export const KnowledgeExportView = () => {
                         <div className="bg-[#1c1d27] border border-[#282b39] p-6 rounded-xl flex items-start justify-between group hover:border-[#1132d4]/50 transition-colors">
                             <div className="flex items-start gap-4">
                                 <div className="size-12 rounded bg-amber-500/10 flex items-center justify-center text-amber-500">
-                                    <span className="material-symbols-outlined text-[28px]">data_object</span>
+                                    <FileJson className="w-7 h-7" />
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-white text-lg">JSON Excerpt (Sarkome Schema)</h3>
@@ -57,7 +58,7 @@ export const KnowledgeExportView = () => {
                         <div className="bg-[#1c1d27] border border-[#282b39] p-6 rounded-xl flex items-start justify-between group hover:border-[#1132d4]/50 transition-colors">
                             <div className="flex items-start gap-4">
                                 <div className="size-12 rounded bg-purple-500/10 flex items-center justify-center text-purple-500">
-                                    <span className="material-symbols-outlined text-[28px]">table_chart</span>
+                                    <Table className="w-7 h-7" />
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-white text-lg">RDF Triples / CSV</h3>
@@ -86,7 +87,7 @@ export const KnowledgeExportView = () => {
                                 <div className="flex gap-2">
                                     <div className="flex-1 bg-[#111218] border border-[#282b39] rounded-lg px-4 py-2.5 font-mono text-sm text-slate-300 flex items-center justify-between">
                                         <span>sk_prod_592182...8d9a</span>
-                                        <span className="material-symbols-outlined text-[#9da1b9] cursor-pointer hover:text-white" style={{ fontSize: '16px' }}>content_copy</span>
+                                        <Copy className="w-4 h-4 text-[#9da1b9] cursor-pointer hover:text-white" />
                                     </div>
                                     <button className="px-4 py-2 bg-[#282b39] hover:bg-[#34384b] text-white rounded-lg font-bold text-sm border border-[#383d52]">
                                         Rotate
@@ -131,15 +132,15 @@ export const KnowledgeExportView = () => {
                                 <h3 className="text-[#1132d4] font-bold text-sm mb-3">Documentation Resources</h3>
                                 <ul className="flex flex-col gap-3">
                                     <li className="flex items-center gap-2 text-sm text-[#9da1b9] hover:text-[#1132d4] cursor-pointer transition-colors">
-                                        <span className="material-symbols-outlined text-[16px]">article</span>
+                                        <FileText className="w-4 h-4" />
                                         Neo4j Schema Reference
                                     </li>
                                     <li className="flex items-center gap-2 text-sm text-[#9da1b9] hover:text-[#1132d4] cursor-pointer transition-colors">
-                                        <span className="material-symbols-outlined text-[16px]">lock</span>
+                                        <Lock className="w-4 h-4" />
                                         Authentication & Scopes Guide
                                     </li>
                                     <li className="flex items-center gap-2 text-sm text-[#9da1b9] hover:text-[#1132d4] cursor-pointer transition-colors">
-                                        <span className="material-symbols-outlined text-[16px]">webhook</span>
+                                        <Webhook className="w-4 h-4" />
                                         Webhooks Configuration
                                     </li>
                                 </ul>

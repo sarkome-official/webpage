@@ -1,4 +1,5 @@
 import React from 'react';
+import { Menu } from 'lucide-react';
 
 export const MobileHeader: React.FC = () => {
   const toggleSidebar = () => {
@@ -13,7 +14,7 @@ export const MobileHeader: React.FC = () => {
         className="p-2 text-zinc-400 hover:text-white transition-colors"
         aria-label="Toggle Sidebar"
       >
-        <span className="material-symbols-outlined">menu</span>
+        <Menu className="w-6 h-6" />
       </button>
 
       <div className="ml-4 flex items-center gap-2">

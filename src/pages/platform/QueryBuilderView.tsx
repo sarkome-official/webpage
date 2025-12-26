@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Paperclip, Rocket, Pill, Search, ArrowLeftRight, Bot } from 'lucide-react';
 
 export const QueryBuilderView = () => {
     const [query, setQuery] = useState('');
@@ -38,13 +39,13 @@ export const QueryBuilderView = () => {
                             />
                             <div className="absolute bottom-4 right-4 flex items-center gap-2 md:gap-3">
                                 <button className="p-2 text-[#9da1b9] hover:text-white transition-colors rounded-lg hover:bg-[#282b39]" title="Attach Context">
-                                    <span className="material-symbols-outlined text-[20px]">attach_file</span>
+                                    <Paperclip className="w-5 h-5" />
                                 </button>
                                 <button
                                     onClick={handleStart}
                                     className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg shadow-lg shadow-indigo-900/20 transition-all text-sm md:text-base"
                                 >
-                                    <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
+                                    <Rocket className="w-5 h-5" />
                                     <span className="hidden xs:inline">Launch Agent</span>
                                     <span className="xs:hidden">Launch</span>
                                 </button>
@@ -56,21 +57,21 @@ export const QueryBuilderView = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <button className="flex flex-col gap-2 p-5 bg-[#1c1d27] border border-[#282b39] hover:border-indigo-500/50 rounded-xl text-left transition-all group hover:-translate-y-1">
                             <div className="size-10 rounded bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
-                                <span className="material-symbols-outlined text-[24px]">medication</span>
+                                <Pill className="w-6 h-6" />
                             </div>
                             <span className="text-white font-bold text-sm">Find New Drug Targets</span>
                             <p className="text-xs text-[#9da1b9]">Identify molecular targets for ASPS based on recent fusion protein studies.</p>
                         </button>
                         <button className="flex flex-col gap-2 p-5 bg-[#1c1d27] border border-[#282b39] hover:border-indigo-500/50 rounded-xl text-left transition-all group hover:-translate-y-1">
                             <div className="size-10 rounded bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
-                                <span className="material-symbols-outlined text-[24px]">troubleshoot</span>
+                                <Search className="w-6 h-6" />
                             </div>
                             <span className="text-white font-bold text-sm">Analyze Side Effects</span>
                             <p className="text-xs text-[#9da1b9]">Cross-reference clinical trial data to build a safety profile for a specific compound.</p>
                         </button>
                         <button className="flex flex-col gap-2 p-5 bg-[#1c1d27] border border-[#282b39] hover:border-indigo-500/50 rounded-xl text-left transition-all group hover:-translate-y-1">
                             <div className="size-10 rounded bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
-                                <span className="material-symbols-outlined text-[24px]">compare_arrows</span>
+                                <ArrowLeftRight className="w-6 h-6" />
                             </div>
                             <span className="text-white font-bold text-sm">Mechanism Comparison</span>
                             <p className="text-xs text-[#9da1b9]">Compare efficacy of different TKI generations against TFE3-ASPSCR1.</p>
@@ -88,7 +89,7 @@ export const QueryBuilderView = () => {
                             <div className="absolute inset-0 rounded-full border-4 border-indigo-500/20 border-t-indigo-500 animate-spin"></div>
                             <div className="absolute inset-4 rounded-full border-4 border-purple-500/20 border-b-purple-500 animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="material-symbols-outlined text-4xl text-white animate-pulse">hub</span>
+                                <Bot className="w-10 h-10 text-white animate-pulse" />
                             </div>
                         </div>
 

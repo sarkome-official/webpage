@@ -8,16 +8,17 @@ import { Button } from "@/components/ui/button";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Routes, Route, useLocation } from "react-router-dom";
-import KnowledgeGraph from "@/pages/platform/KnowledgeGraph";
+import { KnowledgeGraphView as KnowledgeGraph } from "@/pages/platform/KnowledgeGraphView";
 import LandingPage from "@/pages/LandingPage";
-import { SarkomeLogsView } from "@/components/platform/SarkomeLogsView";
-import { AgentPerformanceView } from "@/components/platform/AgentPerformanceView";
-import { SimulationView } from "@/components/platform/SimulationView";
-import { AlphaFoldView } from "@/components/platform/AlphaFoldView";
-import { ReportView } from "@/components/platform/ReportView";
-import { ConstitutionEditor } from "@/components/platform/ConstitutionEditor";
-import { DataIngestionView } from "@/components/platform/DataIngestionView";
-import { KnowledgeExportView } from "@/components/platform/KnowledgeExportView";
+import { SarkomeLogsView } from "@/pages/platform/SarkomeLogsView";
+import { AgentPerformanceView } from "@/pages/platform/AgentPerformanceView";
+import { SimulationView } from "@/pages/platform/SimulationView";
+import { AlphaFoldView } from "@/pages/platform/AlphaFoldView";
+import { ReportView } from "@/pages/platform/ReportView";
+import { ConstitutionEditor } from "@/pages/platform/ConstitutionEditor";
+import { DataIngestionView } from "@/pages/platform/DataIngestionView";
+import { KnowledgeExportView } from "@/pages/platform/KnowledgeExportView";
+import ProgramDetail from "@/pages/programs/ProgramDetail";
 
 export default function App() {
   const location = useLocation();
@@ -174,6 +175,7 @@ export default function App() {
     return (
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/programs/:id" element={<ProgramDetail />} />
         <Route path="*" element={<LandingPage />} />
       </Routes>
     );

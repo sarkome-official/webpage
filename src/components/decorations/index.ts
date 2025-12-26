@@ -1,2 +1,3 @@
-export { default as BackgroundShapes } from './BackgroundShapes.astro';
-export { default as Silk } from './Silk.tsx';
+export { default as BackgroundShapes } from './BackgroundShapes';
+export { default as Silk } from './Silk';
+

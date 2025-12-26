@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { Brain, ChevronRight, Info, BookOpen, ExternalLink } from 'lucide-react';
 
 const AGENTS = [
-    { id: 'sarkome-agent', name: 'Sarkome In-Silico Agent', icon: 'psychology', color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-400/20' },
+    { id: 'sarkome-agent', name: 'Sarkome In-Silico Agent', icon: <Brain className="w-5 h-5" />, color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-400/20' },
 ];
 
 const INITIAL_CONSTITUTIONS: Record<string, string> = {
@@ -75,7 +76,7 @@ export const ConstitutionEditor: React.FC = () => {
                                     ? `${agent.border} ${agent.color} bg-[#111218]`
                                     : 'border-[#282b39] text-[#9da1b9] bg-[#111218] group-hover:text-white group-hover:border-[#383d52]'
                                     }`}>
-                                    <span className="material-symbols-outlined text-[18px] md:text-[20px]">{agent.icon}</span>
+                                    {agent.icon}
                                 </div>
                                 <div className="flex flex-col">
                                     <span className={`text-xs md:text-sm font-bold transition-colors ${selectedAgentId === agent.id ? 'text-white' : 'text-[#9da1b9] group-hover:text-white'
@@ -87,7 +88,7 @@ export const ConstitutionEditor: React.FC = () => {
                                     </span>
                                 </div>
                                 {selectedAgentId === agent.id && (
-                                    <span className={`hidden lg:block material-symbols-outlined ml-auto text-sm ${agent.color}`}>chevron_right</span>
+                                    <ChevronRight className={`hidden lg:block ml-auto w-4 h-4 ${agent.color}`} />
                                 )}
                             </button>
                         ))}
@@ -95,7 +96,7 @@ export const ConstitutionEditor: React.FC = () => {
 
                     <div className="mt-4 p-5 rounded-xl bg-gradient-to-br from-indigo-500/5 to-transparent border border-indigo-500/10">
                         <div className="flex items-center gap-2 text-indigo-400 mb-2">
-                            <span className="material-symbols-outlined text-sm">info</span>
+                            <Info className="w-4 h-4" />
                             <span className="text-xs font-bold uppercase tracking-wide">Sarkome Protocol</span>
                         </div>
                         <p className="text-[11px] text-[#9da1b9] leading-relaxed italic">
@@ -136,7 +137,7 @@ export const ConstitutionEditor: React.FC = () => {
                     {/* Documentation / Guide */}
                     <div className="bg-[#1c1f2d] border border-[#282b39] rounded-xl p-4 md:p-6 shadow-sm">
                         <h3 className="text-white font-bold mb-4 flex items-center gap-2 text-sm md:text-base">
-                            <span className="material-symbols-outlined text-indigo-400">menu_book</span>
+                            <BookOpen className="w-5 h-5 text-indigo-400" />
                             Constitution Reference Guide
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -156,7 +157,7 @@ export const ConstitutionEditor: React.FC = () => {
                             <div className="flex flex-col gap-2 md:text-right">
                                 <button className="text-indigo-400 hover:underline text-xs md:text-sm font-bold flex items-center gap-1 md:justify-end transition-all">
                                     View Documentation
-                                    <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+                                    <ExternalLink className="w-4 h-4" />
                                 </button>
                                 <p className="text-[10px] text-[#6b7280]">Last audited: Today, 10:44 AM</p>
                             </div>

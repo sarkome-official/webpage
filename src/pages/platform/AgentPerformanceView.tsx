@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Brain } from 'lucide-react';
 
 interface Agent {
     id: string;
     name: string;
-    icon: string;
+    icon: React.ReactNode;
     color: 'blue' | 'purple' | 'orange' | 'red' | 'amber';
     status: string;
     logs: string[];
@@ -14,7 +15,7 @@ const agentsData: Agent[] = [
     {
         id: 'sarkome-agent',
         name: 'Sarkome In-Silico Agent',
-        icon: 'psychology',
+        icon: <Brain className="w-8 h-8" />,
         color: 'blue',
         status: 'Thinking',
         logs: [
@@ -92,7 +93,7 @@ const AgentCard = ({ agent }: { agent: Agent }) => {
         <div className={`bg-[#1c1d27] rounded-xl p-6 flex flex-col gap-6 relative overflow-hidden transition-all duration-500 border ${style.glow} min-h-[200px]`}>
             <div className="flex items-center gap-4 relative z-10">
                 <div className={`size-14 rounded-full flex items-center justify-center ${style.bg} ${style.text} ${style.border}`}>
-                    <span className="material-symbols-outlined text-3xl">{agent.icon}</span>
+                    {agent.icon}
                 </div>
                 <div>
                     <h4 className="font-bold text-white text-xl">{agent.name}</h4>
@@ -155,7 +156,7 @@ export const AgentPerformanceView = () => {
 
                 {/* Agent Status Grid */}
                 <h3 className="text-lg font-bold text-white mt-4 flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#1132d4]">psychology</span>
+                    <Brain className="w-5 h-5 text-[#1132d4]" />
                     Live Agent Status
                 </h3>
                 <div className="grid grid-cols-1 gap-4">

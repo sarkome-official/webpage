@@ -1,3 +1,6 @@
+import React from 'react';
+import { Download, Network, Brain, ExternalLink, Scale, CheckCircle2, AlertCircle, Clock, Search, FileText, Code } from 'lucide-react';
+
 export const SarkomeLogsView = () => {
     return (
         <div className="flex flex-col min-h-screen bg-background text-foreground font-sans">
@@ -26,14 +29,14 @@ export const SarkomeLogsView = () => {
                                 </div>
                                 <div className="flex gap-3 w-full md:w-auto">
                                     <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-[#282b39] text-white rounded-lg hover:bg-[#34384b] transition-colors text-xs md:text-sm font-bold">
-                                        <span className="material-symbols-outlined text-[18px]">download</span>
+                                        <Download className="w-4 h-4" />
                                         Raw Logs
                                     </button>
                                     <button
                                         onClick={() => window.location.href = '/platform/knowledge-graph'}
                                         className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-[#1132d4] text-white rounded-lg hover:bg-blue-700 transition-colors text-xs md:text-sm font-bold shadow-lg shadow-blue-900/20"
                                     >
-                                        <span className="material-symbols-outlined text-[18px]">account_tree</span>
+                                        <Network className="w-4 h-4" />
                                         View Graph
                                     </button>
                                 </div>
@@ -47,7 +50,7 @@ export const SarkomeLogsView = () => {
                                 {/* Agents Section */}
                                 <div className="flex flex-col gap-4">
                                     <h2 className="text-white text-xl font-bold flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-indigo-400">psychology</span>
+                                        <Brain className="w-6 h-6 text-indigo-400" />
                                         Sarkome Agent Analysis
                                     </h2>
                                     <div className="grid grid-cols-1 gap-4">
@@ -56,7 +59,7 @@ export const SarkomeLogsView = () => {
                                             <div className="flex justify-between items-start">
                                                 <div className="flex items-center gap-3">
                                                     <div className="size-10 rounded-full bg-blue-900/30 flex items-center justify-center text-blue-400">
-                                                        <span className="material-symbols-outlined">psychology</span>
+                                                        <Brain className="w-6 h-6" />
                                                     </div>
                                                     <div>
                                                         <h3 className="font-bold text-white">Sarkome In-Silico Agent</h3>
@@ -75,7 +78,7 @@ export const SarkomeLogsView = () => {
                                             </div>
                                             <button className="text-xs font-bold text-indigo-400 hover:underline self-start mt-1 flex items-center gap-1">
                                                 VIEW ALL CITATIONS (12)
-                                                <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                                                <ExternalLink className="w-3 h-3" />
                                             </button>
                                         </div>
                                     </div>
@@ -83,7 +86,7 @@ export const SarkomeLogsView = () => {
                                 {/* Agent's Synthesis */}
                                 <div className="flex flex-col gap-4">
                                     <h2 className="text-white text-xl font-bold flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-amber-500">balance</span>
+                                        <Scale className="w-6 h-6 text-amber-500" />
                                         Agent's Synthesis
                                     </h2>
                                     <div className="relative p-6 rounded-xl bg-[#1c1d27] border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.1)] overflow-hidden">
@@ -101,14 +104,14 @@ export const SarkomeLogsView = () => {
                                                     <button className="p-3 bg-emerald-500/10 hover:bg-emerald-500/20 rounded-lg border border-emerald-500/30 transition-all group text-left">
                                                         <div className="text-xs text-emerald-400/70 font-medium group-hover:text-emerald-400 transition-colors">Reinforcement Learning Action</div>
                                                         <div className="text-emerald-400 font-bold flex items-center gap-2 mt-1">
-                                                            <span className="material-symbols-outlined text-sm">upload_file</span>
+                                                            <CheckCircle2 className="w-4 h-4" />
                                                             YES: UPLOAD TO GRAPH
                                                         </div>
                                                     </button>
                                                     <button className="p-3 bg-red-500/10 hover:bg-red-500/20 rounded-lg border border-red-500/30 transition-all group text-left">
                                                         <div className="text-xs text-red-400/70 font-medium group-hover:text-red-400 transition-colors">Causal Rejection</div>
                                                         <div className="text-red-400 font-bold flex items-center gap-2 mt-1">
-                                                            <span className="material-symbols-outlined text-sm">cancel</span>
+                                                            <AlertCircle className="w-4 h-4" />
                                                             NO: DISCARD EVIDENCE
                                                         </div>
                                                     </button>
@@ -151,28 +154,28 @@ export const SarkomeLogsView = () => {
                                     <div className="flex flex-col gap-3">
                                         <div className="flex justify-between items-center">
                                             <span className="text-[#9da1b9] text-sm flex items-center gap-2">
-                                                <span className="material-symbols-outlined text-[16px]">schedule</span>
+                                                <Clock className="w-4 h-4" />
                                                 Execution Time
                                             </span>
                                             <span className="text-white text-sm font-medium">4.2s</span>
                                         </div>
                                         <div className="flex justify-between items-center">
                                             <span className="text-[#9da1b9] text-sm flex items-center gap-2">
-                                                <span className="material-symbols-outlined text-[16px]">token</span>
+                                                <Search className="w-4 h-4" />
                                                 Tokens Used
                                             </span>
                                             <span className="text-white text-sm font-medium">12,405</span>
                                         </div>
                                         <div className="flex justify-between items-center">
                                             <span className="text-[#9da1b9] text-sm flex items-center gap-2">
-                                                <span className="material-symbols-outlined text-[16px]">memory</span>
+                                                <Brain className="w-4 h-4" />
                                                 Model
                                             </span>
                                             <span className="text-white text-sm font-medium">GPT-5.1-Codex-Max</span>
                                         </div>
                                         <div className="flex justify-between items-center">
                                             <span className="text-[#9da1b9] text-sm flex items-center gap-2">
-                                                <span className="material-symbols-outlined text-[16px]">attach_money</span>
+                                                <FileText className="w-4 h-4" />
                                                 Cost Estimate
                                             </span>
                                             <span className="text-white text-sm font-medium">$0.24</span>
@@ -185,7 +188,7 @@ export const SarkomeLogsView = () => {
                                     <div className="flex flex-col gap-2">
                                         <a className="group flex items-center gap-3 p-2 hover:bg-[#282b39] rounded-lg transition-colors" href="#">
                                             <div className="size-8 rounded bg-indigo-500/10 flex items-center justify-center text-indigo-400">
-                                                <span className="material-symbols-outlined text-[18px]">share</span>
+                                                <Network className="w-4 h-4" />
                                             </div>
                                             <div className="flex flex-col">
                                                 <span className="text-white text-sm font-bold group-hover:text-indigo-400 transition-colors">MET Oncogene</span>
@@ -194,7 +197,7 @@ export const SarkomeLogsView = () => {
                                         </a>
                                         <a className="group flex items-center gap-3 p-2 hover:bg-[#282b39] rounded-lg transition-colors" href="#">
                                             <div className="size-8 rounded bg-indigo-500/10 flex items-center justify-center text-indigo-400">
-                                                <span className="material-symbols-outlined text-[18px]">share</span>
+                                                <Network className="w-4 h-4" />
                                             </div>
                                             <div className="flex flex-col">
                                                 <span className="text-white text-sm font-bold group-hover:text-indigo-400 transition-colors">Sunitinib Malate</span>
@@ -203,7 +206,7 @@ export const SarkomeLogsView = () => {
                                         </a>
                                         <a className="group flex items-center gap-3 p-2 hover:bg-[#282b39] rounded-lg transition-colors" href="#">
                                             <div className="size-8 rounded bg-indigo-500/10 flex items-center justify-center text-indigo-400">
-                                                <span className="material-symbols-outlined text-[18px]">share</span>
+                                                <Network className="w-4 h-4" />
                                             </div>
                                             <div className="flex flex-col">
                                                 <span className="text-white text-sm font-bold group-hover:text-indigo-400 transition-colors">VEGFR2</span>
@@ -225,7 +228,7 @@ export const SarkomeLogsView = () => {
                                             <div className="text-white font-bold text-sm">sarkome_agent_log.json</div>
                                         </div>
                                         <div className="size-8 rounded-full bg-[#282b39] flex items-center justify-center text-white group-hover:bg-[#1132d4] transition-colors">
-                                            <span className="material-symbols-outlined text-[18px]">code</span>
+                                            <Code className="w-[18px] h-[18px]" />
                                         </div>
                                     </div>
                                 </div>
