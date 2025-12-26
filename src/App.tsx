@@ -5,6 +5,7 @@ import { ProcessedEvent } from "@/components/ActivityTimeline";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { ChatMessagesView } from "@/components/ChatMessagesView";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/molecules";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -19,6 +20,10 @@ import { ConstitutionEditor } from "@/pages/platform/ConstitutionEditor";
 import { DataIngestionView } from "@/pages/platform/DataIngestionView";
 import { KnowledgeExportView } from "@/pages/platform/KnowledgeExportView";
 import ProgramDetail from "@/pages/programs/ProgramDetail";
+import { DocsLayout } from "@/pages/docs/DocsLayout";
+import DocPage from "@/pages/docs/DocPage";
+import { docsConfig } from "@/lib/docs-config";
+import { Navigate } from "react-router-dom";
 
 export default function App() {
   const location = useLocation();
@@ -176,6 +181,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/programs/:id" element={<ProgramDetail />} />
+        <Route path="/docs" element={<DocsLayout />}>
+          <Route index element={<Navigate to={`/docs/${docsConfig[0].slug}`} replace />} />
+          <Route path=":slug" element={<DocPage />} />
+        </Route>
         <Route path="*" element={<LandingPage />} />
       </Routes>
     );
@@ -215,10 +224,7 @@ export default function App() {
               </span>
             </div>
             <div className="ml-auto flex items-center gap-4">
-              <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20">
-                <div className="size-1.5 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[10px] font-bold text-green-500 uppercase tracking-tight">System Online</span>
-              </div>
+              <ThemeToggle />
             </div>
           </header>
           <main className="h-full w-full mx-auto overflow-y-auto">

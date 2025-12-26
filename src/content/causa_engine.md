@@ -1,8 +1,3 @@
----
-title: Causal Engine
-description: Detailed breakdown of Sarkome's core technological thesis and neuro-symbolic engine.
----
-
 # The Causal Engine
 
 ## Context

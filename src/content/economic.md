@@ -1,8 +1,3 @@
----
-title: Economic Winning
-description: Building Intelligence Through Human-AI Symbiosis and the Contributor Economy.
----
-
 # The Economic Winning: Building Intelligence Through Human-AI Symbiosis
 
 ## The Problem with Pure Automation

@@ -8,7 +8,7 @@ export const SocialDock: React.FC = () => {
         href="https://github.com/sarkome-official" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="p-2 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark hover:bg-primary/10 transition-colors"
+        className="p-2 rounded-full bg-surface border border-border-custom hover:bg-primary/10 transition-colors"
       >
         <Github className="w-5 h-5" />
       </a>
@@ -16,7 +16,7 @@ export const SocialDock: React.FC = () => {
         href="https://twitter.com/sarkome" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="p-2 rounded-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark hover:bg-primary/10 transition-colors"
+        className="p-2 rounded-full bg-surface border border-border-custom hover:bg-primary/10 transition-colors"
       >
         <Twitter className="w-5 h-5" />
       </a>

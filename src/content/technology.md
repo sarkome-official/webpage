@@ -1,8 +1,3 @@
----
-title: Knowledge Graph Technology
-description: Entendiendo la tecnología central de Sarkome basada en visualización 3D y análisis semántico.
----
-
 Sarkome utiliza un **Knowledge Graph (KG)** de última generación para conectar datos biomédicos aislados y descubrir patrones terapéuticos ocultos. Esta tecnología permite transformar millones de documentos científicos en una red de conocimiento navegable, explicable y accionable.
 
 ## ¿Qué es un Knowledge Graph?

@@ -2,7 +2,7 @@ import { ThemeToggle } from "../molecules/ThemeToggle";
 
 export function Header() {
     return (
-        <header className={"flex justify-between items-center text-xs font-medium tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase opacity-80 transition-colors duration-500"}>
+        <header className={"flex justify-between items-center text-xs font-medium tracking-widest text-text-muted uppercase opacity-80 transition-colors duration-500"}>
             <div>EST. 2025</div>
             <div className={"flex items-center gap-4"}>
                 <div className={"flex items-center gap-2"}>

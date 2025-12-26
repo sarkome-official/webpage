@@ -21,14 +21,10 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --color-surface-light: #f9fafb;
-  --color-surface-dark: #121212;
-  --color-border-light: #e5e7eb;
-  --color-border-dark: #27272a;
-  --color-text-main-light: #111827;
-  --color-text-main-dark: #ededed;
-  --color-text-muted-light: #6b7280;
-  --color-text-muted-dark: #a1a1aa;
+  --color-surface: var(--surface);
+  --color-border-custom: var(--border-custom);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -55,6 +51,11 @@
   --border: #e5e7eb;
   --input: #e5e7eb;
   --ring: #7c3aed;
+
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --surface: #f9fafb;
+  --border-custom: #e5e7eb;
 }
 
 .dark {
@@ -76,6 +77,11 @@
   --border: #27272a;
   --input: #27272a;
   --ring: #7c3aed;
+
+  --text-main: #ededed;
+  --text-muted: #a1a1aa;
+  --surface: #121212;
+  --border-custom: #27272a;
 }
 
 @layer utilities {
@@ -88,6 +94,14 @@
     background-size: 24px 24px;
     background-image: radial-gradient(var(--border) 1px, transparent 1px);
     mask-image: linear-gradient(to bottom, white, transparent);
+  }
+
+  .bg-uiverse-grid {
+    --grid-color: var(--border);
+    background-color: var(--background);
+    background-image: linear-gradient(0deg, transparent 24%, var(--grid-color) 25%, var(--grid-color) 26%, transparent 27%,transparent 74%, var(--grid-color) 75%, var(--grid-color) 76%, transparent 77%,transparent),
+        linear-gradient(90deg, transparent 24%, var(--grid-color) 25%, var(--grid-color) 26%, transparent 27%,transparent 74%, var(--grid-color) 75%, var(--grid-color) 76%, transparent 77%,transparent);
+    background-size: 55px 55px;
   }
 
   .mono-text {

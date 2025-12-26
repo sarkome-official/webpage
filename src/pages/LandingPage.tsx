@@ -14,13 +14,16 @@ import {
     Mail, 
     AtSign, 
     Code, 
-    Briefcase
+    Briefcase,
+    Sparkles,
+    Link as LinkIcon,
+    FileText
 } from 'lucide-react';
 
 export default function LandingPage() {
     return (
-        <div className="bg-background text-foreground transition-colors duration-300 antialiased font-sans flex flex-col items-center min-h-screen relative">
-            <div className="fixed inset-0 z-[-1] pointer-events-none bg-dots opacity-50"></div>
+        <div className="text-text-main transition-colors duration-300 antialiased font-sans flex flex-col items-center min-h-screen relative">
+            <div className="fixed inset-0 z-[-1] pointer-events-none bg-uiverse-grid"></div>
 
             <div className="max-w-3xl w-full mx-auto px-6 py-12 md:py-20 space-y-24">
                 <Header />
@@ -29,23 +32,23 @@ export default function LandingPage() {
                     {/* Hero Section */}
                     <section className="space-y-8">
                         <div className="flex items-center gap-3">
-                            <div className="w-20 h-20 rounded-full bg-card border border-border flex items-center justify-center transition-all duration-500">
+                            <div className="w-20 h-20 rounded-full bg-card border border-border flex items-center justify-center transition-none duration-0">
                                 <img alt="Sarkome Logo" className="w-12 h-12 object-contain" width="48" height="48" src="/logo_purple_nobackground.svg" />
                             </div>
                             <div>
-                                <h1 className="font-semibold text-lg">Sarkome Institute</h1>
-                                <p className="text-sm text-text-muted-light dark:text-text-muted-dark">Generative Biotechnology</p>
+                                <h1 className="font-semibold text-lg text-text-main transition-none duration-0">Sarkome Institute</h1>
+                                <p className="text-sm text-text-main">Generative Biotechnology</p>
                             </div>
                         </div>
                         <div className="space-y-6">
                             <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">
                                 The Industrialization of <span className="text-primary">Causal Discovery</span>
                             </h2>
-                            <p className="text-lg text-text-muted-light dark:text-text-muted-dark leading-relaxed max-w-xl">
+                            <p className="text-lg text-text-main leading-relaxed max-w-xl">
                                 Sarkome In-Silico: A Multi-Agent Graph Reasoning System powered by Gemini 3.0, accelerating therapeutic target identification for Rare Sarcoma (ASPS) using the PrimeKG knowledge substrate.
                             </p>
                             <div className="pt-2">
-                                <Link to="/platform" className="inline-flex items-center gap-2 bg-text-main-light dark:bg-white text-white dark:text-black px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-all group">
+                                <Link to="/platform" className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary transition-all group">
                                     <span className="mono-text">[ ENTER PLATFORM ]</span>
                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                                 </Link>
@@ -53,18 +56,18 @@ export default function LandingPage() {
                         </div>
 
                         {/* Platform Visualization */}
-                        <div className="relative py-12 md:py-16">
-                            <p className="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-8">Platform Visualization</p>
+                        <div className="relative py-12 md:py-16 dark">
+                            <p className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">Platform Visualization</p>
                             <div className="relative h-[300px] md:h-[400px] w-full perspective-[1000px]">
                                 {/* Main Card */}
-                                <div className="absolute inset-x-0 top-0 md:left-10 md:right-10 mx-auto z-20 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl shadow-2xl overflow-hidden p-4 transform transition-transform hover:scale-[1.02] duration-500">
-                                    <div className="flex items-center justify-between mb-4 border-b border-border-light dark:border-border-dark pb-3">
+                                <div className="absolute inset-x-0 top-0 md:left-10 md:right-10 mx-auto z-20 bg-surface border border-border-custom rounded-xl shadow-2xl overflow-hidden p-4 transform transition-transform hover:scale-[1.02] duration-500">
+                                    <div className="flex items-center justify-between mb-4 border-b border-border-custom pb-3">
                                         <div className="flex gap-1.5">
                                             <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
                                             <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
                                             <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
                                         </div>
-                                        <div className="text-[10px] font-mono text-text-muted-light dark:text-text-muted-dark">causal_inference_engine_v4.py</div>
+                                        <div className="text-[10px] font-mono text-text-main">causal_inference_engine_v4.py</div>
                                     </div>
                                     <div className="relative h-[200px] md:h-[280px] bg-black rounded-lg overflow-hidden flex items-center justify-center">
                                         <img alt="Abstract Data Visualization" className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTu0_VpIa_addIxGdTpsucwH6Q83MTH8RS60p-EV4FyTg1BasX_a-IozLR5yNXBU5cAZqNlbSFGFFvs4jvddCDRvfdFmHtS76ZipuSrXg532wHWW6BbuaUyissY6pbHc4Myau1g2eIyhr40TuZtADOJSoBHoqPe_OHtMx2_A0E7RjsCZS3Ah25YSXU4kmX1_hdeSPhwfkkgr7MkB-dkQxmFll7BzIJ4g9hrj9RwPo33LfkBWMjZtyxuPHt4mywlha_qlMtEpke4jCJ" />
@@ -79,21 +82,21 @@ export default function LandingPage() {
                                 </div>
 
                                 {/* Left Decorative Card */}
-                                <div className="hidden md:block absolute top-12 -left-4 w-2/3 h-[300px] z-10 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl shadow-xl p-4 opacity-90 transform -rotate-6 scale-90 origin-bottom-right animate-float-delay">
-                                    <div className="h-full w-full bg-slate-100 dark:bg-slate-900 rounded border border-dashed border-border-light dark:border-border-dark flex flex-col p-4">
-                                        <div className="h-2 w-1/3 bg-slate-300 dark:bg-slate-700 rounded mb-4"></div>
-                                        <div className="h-2 w-2/3 bg-slate-200 dark:bg-slate-800 rounded mb-2"></div>
-                                        <div className="h-2 w-1/2 bg-slate-200 dark:bg-slate-800 rounded mb-2"></div>
-                                        <div className="h-2 w-3/4 bg-slate-200 dark:bg-slate-800 rounded mb-8"></div>
+                                <div className="hidden md:block absolute top-12 -left-4 w-2/3 h-[300px] z-10 bg-surface border border-border-custom rounded-xl shadow-xl p-4 opacity-90 transform -rotate-6 scale-90 origin-bottom-right animate-float-delay">
+                                    <div className="h-full w-full bg-surface rounded border border-dashed border-border-custom flex flex-col p-4">
+                                        <div className="h-2 w-1/3 bg-border-custom rounded mb-4"></div>
+                                        <div className="h-2 w-2/3 bg-border-custom rounded mb-2 opacity-60"></div>
+                                        <div className="h-2 w-1/2 bg-border-custom rounded mb-2 opacity-60"></div>
+                                        <div className="h-2 w-3/4 bg-border-custom rounded mb-8 opacity-60"></div>
                                         <div className="mt-auto grid grid-cols-2 gap-2">
-                                            <div className="h-16 bg-slate-200 dark:bg-slate-800 rounded"></div>
-                                            <div className="h-16 bg-slate-200 dark:bg-slate-800 rounded"></div>
+                                            <div className="h-16 bg-border-custom rounded opacity-40"></div>
+                                            <div className="h-16 bg-border-custom rounded opacity-40"></div>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Right Decorative Card */}
-                                <div className="hidden md:block absolute top-20 -right-4 w-2/3 h-[280px] z-10 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl shadow-xl p-4 opacity-90 transform rotate-3 scale-95 origin-bottom-left animate-float">
+                                <div className="hidden md:block absolute top-20 -right-4 w-2/3 h-[280px] z-10 bg-surface border border-border-custom rounded-xl shadow-xl p-4 opacity-90 transform rotate-3 scale-95 origin-bottom-left animate-float">
                                     <div className="h-full w-full bg-black rounded overflow-hidden relative">
                                         <img alt="Gradient Texture" className="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvDgJ4_q465Dz4iqJsvyGzeugCfeRsZngNxI5FPVs9gWqq25cS70TshBDYbyU9eLxxjuzXfIK0OZAJAGKQukLR3cUwE2NOQU-9htsh_RveC3PjoMAMPlOeqxGL9Txi4Tl0liQH_EJICvjegk5sqF-vL_VqpGLYil3gj9aZ2VWcWAgmA5mcpKJyLiiSeLBDs-CVV_eY2Xzf4ZpjO3Y4PTG3eQHLygrx-O92m31zrOH4Bs669YPUgp3QdXsg4ncFQ6MytiDsU32-XTXW" />
                                         <div className="absolute inset-0 flex items-center justify-center">
@@ -107,27 +110,28 @@ export default function LandingPage() {
 
                     {/* Discovery Pipeline */}
                     <section>
-                        <h3 className="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-8">Discovery Pipeline</h3>
-                        <p className="mb-10 text-text-muted-light dark:text-text-muted-dark text-sm leading-relaxed">
-                            Our approach integrates high-throughput wet lab data with causal representation learning to build the first comprehensive map of disease etiology.
+                        <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">Discovery Pipeline</h3>
+                        <p className="mb-10 text-text-main text-sm leading-relaxed">
+                            Merging high-throughput wet lab data with causal AI to map disease etiology and accelerate asset generation.
                         </p>
                         <div className="space-y-8 relative pl-2">
-                            <div className="absolute left-[3px] top-2 bottom-2 w-[1px] bg-border-light dark:border-border-dark"></div>
+                            <div className="absolute left-[3px] top-2 bottom-2 w-[1px] bg-border-custom"></div>
 
                             {[
-                                { phase: "01", title: "Ingest Data", desc: "We gather vast quantities of noisy clinical and biological data, combining different sources that traditional models often overlook.", label: "Ingest" },
-                                { phase: "02", title: "Sanitize Data", desc: "We clean this data using strict logic rules (solving problems like \"hemangioma mimicry\") to create a reliable \"ground truth\" that competitors lack.", label: "Sanitize" },
-                                { phase: "03", title: "Generate Hypotheses", desc: "We create high-quality therapeutic theories (e.g., interface-specific PROTACs) that are chemically possible and biologically plausible.", label: "Generate" },
-                                { phase: "04", title: "Validate Physically", desc: "We confirm these theories in the lab using fast testing loops (NanoBRET, Cryo-EM) to prove structural reality before major capital investment.", label: "Validate" },
-                                { phase: "05", title: "Spin Out", desc: "Finally, we spin out the validated asset into a focused commercial entity.", label: "Spin" }
+                                { phase: "01", title: "Assimilate", desc: "Integrate PrimeKG and proprietary datasets to establish the baseline Knowledge Graph.", label: "Assimilate" },
+                                { phase: "02", title: "Interrogate", desc: "Query the Causal Agent to identify novel pathway associations and targets.", label: "Interrogate" },
+                                { phase: "03", title: "Reinforce", desc: "Expert adjudication of AI insights to curate and lock high-confidence nodes in the Graph.", label: "Reinforce" },
+                                { phase: "04", title: "Design", desc: "Generate scientifically plausible, synthesizable therapeutic candidates (e.g., interface-specific PROTACs).", label: "Design" },
+                                { phase: "05", title: "Verify", desc: "Confirm mechanism of action via rapid wet-lab loops (NanoBRET, Cryo-EM) prior to scaling.", label: "Verify" },
+                                { phase: "06", title: "Deploy", desc: "Externalize the validated asset", label: "Deploy" }
                             ].map((step, i) => (
                                 <div key={i} className="relative pl-8 group">
-                                    <div className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-border-light dark:border-border-dark group-hover:bg-primary transition-colors"></div>
+                                    <div className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-border-custom group-hover:bg-primary transition-colors"></div>
                                     <div className="grid md:grid-cols-[1fr_3fr] gap-2 md:gap-8">
-                                        <div className="text-xs font-mono text-text-muted-light dark:text-text-muted-dark pt-0.5 uppercase">PHASE {step.phase} — {step.label}</div>
+                                        <div className="text-xs font-mono text-text-main pt-0.5 uppercase">PHASE {step.phase} — {step.label}</div>
                                         <div>
-                                            <h4 className="font-medium text-text-main-light dark:text-text-main-dark mb-1 group-hover:text-primary transition-colors">{step.title}</h4>
-                                            <p className="text-sm text-text-muted-light dark:text-text-muted-dark">{step.desc}</p>
+                                            <h4 className="font-medium text-text-main mb-1 group-hover:text-primary transition-colors">{step.title}</h4>
+                                            <p className="text-sm text-text-main">{step.desc}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -137,32 +141,32 @@ export default function LandingPage() {
 
                     {/* Advisory Board */}
                     <section>
-                        <h3 className="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-8">Advisory Board</h3>
+                        <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">Advisory Board</h3>
                         <div className="grid md:grid-cols-2 gap-6">
-                            <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 rounded-2xl hover:border-primary/50 transition-colors cursor-default">
-                                <p className="text-sm leading-relaxed mb-6 text-text-main-light dark:text-text-main-dark">
+                            <div className="bg-surface border border-border-custom p-6 rounded-2xl hover:border-primary/50 transition-colors cursor-default">
+                                <p className="text-sm leading-relaxed mb-6 text-text-main">
                                     "Building Sarkome as a generative biotechnology institute that uses AI to create missing biological knowledge, turning rare-disease treatment, such as ASPS, from probabilistic guessing into systematic causal discovery."
                                 </p>
                                 <div className="flex items-center gap-3">
-                                    <img alt="Bryan Ramírez Palacios" className="w-10 h-10 rounded-full object-cover border border-border-light dark:border-border-dark" src="/bry.png" />
+                                    <img alt="Bryan Ramírez Palacios" className="w-10 h-10 rounded-full object-cover border border-border-custom" src="/bry.png" />
                                     <div>
-                                        <div className="text-sm font-medium">Bryan Ramírez Palacios</div>
-                                        <div className="text-xs text-text-muted-light dark:text-text-muted-dark">Founder & Lead Architect, Sarkome Institute</div>
+                                        <div className="text-sm font-medium text-text-main">Bryan Ramírez Palacios</div>
+                                        <div className="text-xs text-text-main">Founder & Lead Architect, Sarkome Institute</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 rounded-2xl hover:border-primary/50 transition-colors cursor-default">
-                                <p className="text-sm leading-relaxed mb-6 text-text-main-light dark:text-text-main-dark">
+                            <div className="bg-surface border border-border-custom p-6 rounded-2xl hover:border-primary/50 transition-colors cursor-default">
+                                <p className="text-sm leading-relaxed mb-6 text-text-main">
                                     "Sarkome seeks a Founding Biological Sciences Partner to build a causal-first discovery engine for single-driver cancers, starting with ASPS. The role focuses on mechanism-based wet-lab validation, isogenic models, and transcriptional dependency testing."
                                 </p>
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-border-light dark:border-border-dark">
+                                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-border-custom">
                                         <span className="text-[10px] font-bold text-primary">?</span>
                                     </div>
                                     <div>
-                                        <div className="text-sm font-medium">[ Selection in Progress ]</div>
-                                        <div className="text-xs text-text-muted-light dark:text-text-muted-dark">Founding Partner, Biological Sciences</div>
+                                        <div className="text-sm font-medium text-text-main">[ Selection in Progress ]</div>
+                                        <div className="text-xs text-text-main">Founding Partner, Biological Sciences</div>
                                     </div>
                                 </div>
                             </div>
@@ -171,41 +175,48 @@ export default function LandingPage() {
 
                     {/* Technology Stack */}
                     <section>
-                        <h3 className="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-8">Technology Stack</h3>
-                        <div className="flex flex-wrap gap-4 md:gap-6 opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
+                        <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">Technology Stack</h3>
+                        <div className="flex flex-wrap gap-6">
                             {[
-                                { name: "PyTorch", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAAet9hmSVrgCnOaMvj85Hdn6uN2n1D8vqUsZEjWpeWQvuirD9kcHDM-x5V_OfiMzPecPu5wjuxuT1NbZOGggjSKeLYjOUF5ShVd50B30prBVIIX8ARWQtrJFygf0o4b1y3q4BGC7I8NE7EPhqPXoYXJBGaDnzdn8kXNtsqrAOMHS--FSCCLsdgVTlglMDFMAJLaMoPo5sGO8pGPFH21k7XtNn8nu3gXR_GKcvMy1cOpJzIRjLVfLK_ufR8FMeqi16Yo6gbbk7fLwsy" },
-                                { name: "Python", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDYB0x9rb65YtVt0oWqwYoLzz3f3DhIkX8oOMMOREy2Ed6Y2kbIzku_VnbgrpNp3GfLXCwk_CCZX1QgaSdFuMFcCLfvsFWVjYPTmnb1ciax91R85CXcHAO3Km5Bx70UEzDTEXHKgcge1-sOr6W32GGZbyTkFOgqXQ2seoBwlcYhx5loDhNe-Yy6b2nqpC8_H15sxP1Skkf1NOY17uCCgrLCyYMzBdR8DAnySzvPRlq0C8CW4plPPI6Zcst6XhZBVEaAWxhtWOp5AnmV" },
-                                { name: "TensorFlow", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBg4SQyGpjJmOoR-t1G33MzGvzFV0h2U62dScNrUqjGjvyAf4gwQoGtwnxzbIVC7KFCm3SMsop_YMBa2VVPua4GXCDDH0Le4OLtQd8nsgiHSE02V9le1LpcuUtsRYc_lz05h_i2aEqs_4-5maIkfONDdhVM1amsHxNofGd2QtHPyW0kKLZEIenaUpzkMhmfUCHBbZg28wbgL7Ergcp8so4r6zFwsWaSQVWCbCYBmZkag91ycAJMTDuqMXQaW4dN8pWzy6Z4AcbBRZsP" },
-                                { name: "Docker", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAI5MENw9kVQRWFIzs9QehU5jZH9XX4OAwNJRhD9CWNi-6IItoKxRpbO3wU0HgGdEjaPP4rZZIgTOx3dUruf4Gi_2FnO_mTJdMzl8yAC4hatsge5k-e5B79COs_Jem-jnfFBYx-uIBdfMlLkWYwWcUk-rXzX2892urrXb0RhU7nlC1IQkBEWx1QcHGON47bArmy3LlTQLDPECmm0Wl1hJFsL0rkIQvSGDoMNp6jQcq1LB5uXoRsqLfXkrsPraF6556owywExGt89Jfi" },
-                                { name: "Google Cloud", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuC7likBGn-VhzvkIY-mNT9rnFSs1mzCmMyh-CdUJ3fqtpswFjsGkjxudHAH8EwZt09fmHdFENmkowlgN0fI6u4E4Qeh6mp2KCSgGQxCbnQzZv4STYuJGmDviBESgFPCllyMKf_GdCkARqxpEYN9NrW3wxxHZasEzlIRTttDuQxZx0-YjcNtksRNO6jWYxrWDBuEDzAvqGdTjTTdgB5649pRmN65QK0PiK1qkjvz52hdpVV8Lrd1_yi7PlSP8w3IYxQHQJC-iRJ7UXKi" }
+                                { name: "Gemini 3.0", src: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.svg", color: "from-blue-400/20 to-purple-400/20" },
+                                { name: "Docker", src: "https://www.vectorlogo.zone/logos/docker/docker-tile.svg", color: "from-blue-500/10 to-blue-600/10" },
+                                { name: "LangChain", src: "https://avatars.githubusercontent.com/u/126733545?s=200&v=4", color: "from-green-400/10 to-emerald-500/10" },
+                                { name: "Neo4j", src: "https://www.vectorlogo.zone/logos/neo4j/neo4j-icon.svg", color: "from-blue-600/10 to-indigo-700/10" },
+                                { name: "Google Cloud", src: "https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg", color: "from-blue-500/10 to-red-500/10" },
+                                { name: "Python", src: "https://www.vectorlogo.zone/logos/python/python-icon.svg", color: "from-yellow-400/10 to-blue-500/10" }
                             ].map((tech, i) => (
-                                <div key={i} className="w-10 h-10 bg-surface-light dark:bg-surface-dark rounded-full flex items-center justify-center border border-border-light dark:border-border-dark" title={tech.name}>
-                                    <img alt={tech.name} className="w-5 h-5" src={tech.src} />
+                                <div key={i} className="group relative">
+                                    {/* Tooltip */}
+                                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-foreground text-background text-[10px] font-medium rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
+                                        {tech.name}
+                                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-foreground rotate-45" />
+                                    </div>
+                                    
+                                    <div className={`absolute -inset-2 bg-gradient-to-br ${tech.color} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                                    <div className="relative w-12 h-12 bg-surface border border-border-custom rounded-xl flex items-center justify-center p-2.5 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 shadow-sm">
+                                        <img alt={tech.name} className="w-full h-full object-contain" src={tech.src} />
+                                    </div>
                                 </div>
                             ))}
-                            <div className="w-10 h-10 bg-surface-light dark:bg-surface-dark rounded-full flex items-center justify-center border border-border-light dark:border-border-dark text-text-main-light dark:text-text-main-dark" title="Biology">
-                                <Activity className="w-5 h-5" />
-                            </div>
                         </div>
                     </section>
 
                     {/* Active Programs */}
                     <section>
-                        <h3 className="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-8">Active Programs</h3>
+                        <h3 className="text-xs font-bold tracking-widest text-text-muted uppercase mb-8">Active Programs</h3>
                         <div className="space-y-4">
                             {diseases.filter(d => d.type === 'active').map(disease => (
-                                <Link key={disease.id} to={`/programs/${disease.id}`} className="group flex items-center justify-between p-4 -mx-4 rounded-xl hover:bg-surface-light dark:hover:bg-surface-dark transition-colors">
+                                <Link key={disease.id} to={`/programs/${disease.id}`} className="group flex items-center justify-between p-4 -mx-4 rounded-xl hover:bg-surface transition-colors">
                                     <div className="flex items-center gap-4">
                                         <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
                                             {disease.id === 'als' ? <Brain className="w-5 h-5" /> : <Biohazard className="w-5 h-5" />}
                                         </div>
                                         <div>
-                                            <div className="font-medium text-sm">{disease.code}</div>
-                                            <div className="text-xs text-text-muted-light dark:text-text-muted-dark">Rare Oncology / {disease.name}</div>
+                                            <div className="font-medium text-sm text-text-main">{disease.code}</div>
+                                            <div className="text-xs text-text-muted">Rare Oncology / {disease.name}</div>
                                         </div>
                                     </div>
-                                    <ArrowUpRight className="w-4 h-4 text-text-muted-light dark:text-text-muted-dark group-hover:text-primary transition-colors transform group-hover:translate-x-1" />
+                                    <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-primary transition-colors transform group-hover:translate-x-1" />
                                 </Link>
                             ))}
                         </div>
@@ -213,7 +224,7 @@ export default function LandingPage() {
 
                     {/* Latest Research */}
                     <section>
-                        <h3 className="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-6">Latest Research</h3>
+                        <h3 className="text-xs font-bold tracking-widest text-text-muted uppercase mb-6">Latest Research</h3>
                         <div className="flex flex-col gap-4">
                             {[
                                 { date: "FEB 2024", title: "Graph Neural Networks in Protein Folding", time: "5 m" },
@@ -222,10 +233,10 @@ export default function LandingPage() {
                             ].map((item, i) => (
                                 <div key={i} className="flex justify-between items-start group cursor-pointer">
                                     <div>
-                                        <div className="text-xs text-text-muted-light dark:text-text-muted-dark mb-1 mono-text">{item.date}</div>
-                                        <h4 className="text-sm font-medium group-hover:text-primary transition-colors">{item.title}</h4>
+                                        <div className="text-xs text-text-muted mb-1 mono-text">{item.date}</div>
+                                        <h4 className="text-sm font-medium text-text-main group-hover:text-primary transition-colors">{item.title}</h4>
                                     </div>
-                                    <div className="flex items-center gap-1 text-xs text-text-muted-light dark:text-text-muted-dark">
+                                    <div className="flex items-center gap-1 text-xs text-text-muted">
                                         <Clock className="w-3.5 h-3.5" />
                                         {item.time}
                                     </div>
@@ -236,8 +247,8 @@ export default function LandingPage() {
 
                     {/* Inside the Lab */}
                     <section>
-                        <h3 className="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-6">Inside the Lab</h3>
-                        <p className="text-sm text-text-muted-light dark:text-text-muted-dark mb-8">
+                        <h3 className="text-xs font-bold tracking-widest text-text-muted uppercase mb-6">Inside the Lab</h3>
+                        <p className="text-sm text-text-muted mb-8">
                             Located in the heart of Kendall Square, where computation meets biology.
                         </p>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 h-48 md:h-64">
@@ -255,48 +266,41 @@ export default function LandingPage() {
                                 <img alt="Code on screen" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBowVOMD1mGapNdw_MeyuxVgkFrMvlIFeA0ueKZRbUUgZlZ7qnwxAY0evNTC-EErGl1jNOUE3mgyGUF2swZDmICFw7DIiUsUqhq3qYSxEBrWjV0J1xmS0JdkKvmnW6pqaELPmhGMSn5rWIneJ9_jOXHQFfgEyRCxz572BCz4qHedhF077LfwwhbOT7sCePOa0WFo4h6OsL8_ef_wgTHDbzct7bYVi9xSHZEKJ90rIzeDspff1968osoxDBJusGEhI3D97LhVWgmlzkR" />
                             </div>
                         </div>
-                        <div className="flex justify-end mt-12">
-                            <div className="text-[10px] text-text-muted-light dark:text-text-muted-dark flex items-center gap-1">
-                                Shot on Fujifilm GFX 100 <Camera className="w-3 h-3" />
-                            </div>
-                        </div>
                     </section>
 
                     {/* Request Access */}
-                    <section className="border-t border-dashed border-border-light dark:border-border-dark pt-12">
-                        <h3 className="text-xs font-bold tracking-widest text-text-muted-light dark:text-text-muted-dark uppercase mb-6">Request Access</h3>
-                        <p className="text-sm text-text-muted-light dark:text-text-muted-dark mb-8">
+                    <section className="border-t border-dashed border-border-custom pt-12">
+                        <h3 className="text-xs font-bold tracking-widest text-text-muted uppercase mb-6">Request Access</h3>
+                        <p className="text-sm text-text-muted mb-8">
                             Partnership inquiries and investor relations can reach us using the form below.
                         </p>
                         <form className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
-                                <input className="w-full bg-surface-light dark:bg-surface-dark border-0 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark/50 outline-none" placeholder="Name" type="text" />
-                                <input className="w-full bg-surface-light dark:bg-surface-dark border-0 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark/50 outline-none" placeholder="Email" type="email" />
+                                <input className="w-full bg-surface border border-text-main rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary placeholder:text-text-muted/50 outline-none text-text-main" placeholder="Name" type="text" />
+                                <input className="w-full bg-surface border border-text-main rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary placeholder:text-text-muted/50 outline-none text-text-main" placeholder="Email" type="email" />
                             </div>
-                            <textarea className="w-full bg-surface-light dark:bg-surface-dark border-0 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark/50 resize-none outline-none" placeholder="Message" rows={4}></textarea>
+                            <textarea className="w-full bg-surface border border-text-main rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary placeholder:text-text-muted/50 resize-none outline-none text-text-main" placeholder="Message" rows={4}></textarea>
                             <div className="flex items-center justify-between pt-2">
-                                <button className="bg-text-main-light dark:bg-white text-white dark:text-black px-6 py-2 rounded-full text-sm font-medium hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-colors" type="button">
+                                <button className="bg-foreground text-background px-6 py-2 rounded-full text-sm font-medium hover:bg-primary transition-colors" type="button">
                                     Send message
                                 </button>
-                                <div className="text-xs text-text-muted-light dark:text-text-muted-dark hidden sm:block">
-                                    or <kbd className="font-mono">↵ Enter</kbd> to send
-                                </div>
                             </div>
                         </form>
 
                         <div className="mt-16 space-y-3 text-sm">
                             {[
+                                { icon: FileText, label: "Documentation", value: "sarkome.com/docs", href: "http://sarkome.com/docs" },
                                 { icon: Mail, label: "Email", value: "partners@sarkome.bio", href: "mailto:partners@sarkome.bio" },
                                 { icon: AtSign, label: "Twitter / X", value: "@sarkome_ai", href: "https://x.com/sarkome_ai" },
                                 { icon: Code, label: "GitHub", value: "@sarkome-official", href: "https://github.com/sarkome-official" },
                                 { icon: Briefcase, label: "LinkedIn", value: "/company/sarkome", href: "https://www.linkedin.com/company/sarkome/" }
                             ].map((social, i) => (
-                                <a key={i} className="flex justify-between items-center group text-text-muted-light dark:text-text-muted-dark hover:text-primary dark:hover:text-primary transition-colors" href={social.href}>
+                                <a key={i} className="flex justify-between items-center group text-text-muted hover:text-primary transition-colors" href={social.href}>
                                     <div className="flex items-center gap-3">
                                         <social.icon className="w-4 h-4" />
-                                        <span>{social.label}</span>
+                                        <span className="text-text-main">{social.label}</span>
                                     </div>
-                                    <span className="mono-text text-xs opacity-60">{social.value} ↗</span>
+                                    <span className="mono-text text-xs opacity-60 text-text-main">{social.value} ↗</span>
                                 </a>
                             ))}
                         </div>

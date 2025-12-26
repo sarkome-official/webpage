@@ -1,8 +1,3 @@
----
-title: GARP
-description: The personal heart behind our mission.
----
-
 ### A Personal Commitment
 
 At the core of the Sarkome Institute and everything we do is a story that is deeply personal. Sarkome was not born in a boardroom or a VC office; it was born from the pain of life.

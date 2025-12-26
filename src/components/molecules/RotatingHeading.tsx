@@ -39,7 +39,7 @@ export const RotatingHeading = () => {
           >
             <h2 className={cn(
               "text-4xl md:text-5xl font-bold tracking-tight leading-[1.1] whitespace-nowrap",
-              "text-text-main-light dark:text-white"
+              "text-text-main"
             )}>
               {phrase}
             </h2>
