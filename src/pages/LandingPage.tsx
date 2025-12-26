@@ -289,7 +289,7 @@ export default function LandingPage() {
 
                         <div className="mt-16 space-y-3 text-sm">
                             {[
-                                { icon: FileText, label: "Documentation", value: "sarkome.com/docs", href: "http://sarkome.com/docs" },
+                                { icon: FileText, label: "Documentation", value: "sarkome.com/docs", href: "/docs/intro" },
                                 { icon: Mail, label: "Email", value: "partners@sarkome.bio", href: "mailto:partners@sarkome.bio" },
                                 { icon: AtSign, label: "Twitter / X", value: "@sarkome_ai", href: "https://x.com/sarkome_ai" },
                                 { icon: Code, label: "GitHub", value: "@sarkome-official", href: "https://github.com/sarkome-official" },

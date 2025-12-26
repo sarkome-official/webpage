@@ -4,6 +4,7 @@ import economic from "@/content/economic.md?raw";
 import garp from "@/content/garp.md?raw";
 import philosophy from "@/content/philosophy.md?raw";
 import technology from "@/content/technology.md?raw";
+import infrastructure from "@/content/infrastructure.md?raw";
 
 export const docsConfig = [
   {
@@ -20,6 +21,11 @@ export const docsConfig = [
     title: "Technology",
     slug: "technology",
     content: technology,
+  },
+  {
+    title: "Infrastructure",
+    slug: "infrastructure",
+    content: infrastructure,
   },
   {
     title: "Causa Engine",
