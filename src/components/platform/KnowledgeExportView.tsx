@@ -4,18 +4,6 @@ export const KnowledgeExportView = () => {
     return (
         <div className="flex flex-col min-h-screen font-display bg-[#101322] text-white">
             {/* Header */}
-            <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#282b39] bg-[#111218] px-4 md:px-6 lg:px-10 py-3 md:sticky top-0 z-20">
-                <div className="flex items-center gap-4">
-                    <div className="size-8 text-[#1132d4] flex items-center justify-center bg-[#1132d4]/10 rounded-lg shrink-0">
-                        <span className="material-symbols-outlined text-[24px]">hub</span>
-                    </div>
-                    <div className="min-w-0">
-                        <h2 className="text-base md:text-lg font-bold leading-tight tracking-tight text-white truncate">Developer Hub</h2>
-                        <p className="text-[10px] md:text-xs text-[#9da1b9] font-medium truncate">Export & API Integration</p>
-                    </div>
-                </div>
-                <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8 md:size-9 ring-2 ring-[#1132d4]/20 shrink-0" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAs7eXv_elH2SbDPaTC4YbG65r6ZfQYwFMxuPdEHT1KH55cdk1GNPmDpWLvfzae21Hjzgz9V3WBoHEZMRdtpF5e4z8_RYrWMb6gzD4-qVgiKpBcEa1GmvpOTyb__cFpLgCw-Mc46DQkXmsNNYqyju5bDR3uP-D6spfIr8ossdCYFDKBdoJQBARlcSVIjWjKfucFBWdnrYaq1sluEtBzD3Eq0BjH1hh8GRQDi3jQun1Kfp3PIGRvs3UhpNW5lqBatnbXlDQqrL2GL8E")' }}></div>
-            </header>
 
             <div className="flex-1 flex flex-col lg:flex-row max-w-[1600px] mx-auto w-full p-4 md:p-6 gap-6 md:gap-8">
                 {/* Left Column: Export Options */}

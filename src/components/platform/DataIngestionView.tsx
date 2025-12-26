@@ -2,28 +2,8 @@ import React from 'react';
 
 export const DataIngestionView = () => {
     return (
-        <div className="flex flex-col min-h-screen font-display bg-[#101322] text-white">
+        <div className="flex flex-col min-h-screen bg-background text-foreground font-sans">
             {/* Top Navigation - Inner Header */}
-            <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#282b39] bg-[#111218] px-4 md:px-6 lg:px-10 py-3 md:sticky top-0 z-20">
-                <div className="flex items-center gap-4">
-                    <div className="size-8 text-[#1132d4] flex items-center justify-center bg-[#1132d4]/10 rounded-lg shrink-0">
-                        <span className="material-symbols-outlined text-[24px]">hub</span>
-                    </div>
-                    <div className="min-w-0">
-                        <h2 className="text-base md:text-lg font-bold leading-tight tracking-tight text-white truncate">Data Refinery</h2>
-                        <p className="text-[10px] md:text-xs text-[#9da1b9] font-medium truncate">Ingestion & Management Console</p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-2 md:gap-4">
-                    <button className="flex items-center gap-2 px-3 md:px-4 py-2 bg-[#1132d4] text-white rounded-lg hover:bg-blue-700 transition-colors text-xs md:text-sm font-bold shadow-lg shadow-blue-900/20">
-                        <span className="material-symbols-outlined text-[18px]">add_database</span>
-                        <span className="hidden sm:inline">Connect Database</span>
-                        <span className="sm:hidden">Connect</span>
-                    </button>
-                    <div className="hidden sm:block h-8 w-px bg-[#282b39]"></div>
-                    <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8 md:size-9 ring-2 ring-[#1132d4]/20 shrink-0" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAs7eXv_elH2SbDPaTC4YbG65r6ZfQYwFMxuPdEHT1KH55cdk1GNPmDpWLvfzae21Hjzgz9V3WBoHEZMRdtpF5e4z8_RYrWMb6gzD4-qVgiKpBcEa1GmvpOTyb__cFpLgCw-Mc46DQkXmsNNYqyju5bDR3uP-D6spfIr8ossdCYFDKBdoJQBARlcSVIjWjKfucFBWdnrYaq1sluEtBzD3Eq0BjH1hh8GRQDi3jQun1Kfp3PIGRvs3UhpNW5lqBatnbXlDQqrL2GL8E")' }}></div>
-                </div>
-            </header>
 
             {/* Main Content Info */}
             <main className="flex-1 p-4 md:p-6 lg:p-10 flex flex-col gap-6 md:gap-8 max-w-[1600px] w-full mx-auto">

@@ -3,7 +3,7 @@ import { Box, Activity, Info, Layers, Maximize2 } from 'lucide-react';
 
 export const AlphaFoldView = () => {
     return (
-        <div className="flex flex-col h-full w-full bg-[#050505] text-zinc-300 font-sans overflow-hidden">
+        <div className="flex flex-col h-full w-full bg-background text-muted-foreground font-sans overflow-hidden">
             {/* Header Section */}
             <div className="p-4 md:p-8 border-b border-white/5 bg-zinc-950/30 backdrop-blur-md">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
@@ -23,13 +23,13 @@ export const AlphaFoldView = () => {
                         </div>
                     </div>
                     <div className="flex gap-3">
-                        <button 
+                        <button
                             onClick={() => window.location.href = '/platform/simulation'}
                             className="flex-1 md:flex-none px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs md:text-sm font-medium transition-all"
                         >
                             Run Simulation
                         </button>
-                        <button 
+                        <button
                             onClick={() => window.location.href = '/platform/report'}
                             className="flex-1 md:flex-none px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs md:text-sm font-medium transition-all shadow-lg shadow-indigo-500/20"
                         >
@@ -53,7 +53,7 @@ export const AlphaFoldView = () => {
                             </div>
                         </div>
                     </div>
-                    
+
                     {/* Viewer Controls */}
                     <div className="absolute bottom-6 left-6 flex gap-2">
                         <button className="p-2 rounded bg-zinc-900/80 border border-white/10 hover:bg-zinc-800 transition-colors">

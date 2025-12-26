@@ -72,7 +72,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
             </a>
             <a href="/platform/logs" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
               <span className="material-symbols-outlined text-lg group-hover:text-indigo-400">forum</span>
-              <span>Council Logs</span>
+              <span>Sarkome Logs</span>
             </a>
           </div>
 
@@ -84,7 +84,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               <span>Knowledge Graph</span>
             </a>
             <a href="/platform/agents" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
-              <span className="material-symbols-outlined text-lg group-hover:text-indigo-400">groups</span>
+              <span className="material-symbols-outlined text-lg group-hover:text-indigo-400">psychology</span>
               <span>Agent Status</span>
             </a>
           </div>
@@ -128,7 +128,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           <div className="text-[10px] text-zinc-500 font-mono mb-2 uppercase tracking-widest">Active Model</div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span className="text-xs text-zinc-300">Council v2.1 (Async)</span>
+            <span className="text-xs text-zinc-300">GPT-5.1-Codex-Max</span>
           </div>
         </div>
         

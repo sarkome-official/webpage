@@ -47,7 +47,7 @@ export const ReportView = () => {
                         </h2>
                         <div className="p-6 rounded-2xl bg-zinc-900/30 border border-white/5 leading-relaxed">
                             <p className="text-zinc-300">
-                                The Council of Agents has completed the investigation into the **VCP-Metabolic axis in Alveolar Soft Part Sarcoma (ASPS)**. 
+                                The Sarkome In-Silico Agent has completed the investigation into the **VCP-Metabolic axis in Alveolar Soft Part Sarcoma (ASPS)**. 
                                 The reasoning engine identified a high-confidence causal path linking the **TFE3-ASPSCR1 fusion** to mitochondrial dysfunction via the **VCP/p97** protein homeostasis node.
                             </p>
                             <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">

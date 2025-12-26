@@ -14,25 +14,6 @@ export const QueryBuilderView = () => {
     return (
         <div className="flex flex-col min-h-screen font-display bg-[#101322] text-white">
             {/* Top Navigation - Inner Header */}
-            <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#282b39] bg-[#111218] px-4 md:px-6 lg:px-10 py-3 md:sticky top-0 z-20">
-                <div className="flex items-center gap-4">
-                    <div className="size-8 text-indigo-400 flex items-center justify-center bg-indigo-500/10 rounded-lg shrink-0">
-                        <span className="material-symbols-outlined text-[24px]">hub</span>
-                    </div>
-                    <div className="min-w-0">
-                        <h2 className="text-base md:text-lg font-bold leading-tight tracking-tight text-white truncate">Sarkome Intelligence</h2>
-                        <p className="text-[10px] md:text-xs text-[#9da1b9] font-medium truncate">Investigation Protocol</p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-2 md:gap-4">
-                    <button className="hidden sm:flex items-center gap-2 px-4 py-2 bg-[#282b39] hover:bg-[#34384b] text-white rounded-lg transition-colors text-sm font-bold border border-[#282b39]">
-                        <span className="material-symbols-outlined text-[18px]">history</span>
-                        History
-                    </button>
-                    <div className="hidden sm:block h-8 w-px bg-[#282b39]"></div>
-                    <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8 md:size-9 ring-2 ring-indigo-500/20 shrink-0" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAs7eXv_elH2SbDPaTC4YbG65r6ZfQYwFMxuPdEHT1KH55cdk1GNPmDpWLvfzae21Hjzgz9V3WBoHEZMRdtpF5e4z8_RYrWMb6gzD4-qVgiKpBcEa1GmvpOTyb__cFpLgCw-Mc46DQkXmsNNYqyju5bDR3uP-D6spfIr8ossdCYFDKBdoJQBARlcSVIjWjKfucFBWdnrYaq1sluEtBzD3Eq0BjH1hh8GRQDi3jQun1Kfp3PIGRvs3UhpNW5lqBatnbXlDQqrL2GL8E")' }}></div>
-                </div>
-            </header>
 
             <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-6 relative overflow-hidden">
                 {/* Background Decor */}
@@ -43,7 +24,7 @@ export const QueryBuilderView = () => {
                 <div className="w-full max-w-3xl z-10 flex flex-col gap-6 md:gap-8">
                     <div className="text-center">
                         <h1 className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-4">Start New Investigation</h1>
-                        <p className="text-base md:text-lg text-[#9da1b9]">Initiate the Council of Agents to analyze complex biomedical queries.</p>
+                        <p className="text-base md:text-lg text-[#9da1b9]">Initiate the Sarkome In-Silico Agent to analyze complex biomedical queries.</p>
                     </div>
 
                     {/* Query Input */}
@@ -59,12 +40,12 @@ export const QueryBuilderView = () => {
                                 <button className="p-2 text-[#9da1b9] hover:text-white transition-colors rounded-lg hover:bg-[#282b39]" title="Attach Context">
                                     <span className="material-symbols-outlined text-[20px]">attach_file</span>
                                 </button>
-                                <button 
+                                <button
                                     onClick={handleStart}
                                     className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg shadow-lg shadow-indigo-900/20 transition-all text-sm md:text-base"
                                 >
                                     <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
-                                    <span className="hidden xs:inline">Launch Council</span>
+                                    <span className="hidden xs:inline">Launch Agent</span>
                                     <span className="xs:hidden">Launch</span>
                                 </button>
                             </div>
@@ -110,11 +91,11 @@ export const QueryBuilderView = () => {
                                 <span className="material-symbols-outlined text-4xl text-white animate-pulse">hub</span>
                             </div>
                         </div>
-                        
+
                         {/* Text */}
                         <div className="text-center space-y-2">
-                            <h2 className="text-2xl font-bold text-white">Initializing Council</h2>
-                            <p className="text-[#9da1b9] animate-pulse">Establishing secure connection to agent swarm...</p>
+                            <h2 className="text-2xl font-bold text-white">Initializing Agent</h2>
+                            <p className="text-[#9da1b9] animate-pulse">Establishing secure connection to Sarkome In-Silico...</p>
                         </div>
 
                         {/* Progress Bar */}

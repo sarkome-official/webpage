@@ -5,7 +5,7 @@ export const KnowledgeGraphView = () => {
     const [activeTab, setActiveTab] = useState('overview');
 
     return (
-        <div className="flex flex-col h-full w-full bg-[#050505] text-zinc-300 font-sans overflow-hidden">
+        <div className="flex flex-col h-full w-full bg-background text-muted-foreground font-sans overflow-hidden">
             {/* Header Section */}
             <div className="p-4 md:p-8 border-b border-white/5 bg-zinc-950/30 backdrop-blur-md">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">

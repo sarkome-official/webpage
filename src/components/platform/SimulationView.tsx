@@ -3,7 +3,7 @@ import { Activity, Zap, ShieldCheck, FlaskConical, BarChart3 } from 'lucide-reac
 
 export const SimulationView = () => {
     return (
-        <div className="flex flex-col h-full w-full bg-[#050505] text-zinc-300 font-sans overflow-hidden">
+        <div className="flex flex-col h-full w-full bg-background text-muted-foreground font-sans overflow-hidden">
             {/* Header Section */}
             <div className="p-4 md:p-8 border-b border-white/5 bg-zinc-950/30 backdrop-blur-md">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
@@ -23,13 +23,13 @@ export const SimulationView = () => {
                         </div>
                     </div>
                     <div className="flex gap-3">
-                        <button 
+                        <button
                             onClick={() => window.location.href = '/platform/alphafold'}
                             className="flex-1 md:flex-none px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs md:text-sm font-medium transition-all"
                         >
                             View AlphaFold
                         </button>
-                        <button 
+                        <button
                             onClick={() => window.location.href = '/platform/report'}
                             className="flex-1 md:flex-none px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs md:text-sm font-medium transition-all shadow-lg shadow-emerald-500/20"
                         >
@@ -42,7 +42,7 @@ export const SimulationView = () => {
             {/* Main Content Area */}
             <div className="flex-1 overflow-y-auto p-4 md:p-8">
                 <div className="max-w-6xl mx-auto space-y-8">
-                    
+
                     {/* Simulation Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         {/* Main Chart Area */}
@@ -57,7 +57,7 @@ export const SimulationView = () => {
                                     <span className="px-2 py-1 rounded bg-zinc-800 text-[10px] text-zinc-400">Glycolysis</span>
                                 </div>
                             </div>
-                            
+
                             {/* Placeholder for Graph */}
                             <div className="flex-1 min-h-[300px] bg-black/40 rounded-xl border border-dashed border-white/10 flex items-center justify-center relative overflow-hidden">
                                 <div className="absolute inset-0 opacity-20">

@@ -1,4 +1,4 @@
-import { ThemeToggle } from "../ui/ThemeToggle";
+import { ThemeToggle } from "../molecules/ThemeToggle";
 
 export function Header() {
     return (
