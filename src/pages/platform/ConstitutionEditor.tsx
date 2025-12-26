@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Brain, ChevronRight, Info, BookOpen, ExternalLink } from 'lucide-react';
 
 const AGENTS = [
-    { id: 'sarkome-agent', name: 'Sarkome In-Silico Agent', icon: <Brain className="w-5 h-5" />, color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-400/20' },
+    { id: 'sarkome-agent', name: 'Sarkome In-Silico Agent', icon: <Brain className="w-5 h-5" />, color: 'text-primary', bg: 'bg-primary/10', border: 'border-primary/20' },
 ];
 
 const INITIAL_CONSTITUTIONS: Record<string, string> = {
@@ -55,13 +55,13 @@ export const ConstitutionEditor: React.FC = () => {
     };
 
     return (
-        <div className="min-h-full font-display bg-[#101322] text-[#9da1b9] p-4 md:p-8">
+        <div className="min-h-full font-display bg-background text-muted-foreground p-4 md:p-8">
             {/* Header */}
 
             <main className="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8">
                 {/* Agent Selector Sidebar */}
                 <div className="lg:col-span-1 flex flex-col gap-4">
-                    <h3 className="text-sm font-bold text-white uppercase tracking-widest px-1">Agent Identity</h3>
+                    <h3 className="text-sm font-bold text-foreground uppercase tracking-widest px-1">Agent Identity</h3>
                     <div className="flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
                         {AGENTS.map((agent) => (
                             <button
@@ -69,21 +69,21 @@ export const ConstitutionEditor: React.FC = () => {
                                 onClick={() => setSelectedAgentId(agent.id)}
                                 className={`flex items-center gap-3 p-3 md:p-4 rounded-xl border transition-all text-left group shrink-0 lg:shrink ${selectedAgentId === agent.id
                                     ? `${agent.bg} ${agent.border} border-opacity-100 shadow-lg shadow-black/20`
-                                    : 'bg-[#1c1d27]/50 border-transparent hover:border-[#282b39] hover:bg-[#1c1d27]'
+                                    : 'bg-muted/10 border-transparent hover:border-border hover:bg-muted/20'
                                     }`}
                             >
                                 <div className={`size-8 md:size-10 rounded-lg flex items-center justify-center border transition-colors ${selectedAgentId === agent.id
-                                    ? `${agent.border} ${agent.color} bg-[#111218]`
-                                    : 'border-[#282b39] text-[#9da1b9] bg-[#111218] group-hover:text-white group-hover:border-[#383d52]'
+                                    ? `${agent.border} ${agent.color} bg-muted/20`
+                                    : 'border-border text-muted-foreground bg-muted/10 group-hover:text-foreground group-hover:border-border'
                                     }`}>
                                     {agent.icon}
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className={`text-xs md:text-sm font-bold transition-colors ${selectedAgentId === agent.id ? 'text-white' : 'text-[#9da1b9] group-hover:text-white'
+                                    <span className={`text-xs md:text-sm font-bold transition-colors ${selectedAgentId === agent.id ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground'
                                         }`}>
                                         {agent.name}
                                     </span>
-                                    <span className="hidden md:block text-[10px] text-[#6b7280] font-mono uppercase tracking-tighter">
+                                    <span className="hidden md:block text-[10px] text-muted-foreground/40 font-mono uppercase tracking-tighter">
                                         Primary Intelligence
                                     </span>
                                 </div>
@@ -94,12 +94,12 @@ export const ConstitutionEditor: React.FC = () => {
                         ))}
                     </div>
 
-                    <div className="mt-4 p-5 rounded-xl bg-gradient-to-br from-indigo-500/5 to-transparent border border-indigo-500/10">
-                        <div className="flex items-center gap-2 text-indigo-400 mb-2">
+                    <div className="mt-4 p-5 rounded-xl bg-muted/10 border border-border">
+                        <div className="flex items-center gap-2 text-primary mb-2">
                             <Info className="w-4 h-4" />
                             <span className="text-xs font-bold uppercase tracking-wide">Sarkome Protocol</span>
                         </div>
-                        <p className="text-[11px] text-[#9da1b9] leading-relaxed italic">
+                        <p className="text-[11px] text-muted-foreground leading-relaxed italic">
                             Changes to these constitutions are hot-reloaded across the entire Sarkome architecture within 15 seconds of deployment.
                         </p>
                     </div>
@@ -107,13 +107,13 @@ export const ConstitutionEditor: React.FC = () => {
 
                 {/* Editor Column */}
                 <div className="lg:col-span-3 flex flex-col gap-6">
-                    <div className="flex flex-col gap-4 p-1 rounded-2xl bg-[#1c1d27] border border-[#282b39] shadow-xl">
-                        <div className="flex items-center justify-between px-4 py-3 bg-[#111218] rounded-t-xl border-b border-[#282b39]">
+                    <div className="flex flex-col gap-4 p-1 rounded-2xl bg-muted/20 border border-border shadow-xl">
+                        <div className="flex items-center justify-between px-4 py-3 bg-muted/10 rounded-t-xl border-b border-border">
                             <div className="flex items-center gap-3">
                                 <div className={`size-3 rounded-full ${selectedAgent.color.replace('text-', 'bg-')} animate-pulse`}></div>
-                                <span className="text-[10px] md:text-xs font-mono text-white">constitution_{selectedAgent.id}.md</span>
+                                <span className="text-[10px] md:text-xs font-mono text-foreground">constitution_{selectedAgent.id}.md</span>
                             </div>
-                            <div className="hidden sm:flex items-center gap-4 text-[#6b7280]">
+                            <div className="hidden sm:flex items-center gap-4 text-muted-foreground/40">
                                 <span className="text-[10px] font-mono">Lines: {currentConstitution.split('\n').length}</span>
                                 <span className="text-[10px] font-mono">UTF-8</span>
                             </div>
@@ -122,44 +122,44 @@ export const ConstitutionEditor: React.FC = () => {
                             <textarea
                                 value={currentConstitution}
                                 onChange={handleConstitutionChange}
-                                className="w-full h-[400px] md:h-[600px] bg-transparent text-white font-mono text-xs md:text-sm leading-relaxed p-4 md:p-6 pl-10 md:pl-12 outline-none resize-none placeholder:text-[#282b39]"
+                                className="w-full h-[400px] md:h-[600px] bg-transparent text-foreground font-mono text-xs md:text-sm leading-relaxed p-4 md:p-6 pl-10 md:pl-12 outline-none resize-none placeholder:text-muted-foreground/20"
                                 spellCheck="false"
                             />
                             {/* Line Numbers Simulation */}
-                            <div className="absolute left-0 top-0 bottom-0 w-8 md:w-10 border-r border-[#282b39] bg-[#111218]/30 flex flex-col items-center py-4 md:py-6 pointer-events-none">
+                            <div className="absolute left-0 top-0 bottom-0 w-8 md:w-10 border-r border-border bg-muted/5 flex flex-col items-center py-4 md:py-6 pointer-events-none">
                                 {[...Array(20)].map((_, i) => (
-                                    <span key={i} className="text-[9px] md:text-[10px] text-[#282b39] leading-relaxed mb-[1px]">{i + 1}</span>
+                                    <span key={i} className="text-[9px] md:text-[10px] text-muted-foreground/20 leading-relaxed mb-[1px]">{i + 1}</span>
                                 ))}
                             </div>
                         </div>
                     </div>
 
                     {/* Documentation / Guide */}
-                    <div className="bg-[#1c1f2d] border border-[#282b39] rounded-xl p-4 md:p-6 shadow-sm">
-                        <h3 className="text-white font-bold mb-4 flex items-center gap-2 text-sm md:text-base">
-                            <BookOpen className="w-5 h-5 text-indigo-400" />
+                    <div className="bg-muted/10 border border-border rounded-xl p-4 md:p-6 shadow-sm">
+                        <h3 className="text-foreground font-bold mb-4 flex items-center gap-2 text-sm md:text-base">
+                            <BookOpen className="w-5 h-5 text-primary" />
                             Constitution Reference Guide
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="flex flex-col gap-2">
                                 <h4 className={`text-xs md:text-sm font-bold uppercase tracking-wider ${selectedAgent.color}`}>{selectedAgent.name} Logic</h4>
-                                <p className="text-xs md:text-sm text-[#9da1b9] leading-relaxed">
-                                    Define the strict boundaries for {selectedAgent.name}. Use <code className="text-[10px] md:text-xs bg-[#282b39] px-1 py-0.5 rounded text-white"># RULES</code> to enforce specific extraction constraints.
+                                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
+                                    Define the strict boundaries for {selectedAgent.name}. Use <code className="text-[10px] md:text-xs bg-muted px-1 py-0.5 rounded text-foreground"># RULES</code> to enforce specific extraction constraints.
                                 </p>
                             </div>
                             <div className="flex flex-col gap-2">
-                                <h4 className="text-indigo-400 text-xs md:text-sm font-bold uppercase tracking-wider">Available Variables</h4>
+                                <h4 className="text-primary text-xs md:text-sm font-bold uppercase tracking-wider">Available Variables</h4>
                                 <div className="flex flex-wrap gap-2">
-                                    <span className="px-2 py-1 bg-[#282b39]/50 rounded text-[10px] md:text-xs text-blue-300 font-mono">{'{evidence_level}'}</span>
-                                    <span className="px-2 py-1 bg-[#282b39]/50 rounded text-[10px] md:text-xs text-blue-300 font-mono">{'{study_type}'}</span>
+                                    <span className="px-2 py-1 bg-muted rounded text-[10px] md:text-xs text-primary font-mono">{'{evidence_level}'}</span>
+                                    <span className="px-2 py-1 bg-muted rounded text-[10px] md:text-xs text-primary font-mono">{'{study_type}'}</span>
                                 </div>
                             </div>
                             <div className="flex flex-col gap-2 md:text-right">
-                                <button className="text-indigo-400 hover:underline text-xs md:text-sm font-bold flex items-center gap-1 md:justify-end transition-all">
+                                <button className="text-primary hover:underline text-xs md:text-sm font-bold flex items-center gap-1 md:justify-end transition-all">
                                     View Documentation
                                     <ExternalLink className="w-4 h-4" />
                                 </button>
-                                <p className="text-[10px] text-[#6b7280]">Last audited: Today, 10:44 AM</p>
+                                <p className="text-[10px] text-muted-foreground/40">Last audited: Today, 10:44 AM</p>
                             </div>
                         </div>
                     </div>

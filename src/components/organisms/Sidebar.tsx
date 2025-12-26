@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { Hubot, X, Search, MessageSquare, Network, Brain, FlaskConical, Cpu, FileText, Gavel, CloudUpload, Code, ArrowLeft } from 'lucide-react';
+import { Bot, X, Search, MessageSquare, Network, Brain, FlaskConical, Cpu, FileText, Gavel, CloudUpload, Code, ArrowLeft } from 'lucide-react';
 
 interface SidebarProps {
   className?: string;
@@ -50,10 +50,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
       >
         <div className="h-16 flex items-center px-6 border-b border-white/10">
           <a href="/platform/query" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <div className="w-6 h-6 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
-              <Hubot className="w-4 h-4" />
+            <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+              <Bot className="w-4 h-4" />
             </div>
-            <span className="font-mono text-xs font-bold tracking-widest uppercase">Sarkome<span className="text-indigo-400">Refinery</span></span>
+            <span className="font-mono text-xs font-bold tracking-widest uppercase">Sarkome<span className="text-primary">Refinery</span></span>
           </a>
           <button 
             className="ml-auto md:hidden text-zinc-400 hover:text-white"
@@ -68,11 +68,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           <div className="space-y-1">
             <h3 className="px-3 text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-2">Investigation</h3>
             <a href="/platform/query" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
-              <Search className="w-5 h-5 group-hover:text-indigo-400" />
+              <Search className="w-5 h-5 group-hover:text-primary" />
               <span>Query Builder</span>
             </a>
             <a href="/platform/logs" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
-              <MessageSquare className="w-5 h-5 group-hover:text-indigo-400" />
+              <MessageSquare className="w-5 h-5 group-hover:text-primary" />
               <span>Sarkome Logs</span>
             </a>
           </div>
@@ -81,11 +81,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           <div className="space-y-1">
             <h3 className="px-3 text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-2">Intelligence</h3>
             <a href="/platform/knowledge-graph" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
-              <Network className="w-5 h-5 group-hover:text-indigo-400" />
+              <Network className="w-5 h-5 group-hover:text-primary" />
               <span>Knowledge Graph</span>
             </a>
             <a href="/platform/agents" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
-              <Brain className="w-5 h-5 group-hover:text-indigo-400" />
+              <Brain className="w-5 h-5 group-hover:text-primary" />
               <span>Agent Status</span>
             </a>
           </div>
@@ -94,15 +94,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           <div className="space-y-1">
             <h3 className="px-3 text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-2">Lab & Results</h3>
             <a href="/platform/simulation" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
-              <FlaskConical className="w-5 h-5 group-hover:text-indigo-400" />
+              <FlaskConical className="w-5 h-5 group-hover:text-primary" />
               <span>Metabolic Sim</span>
             </a>
             <a href="/platform/alphafold" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
-              <Cpu className="w-5 h-5 group-hover:text-indigo-400" />
+              <Cpu className="w-5 h-5 group-hover:text-primary" />
               <span>AlphaFold View</span>
             </a>
             <a href="/platform/report" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
-              <FileText className="w-5 h-5 group-hover:text-indigo-400" />
+              <FileText className="w-5 h-5 group-hover:text-primary" />
               <span>Audit Report</span>
             </a>
           </div>
@@ -111,15 +111,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
           <div className="space-y-1">
             <h3 className="px-3 text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-2">Governance & Ops</h3>
             <a href="/platform/constitution" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
-              <Gavel className="w-5 h-5 group-hover:text-indigo-400" />
+              <Gavel className="w-5 h-5 group-hover:text-primary" />
               <span>Constitution</span>
             </a>
             <a href="/platform/ingestion" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
-              <CloudUpload className="w-5 h-5 group-hover:text-indigo-400" />
+              <CloudUpload className="w-5 h-5 group-hover:text-primary" />
               <span>Data Ingestion</span>
             </a>
             <a href="/platform/export" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
-              <Code className="w-5 h-5 group-hover:text-indigo-400" />
+              <Code className="w-5 h-5 group-hover:text-primary" />
               <span>Export & API</span>
             </a>
           </div>

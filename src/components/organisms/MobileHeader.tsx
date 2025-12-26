@@ -21,7 +21,7 @@ export const MobileHeader: React.FC = () => {
         <div className="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center border border-white/10 p-1">
           <img src="/logo_purple_nobackground.svg" alt="Sarkome Logo" className="w-full h-full object-contain" />
         </div>
-        <span className="font-mono text-[10px] font-bold tracking-widest uppercase">Sarkome<span className="text-indigo-400">Refinery</span></span>
+        <span className="font-mono text-[10px] font-bold tracking-widest uppercase">Sarkome<span className="text-primary">Refinery</span></span>
       </div>
     </header>
   );

@@ -18,7 +18,7 @@ export default function LandingPage() {
                     {/* Hero Section */}
                     <section className="space-y-8">
                         <div className="flex items-center gap-3">
-                            <div className="w-20 h-20 rounded-full bg-card border-border flex items-center justify-center">
+                            <div className="w-20 h-20 rounded-full bg-card border border-border flex items-center justify-center transition-all duration-500">
                                 <img alt="Sarkome Logo" className="w-12 h-12 object-contain" width="48" height="48" src="/logo_purple_nobackground.svg" />
                             </div>
                             <div>

@@ -183,16 +183,16 @@ export default function App() {
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen bg-neutral-900 text-neutral-100 font-sans antialiased w-full">
+      <div className="flex h-screen bg-background text-foreground font-sans antialiased w-full">
         <AppSidebar />
-        <SidebarInset className="flex flex-col flex-1 overflow-hidden bg-neutral-900/50">
-          <header className="flex h-14 items-center gap-4 border-b border-neutral-800/50 bg-neutral-900/50 px-6 backdrop-blur-xl sticky top-0 z-10">
-            <SidebarTrigger className="text-neutral-400 hover:text-neutral-100 transition-colors" />
-            <div className="h-4 w-[1px] bg-neutral-800" />
+        <SidebarInset className="flex flex-col flex-1 overflow-hidden bg-background">
+          <header className="flex h-14 items-center gap-4 border-b border-border bg-background/50 px-6 backdrop-blur-xl sticky top-0 z-10">
+            <SidebarTrigger className="text-muted-foreground hover:text-foreground transition-colors" />
+            <div className="h-4 w-[1px] bg-border" />
             <div className="flex items-center gap-2 text-xs font-medium tracking-wide">
-              <span className="text-neutral-500 uppercase tracking-widest">Sarkome OS</span>
-              <span className="text-neutral-700">/</span>
-              <span className="text-neutral-200 capitalize">
+              <span className="text-muted-foreground uppercase tracking-widest">Sarkome OS</span>
+              <span className="text-muted-foreground/50">/</span>
+              <span className="text-foreground capitalize">
                 {(() => {
                   if (location.pathname === "/platform") return "Query Builder";
                   if (location.pathname === "/") return "Sarkome Institute";

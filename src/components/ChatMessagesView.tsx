@@ -23,29 +23,29 @@ type MdComponentProps = {
 // Markdown components (from former ReportView.tsx)
 const mdComponents = {
   h1: ({ className, children, ...props }: MdComponentProps) => (
-    <h1 className={cn("text-2xl font-bold mt-4 mb-2", className)} {...props}>
+    <h1 className={cn("text-2xl font-bold mt-4 mb-2 text-foreground", className)} {...props}>
       {children}
     </h1>
   ),
   h2: ({ className, children, ...props }: MdComponentProps) => (
-    <h2 className={cn("text-xl font-bold mt-3 mb-2", className)} {...props}>
+    <h2 className={cn("text-xl font-bold mt-3 mb-2 text-foreground", className)} {...props}>
       {children}
     </h2>
   ),
   h3: ({ className, children, ...props }: MdComponentProps) => (
-    <h3 className={cn("text-lg font-bold mt-3 mb-1", className)} {...props}>
+    <h3 className={cn("text-lg font-bold mt-3 mb-1 text-foreground", className)} {...props}>
       {children}
     </h3>
   ),
   p: ({ className, children, ...props }: MdComponentProps) => (
-    <p className={cn("mb-3 leading-7", className)} {...props}>
+    <p className={cn("mb-3 leading-7 text-muted-foreground", className)} {...props}>
       {children}
     </p>
   ),
   a: ({ className, children, href, ...props }: MdComponentProps) => (
-    <Badge className="text-xs mx-0.5">
+    <Badge className="text-xs mx-0.5 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
       <a
-        className={cn("text-blue-400 hover:text-blue-300 text-xs", className)}
+        className={cn("text-primary hover:text-primary/80 text-xs", className)}
         href={href}
         target="_blank"
         rel="noopener noreferrer"
@@ -56,12 +56,12 @@ const mdComponents = {
     </Badge>
   ),
   ul: ({ className, children, ...props }: MdComponentProps) => (
-    <ul className={cn("list-disc pl-6 mb-3", className)} {...props}>
+    <ul className={cn("list-disc pl-6 mb-3 text-muted-foreground", className)} {...props}>
       {children}
     </ul>
   ),
   ol: ({ className, children, ...props }: MdComponentProps) => (
-    <ol className={cn("list-decimal pl-6 mb-3", className)} {...props}>
+    <ol className={cn("list-decimal pl-6 mb-3 text-muted-foreground", className)} {...props}>
       {children}
     </ol>
   ),
@@ -73,7 +73,7 @@ const mdComponents = {
   blockquote: ({ className, children, ...props }: MdComponentProps) => (
     <blockquote
       className={cn(
-        "border-l-4 border-neutral-600 pl-4 italic my-3 text-sm",
+        "border-l-4 border-border pl-4 italic my-3 text-sm text-muted-foreground/80",
         className
       )}
       {...props}
@@ -84,7 +84,7 @@ const mdComponents = {
   code: ({ className, children, ...props }: MdComponentProps) => (
     <code
       className={cn(
-        "bg-neutral-900 rounded px-1 py-0.5 font-mono text-xs",
+        "bg-muted/30 rounded px-1 py-0.5 font-mono text-xs text-foreground",
         className
       )}
       {...props}
@@ -95,7 +95,7 @@ const mdComponents = {
   pre: ({ className, children, ...props }: MdComponentProps) => (
     <pre
       className={cn(
-        "bg-neutral-900 p-3 rounded-lg overflow-x-auto font-mono text-xs my-3",
+        "bg-muted/20 p-3 rounded-lg overflow-x-auto font-mono text-xs my-3 border border-border",
         className
       )}
       {...props}
@@ -104,11 +104,11 @@ const mdComponents = {
     </pre>
   ),
   hr: ({ className, ...props }: MdComponentProps) => (
-    <hr className={cn("border-neutral-600 my-4", className)} {...props} />
+    <hr className={cn("border-border my-4", className)} {...props} />
   ),
   table: ({ className, children, ...props }: MdComponentProps) => (
     <div className="my-3 overflow-x-auto">
-      <table className={cn("border-collapse w-full", className)} {...props}>
+      <table className={cn("border-collapse w-full border border-border", className)} {...props}>
         {children}
       </table>
     </div>
@@ -116,7 +116,7 @@ const mdComponents = {
   th: ({ className, children, ...props }: MdComponentProps) => (
     <th
       className={cn(
-        "border border-neutral-600 px-3 py-2 text-left font-bold",
+        "border border-border px-3 py-2 text-left font-bold bg-muted/20 text-foreground",
         className
       )}
       {...props}
@@ -126,7 +126,7 @@ const mdComponents = {
   ),
   td: ({ className, children, ...props }: MdComponentProps) => (
     <td
-      className={cn("border border-neutral-600 px-3 py-2", className)}
+      className={cn("border border-border px-3 py-2 text-muted-foreground", className)}
       {...props}
     >
       {children}
@@ -147,7 +147,7 @@ const HumanMessageBubble: React.FC<HumanMessageBubbleProps> = ({
 }) => {
   return (
     <div
-      className={`text-white rounded-3xl break-words min-h-7 bg-neutral-700 max-w-[100%] sm:max-w-[90%] px-4 pt-3 rounded-br-lg`}
+      className={`text-foreground rounded-3xl break-words min-h-7 bg-muted/30 border border-border max-w-[100%] sm:max-w-[90%] px-4 pt-3 rounded-br-lg`}
     >
       <ReactMarkdown components={mdComponents}>
         {typeof message.content === "string"
@@ -187,23 +187,26 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
   const isLiveActivityForThisBubble = isLastMessage && isOverallLoading;
 
   return (
-    <div className={`relative break-words flex flex-col`}>
+    <div className={`relative break-words flex flex-col w-full`}>
       {activityForThisBubble && activityForThisBubble.length > 0 && (
-        <div className="mb-3 border-b border-neutral-700 pb-3 text-xs">
+        <div className="mb-3 border-b border-border pb-3 text-xs">
           <ActivityTimeline
             processedEvents={activityForThisBubble}
             isLoading={isLiveActivityForThisBubble}
           />
         </div>
       )}
-      <ReactMarkdown components={mdComponents}>
-        {typeof message.content === "string"
-          ? message.content
-          : JSON.stringify(message.content)}
-      </ReactMarkdown>
+      <div className="prose prose-invert max-w-none">
+        <ReactMarkdown components={mdComponents}>
+          {typeof message.content === "string"
+            ? message.content
+            : JSON.stringify(message.content)}
+        </ReactMarkdown>
+      </div>
       <Button
-        variant="default"
-        className={`cursor-pointer bg-neutral-700 border-neutral-600 text-neutral-300 self-end ${message.content.length > 0 ? "visible" : "hidden"
+        variant="ghost"
+        size="sm"
+        className={`cursor-pointer text-muted-foreground hover:text-foreground self-end mt-2 ${message.content.length > 0 ? "visible" : "hidden"
           }`}
         onClick={() =>
           handleCopy(
@@ -215,7 +218,7 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
         }
       >
         {copiedMessageId === message.id ? "Copied" : "Copy"}
-        {copiedMessageId === message.id ? <CopyCheck /> : <Copy />}
+        {copiedMessageId === message.id ? <CopyCheck className="ml-2 h-4 w-4" /> : <Copy className="ml-2 h-4 w-4" />}
       </Button>
     </div>
   );
@@ -290,7 +293,7 @@ export function ChatMessagesView({
               <div className="flex items-start gap-3 mt-3">
                 {" "}
                 {/* AI message row structure */}
-                <div className="relative group max-w-[85%] md:max-w-[80%] rounded-xl p-3 shadow-sm break-words bg-neutral-800 text-neutral-100 rounded-bl-none w-full min-h-[56px]">
+                <div className="relative group max-w-[85%] md:max-w-[80%] rounded-xl p-3 shadow-sm break-words bg-muted/20 border border-border text-foreground rounded-bl-none w-full min-h-[56px]">
                   {liveActivityEvents.length > 0 ? (
                     <div className="text-xs">
                       <ActivityTimeline
@@ -300,8 +303,8 @@ export function ChatMessagesView({
                     </div>
                   ) : (
                     <div className="flex items-center justify-start h-full">
-                      <Loader2 className="h-5 w-5 animate-spin text-neutral-400 mr-2" />
-                      <span>Processing...</span>
+                      <Loader2 className="h-5 w-5 animate-spin text-primary mr-2" />
+                      <span className="text-muted-foreground">Processing...</span>
                     </div>
                   )}
                 </div>
