@@ -4,7 +4,7 @@ interface WelcomeScreenProps {
   handleSubmit: (
     submittedInputValue: string,
     effort: string,
-    model: string,
+    models: { queryModel: string; answerModel: string },
     activeAgents: string[]
   ) => void;
   onCancel: () => void;

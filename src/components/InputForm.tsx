@@ -24,7 +24,12 @@ const ADDITIONAL_AGENTS = [
 
 // Updated InputFormProps
 interface InputFormProps {
-  onSubmit: (inputValue: string, effort: string, model: string, activeAgents: string[]) => void;
+  onSubmit: (
+    inputValue: string,
+    effort: string,
+    models: { queryModel: string; answerModel: string },
+    activeAgents: string[]
+  ) => void;
   onCancel: () => void;
   isLoading: boolean;
   hasHistory: boolean;
@@ -38,7 +43,8 @@ export const InputForm: React.FC<InputFormProps> = ({
 }) => {
   const [internalInputValue, setInternalInputValue] = useState("");
   const [effort, setEffort] = useState("medium");
-  const [model, setModel] = useState("gemini-2.5-flash-preview-04-17");
+  const [queryModel, setQueryModel] = useState("gemini-3-flash-preview");
+  const [answerModel, setAnswerModel] = useState("gemini-3-pro-preview");
   const [activeAgents, setActiveAgents] = useState<string[]>([]);
 
   const toggleAgent = (id: string) => {
@@ -57,7 +63,7 @@ export const InputForm: React.FC<InputFormProps> = ({
   const handleInternalSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!internalInputValue.trim()) return;
-    onSubmit(internalInputValue, effort, model, activeAgents);
+    onSubmit(internalInputValue, effort, { queryModel, answerModel }, activeAgents);
     setInternalInputValue("");
   };
 
@@ -184,21 +190,37 @@ export const InputForm: React.FC<InputFormProps> = ({
           </Select>
         </div>
 
-        <div className="flex items-center bg-muted/40 border border-border rounded-full px-5 py-1">
+        <div className="flex items-center bg-muted/40 border border-border rounded-full px-5 py-2 gap-4 flex-wrap">
           <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.15em] text-muted-foreground border-r border-border pr-4 mr-2">
             <Cpu className="size-3.5" />
             MODEL
           </div>
-          <Select value={model} onValueChange={setModel}>
-            <SelectTrigger className="h-8 w-[120px] bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground p-0">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="bg-popover border-border">
-              <SelectItem value="gemini-2.0-flash" className="text-[10px] font-bold uppercase tracking-widest">2.0 Flash</SelectItem>
-              <SelectItem value="gemini-2.5-flash-preview-04-17" className="text-[10px] font-bold uppercase tracking-widest">2.5 Flash</SelectItem>
-              <SelectItem value="gemini-2.5-pro-preview-05-06" className="text-[10px] font-bold uppercase tracking-widest">2.5 Pro</SelectItem>
-            </SelectContent>
-          </Select>
+
+          <div className="flex items-center gap-2">
+            <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Query & Reflection</span>
+            <Select value={queryModel} onValueChange={setQueryModel}>
+              <SelectTrigger className="h-8 w-[140px] bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground p-0">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-popover border-border">
+                <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest">Gemini 3 Pro</SelectItem>
+                <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest">Gemini 3 Flash</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Answer</span>
+            <Select value={answerModel} onValueChange={setAnswerModel}>
+              <SelectTrigger className="h-8 w-[140px] bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground p-0">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-popover border-border">
+                <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest">Gemini 3 Pro</SelectItem>
+                <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest">Gemini 3 Flash</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
     </form>

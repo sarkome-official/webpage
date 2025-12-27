@@ -3,6 +3,7 @@ import {
     Search,
     MessageSquare,
     Network,
+    LayoutGrid,
     Brain,
     FlaskConical,
     Cpu,
@@ -50,6 +51,11 @@ const data = {
                     title: "Knowledge Graph",
                     url: "/knowledge-graph",
                     icon: Network,
+                },
+                {
+                    title: "Whiteboard",
+                    url: "/whiteboard",
+                    icon: LayoutGrid,
                 },
                 {
                     title: "Agent Status",

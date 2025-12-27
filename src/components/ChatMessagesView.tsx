@@ -134,6 +134,45 @@ const mdComponents = {
   ),
 };
 
+function formatContent(content: any): string {
+  const tryParse = (value: string) => {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return null;
+    }
+  };
+
+  // If it's already a string, attempt to parse JSON; if parse fails, return as-is.
+  if (typeof content === "string") {
+    const parsed = tryParse(content);
+    if (!parsed) return content;
+    content = parsed;
+  }
+
+  // If it's an array of Gemini-style parts, extract their text.
+  if (Array.isArray(content)) {
+    const pieces = content
+      .map((item) => {
+        if (item && typeof item === "object" && typeof item.text === "string") {
+          return item.text;
+        }
+        if (typeof item === "string") return item;
+        return "";
+      })
+      .filter(Boolean);
+    if (pieces.length > 0) return pieces.join("\n\n");
+  }
+
+  // If it's an object with a text field
+  if (content && typeof content === "object" && typeof content.text === "string") {
+    return content.text;
+  }
+
+  // Fallback
+  return typeof content === "string" ? content : JSON.stringify(content, null, 2);
+}
+
 // Props for HumanMessageBubble
 interface HumanMessageBubbleProps {
   message: Message;
@@ -145,14 +184,13 @@ const HumanMessageBubble: React.FC<HumanMessageBubbleProps> = ({
   message,
   mdComponents,
 }) => {
+  const formatted = formatContent(message.content);
   return (
     <div
       className={`text-foreground rounded-3xl break-words min-h-7 bg-muted/30 border border-border max-w-[100%] sm:max-w-[90%] px-4 pt-3 rounded-br-lg`}
     >
       <ReactMarkdown components={mdComponents}>
-        {typeof message.content === "string"
-          ? message.content
-          : JSON.stringify(message.content)}
+        {formatted}
       </ReactMarkdown>
     </div>
   );
@@ -185,6 +223,7 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
   const activityForThisBubble =
     isLastMessage && isOverallLoading ? liveActivity : historicalActivity;
   const isLiveActivityForThisBubble = isLastMessage && isOverallLoading;
+  const formatted = formatContent(message.content);
 
   return (
     <div className={`relative break-words flex flex-col w-full`}>
@@ -198,23 +237,16 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
       )}
       <div className="prose prose-invert max-w-none">
         <ReactMarkdown components={mdComponents}>
-          {typeof message.content === "string"
-            ? message.content
-            : JSON.stringify(message.content)}
+          {formatted}
         </ReactMarkdown>
       </div>
       <Button
         variant="ghost"
         size="sm"
-        className={`cursor-pointer text-muted-foreground hover:text-foreground self-end mt-2 ${message.content.length > 0 ? "visible" : "hidden"
+        className={`cursor-pointer text-muted-foreground hover:text-foreground self-end mt-2 ${formatted.length > 0 ? "visible" : "hidden"
           }`}
         onClick={() =>
-          handleCopy(
-            typeof message.content === "string"
-              ? message.content
-              : JSON.stringify(message.content),
-            message.id!
-          )
+          handleCopy(formatted, message.id!)
         }
       >
         {copiedMessageId === message.id ? "Copied" : "Copy"}
@@ -228,7 +260,12 @@ interface ChatMessagesViewProps {
   messages: Message[];
   isLoading: boolean;
   scrollAreaRef: React.RefObject<HTMLDivElement | null>;
-  onSubmit: (inputValue: string, effort: string, model: string, activeAgents: string[]) => void;
+  onSubmit: (
+    inputValue: string,
+    effort: string,
+    models: { queryModel: string; answerModel: string },
+    activeAgents: string[]
+  ) => void;
   onCancel: () => void;
   liveActivityEvents: ProcessedEvent[];
   historicalActivities: Record<string, ProcessedEvent[]>;

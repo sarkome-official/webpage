@@ -19,6 +19,7 @@ import { ReportView } from "@/pages/platform/ReportView";
 import { ConstitutionEditor } from "@/pages/platform/ConstitutionEditor";
 import { DataIngestionView } from "@/pages/platform/DataIngestionView";
 import { KnowledgeExportView } from "@/pages/platform/KnowledgeExportView";
+import { WhiteboardView } from "@/pages/platform/WhiteboardView";
 import ProgramDetail from "@/pages/programs/ProgramDetail";
 import { DocsLayout } from "@/pages/docs/DocsLayout";
 import DocPage from "@/pages/docs/DocPage";
@@ -39,6 +40,7 @@ export default function App() {
 
   const isPlatformRoute = location.pathname.startsWith("/platform") ||
     location.pathname === "/knowledge-graph" ||
+    location.pathname === "/whiteboard" ||
     location.pathname === "/logs" ||
     location.pathname === "/status" ||
     location.pathname === "/sim" ||
@@ -130,7 +132,12 @@ export default function App() {
   }, [thread.messages, thread.isLoading, processedEventsTimeline]);
 
   const handleSubmit = useCallback(
-    (submittedInputValue: string, effort: string, model: string, activeAgents: string[]) => {
+    (
+      submittedInputValue: string,
+      effort: string,
+      models: { queryModel: string; answerModel: string },
+      activeAgents: string[]
+    ) => {
       if (!submittedInputValue.trim()) return;
       setProcessedEventsTimeline([]);
       hasFinalizeEventOccurredRef.current = false;
@@ -165,7 +172,8 @@ export default function App() {
         messages: newMessages,
         initial_search_query_count: initial_search_query_count,
         max_research_loops: max_research_loops,
-        reasoning_model: model,
+        reasoning_model: models.answerModel,
+        reflection_model: models.queryModel,
       });
     },
     [thread, processedEventsTimeline]
@@ -209,6 +217,7 @@ export default function App() {
                   const lastPart = location.pathname.split("/").pop() || "";
                   const routeMap: Record<string, string> = {
                     'knowledge-graph': 'Knowledge Substrate',
+                    'whiteboard': 'Whiteboard',
                     'logs': 'Sarkome Logs',
                     'status': 'Agent Performance',
                     'sim': 'Simulation Lab',
@@ -230,6 +239,7 @@ export default function App() {
           <main className="h-full w-full mx-auto overflow-y-auto">
             <Routes>
               <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
+              <Route path="/whiteboard" element={<WhiteboardView />} />
               <Route path="/logs" element={<SarkomeLogsView />} />
               <Route path="/status" element={<AgentPerformanceView />} />
               <Route path="/sim" element={<SimulationView />} />
