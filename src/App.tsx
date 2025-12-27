@@ -55,6 +55,7 @@ export default function App() {
     initial_search_query_count: number;
     max_research_loops: number;
     reasoning_model: string;
+    reflection_model: string;
   }>({
     apiUrl: import.meta.env.DEV
       ? "http://localhost:2024"
