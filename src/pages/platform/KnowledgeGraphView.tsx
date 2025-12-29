@@ -44,7 +44,7 @@ export const KnowledgeGraphView = () => {
             {/* Main Content Area */}
             <div className="flex-1 overflow-y-auto p-4 md:p-8">
                 <div className="max-w-5xl mx-auto space-y-8 md:space-y-12">
-                    
+
                     {/* Stats Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                         <div className="p-6 rounded-2xl bg-muted/20 border border-border space-y-2">
@@ -70,7 +70,7 @@ export const KnowledgeGraphView = () => {
                             <Info className="w-5 h-5 text-primary" />
                             <h2>Precision Medicine Architecture</h2>
                         </div>
-                        
+
                         <div className="prose prose-invert max-w-none text-muted-foreground">
                             <p>
                                 PrimeKG is designed to bridge the gap between genomic data and clinical phenotypes. By mapping the entire landscape of human disease through a precision medicine lens, it enables the Sarkome multi-agent system to perform high-fidelity causal reasoning.
@@ -110,7 +110,7 @@ export const KnowledgeGraphView = () => {
                                 <span className="text-muted-foreground/60">(d:Disease &#123;name: "ASPS"&#125;)-[r]-(g:Gene) RETURN d, r, g</span>
                             </div>
                             <pre className="text-muted-foreground/80">
-{`{
+                                {`{
   "query_target": "Alveolar Soft Part Sarcoma",
   "nodes_found": 142,
   "primary_fusion": "ASPSCR1-TFE3",
