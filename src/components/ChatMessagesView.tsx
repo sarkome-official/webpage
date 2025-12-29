@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Message } from "@langchain/langgraph-sdk";
+import type { ChatMessage } from "@/lib/chat-types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2, Copy, CopyCheck } from "lucide-react";
 import { InputForm } from "@/components/InputForm";
@@ -233,7 +233,7 @@ function formatContent(content: any): string {
 
 // Props for HumanMessageBubble
 interface HumanMessageBubbleProps {
-  message: Message;
+  message: ChatMessage;
   mdComponents: ReturnType<typeof makeMdComponents>;
 }
 
@@ -256,7 +256,7 @@ const HumanMessageBubble: React.FC<HumanMessageBubbleProps> = ({
 
 // Props for AiMessageBubble
 interface AiMessageBubbleProps {
-  message: Message;
+  message: ChatMessage;
   historicalActivity: ProcessedEvent[] | undefined;
   liveActivity: ProcessedEvent[] | undefined;
   isLastMessage: boolean;
@@ -315,7 +315,7 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
 };
 
 interface ChatMessagesViewProps {
-  messages: Message[];
+  messages: ChatMessage[];
   isLoading: boolean;
   scrollAreaRef: React.RefObject<HTMLDivElement | null>;
   onSubmit: (

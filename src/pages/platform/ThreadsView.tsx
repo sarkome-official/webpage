@@ -1,75 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MessageSquare, Database, Link as LinkIcon } from "lucide-react";
+import { getLangServeUrl } from "@/lib/langgraph-api";
+import type { ChatMessage } from "@/lib/chat-types";
+import { getThread, listThreads, type StoredThread } from "@/lib/local-threads";
 
-type ThreadListItem = {
-  thread_id?: string;
-  id?: string;
-} & Record<string, unknown>;
-
-type MessageLike = {
-  type?: string;
-  content?: unknown;
-  id?: string;
-  name?: string;
-} & Record<string, unknown>;
-
-function getLangGraphApiUrl() {
-  return import.meta.env.DEV ? "http://localhost:2024" : "http://localhost:8123";
-}
-
-function asThreadId(item: unknown): string | null {
-  if (!item || typeof item !== "object") return null;
-  const obj = item as Record<string, unknown>;
-  const threadId = typeof obj.thread_id === "string" ? obj.thread_id : null;
-  if (threadId) return threadId;
-  const id = typeof obj.id === "string" ? obj.id : null;
-  return id;
-}
-
-function extractThreads(payload: unknown): ThreadListItem[] {
-  if (Array.isArray(payload)) return payload as ThreadListItem[];
-  if (payload && typeof payload === "object") {
-    const obj = payload as Record<string, unknown>;
-    if (Array.isArray(obj.threads)) return obj.threads as ThreadListItem[];
-  }
-  return [];
-}
-
-function extractMessages(payload: unknown): MessageLike[] {
-  const candidates: unknown[] = [];
-
-  if (payload && typeof payload === "object") {
-    const obj = payload as Record<string, unknown>;
-
-    // Common LangGraph shapes
-    candidates.push(obj.messages);
-    candidates.push(obj.values);
-    candidates.push(obj.state);
-    candidates.push(obj.checkpoint);
-
-    if (obj.values && typeof obj.values === "object") {
-      candidates.push((obj.values as Record<string, unknown>).messages);
-    }
-    if (obj.state && typeof obj.state === "object") {
-      candidates.push((obj.state as Record<string, unknown>).messages);
-    }
-    if (obj.checkpoint && typeof obj.checkpoint === "object") {
-      const cp = obj.checkpoint as Record<string, unknown>;
-      if (cp.values && typeof cp.values === "object") {
-        candidates.push((cp.values as Record<string, unknown>).messages);
-      }
-    }
-  }
-
-  for (const c of candidates) {
-    if (Array.isArray(c)) return c as MessageLike[];
-    if (c && typeof c === "object") {
-      const maybe = c as Record<string, unknown>;
-      if (Array.isArray(maybe.messages)) return maybe.messages as MessageLike[];
-    }
-  }
-
-  return [];
+function asThreadLabel(t: StoredThread): string {
+  if (t.title && t.title.trim().length > 0) return t.title;
+  return t.id;
 }
 
 function stringifyContent(content: unknown): string {
@@ -83,89 +20,32 @@ function stringifyContent(content: unknown): string {
 }
 
 export const ThreadsView = () => {
-  const apiUrl = useMemo(() => getLangGraphApiUrl(), []);
+  const agentUrl = useMemo(() => getLangServeUrl(), []);
 
-  const [threads, setThreads] = useState<ThreadListItem[]>([]);
-  const [threadsLoading, setThreadsLoading] = useState(false);
-  const [threadsError, setThreadsError] = useState<string | null>(null);
-
-  const [selectedThreadId, setSelectedThreadId] = useState<string | null>(null);
-  const [threadState, setThreadState] = useState<unknown>(null);
-  const [stateLoading, setStateLoading] = useState(false);
-  const [stateError, setStateError] = useState<string | null>(null);
+  const [threads, setThreads] = useState<StoredThread[]>(() => listThreads());
+  const [selectedThreadId, setSelectedThreadId] = useState<string | null>(() => {
+    const first = listThreads()[0];
+    return first?.id ?? null;
+  });
 
   useEffect(() => {
-    const controller = new AbortController();
-    async function loadThreads() {
-      setThreadsLoading(true);
-      setThreadsError(null);
-      try {
-        const res = await fetch(`${apiUrl}/threads`, {
-          method: "GET",
-          signal: controller.signal,
-          headers: {
-            Accept: "application/json",
-          },
-        });
-        if (!res.ok) {
-          const text = await res.text().catch(() => "");
-          throw new Error(`GET /threads failed (${res.status}): ${text || res.statusText}`);
-        }
-        const json = (await res.json()) as unknown;
-        const items = extractThreads(json);
-        setThreads(items);
-        if (!selectedThreadId) {
-          const first = items.map(asThreadId).find(Boolean) as string | undefined;
-          if (first) setSelectedThreadId(first);
-        }
-      } catch (e: any) {
-        if (e?.name === "AbortError") return;
-        setThreadsError(e?.message || "Failed to load threads");
-      } finally {
-        setThreadsLoading(false);
-      }
-    }
-
-    loadThreads();
-    return () => controller.abort();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiUrl]);
+    // Refresh list on mount and when the browser storage changes (other tabs).
+    setThreads(listThreads());
+    const onStorage = (e: StorageEvent) => {
+      if (!e.key || e.key.includes("sarkome.threads")) setThreads(listThreads());
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
 
   useEffect(() => {
-    if (!selectedThreadId) return;
+    if (selectedThreadId) return;
+    const first = listThreads()[0];
+    if (first?.id) setSelectedThreadId(first.id);
+  }, [selectedThreadId]);
 
-    const controller = new AbortController();
-    async function loadState() {
-      setStateLoading(true);
-      setStateError(null);
-      setThreadState(null);
-      try {
-        const res = await fetch(`${apiUrl}/threads/${encodeURIComponent(selectedThreadId)}/state`, {
-          method: "GET",
-          signal: controller.signal,
-          headers: {
-            Accept: "application/json",
-          },
-        });
-        if (!res.ok) {
-          const text = await res.text().catch(() => "");
-          throw new Error(`GET /threads/{id}/state failed (${res.status}): ${text || res.statusText}`);
-        }
-        const json = (await res.json()) as unknown;
-        setThreadState(json);
-      } catch (e: any) {
-        if (e?.name === "AbortError") return;
-        setStateError(e?.message || "Failed to load thread state");
-      } finally {
-        setStateLoading(false);
-      }
-    }
-
-    loadState();
-    return () => controller.abort();
-  }, [apiUrl, selectedThreadId]);
-
-  const extractedMessages = useMemo(() => extractMessages(threadState), [threadState]);
+  const selectedThread = useMemo(() => (selectedThreadId ? getThread(selectedThreadId) : null), [selectedThreadId]);
+  const extractedMessages = useMemo(() => (Array.isArray(selectedThread?.messages) ? (selectedThread!.messages as ChatMessage[]) : []), [selectedThread]);
 
   return (
     <div className="flex flex-col h-full w-full bg-background text-foreground font-sans">
@@ -177,7 +57,7 @@ export const ThreadsView = () => {
           <div className="min-w-0">
             <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight truncate">Hilos (Threads) & Historial del Agente</h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Historial de conversaciones guardado automáticamente en Postgres (LangGraph).
+              Historial de conversaciones guardado localmente (LangServe no expone /threads).
             </p>
           </div>
         </div>
@@ -189,9 +69,9 @@ export const ThreadsView = () => {
               <div className="space-y-1">
                 <div className="text-sm text-foreground font-semibold">Cómo funciona la persistencia</div>
                 <ul className="text-sm text-muted-foreground list-disc pl-5 space-y-1">
-                  <li>Hilos (Threads): Cada conversación nueva que inicias con el agente se guarda con un <span className="font-mono text-foreground">thread_id</span> único en Postgres.</li>
-                  <li>Persistencia Automática: LangGraph guarda automáticamente cada mensaje del usuario y cada respuesta del agente dentro de ese <span className="font-mono text-foreground">thread_id</span>.</li>
-                  <li>API Lista para Usar: El contenedor <span className="font-mono text-foreground">langgraph-api</span> expone endpoints para el Frontend.</li>
+                  <li>Hilos (Threads): Cada conversación se guarda localmente con un <span className="font-mono text-foreground">thread_id</span>.</li>
+                  <li>Persistencia Automática: El frontend guarda cada mensaje del usuario y cada respuesta del agente en <span className="font-mono text-foreground">localStorage</span>.</li>
+                  <li>Backend: El agente se invoca vía LangServe en <span className="font-mono text-foreground">/agent</span> (invoke/stream).</li>
                 </ul>
               </div>
             </div>
@@ -203,11 +83,12 @@ export const ThreadsView = () => {
               <div className="space-y-2">
                 <div className="text-sm text-foreground font-semibold">Endpoints</div>
                 <div className="text-xs text-muted-foreground">
-                  <div className="font-mono text-foreground">GET /threads</div>
-                  <div className="font-mono text-foreground">GET /threads/{`{id}`}/state</div>
+                  <div className="font-mono text-foreground">POST /agent/invoke</div>
+                  <div className="font-mono text-foreground">POST /agent/stream</div>
+                  <div className="font-mono text-foreground">/agent/playground</div>
                 </div>
                 <div className="text-[11px] text-muted-foreground">
-                  Base URL actual: <span className="font-mono text-foreground">{apiUrl}</span>
+                  Base URL actual: <span className="font-mono text-foreground">{agentUrl}</span>
                 </div>
               </div>
             </div>
@@ -224,19 +105,12 @@ export const ThreadsView = () => {
               <div className="text-xs text-muted-foreground mt-1">Selecciona un thread_id para ver el historial.</div>
             </div>
             <div className="flex-1 overflow-y-auto">
-              {threadsLoading ? (
-                <div className="p-4 text-sm text-muted-foreground">Cargando threads…</div>
-              ) : threadsError ? (
-                <div className="p-4">
-                  <div className="text-sm text-red-400 font-semibold">Error</div>
-                  <div className="text-xs text-muted-foreground mt-1 break-words">{threadsError}</div>
-                </div>
-              ) : threads.length === 0 ? (
+              {threads.length === 0 ? (
                 <div className="p-4 text-sm text-muted-foreground">No hay threads todavía.</div>
               ) : (
                 <div className="p-2">
                   {threads.map((t, idx) => {
-                    const id = asThreadId(t) || `thread-${idx}`;
+                    const id = t.id || `thread-${idx}`;
                     const isActive = id === selectedThreadId;
                     return (
                       <button
@@ -250,8 +124,8 @@ export const ThreadsView = () => {
                       >
                         <div className="flex items-center justify-between gap-2">
                           <div className="min-w-0">
-                            <div className="text-xs font-mono text-foreground truncate">{id}</div>
-                            <div className="text-[10px] text-muted-foreground truncate">{t.thread_id ? "thread_id" : t.id ? "id" : "thread"}</div>
+                            <div className="text-xs font-mono text-foreground truncate">{asThreadLabel(t)}</div>
+                            <div className="text-[10px] text-muted-foreground truncate">{t.id}</div>
                           </div>
                           {isActive ? <div className="size-1.5 rounded-full bg-primary" /> : null}
                         </div>
@@ -275,23 +149,16 @@ export const ThreadsView = () => {
             <div className="flex-1 overflow-y-auto p-4">
               {!selectedThreadId ? (
                 <div className="text-sm text-muted-foreground">Selecciona un thread para ver su estado.</div>
-              ) : stateLoading ? (
-                <div className="text-sm text-muted-foreground">Cargando historial…</div>
-              ) : stateError ? (
-                <div>
-                  <div className="text-sm text-red-400 font-semibold">Error</div>
-                  <div className="text-xs text-muted-foreground mt-1 break-words">{stateError}</div>
-                </div>
               ) : extractedMessages.length > 0 ? (
                 <div className="space-y-3">
                   {extractedMessages.map((m, i) => {
                     const role = m.type || (typeof (m as any).role === "string" ? (m as any).role : "message");
-                    const content = stringifyContent(m.content ?? (m as any).text ?? (m as any).message);
+                    const content = stringifyContent((m as any).content ?? (m as any).text ?? (m as any).message);
                     return (
-                      <div key={`${m.id || i}`} className="rounded-xl border border-border bg-background/30 p-3">
+                      <div key={`${(m as any).id || i}`} className="rounded-xl border border-border bg-background/30 p-3">
                         <div className="flex items-center justify-between gap-3 mb-2">
                           <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">{role}</div>
-                          {m.id ? <div className="text-[10px] text-muted-foreground font-mono truncate">{m.id}</div> : null}
+                          {(m as any).id ? <div className="text-[10px] text-muted-foreground font-mono truncate">{(m as any).id}</div> : null}
                         </div>
                         <pre className="whitespace-pre-wrap break-words text-sm text-foreground/90 font-sans leading-relaxed">
                           {content}
@@ -302,11 +169,7 @@ export const ThreadsView = () => {
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <div className="text-sm text-muted-foreground">No se encontraron mensajes en el estado devuelto.</div>
-                  <div className="text-xs text-muted-foreground">Mostrando el JSON completo para inspección:</div>
-                  <pre className="text-xs bg-background/30 border border-border rounded-xl p-3 overflow-x-auto">
-                    {stringifyContent(threadState)}
-                  </pre>
+                  <div className="text-sm text-muted-foreground">No hay mensajes en este thread todavía.</div>
                 </div>
               )}
             </div>

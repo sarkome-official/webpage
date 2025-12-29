@@ -1,5 +1,3 @@
-import { useStream } from "@langchain/langgraph-sdk/react";
-import type { Message } from "@langchain/langgraph-sdk";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { ProcessedEvent } from "@/components/ActivityTimeline";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
@@ -25,6 +23,10 @@ import { DocsLayout } from "@/pages/docs/DocsLayout";
 import DocPage from "@/pages/docs/DocPage";
 import { docsConfig } from "@/lib/docs-config";
 import { Navigate } from "react-router-dom";
+import { getLangServeUrl } from "@/lib/langgraph-api";
+import type { ChatMessage } from "@/lib/chat-types";
+import { useLangServeAgent } from "@/hooks/useLangServeAgent";
+import { deriveThreadTitle, getOrCreateActiveThreadId, getThread, upsertThread } from "@/lib/local-threads";
 
 export default function App() {
   const location = useLocation();
@@ -42,6 +44,12 @@ export default function App() {
   const hasFinalizeEventOccurredRef = useRef(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [activeThreadId] = useState(() => getOrCreateActiveThreadId());
+  const [initialThreadMessages] = useState<ChatMessage[]>(() => {
+    const existing = getThread(activeThreadId);
+    return Array.isArray(existing?.messages) ? existing!.messages : [];
+  });
+
   const isPlatformRoute = location.pathname.startsWith("/platform") ||
     location.pathname === "/knowledge-graph" ||
     location.pathname === "/whiteboard" ||
@@ -54,18 +62,10 @@ export default function App() {
     location.pathname === "/api" ||
     location.pathname === "/threads";
 
-  const thread = useStream<{
-    messages: Message[];
-    initial_search_query_count: number;
-    max_research_loops: number;
-    reasoning_model: string;
-    reflection_model: string;
-  }>({
-    apiUrl: import.meta.env.DEV
-      ? "http://localhost:2024"
-      : "http://localhost:8123",
-    assistantId: "agent",
-    messagesKey: "messages",
+  const thread = useLangServeAgent({
+    url: getLangServeUrl(),
+    threadId: activeThreadId,
+    initialMessages: initialThreadMessages,
     onUpdateEvent: (event: any) => {
       let processedEvent: ProcessedEvent | null = null;
       if (event.generate_query) {
@@ -173,9 +173,20 @@ export default function App() {
       }
     },
     onError: (error: any) => {
-      setError(error.message);
+      setError(error?.message || String(error));
     },
   });
+
+  useEffect(() => {
+    const now = Date.now();
+    upsertThread({
+      id: activeThreadId,
+      createdAt: getThread(activeThreadId)?.createdAt ?? now,
+      updatedAt: now,
+      title: deriveThreadTitle(thread.messages),
+      messages: thread.messages,
+    });
+  }, [activeThreadId, thread.messages]);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -246,7 +257,7 @@ export default function App() {
           break;
       }
 
-      const newMessages: Message[] = [
+      const newMessages: ChatMessage[] = [
         ...(thread.messages || []),
         {
           type: "human",
