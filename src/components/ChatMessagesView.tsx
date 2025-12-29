@@ -13,6 +13,56 @@ import {
   ProcessedEvent,
 } from "@/components/ActivityTimeline"; // Assuming ActivityTimeline is in the same dir or adjust path
 
+function extractText(node: ReactNode): string {
+  if (node == null) return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(extractText).join("");
+  // React element
+  if (typeof node === "object" && (node as any).props?.children != null) {
+    return extractText((node as any).props.children);
+  }
+  return "";
+}
+
+function resolveRealHref(
+  href: string | undefined,
+  linkText: string,
+  sourcesByLabel?: Record<string, string>,
+  sourcesList?: Array<{ label?: string; url: string; id?: string }>
+): string | undefined {
+  if (!href) return undefined;
+
+  const isVertexId = /https?:\/\/vertexaisearch\.cloud\.google\.com\/id\//i.test(href);
+  if (!isVertexId) return href;
+
+  if (!sourcesByLabel) return href;
+
+  const textKey = linkText.trim();
+  if (textKey && sourcesByLabel[textKey]) return sourcesByLabel[textKey];
+  if (textKey && sourcesByLabel[textKey.toLowerCase()]) return sourcesByLabel[textKey.toLowerCase()];
+
+  // Best-effort: try mapping by the trailing id token.
+  const idTokenRaw = href.split("/id/")[1];
+  const idToken = idTokenRaw ? idTokenRaw.split(/[?#]/)[0] : undefined;
+  if (idToken && sourcesByLabel[idToken]) return sourcesByLabel[idToken];
+
+  // Fallback: interpret ids like "0-2" (or "0_2") as an index into sources list.
+  // Commonly the second number is 1-based source index.
+  if (idToken && sourcesList && sourcesList.length > 0) {
+    const match = idToken.match(/^(\d+)[-_](\d+)$/);
+    if (match) {
+      const idx2 = Number(match[2]);
+      if (Number.isFinite(idx2)) {
+        const oneBased = idx2 - 1;
+        if (oneBased >= 0 && oneBased < sourcesList.length) return sourcesList[oneBased].url;
+        if (idx2 >= 0 && idx2 < sourcesList.length) return sourcesList[idx2].url;
+      }
+    }
+  }
+
+  return href;
+}
+
 // Markdown component props type from former ReportView
 type MdComponentProps = {
   className?: string;
@@ -20,8 +70,11 @@ type MdComponentProps = {
   [key: string]: any;
 };
 
-// Markdown components (from former ReportView.tsx)
-const mdComponents = {
+// Markdown components factory (allows link rewriting per-message)
+const makeMdComponents = (options?: {
+  sourcesByLabel?: Record<string, string>;
+  sourcesList?: Array<{ label?: string; url: string; id?: string }>;
+}) => ({
   h1: ({ className, children, ...props }: MdComponentProps) => (
     <h1 className={cn("text-2xl font-bold mt-4 mb-2 text-foreground", className)} {...props}>
       {children}
@@ -42,19 +95,24 @@ const mdComponents = {
       {children}
     </p>
   ),
-  a: ({ className, children, href, ...props }: MdComponentProps) => (
-    <Badge className="text-xs mx-0.5 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
-      <a
-        className={cn("text-primary hover:text-primary/80 text-xs", className)}
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        {...props}
-      >
-        {children}
-      </a>
-    </Badge>
-  ),
+  a: ({ className, children, href, node: _node, ...props }: MdComponentProps) => {
+    const linkText = extractText(children);
+    const resolvedHref = resolveRealHref(href, linkText, options?.sourcesByLabel, options?.sourcesList);
+    return (
+      <Badge className="text-xs mx-0.5 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
+        <a
+          className={cn("text-primary hover:text-primary/80 text-xs", className)}
+          href={resolvedHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={resolvedHref}
+          {...props}
+        >
+          {children}
+        </a>
+      </Badge>
+    );
+  },
   ul: ({ className, children, ...props }: MdComponentProps) => (
     <ul className={cn("list-disc pl-6 mb-3 text-muted-foreground", className)} {...props}>
       {children}
@@ -132,7 +190,7 @@ const mdComponents = {
       {children}
     </td>
   ),
-};
+});
 
 function formatContent(content: any): string {
   const tryParse = (value: string) => {
@@ -176,7 +234,7 @@ function formatContent(content: any): string {
 // Props for HumanMessageBubble
 interface HumanMessageBubbleProps {
   message: Message;
-  mdComponents: typeof mdComponents;
+  mdComponents: ReturnType<typeof makeMdComponents>;
 }
 
 // HumanMessageBubble Component
@@ -203,7 +261,7 @@ interface AiMessageBubbleProps {
   liveActivity: ProcessedEvent[] | undefined;
   isLastMessage: boolean;
   isOverallLoading: boolean;
-  mdComponents: typeof mdComponents;
+  mdComponents: ReturnType<typeof makeMdComponents>;
   handleCopy: (text: string, messageId: string) => void;
   copiedMessageId: string | null;
 }
@@ -269,6 +327,8 @@ interface ChatMessagesViewProps {
   onCancel: () => void;
   liveActivityEvents: ProcessedEvent[];
   historicalActivities: Record<string, ProcessedEvent[]>;
+  sourcesByMessageId?: Record<string, Record<string, string>>;
+  sourcesListByMessageId?: Record<string, Array<{ label?: string; url: string; id?: string }>>;
 }
 
 export function ChatMessagesView({
@@ -279,8 +339,12 @@ export function ChatMessagesView({
   onCancel,
   liveActivityEvents,
   historicalActivities,
+  sourcesByMessageId,
+  sourcesListByMessageId,
 }: ChatMessagesViewProps) {
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
+
+  const mdComponents = makeMdComponents();
 
   const handleCopy = async (text: string, messageId: string) => {
     try {
@@ -297,6 +361,17 @@ export function ChatMessagesView({
         <div className="p-4 md:p-6 space-y-2 max-w-4xl mx-auto pt-16">
           {messages.map((message, index) => {
             const isLast = index === messages.length - 1;
+            const mdForMessage =
+              message.type === "ai" && message.id
+                ? makeMdComponents({ sourcesByLabel: sourcesByMessageId?.[message.id] })
+                : mdComponents;
+            const mdForMessageResolved =
+              message.type === "ai" && message.id
+                ? makeMdComponents({
+                  sourcesByLabel: sourcesByMessageId?.[message.id],
+                  sourcesList: sourcesListByMessageId?.[message.id],
+                })
+                : mdForMessage;
             return (
               <div key={message.id || `msg-${index}`} className="space-y-3">
                 <div
@@ -306,7 +381,7 @@ export function ChatMessagesView({
                   {message.type === "human" ? (
                     <HumanMessageBubble
                       message={message}
-                      mdComponents={mdComponents}
+                      mdComponents={mdForMessageResolved}
                     />
                   ) : (
                     <AiMessageBubble
@@ -315,7 +390,7 @@ export function ChatMessagesView({
                       liveActivity={liveActivityEvents} // Pass global live events
                       isLastMessage={isLast}
                       isOverallLoading={isLoading} // Pass global loading state
-                      mdComponents={mdComponents}
+                      mdComponents={mdForMessageResolved}
                       handleCopy={handleCopy}
                       copiedMessageId={copiedMessageId}
                     />

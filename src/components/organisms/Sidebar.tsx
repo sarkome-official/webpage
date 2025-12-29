@@ -71,10 +71,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ className }) => {
               <Search className="w-5 h-5 group-hover:text-primary" />
               <span>Query Builder</span>
             </a>
-            <a href="/platform/logs" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 text-sm text-zinc-400 hover:text-white transition-colors group">
-              <MessageSquare className="w-5 h-5 group-hover:text-primary" />
-              <span>Sarkome Logs</span>
-            </a>
           </div>
 
           {/* Intelligence */}

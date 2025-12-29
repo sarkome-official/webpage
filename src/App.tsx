@@ -11,7 +11,6 @@ import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/s
 import { Routes, Route, useLocation } from "react-router-dom";
 import { KnowledgeGraphView as KnowledgeGraph } from "@/pages/platform/KnowledgeGraphView";
 import LandingPage from "@/pages/LandingPage";
-import { SarkomeLogsView } from "@/pages/platform/SarkomeLogsView";
 import { AgentPerformanceView } from "@/pages/platform/AgentPerformanceView";
 import { SimulationView } from "@/pages/platform/SimulationView";
 import { AlphaFoldView } from "@/pages/platform/AlphaFoldView";
@@ -20,6 +19,7 @@ import { ConstitutionEditor } from "@/pages/platform/ConstitutionEditor";
 import { DataIngestionView } from "@/pages/platform/DataIngestionView";
 import { KnowledgeExportView } from "@/pages/platform/KnowledgeExportView";
 import { WhiteboardView } from "@/pages/platform/WhiteboardView";
+import { ThreadsView } from "@/pages/platform/ThreadsView";
 import ProgramDetail from "@/pages/programs/ProgramDetail";
 import { DocsLayout } from "@/pages/docs/DocsLayout";
 import DocPage from "@/pages/docs/DocPage";
@@ -31,6 +31,10 @@ export default function App() {
   const [processedEventsTimeline, setProcessedEventsTimeline] = useState<
     ProcessedEvent[]
   >([]);
+  const [liveSourcesByLabel, setLiveSourcesByLabel] = useState<Record<string, string>>({});
+  const [liveSourcesList, setLiveSourcesList] = useState<Array<{ label?: string; url: string; id?: string }>>([]);
+  const [sourcesByMessageId, setSourcesByMessageId] = useState<Record<string, Record<string, string>>>({});
+  const [sourcesListByMessageId, setSourcesListByMessageId] = useState<Record<string, Array<{ label?: string; url: string; id?: string }>>>({});
   const [historicalActivities, setHistoricalActivities] = useState<
     Record<string, ProcessedEvent[]>
   >({});
@@ -41,14 +45,14 @@ export default function App() {
   const isPlatformRoute = location.pathname.startsWith("/platform") ||
     location.pathname === "/knowledge-graph" ||
     location.pathname === "/whiteboard" ||
-    location.pathname === "/logs" ||
     location.pathname === "/status" ||
     location.pathname === "/sim" ||
     location.pathname === "/alphafold" ||
     location.pathname === "/audit" ||
     location.pathname === "/constitution" ||
     location.pathname === "/ingestion" ||
-    location.pathname === "/api";
+    location.pathname === "/api" ||
+    location.pathname === "/threads";
 
   const thread = useStream<{
     messages: Message[];
@@ -70,7 +74,76 @@ export default function App() {
           data: event.generate_query?.search_query?.join(", ") || "",
         };
       } else if (event.web_research) {
-        const sources = event.web_research.sources_gathered || [];
+        const rawSources = event.web_research.sources_gathered || {};
+        // Handle both array (legacy) and dictionary (new) formats
+        const sources = Array.isArray(rawSources) ? rawSources : Object.values(rawSources);
+
+        // Capture label -> real URL map for later link rewriting.
+        // We keep multiple keys (label + id when available) to increase match chance.
+        setLiveSourcesByLabel((prev) => {
+          const next = { ...prev };
+          for (const s of sources) {
+            if (!s || typeof s !== "object") continue;
+            const label: string | undefined =
+              typeof (s as any).label === "string"
+                ? (s as any).label
+                : typeof (s as any).title === "string"
+                  ? (s as any).title
+                  : undefined;
+            const url: string | undefined =
+              typeof (s as any).url === "string"
+                ? (s as any).url
+                : typeof (s as any).link === "string"
+                  ? (s as any).link
+                  : typeof (s as any).href === "string"
+                    ? (s as any).href
+                    : typeof (s as any).source === "string"
+                      ? (s as any).source
+                      : undefined;
+
+            if (label && url) {
+              next[label] = url;
+              next[label.toLowerCase()] = url;
+            }
+
+            if (typeof (s as any).id === "string" && url) {
+              next[(s as any).id] = url;
+            }
+          }
+          return next;
+        });
+
+        // Also keep an ordered list (best-effort) to resolve ids like "0-2" by index.
+        setLiveSourcesList((prev) => {
+          const next = [...prev];
+          const existingUrls = new Set(prev.map((p) => p.url));
+          for (const s of sources) {
+            if (!s || typeof s !== "object") continue;
+            const label: string | undefined =
+              typeof (s as any).label === "string"
+                ? (s as any).label
+                : typeof (s as any).title === "string"
+                  ? (s as any).title
+                  : undefined;
+            const url: string | undefined =
+              typeof (s as any).url === "string"
+                ? (s as any).url
+                : typeof (s as any).link === "string"
+                  ? (s as any).link
+                  : typeof (s as any).href === "string"
+                    ? (s as any).href
+                    : typeof (s as any).source === "string"
+                      ? (s as any).source
+                      : undefined;
+            const id: string | undefined = typeof (s as any).id === "string" ? (s as any).id : undefined;
+            if (!url) continue;
+            if (existingUrls.has(url)) continue;
+            existingUrls.add(url);
+            next.push({ label, url, id });
+          }
+          return next;
+        });
+
         const numSources = sources.length;
         const uniqueLabels = [
           ...new Set(sources.map((s: any) => s.label).filter(Boolean)),
@@ -127,10 +200,21 @@ export default function App() {
           ...prev,
           [lastMessage.id!]: [...processedEventsTimeline],
         }));
+
+        // Persist the sources gathered during this run for this AI message.
+        setSourcesByMessageId((prev) => ({
+          ...prev,
+          [lastMessage.id!]: { ...liveSourcesByLabel },
+        }));
+
+        setSourcesListByMessageId((prev) => ({
+          ...prev,
+          [lastMessage.id!]: [...liveSourcesList],
+        }));
       }
       hasFinalizeEventOccurredRef.current = false;
     }
-  }, [thread.messages, thread.isLoading, processedEventsTimeline]);
+  }, [thread.messages, thread.isLoading, processedEventsTimeline, liveSourcesByLabel, liveSourcesList]);
 
   const handleSubmit = useCallback(
     (
@@ -141,6 +225,8 @@ export default function App() {
     ) => {
       if (!submittedInputValue.trim()) return;
       setProcessedEventsTimeline([]);
+      setLiveSourcesByLabel({});
+      setLiveSourcesList([]);
       hasFinalizeEventOccurredRef.current = false;
 
       let initial_search_query_count = 0;
@@ -219,14 +305,14 @@ export default function App() {
                   const routeMap: Record<string, string> = {
                     'knowledge-graph': 'Knowledge Substrate',
                     'whiteboard': 'Whiteboard',
-                    'logs': 'Sarkome Logs',
                     'status': 'Agent Performance',
                     'sim': 'Simulation Lab',
                     'alphafold': 'AlphaFold 3',
                     'audit': 'Investigation Audit',
                     'constitution': 'System Constitution',
                     'ingestion': 'Data Refinery',
-                    'api': 'Developer Hub'
+                    'api': 'Developer Hub',
+                    'threads': 'Threads'
                   };
 
                   return routeMap[lastPart] || lastPart.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
@@ -237,11 +323,10 @@ export default function App() {
               <ThemeToggle />
             </div>
           </header>
-          <main className="h-full w-full mx-auto overflow-y-auto">
+          <main className="h-full w-full mx-auto overflow-y-auto no-scrollbar">
             <Routes>
               <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
               <Route path="/whiteboard" element={<WhiteboardView />} />
-              <Route path="/logs" element={<SarkomeLogsView />} />
               <Route path="/status" element={<AgentPerformanceView />} />
               <Route path="/sim" element={<SimulationView />} />
               <Route path="/alphafold" element={<AlphaFoldView />} />
@@ -249,6 +334,7 @@ export default function App() {
               <Route path="/constitution" element={<ConstitutionEditor />} />
               <Route path="/ingestion" element={<DataIngestionView />} />
               <Route path="/api" element={<KnowledgeExportView />} />
+              <Route path="/threads" element={<ThreadsView />} />
               <Route path="/platform" element={
                 <div className="max-w-4xl mx-auto h-full">
                   {thread.messages.length === 0 ? (
@@ -280,6 +366,8 @@ export default function App() {
                       onCancel={handleCancel}
                       liveActivityEvents={processedEventsTimeline}
                       historicalActivities={historicalActivities}
+                      sourcesByMessageId={sourcesByMessageId}
+                      sourcesListByMessageId={sourcesListByMessageId}
                     />
                   )}
                 </div>

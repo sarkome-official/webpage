@@ -2,18 +2,18 @@ import { diseases } from '../data/diseases';
 import { Header } from '../components/organisms/Header';
 import { Footer } from '../components/organisms/Footer';
 import { Link } from 'react-router-dom';
-import { 
-    ArrowRight, 
-    Activity, 
-    Network, 
-    Brain, 
-    Biohazard, 
-    ArrowUpRight, 
-    Clock, 
-    Camera, 
-    Mail, 
-    AtSign, 
-    Code, 
+import {
+    ArrowRight,
+    Activity,
+    Network,
+    Brain,
+    Biohazard,
+    ArrowUpRight,
+    Clock,
+    Camera,
+    Mail,
+    AtSign,
+    Code,
     Briefcase,
     Sparkles,
     Link as LinkIcon,
@@ -45,7 +45,7 @@ export default function LandingPage() {
                                 The Industrialization of <span className="text-primary">Causal Discovery</span>
                             </h2>
                             <p className="text-lg text-text-main leading-relaxed max-w-xl">
-                                Sarkome In-Silico: A Multi-Agent Graph Reasoning System powered by Gemini 3.0, accelerating therapeutic target identification for Rare Sarcoma (ASPS) using the PrimeKG knowledge substrate.
+                                A multi-agent graph reasoning system powered by Gemini, built to accelerate biomedical research using PrimeKG..
                             </p>
                             <div className="pt-2">
                                 <Link to="/platform" className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary transition-all group">
@@ -110,28 +110,27 @@ export default function LandingPage() {
 
                     {/* Discovery Pipeline */}
                     <section>
-                        <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">Discovery Pipeline</h3>
+                        <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">Agentic Reasoning Pipeline</h3>
                         <p className="mb-10 text-text-main text-sm leading-relaxed">
-                            Merging high-throughput wet lab data with causal AI to map disease etiology and accelerate asset generation.
+                            A transparent, iterative reasoning loop that bridges internal knowledge graphs with live external research.
                         </p>
                         <div className="space-y-8 relative pl-2">
-                            <div className="absolute left-[3px] top-2 bottom-2 w-[1px] bg-border-custom"></div>
+
 
                             {[
-                                { phase: "01", title: "Assimilate", desc: "Integrate PrimeKG and proprietary datasets to establish the baseline Knowledge Graph.", label: "Assimilate" },
-                                { phase: "02", title: "Interrogate", desc: "Query the Causal Agent to identify novel pathway associations and targets.", label: "Interrogate" },
-                                { phase: "03", title: "Reinforce", desc: "Expert adjudication of AI insights to curate and lock high-confidence nodes in the Graph.", label: "Reinforce" },
-                                { phase: "04", title: "Design", desc: "Generate scientifically plausible, synthesizable therapeutic candidates (e.g., interface-specific PROTACs).", label: "Design" },
-                                { phase: "05", title: "Verify", desc: "Confirm mechanism of action via rapid wet-lab loops (NanoBRET, Cryo-EM) prior to scaling.", label: "Verify" },
-                                { phase: "06", title: "Deploy", desc: "Externalize the validated asset", label: "Deploy" }
+                                { phase: "01", title: "Contextualize", desc: "Query the internal Knowledge Graph to ground the user's request in established biological facts.", label: "query_knowledge_graph" },
+                                { phase: "02", title: "Strategize", desc: "Decompose the problem into atomic search queries to target missing information.", label: "generate_query" },
+                                { phase: "03", title: "Investigate", desc: "Execute external web research to gather broad, unstructured data from live sources.", label: "web_research" },
+                                { phase: "04", title: "Reflect", desc: "Critique the gathered data for relevance and accuracy, triggering a re-search loop if necessary.", label: "reflection" },
+                                { phase: "05", title: "Synthesize", desc: "Consolidate structured graph data and unstructured web findings into a final causal argument.", label: "finalize_answer" }
                             ].map((step, i) => (
                                 <div key={i} className="relative pl-8 group">
                                     <div className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-border-custom group-hover:bg-primary transition-colors"></div>
                                     <div className="grid md:grid-cols-[1fr_3fr] gap-2 md:gap-8">
-                                        <div className="text-xs font-mono text-text-main pt-0.5 uppercase">PHASE {step.phase} — {step.label}</div>
+                                        <div className="text-xs font-mono text-text-main pt-0.5 uppercase opacity-70">{step.label}</div>
                                         <div>
                                             <h4 className="font-medium text-text-main mb-1 group-hover:text-primary transition-colors">{step.title}</h4>
-                                            <p className="text-sm text-text-main">{step.desc}</p>
+                                            <p className="text-sm text-text-main leading-snug">{step.desc}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -191,7 +190,7 @@ export default function LandingPage() {
                                         {tech.name}
                                         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-foreground rotate-45" />
                                     </div>
-                                    
+
                                     <div className={`absolute -inset-2 bg-gradient-to-br ${tech.color} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                                     <div className="relative w-12 h-12 bg-surface border border-border-custom rounded-xl flex items-center justify-center p-2.5 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 shadow-sm">
                                         <img alt={tech.name} className="w-full h-full object-contain" src={tech.src} />

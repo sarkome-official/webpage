@@ -43,11 +43,6 @@ const data = {
                     icon: Search,
                 },
                 {
-                    title: "Sarkome Logs",
-                    url: "/logs",
-                    icon: MessageSquare,
-                },
-                {
                     title: "Knowledge Graph",
                     url: "/knowledge-graph",
                     icon: Network,
@@ -101,6 +96,11 @@ const data = {
                     title: "Export & API",
                     url: "/api",
                     icon: Code,
+                },
+                {
+                    title: "Threads",
+                    url: "/threads",
+                    icon: MessageSquare,
                 },
             ],
         },

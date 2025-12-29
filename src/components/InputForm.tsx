@@ -15,6 +15,57 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+
+const EFFORT_SUMMARY: Record<
+  string,
+  {
+    depth: string;
+    latency: string;
+    tokens: string;
+    hallucinationRisk: string;
+  }
+> = {
+  low: {
+    depth: "Superficial",
+    latency: "Muy baja",
+    tokens: "Bajo",
+    hallucinationRisk: "Moderado (en tareas complejas)",
+  },
+  medium: {
+    depth: "Estructurada",
+    latency: "Media",
+    tokens: "Medio",
+    hallucinationRisk: "Bajo",
+  },
+  high: {
+    depth: "Recursiva / Crítica",
+    latency: "Alta",
+    tokens: "Muy alto",
+    hallucinationRisk: "Mínimo",
+  },
+};
+
+function EffortTooltipBody({ level }: { level: string }) {
+  const info = EFFORT_SUMMARY[level] ?? EFFORT_SUMMARY.medium;
+  const label = level.toUpperCase();
+
+  return (
+    <div className="space-y-1.5">
+      <div className="text-[10px] font-black tracking-[0.2em]">{label}</div>
+      <div className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-[11px]">
+        <div className="opacity-80">Profundidad / CoT</div>
+        <div className="font-semibold">{info.depth}</div>
+        <div className="opacity-80">Latencia</div>
+        <div className="font-semibold">{info.latency}</div>
+        <div className="opacity-80">Tokens (inferencia)</div>
+        <div className="font-semibold">{info.tokens}</div>
+        <div className="opacity-80">Riesgo alucinación lógica</div>
+        <div className="font-semibold">{info.hallucinationRisk}</div>
+      </div>
+    </div>
+  );
+}
 
 const ADDITIONAL_AGENTS = [
   { id: "researcher", name: "Search Researcher", icon: Search, color: "bg-zinc-500", desc: "Performs deep web-based inquiries" },
@@ -173,51 +224,79 @@ export const InputForm: React.FC<InputFormProps> = ({
           </PopoverContent>
         </Popover>
 
-        <div className="flex items-center bg-muted/40 border border-border rounded-full px-5 py-1">
-          <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.15em] text-muted-foreground border-r border-border pr-4 mr-2">
-            <Brain className="size-3.5" />
+        <div className="flex items-center bg-white/[0.03] border border-white/10 rounded-full px-4 py-1 backdrop-blur-sm">
+          <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 border-r border-white/10 pr-4 mr-2">
+            <Brain className="size-3" />
             EFFORT
           </div>
           <Select value={effort} onValueChange={setEffort}>
-            <SelectTrigger className="h-8 w-[100px] bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground p-0">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="bg-popover border-border">
-              <SelectItem value="low" className="text-[10px] font-bold uppercase tracking-widest">Low</SelectItem>
-              <SelectItem value="medium" className="text-[10px] font-bold uppercase tracking-widest">Medium</SelectItem>
-              <SelectItem value="high" className="text-[10px] font-bold uppercase tracking-widest">High</SelectItem>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <SelectTrigger className="h-7 w-[90px] bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-white/5 transition-all rounded-md px-2 dark:bg-transparent dark:hover:bg-white/5">
+                  <SelectValue />
+                </SelectTrigger>
+              </TooltipTrigger>
+              <TooltipContent side="top" sideOffset={8} className="max-w-[280px]">
+                <EffortTooltipBody level={effort} />
+              </TooltipContent>
+            </Tooltip>
+            <SelectContent className="bg-neutral-900 border-white/10">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <SelectItem value="low" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">Low</SelectItem>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
+                  <EffortTooltipBody level="low" />
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <SelectItem value="medium" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">Medium</SelectItem>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
+                  <EffortTooltipBody level="medium" />
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <SelectItem value="high" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">High</SelectItem>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
+                  <EffortTooltipBody level="high" />
+                </TooltipContent>
+              </Tooltip>
             </SelectContent>
           </Select>
         </div>
 
-        <div className="flex items-center bg-muted/40 border border-border rounded-full px-5 py-2 gap-4 flex-wrap">
-          <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.15em] text-muted-foreground border-r border-border pr-4 mr-2">
-            <Cpu className="size-3.5" />
+        <div className="flex items-center bg-white/[0.03] border border-white/10 rounded-full px-4 py-1.5 gap-4 flex-wrap backdrop-blur-sm">
+          <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 border-r border-white/10 pr-4 mr-2">
+            <Cpu className="size-3" />
             MODEL
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Query & Reflection</span>
+            <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50">Query & Reflection</span>
             <Select value={queryModel} onValueChange={setQueryModel}>
-              <SelectTrigger className="h-8 w-[140px] bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground p-0">
+              <SelectTrigger className="h-7 w-[130px] bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-white/5 transition-all rounded-md px-2 dark:bg-transparent dark:hover:bg-white/5">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-popover border-border">
-                <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest">Gemini 3 Pro</SelectItem>
-                <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest">Gemini 3 Flash</SelectItem>
+              <SelectContent className="bg-neutral-900 border-white/10">
+                <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">Gemini 3 Pro</SelectItem>
+                <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">Gemini 3 Flash</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Answer</span>
+            <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50">Answer</span>
             <Select value={answerModel} onValueChange={setAnswerModel}>
-              <SelectTrigger className="h-8 w-[140px] bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground p-0">
+              <SelectTrigger className="h-7 w-[130px] bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-white/5 transition-all rounded-md px-2 dark:bg-transparent dark:hover:bg-white/5">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-popover border-border">
-                <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest">Gemini 3 Pro</SelectItem>
-                <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest">Gemini 3 Flash</SelectItem>
+              <SelectContent className="bg-neutral-900 border-white/10">
+                <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">Gemini 3 Pro</SelectItem>
+                <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">Gemini 3 Flash</SelectItem>
               </SelectContent>
             </Select>
           </div>
