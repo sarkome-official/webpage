@@ -56,7 +56,7 @@ export default function LandingPage() {
                         </div>
 
                         {/* Platform Visualization */}
-                        <div className="relative py-12 md:py-16 dark">
+                        <div className="relative py-12 md:py-16">
                             <p className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">Platform Visualization</p>
                             <div className="relative h-[300px] md:h-[400px] w-full perspective-[1000px]">
                                 {/* Main Card */}
