@@ -109,6 +109,18 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const location = useLocation();
+    const [searchQuery, setSearchQuery] = React.useState("");
+
+    const filteredNavMain = React.useMemo(() => {
+        if (!searchQuery) return data.navMain;
+
+        return data.navMain.map(group => ({
+            ...group,
+            items: group.items.filter(item =>
+                item.title.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+        })).filter(group => group.items.length > 0);
+    }, [searchQuery]);
 
     return (
         <Sidebar variant="inset" className="bg-background" {...props}>
@@ -128,21 +140,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         </div>
                     </Link>
 
-                    {/* Quick Search Placeholder */}
+                    {/* Quick Search */}
                     <div className="relative px-1">
-                        <Search className="absolute left-3 top-1/2 size-3 -translate-y-1/2 text-muted-foreground" />
-                        <div className="flex h-8 w-full items-center rounded-md border border-border bg-muted/50 px-8 text-[11px] text-muted-foreground">
-                            Search modules...
-                            <kbd className="ml-auto pointer-events-none inline-flex h-4 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[8px] font-medium text-muted-foreground opacity-100">
-                                ⌘K
-                            </kbd>
-                        </div>
+                        <Search className="absolute left-3 top-1/2 size-3 -translate-y-1/2 text-muted-foreground z-10" />
+                        <input
+                            type="text"
+                            placeholder="Search modules..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="flex h-8 w-full items-center rounded-md border border-border bg-muted/50 pl-8 pr-3 text-[11px] text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-1 focus:ring-primary/50 transition-all shadow-xs"
+                        />
                     </div>
                 </div>
             </SidebarHeader>
 
             <SidebarContent className="px-2">
-                {data.navMain.map((group) => (
+                {filteredNavMain.map((group) => (
                     <SidebarGroup key={group.title} className="py-2">
                         <SidebarGroupLabel className="px-3 text-muted-foreground uppercase text-[9px] font-bold tracking-widest mb-1">
                             {group.title}

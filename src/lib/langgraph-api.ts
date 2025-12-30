@@ -2,10 +2,9 @@ export function getLangServeUrl() {
   const fromEnv = import.meta.env.VITE_LANGSERVE_URL;
   if (typeof fromEnv === "string" && fromEnv.trim().length > 0) return fromEnv;
 
-  // Default: same-origin proxy path.
-  // In dev, Vite proxies `/agent/*` to your LangServe backend (host:8080).
-  // In prod, configure your hosting/proxy to forward `/agent/*` to the backend.
-  return new URL("/agent", window.location.origin).toString();
+  // Default: use same-origin root. Remove the `/agent` prefix so the
+  // client talks to the LangGraph server at the site root.
+  return window.location.origin;
 }
 
 // Back-compat alias (legacy name used across the app).

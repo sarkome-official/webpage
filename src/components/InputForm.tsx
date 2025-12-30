@@ -290,36 +290,38 @@ export const InputForm: React.FC<InputFormProps> = ({
           </Select>
         </div>
 
-        <div className="flex items-center bg-accent/30 border border-border rounded-full px-4 py-1.5 gap-4 flex-wrap backdrop-blur-sm">
-          <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 border-r border-border pr-4 mr-2">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center bg-accent/30 border border-border rounded-2xl sm:rounded-full px-5 py-3.5 sm:py-1.5 gap-4 sm:gap-4 backdrop-blur-sm w-full sm:w-auto">
+          <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 sm:border-r border-border sm:pr-4 sm:mr-2 shrink-0">
             <Cpu className="size-3" />
             MODEL
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50">Query & Reflection</span>
-            <Select value={queryModel} onValueChange={setQueryModel}>
-              <SelectTrigger className="h-7 w-[160px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="bg-popover border-border">
-                <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Pro</SelectItem>
-                <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Flash</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-start gap-x-8 gap-y-3 w-full sm:w-auto">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+              <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 whitespace-nowrap w-[110px] shrink-0 text-left">Query & Reflection</span>
+              <Select value={queryModel} onValueChange={setQueryModel}>
+                <SelectTrigger className="h-7 min-w-[140px] sm:w-[130px] md:w-[160px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2 text-left justify-start">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-popover border-border">
+                  <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Pro</SelectItem>
+                  <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Flash</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50">Answer</span>
-            <Select value={answerModel} onValueChange={setAnswerModel}>
-              <SelectTrigger className="h-7 w-[160px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="bg-popover border-border">
-                <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Pro</SelectItem>
-                <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Flash</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+              <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 whitespace-nowrap w-[110px] shrink-0 text-left">Answer</span>
+              <Select value={answerModel} onValueChange={setAnswerModel}>
+                <SelectTrigger className="h-7 min-w-[140px] sm:w-[130px] md:w-[160px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2 text-left justify-start">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-popover border-border">
+                  <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Pro</SelectItem>
+                  <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Flash</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
       </div>

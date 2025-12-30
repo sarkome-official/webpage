@@ -45,7 +45,7 @@ export default function LandingPage() {
                                 The Industrialization of <span className="text-primary">Causal Discovery</span>
                             </h2>
                             <p className="text-lg text-text-main leading-relaxed max-w-xl">
-                                A multi-agent graph reasoning system powered by Gemini, built to accelerate biomedical research using PrimeKG..
+                                A multi-agent graph reasoning system powered by Gemini, built to accelerate biomedical research using PrimeKG.
                             </p>
                             <div className="pt-2">
                                 <Link to="/platform" className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary transition-all group">
