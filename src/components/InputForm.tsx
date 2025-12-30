@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { SquarePen, Brain, Send, StopCircle, Zap, Cpu, Users, Search, Activity, Box } from "lucide-react";
+import { SquarePen, Brain, Send, StopCircle, Zap, Cpu, Users, Search, Activity, Box, Plus, ArrowUp } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -98,6 +98,8 @@ export const InputForm: React.FC<InputFormProps> = ({
   const [answerModel, setAnswerModel] = useState("gemini-3-pro-preview");
   const [activeAgents, setActiveAgents] = useState<string[]>([]);
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const toggleAgent = (id: string) => {
     setActiveAgents((prev) => {
       if (prev.includes(id)) {
@@ -125,6 +127,12 @@ export const InputForm: React.FC<InputFormProps> = ({
     }
   };
 
+  const handleContainerClick = (e: React.MouseEvent) => {
+    // Prevent focus if clicking on buttons or their children
+    if ((e.target as HTMLElement).closest('button')) return;
+    textareaRef.current?.focus();
+  };
+
   const isSubmitDisabled = !internalInputValue.trim() || isLoading;
   const isCollaborating = activeAgents.length > 0;
 
@@ -134,39 +142,52 @@ export const InputForm: React.FC<InputFormProps> = ({
       className="flex flex-col gap-4 w-full"
     >
       <div
-        className={`flex flex-row items-center gap-2 bg-muted/20 border border-border rounded-2xl px-6 py-3 transition-all duration-300 focus-within:border-border/50 focus-within:bg-muted/30 ${isCollaborating ? 'ring-1 ring-primary/20' : ''}`}
+        onClick={handleContainerClick}
+        className={`flex flex-col gap-2 bg-muted/30 border border-border rounded-[22px] px-4 py-3 transition-all duration-300 focus-within:border-border/50 focus-within:bg-muted/50 shadow-sm cursor-text ${isCollaborating ? 'ring-1 ring-primary/20' : ''}`}
       >
         <Textarea
+          ref={textareaRef}
           value={internalInputValue}
           onChange={(e) => setInternalInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Who won the Euro 2024 and scored the most goals?"
-          className="flex-1 bg-transparent border-0 focus:ring-0 resize-none text-lg text-foreground placeholder:text-muted-foreground/50 min-h-[40px] max-h-[200px] py-2"
+          placeholder="Asigna una tarea o pregunta cualquier cosa"
+          className="flex-1 bg-transparent dark:bg-transparent border-0 focus-visible:ring-0 resize-none text-[15px] text-foreground placeholder:text-muted-foreground/50 min-h-[40px] max-h-[200px] p-0 shadow-none leading-relaxed"
           rows={1}
         />
-        <div className="flex items-center gap-3 border-l border-border pl-4">
-          {isLoading ? (
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="text-destructive hover:bg-destructive/10 rounded-full"
-              onClick={onCancel}
-            >
-              <StopCircle className="size-5" />
-            </Button>
-          ) : (
-            <Button
-              type="submit"
-              variant="ghost"
-              size="sm"
-              className={`flex items-center gap-2 font-bold text-[11px] tracking-[0.2em] uppercase transition-all ${isSubmitDisabled ? 'text-muted-foreground/30' : 'text-muted-foreground hover:text-foreground'}`}
-              disabled={isSubmitDisabled}
-            >
-              SEARCH
-              <Send className="size-4" />
-            </Button>
-          )}
+        <div className="flex items-center justify-between mt-1">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 rounded-full text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+          >
+            <Plus className="size-4" />
+          </Button>
+
+          <div className="flex items-center gap-3">
+            {isLoading ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 rounded-full bg-destructive/10 text-destructive hover:bg-destructive/20"
+                onClick={onCancel}
+              >
+                <StopCircle className="size-4" />
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                size="icon"
+                className={`h-8 w-8 rounded-full transition-all duration-200 ${isSubmitDisabled
+                  ? 'bg-muted text-muted-foreground opacity-50 cursor-not-allowed'
+                  : 'bg-foreground text-background hover:opacity-90 shadow-sm'}`}
+                disabled={isSubmitDisabled}
+              >
+                <ArrowUp className="size-4" />
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -176,8 +197,8 @@ export const InputForm: React.FC<InputFormProps> = ({
             <button
               type="button"
               className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.15em] transition-all border ${isCollaborating
-                  ? "bg-primary/10 text-primary border-primary/20"
-                  : "bg-muted/40 text-muted-foreground border-border hover:bg-muted/60 hover:text-foreground"
+                ? "bg-primary/10 text-primary border-primary/20"
+                : "bg-muted/40 text-muted-foreground border-border hover:bg-muted/60 hover:text-foreground"
                 }`}
             >
               <Users className="size-3.5" />
@@ -224,15 +245,15 @@ export const InputForm: React.FC<InputFormProps> = ({
           </PopoverContent>
         </Popover>
 
-        <div className="flex items-center bg-white/[0.03] border border-white/10 rounded-full px-4 py-1 backdrop-blur-sm">
-          <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 border-r border-white/10 pr-4 mr-2">
+        <div className="flex items-center bg-accent/30 border border-border rounded-full px-4 py-1 backdrop-blur-sm">
+          <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 border-r border-border pr-4 mr-2">
             <Brain className="size-3" />
             EFFORT
           </div>
           <Select value={effort} onValueChange={setEffort}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <SelectTrigger className="h-7 w-[90px] bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-white/5 transition-all rounded-md px-2 dark:bg-transparent dark:hover:bg-white/5">
+                <SelectTrigger className="h-7 w-[90px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2">
                   <SelectValue />
                 </SelectTrigger>
               </TooltipTrigger>
@@ -240,10 +261,10 @@ export const InputForm: React.FC<InputFormProps> = ({
                 <EffortTooltipBody level={effort} />
               </TooltipContent>
             </Tooltip>
-            <SelectContent className="bg-neutral-900 border-white/10">
+            <SelectContent className="bg-popover border-border">
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <SelectItem value="low" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">Low</SelectItem>
+                  <SelectItem value="low" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Low</SelectItem>
                 </TooltipTrigger>
                 <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
                   <EffortTooltipBody level="low" />
@@ -251,7 +272,7 @@ export const InputForm: React.FC<InputFormProps> = ({
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <SelectItem value="medium" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">Medium</SelectItem>
+                  <SelectItem value="medium" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Medium</SelectItem>
                 </TooltipTrigger>
                 <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
                   <EffortTooltipBody level="medium" />
@@ -259,7 +280,7 @@ export const InputForm: React.FC<InputFormProps> = ({
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <SelectItem value="high" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">High</SelectItem>
+                  <SelectItem value="high" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">High</SelectItem>
                 </TooltipTrigger>
                 <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
                   <EffortTooltipBody level="high" />
@@ -269,8 +290,8 @@ export const InputForm: React.FC<InputFormProps> = ({
           </Select>
         </div>
 
-        <div className="flex items-center bg-white/[0.03] border border-white/10 rounded-full px-4 py-1.5 gap-4 flex-wrap backdrop-blur-sm">
-          <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 border-r border-white/10 pr-4 mr-2">
+        <div className="flex items-center bg-accent/30 border border-border rounded-full px-4 py-1.5 gap-4 flex-wrap backdrop-blur-sm">
+          <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 border-r border-border pr-4 mr-2">
             <Cpu className="size-3" />
             MODEL
           </div>
@@ -278,12 +299,12 @@ export const InputForm: React.FC<InputFormProps> = ({
           <div className="flex items-center gap-2">
             <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50">Query & Reflection</span>
             <Select value={queryModel} onValueChange={setQueryModel}>
-              <SelectTrigger className="h-7 w-[130px] bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-white/5 transition-all rounded-md px-2 dark:bg-transparent dark:hover:bg-white/5">
+              <SelectTrigger className="h-7 w-[160px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-neutral-900 border-white/10">
-                <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">Gemini 3 Pro</SelectItem>
-                <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">Gemini 3 Flash</SelectItem>
+              <SelectContent className="bg-popover border-border">
+                <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Pro</SelectItem>
+                <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Flash</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -291,12 +312,12 @@ export const InputForm: React.FC<InputFormProps> = ({
           <div className="flex items-center gap-2">
             <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50">Answer</span>
             <Select value={answerModel} onValueChange={setAnswerModel}>
-              <SelectTrigger className="h-7 w-[130px] bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-white/5 transition-all rounded-md px-2 dark:bg-transparent dark:hover:bg-white/5">
+              <SelectTrigger className="h-7 w-[160px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-neutral-900 border-white/10">
-                <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">Gemini 3 Pro</SelectItem>
-                <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-white/10 focus:text-white">Gemini 3 Flash</SelectItem>
+              <SelectContent className="bg-popover border-border">
+                <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Pro</SelectItem>
+                <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Flash</SelectItem>
               </SelectContent>
             </Select>
           </div>

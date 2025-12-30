@@ -8,6 +8,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { KnowledgeGraphView as KnowledgeGraph } from "@/pages/platform/KnowledgeGraphView";
+import { KnowledgeGraphNodes } from "@/pages/platform/KnowledgeGraphNodes";
 import LandingPage from "@/pages/LandingPage";
 import { AgentPerformanceView } from "@/pages/platform/AgentPerformanceView";
 import { SimulationView } from "@/pages/platform/SimulationView";
@@ -59,6 +60,7 @@ export default function App() {
     location.pathname === "/audit" ||
     location.pathname === "/constitution" ||
     location.pathname === "/ingestion" ||
+    location.pathname === "/knowledge-graph-nodes" ||
     location.pathname === "/api" ||
     location.pathname === "/threads";
 
@@ -297,12 +299,12 @@ export default function App() {
   }
 
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
       <div className="flex h-screen bg-background text-foreground font-sans antialiased w-full">
         <AppSidebar />
         <SidebarInset className="flex flex-col flex-1 overflow-hidden bg-background">
           <header className="flex h-14 items-center gap-4 border-b border-border bg-background/50 px-6 backdrop-blur-xl sticky top-0 z-10">
-            <SidebarTrigger className="text-muted-foreground hover:text-foreground transition-colors" />
+            <SidebarTrigger className="text-[#7E22CE] hover:text-[#7E22CE] transition-colors" />
             <div className="h-4 w-[1px] bg-border" />
             <div className="flex items-center gap-2 text-xs font-medium tracking-wide">
               <span className="text-muted-foreground uppercase tracking-widest">Sarkome OS</span>
@@ -337,6 +339,7 @@ export default function App() {
           <main className="h-full w-full mx-auto overflow-y-auto no-scrollbar">
             <Routes>
               <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
+              <Route path="/knowledge-graph-nodes" element={<KnowledgeGraphNodes />} />
               <Route path="/whiteboard" element={<WhiteboardView />} />
               <Route path="/status" element={<AgentPerformanceView />} />
               <Route path="/sim" element={<SimulationView />} />

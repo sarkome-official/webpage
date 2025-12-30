@@ -1,276 +1,100 @@
-import React, { useMemo } from "react";
-import { LayoutGrid } from "lucide-react";
+import React from "react";
+import { LayoutGrid, Sparkles } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
-type WhiteboardProblem = {
-  phase: string;
+type Question = {
   title: string;
-  detail: string;
+  text: string;
 };
 
-const PHASES_IN_ORDER = [
-  "Phase I: The Molecular Driver (ASPSCR1-TFE3)",
-  "Phase II: Epigenetic Chaos",
-  "Phase III: Survival Pathways (Downstream)",
-  "Phase IV: Immunology and Microenvironment",
-  "Phase V: Pharmacology and Delivery",
-  'Phase VI: The "Rare Disease" Problem',
-] as const;
-
-const PROBLEMS: WhiteboardProblem[] = [
-  // Phase I
+const QUESTIONS: Question[] = [
   {
-    phase: PHASES_IN_ORDER[0],
-    title: "Tertiary Structure",
-    detail:
-      "How exactly does the fusion protein fold compared to normal TFE3? (We currently lack a complete crystal structure).",
+    title: 'The "Hidden Hero" Question',
+    text: "Among the thousands of approved drugs sitting on pharmacy shelves today, which one is a 'hidden hero'—currently indicated for a common ailment but secretly holding the molecular key to curing a 'hopeless' rare disease?"
   },
   {
-    phase: PHASES_IN_ORDER[0],
-    title: "Selective Degradation",
-    detail:
-      "How can we design a PROTAC (degrader molecule) that eliminates the fusion without affecting healthy proteins?",
+    title: 'The "End of Trial-and-Error" Question',
+    text: "By mapping the precise 'interacts' and 'side effect' edges between drugs like Risperidone and phenotypic traits, can we finally end the 'medication roulette' that forces patients to suffer through months of failed treatments before finding the one that works?"
   },
   {
-    phase: PHASES_IN_ORDER[0],
-    title: "Genomic Binding Sites",
-    detail:
-      "Precisely mapping where the fusion lands on the genome using ChIP-seq techniques.",
+    title: 'The "Silent Language" of Anatomy',
+    text: "What 'hidden highways' exist between distant anatomical regions—where a protein perturbation in one organ whispers the first warning signs of a disease in another, years before symptoms even appear?"
   },
   {
-    phase: PHASES_IN_ORDER[0],
-    title: "Dimerization Inhibition",
-    detail: "Can we prevent the protein from binding to itself to become active?",
+    title: 'The "Orphan Disease" Breakthrough',
+    text: "For the thousands of rare diseases that currently have 'no single known cause,' which clusters of genetic and environmental 'exposures' in PrimeKG reveal a shared biological story that could lead to the first-ever universal therapy for the 'forgotten' patients?"
   },
   {
-    phase: PHASES_IN_ORDER[0],
-    title: "DNA-Protein Disruption",
-    detail:
-      "How to block the protein's finger that grips the DNA without affecting other vital transcription factors?",
-  },
-
-  // Phase II
-  {
-    phase: PHASES_IN_ORDER[1],
-    title: "Co-factor Recruitment",
-    detail:
-      "Identifying which enzymes (such as BRD4 or the Mediator complex) are hijacked by the fusion to open chromatin.",
+    title: 'The "Personalized Destiny" Question',
+    text: "How can we use the multimodal 'clinical descriptors' in PrimeKG to move past treating 'the average patient' and start treating 'the individual soul,' ensuring that a person's treatment is as unique as their own fingerprint?"
   },
   {
-    phase: PHASES_IN_ORDER[1],
-    title: "Super-Enhancers",
-    detail:
-      "How to dismantle the genetic super-activators created by the fusion to keep the cancer cell alive.",
+    title: 'The "Environmental Synergy" Question',
+    text: "Where do the invisible threads of our environment (exposures) intersect with our genetic vulnerabilities to create a 'perfect storm' of disease—and more importantly, how can we use PrimeKG to build a shield against that storm?"
   },
   {
-    phase: PHASES_IN_ORDER[1],
-    title: "Histone Acetylation",
-    detail:
-      "Identifying the specific histones being over-acetylated to utilize selective HAT inhibitors.",
+    title: 'The "Redefining the Incurable" Question',
+    text: "If we look at the 'dense connections' between diseases in Panel B, which supposedly 'unrelated' conditions share a common molecular root that, if treated, could cause a domino effect of healing across multiple diagnoses?"
   },
   {
-    phase: PHASES_IN_ORDER[1],
-    title: "Chromatin Remodeling",
-    detail:
-      "Which complexes (such as SWI/SNF) are allowing the DNA to remain accessible to the cancer?",
+    title: 'The "Off-Label" Revelation',
+    text: "What 'off-label' success stories are currently buried in clinical text that PrimeKG can transform into a standardized, life-saving protocol for patients who have run out of options?"
   },
   {
-    phase: PHASES_IN_ORDER[1],
-    title: "Epigenetic Memory",
-    detail:
-      "If we eliminate the fusion protein, does the DNA remember being cancer, or does it return to normal?",
-  },
-
-  // Phase III
-  {
-    phase: PHASES_IN_ORDER[2],
-    title: "The MET Enigma",
-    detail:
-      "Why is the MET gene always on, and how can we block it permanently without generating resistance?",
+    title: 'The "Molecular Empathy" Question',
+    text: "How can the mapping of 'phenotypic consequences' help us truly understand the lived experience of a patient—turning cold data points into a deep, biological empathy that guides more compassionate care?"
   },
   {
-    phase: PHASES_IN_ORDER[2],
-    title: "Extreme Angiogenesis",
-    detail:
-      "ASPS is among the most highly vascularized tumors. How can we starve the tumor without damaging healthy vessels?",
-  },
-  {
-    phase: PHASES_IN_ORDER[2],
-    title: "Cell Cycle Control",
-    detail:
-      "Validating whether CDK4/6 inhibition (such as Palbociclib) is a cure or merely a pause in growth.",
-  },
-  {
-    phase: PHASES_IN_ORDER[2],
-    title: "Mitochondrial Biogenesis",
-    detail:
-      "ASPS has a unique metabolism. How can we block its energy factories (mitochondria) without affecting the rest of the body?",
-  },
-  {
-    phase: PHASES_IN_ORDER[2],
-    title: "Differentiation Suppression",
-    detail: "Can we force the ASPS cell to mature and stop dividing?",
-  },
-
-  // Phase IV
-  {
-    phase: PHASES_IN_ORDER[3],
-    title: "The Immunotherapy Paradox",
-    detail:
-      "Why does ASPS respond well to checkpoint inhibitors (PD-L1) despite having a low mutation burden?",
-  },
-  {
-    phase: PHASES_IN_ORDER[3],
-    title: "T-cell Infiltration",
-    detail:
-      "How to attract more white blood cells to the center of the tumor, which is typically an immunologically cold zone?",
-  },
-  {
-    phase: PHASES_IN_ORDER[3],
-    title: "Immune Evasion",
-    detail:
-      "What chemical signals does the tumor send to put to sleep the immune system cells?",
-  },
-  {
-    phase: PHASES_IN_ORDER[3],
-    title: "Organotropism (Metastasis)",
-    detail:
-      "Why does this cancer prefer to travel to the lungs and brain? What are the cells seeking there?",
-  },
-  {
-    phase: PHASES_IN_ORDER[3],
-    title: "Pre-metastatic Niche",
-    detail:
-      "How do we detect and block the site where the cancer intends to anchor before it arrives?",
-  },
-
-  // Phase V
-  {
-    phase: PHASES_IN_ORDER[4],
-    title: "Blood-Brain Barrier (BBB)",
-    detail:
-      "Brain metastases are common; we need drugs that successfully cross the brain barrier.",
-  },
-  {
-    phase: PHASES_IN_ORDER[4],
-    title: "Resistance to TKIs",
-    detail:
-      "How to prevent the tumor from learning to ignore current drugs (Sunitinib/Pazopanib)?",
-  },
-  {
-    phase: PHASES_IN_ORDER[4],
-    title: "Systemic Toxicity",
-    detail:
-      "How to ensure an epigenetic drug does not shut down necessary genes in the heart or liver?",
-  },
-  {
-    phase: PHASES_IN_ORDER[4],
-    title: "Pharmacokinetics",
-    detail:
-      "How to maintain constant drug levels in the blood to prevent the tumor from growing during breaks in treatment?",
-  },
-  {
-    phase: PHASES_IN_ORDER[4],
-    title: "Synergistic Combinations",
-    detail: "Which two drugs, when combined, create a 1+1 = 10 effect?",
-  },
-
-  // Phase VI
-  {
-    phase: PHASES_IN_ORDER[5],
-    title: "Faithful Animal Models",
-    detail:
-      "Creating mice that develop the tumor exactly like a human (PDX models).",
-  },
-  {
-    phase: PHASES_IN_ORDER[5],
-    title: "Immortal Cell Lines",
-    detail:
-      "It is incredibly difficult to culture ASPS cells in the lab; we need better cultivation tools.",
-  },
-  {
-    phase: PHASES_IN_ORDER[5],
-    title: "Liquid Biopsy",
-    detail:
-      "Creating a blood test that detects ASPSCR1-TFE3 DNA before the tumor becomes visible.",
-  },
-  {
-    phase: PHASES_IN_ORDER[5],
-    title: "Large-Scale Data",
-    detail:
-      "Being so rare, we need a unified global database to find patterns among the few existing patients.",
-  },
-  {
-    phase: PHASES_IN_ORDER[5],
-    title: "Bioethics and Trials",
-    detail:
-      "How to conduct valid clinical trials when there are only a few hundred patients worldwide?",
-  },
+    title: 'The "Future Legacy" Question',
+    text: "A hundred years from now, when disease is a relic of the past, will we look back at PrimeKG as the moment we finally learned to speak the 'true language of life' and claimed our right to a future without suffering?"
+  }
 ];
 
 export const WhiteboardView = () => {
-  const grouped = useMemo(() => {
-    const map = new Map<string, WhiteboardProblem[]>();
-    for (const phase of PHASES_IN_ORDER) map.set(phase, []);
-    for (const problem of PROBLEMS) {
-      if (!map.has(problem.phase)) map.set(problem.phase, []);
-      map.get(problem.phase)!.push(problem);
-    }
-    return PHASES_IN_ORDER.map((phase) => ({
-      phase,
-      problems: map.get(phase) || [],
-    }));
-  }, []);
-
   return (
     <div className="flex flex-col h-full w-full bg-background text-foreground font-sans overflow-hidden">
       <div className="p-4 md:p-8 border-b border-border bg-muted/10 backdrop-blur-md">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
-              <LayoutGrid className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+              <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-primary" />
             </div>
             <div className="min-w-0">
               <h1 className="text-xl md:text-2xl font-bold tracking-tight truncate">
-                ASPS Intelligence Whiteboard
+                Discovery Questions
               </h1>
               <p className="text-sm text-muted-foreground">
-                First 30 problems to understand, structured by phase.
+                Ten fundamental questions driving our research in PrimeKG.
               </p>
             </div>
           </div>
-
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 md:p-8">
-        <div className="max-w-5xl mx-auto space-y-6">
-          {grouped.map((section) => (
-            <div key={section.phase} className="space-y-3">
-              <h2 className="text-sm md:text-base font-bold text-muted-foreground uppercase tracking-widest">
-                {section.phase}
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {section.problems.map((p) => {
-                  const idx = PROBLEMS.indexOf(p);
-                  return (
-                    <Card
-                      key={`${section.phase}-${p.title}`}
-                      className="p-5 bg-muted/20 border-border"
-                    >
-                      <div className="text-foreground font-bold text-sm">
-                        {idx + 1}. {p.title}
-                      </div>
-                      <div className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                        {p.detail}
-                      </div>
-                    </Card>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+            {QUESTIONS.map((q, idx) => (
+              <Card
+                key={idx}
+                className="p-6 bg-muted/20 border-border hover:bg-muted/30 transition-colors"
+              >
+                <div className="flex items-start gap-4">
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-sm shrink-0 mt-0.5">
+                    {idx + 1}
+                  </span>
+                  <div className="space-y-2">
+                    <h3 className="font-bold text-foreground text-lg tracking-tight">
+                      {q.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {q.text}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </div>
