@@ -10,7 +10,6 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { KnowledgeGraphView as KnowledgeGraph } from "@/pages/platform/KnowledgeGraphView";
 import { KnowledgeGraphNodes } from "@/pages/platform/KnowledgeGraphNodes";
 import LandingPage from "@/pages/LandingPage";
-import { AgentPerformanceView } from "@/pages/platform/AgentPerformanceView";
 import { SimulationView } from "@/pages/platform/SimulationView";
 import { AlphaFoldView } from "@/pages/platform/AlphaFoldView";
 import { ReportView } from "@/pages/platform/ReportView";
@@ -24,10 +23,11 @@ import { DocsLayout } from "@/pages/docs/DocsLayout";
 import DocPage from "@/pages/docs/DocPage";
 import { docsConfig } from "@/lib/docs-config";
 import { Navigate } from "react-router-dom";
-import { getLangServeUrl } from "@/lib/langgraph-api";
+import { getAgentUrl } from "@/lib/langgraph-api";
 import type { ChatMessage } from "@/lib/chat-types";
-import { useLangServeAgent } from "@/hooks/useLangServeAgent";
+import { useAgent } from "@/hooks/useAgent";
 import { deriveThreadTitle, getOrCreateActiveThreadId, getThread, upsertThread } from "@/lib/local-threads";
+import { RunLogs } from "@/components/RunLogs";
 
 export default function App() {
   const location = useLocation();
@@ -41,11 +41,29 @@ export default function App() {
   const [historicalActivities, setHistoricalActivities] = useState<
     Record<string, ProcessedEvent[]>
   >({});
+  const [rawEvents, setRawEvents] = useState<any[]>([]);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const hasFinalizeEventOccurredRef = useRef(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [activeThreadId] = useState(() => getOrCreateActiveThreadId());
+  const [activeThreadId] = useState(() => {
+    const id = getOrCreateActiveThreadId();
+    try {
+      const nav = (performance && performance.getEntriesByType && performance.getEntriesByType("navigation") && (performance.getEntriesByType("navigation") as any)[0]) || null;
+      const isReload = nav && (nav as any).type === "reload";
+      if (isReload) {
+        const existing = getThread(id);
+        if (existing) {
+          // Clear messages on refresh but keep thread metadata
+          upsertThread({ ...existing, messages: [], updatedAt: Date.now() });
+        }
+      }
+    } catch {
+      // ignore if performance API not available
+    }
+    return id;
+  });
+
   const [initialThreadMessages] = useState<ChatMessage[]>(() => {
     const existing = getThread(activeThreadId);
     return Array.isArray(existing?.messages) ? existing!.messages : [];
@@ -54,7 +72,6 @@ export default function App() {
   const isPlatformRoute = location.pathname.startsWith("/platform") ||
     location.pathname === "/knowledge-graph" ||
     location.pathname === "/whiteboard" ||
-    location.pathname === "/status" ||
     location.pathname === "/sim" ||
     location.pathname === "/alphafold" ||
     location.pathname === "/audit" ||
@@ -64,17 +81,22 @@ export default function App() {
     location.pathname === "/api" ||
     location.pathname === "/threads";
 
-  const thread = useLangServeAgent({
-    url: getLangServeUrl(),
+  const thread = useAgent({
+    url: getAgentUrl(),
     threadId: activeThreadId,
+    assistantId: "agent",
     initialMessages: initialThreadMessages,
     onUpdateEvent: (event: any) => {
+      setRawEvents((prev) => [...prev, event]);
       let processedEvent: ProcessedEvent | null = null;
       if (event.generate_query) {
         processedEvent = {
           title: "Generating Search Queries",
           data: event.generate_query?.search_query?.join(", ") || "",
-        };
+          raw: event,
+          ts: new Date().toISOString(),
+          type: "generate_query",
+        } as any;
       } else if (event.web_research) {
         const rawSources = event.web_research.sources_gathered || {};
         // Handle both array (legacy) and dictionary (new) formats
@@ -154,17 +176,26 @@ export default function App() {
         processedEvent = {
           title: "Web Research",
           data: `Gathered ${numSources} sources. Related to: ${exampleLabels || "N/A"}.`,
-        };
+          raw: event,
+          ts: new Date().toISOString(),
+          type: "web_research",
+        } as any;
       } else if (event.reflection) {
         processedEvent = {
           title: "Reflection",
           data: "Analysing Web Research Results",
-        };
+          raw: event,
+          ts: new Date().toISOString(),
+          type: "reflection",
+        } as any;
       } else if (event.finalize_answer) {
         processedEvent = {
           title: "Finalizing Answer",
           data: "Composing and presenting the final answer.",
-        };
+          raw: event,
+          ts: new Date().toISOString(),
+          type: "finalize_answer",
+        } as any;
         hasFinalizeEventOccurredRef.current = true;
       }
       if (processedEvent) {
@@ -172,6 +203,24 @@ export default function App() {
           ...prevEvents,
           processedEvent!,
         ]);
+      }
+      // Special-case: AlphaFold node logs (backend returns alphafold_logs array)
+      try {
+        if (event && typeof event === 'object' && (event as any).query_alphafold) {
+          const af = (event as any).query_alphafold;
+          if (af.alphafold_logs && Array.isArray(af.alphafold_logs) && af.alphafold_logs.length > 0) {
+            const afEvent = {
+              title: 'AlphaFold Logs',
+              data: af.alphafold_logs.join('\n'),
+              raw: event,
+              ts: new Date().toISOString(),
+              type: 'alphafold_logs',
+            } as ProcessedEvent;
+            setProcessedEventsTimeline((prev) => [...prev, afEvent]);
+          }
+        }
+      } catch {
+        // ignore
       }
     },
     onError: (error: any) => {
@@ -194,9 +243,16 @@ export default function App() {
     if (scrollAreaRef.current) {
       const scrollViewport = scrollAreaRef.current.querySelector(
         "[data-radix-scroll-area-viewport]"
-      );
+      ) as HTMLElement;
+      
       if (scrollViewport) {
-        scrollViewport.scrollTop = scrollViewport.scrollHeight;
+        const threshold = 150; // pixels from bottom to consider "at bottom"
+        const isAtBottom = 
+          scrollViewport.scrollHeight - scrollViewport.scrollTop - scrollViewport.clientHeight < threshold;
+
+        if (isAtBottom) {
+          scrollViewport.scrollTop = scrollViewport.scrollHeight;
+        }
       }
     }
   }, [thread.messages]);
@@ -238,6 +294,7 @@ export default function App() {
     ) => {
       if (!submittedInputValue.trim()) return;
       setProcessedEventsTimeline([]);
+      setRawEvents([]);
       setLiveSourcesByLabel({});
       setLiveSourcesList([]);
       hasFinalizeEventOccurredRef.current = false;
@@ -268,20 +325,57 @@ export default function App() {
         },
       ];
       console.log("Co-Research Nodes Active:", activeAgents.length > 0 ? activeAgents.join(", ") : "None");
+      
+      // Force scroll to bottom on new submission
+      setTimeout(() => {
+        if (scrollAreaRef.current) {
+          const viewport = scrollAreaRef.current.querySelector("[data-radix-scroll-area-viewport]");
+          if (viewport) viewport.scrollTop = viewport.scrollHeight;
+        }
+      }, 100);
+
       thread.submit({
         messages: newMessages,
         initial_search_query_count: initial_search_query_count,
         max_research_loops: max_research_loops,
         reasoning_model: models.answerModel,
         reflection_model: models.queryModel,
+        // Tool routing flags derived from UI toggles
+        enable_web_search: activeAgents.includes('web_search'),
+        enable_kg: activeAgents.includes('primekg'),
+        enable_alphafold: activeAgents.includes('alphafold_rag'),
+        tools: activeAgents,
       });
     },
     [thread, processedEventsTimeline]
   );
 
   const handleCancel = useCallback(() => {
+    // Abort the running stream and record a cancellation event without reloading.
     thread.stop();
-    window.location.reload();
+    const cancelEvent = {
+      title: 'Run Cancelled',
+      data: 'User aborted the run (frontend abort called).',
+      raw: null,
+      ts: new Date().toISOString(),
+      type: 'cancel',
+    } as ProcessedEvent;
+    setProcessedEventsTimeline((prev) => [...prev, cancelEvent]);
+
+    // Append a short AI/system message indicating cancellation so timeline and UI reflect it
+    try {
+      const cancelMsg: ChatMessage = {
+        id: `cancel_${Date.now()}`,
+        type: 'ai',
+        content: 'Run cancelled by user.',
+        metadata: { source: 'client', ts: new Date().toISOString() },
+      };
+      thread.setMessages([...(thread.messages || []), cancelMsg]);
+    } catch (e) {
+      // best-effort - if setMessages isn't available, ignore
+      // eslint-disable-next-line no-console
+      console.debug('Could not append cancel message', e);
+    }
   }, [thread]);
 
   if (!isPlatformRoute) {
@@ -318,7 +412,6 @@ export default function App() {
                   const routeMap: Record<string, string> = {
                     'knowledge-graph': 'Knowledge Substrate',
                     'whiteboard': 'Whiteboard',
-                    'status': 'Agent Performance',
                     'sim': 'Simulation Lab',
                     'alphafold': 'AlphaFold 3',
                     'audit': 'Investigation Audit',
@@ -341,7 +434,6 @@ export default function App() {
               <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
               <Route path="/knowledge-graph-nodes" element={<KnowledgeGraphNodes />} />
               <Route path="/whiteboard" element={<WhiteboardView />} />
-              <Route path="/status" element={<AgentPerformanceView />} />
               <Route path="/sim" element={<SimulationView />} />
               <Route path="/alphafold" element={<AlphaFoldView />} />
               <Route path="/audit" element={<ReportView />} />
@@ -382,6 +474,7 @@ export default function App() {
                       historicalActivities={historicalActivities}
                       sourcesByMessageId={sourcesByMessageId}
                       sourcesListByMessageId={sourcesListByMessageId}
+                      rawEvents={rawEvents}
                     />
                   )}
                 </div>

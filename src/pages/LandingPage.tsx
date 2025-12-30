@@ -42,7 +42,7 @@ export default function LandingPage() {
                         </div>
                         <div className="space-y-6">
                             <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">
-                                The Industrialization of <span className="text-primary">Causal Discovery</span>
+                                Biomedical research <span className="text-primary">Operating System</span>
                             </h2>
                             <p className="text-lg text-text-main leading-relaxed max-w-xl">
                                 A multi-agent graph reasoning system powered by Gemini, built to accelerate biomedical research using PrimeKG.
@@ -180,9 +180,10 @@ export default function LandingPage() {
                                 { name: "Gemini 3.0", src: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.svg", color: "from-blue-400/20 to-purple-400/20" },
                                 { name: "Docker", src: "https://www.vectorlogo.zone/logos/docker/docker-tile.svg", color: "from-blue-500/10 to-blue-600/10" },
                                 { name: "LangChain", src: "https://avatars.githubusercontent.com/u/126733545?s=200&v=4", color: "from-green-400/10 to-emerald-500/10" },
-                                { name: "Neo4j", src: "https://www.vectorlogo.zone/logos/neo4j/neo4j-icon.svg", color: "from-blue-600/10 to-indigo-700/10" },
+                                { name: "NetworkX", src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><rect rx='12' fill='%230b1220' width='100%' height='100%'/><text x='50%' y='50%' font-size='26' fill='%23ffffff' text-anchor='middle' dominant-baseline='central' font-family='Arial,Helvetica,sans-serif'>NX</text></svg>", color: "from-slate-700/10 to-slate-900/10" },
                                 { name: "Google Cloud", src: "https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg", color: "from-blue-500/10 to-red-500/10" },
-                                { name: "Python", src: "https://www.vectorlogo.zone/logos/python/python-icon.svg", color: "from-yellow-400/10 to-blue-500/10" }
+                                { name: "Python", src: "https://www.vectorlogo.zone/logos/python/python-icon.svg", color: "from-yellow-400/10 to-blue-500/10" },
+                                { name: "AlphaFold", src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><rect rx='12' fill='%2308162b' width='100%' height='100%'/><text x='50%' y='50%' font-size='22' fill='%23ffd24d' text-anchor='middle' dominant-baseline='central' font-family='Arial,Helvetica,sans-serif'>AF</text></svg>", color: "from-purple-600/10 to-rose-400/10" }
                             ].map((tech, i) => (
                                 <div key={i} className="group relative">
                                     {/* Tooltip */}

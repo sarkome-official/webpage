@@ -1,15 +1,27 @@
 import React, { useMemo, useState, useRef, useEffect, useCallback } from 'react';
 import ForceGraph3D from 'react-force-graph-3d';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Maximize2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const KnowledgeGraphNodes = () => {
     const navigate = useNavigate();
     const fgRef = useRef<any>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const [graphData, setGraphData] = useState({ nodes: [], links: [] });
     const [isLoading, setIsLoading] = useState(true);
     const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
+
+    const toggleFullscreen = () => {
+        if (!containerRef.current) return;
+        if (!document.fullscreenElement) {
+            containerRef.current.requestFullscreen().catch(err => {
+                console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    };
 
     useEffect(() => {
         const handleResize = () => setDimensions({ width: window.innerWidth, height: window.innerHeight });
@@ -81,7 +93,7 @@ export const KnowledgeGraphNodes = () => {
     }), []);
 
     return (
-        <div className={`relative w-full h-full overflow-hidden ${isDark ? 'bg-black' : 'bg-white'}`}>
+        <div ref={containerRef} className={`relative w-full h-full overflow-hidden ${isDark ? 'bg-black' : 'bg-white'}`}>
 
             {isLoading && (
                 <div className={`absolute inset-0 flex items-center justify-center z-40 ${isDark ? 'bg-black text-primary' : 'bg-white text-primary'}`}>
@@ -151,6 +163,21 @@ export const KnowledgeGraphNodes = () => {
                 <p className={`text-[11px] leading-relaxed ${isDark ? 'text-muted-foreground' : 'text-slate-600'}`}>
                     Scroll: Zoom | Drag: Rotate | Click Node: Center Camera | 0.01% of PrimeKG
                 </p>
+            </div>
+
+            {/* Entity 3: Fullscreen Control */}
+            <div className="absolute bottom-6 right-6 z-[100] pointer-events-auto">
+                <Button
+                    onClick={toggleFullscreen}
+                    variant="outline"
+                    size="icon"
+                    className={`backdrop-blur-md border shadow-xl transition-colors rounded-full w-10 h-10 ${isDark
+                            ? 'bg-black/60 border-white/20 text-white hover:bg-white/20'
+                            : 'bg-white/60 border-black/10 text-black hover:bg-black/5'
+                        }`}
+                >
+                    <Maximize2 className="w-4 h-4" />
+                </Button>
             </div>
         </div>
     );

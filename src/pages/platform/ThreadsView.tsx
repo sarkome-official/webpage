@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MessageSquare, Database, Link as LinkIcon } from "lucide-react";
-import { getLangServeUrl } from "@/lib/langgraph-api";
+import { getAgentUrl } from "@/lib/langgraph-api";
 import type { ChatMessage } from "@/lib/chat-types";
 import { getThread, listThreads, type StoredThread } from "@/lib/local-threads";
 
@@ -20,7 +20,7 @@ function stringifyContent(content: unknown): string {
 }
 
 export const ThreadsView = () => {
-  const agentUrl = useMemo(() => getLangServeUrl(), []);
+  const agentUrl = useMemo(() => getAgentUrl(), []);
 
   const [threads, setThreads] = useState<StoredThread[]>(() => listThreads());
   const [selectedThreadId, setSelectedThreadId] = useState<string | null>(() => {
@@ -57,7 +57,7 @@ export const ThreadsView = () => {
           <div className="min-w-0">
             <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight truncate">Hilos (Threads) & Historial del Agente</h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Historial de conversaciones guardado localmente (LangServe no expone /threads).
+              Historial de conversaciones guardado localmente (el backend no expone /threads).
             </p>
           </div>
         </div>
@@ -71,7 +71,7 @@ export const ThreadsView = () => {
                 <ul className="text-sm text-muted-foreground list-disc pl-5 space-y-1">
                   <li>Hilos (Threads): Cada conversación se guarda localmente con un <span className="font-mono text-foreground">thread_id</span>.</li>
                   <li>Persistencia Automática: El frontend guarda cada mensaje del usuario y cada respuesta del agente en <span className="font-mono text-foreground">localStorage</span>.</li>
-                  <li>Backend: El agente se invoca vía LangServe en <span className="font-mono text-foreground">/agent</span> (invoke/stream).</li>
+                  <li>Backend: El agente se invoca vía FastAPI en <span className="font-mono text-foreground">/runs</span> (invoke/stream).</li>
                 </ul>
               </div>
             </div>
@@ -83,9 +83,9 @@ export const ThreadsView = () => {
               <div className="space-y-2">
                 <div className="text-sm text-foreground font-semibold">Endpoints</div>
                 <div className="text-xs text-muted-foreground">
-                  <div className="font-mono text-foreground">POST /agent/invoke</div>
-                  <div className="font-mono text-foreground">POST /agent/stream</div>
-                  <div className="font-mono text-foreground">/agent/playground</div>
+                  <div className="font-mono text-foreground">POST /runs/wait</div>
+                  <div className="font-mono text-foreground">POST /runs/stream</div>
+                  <div className="font-mono text-foreground">/runs/playground</div>
                 </div>
                 <div className="text-[11px] text-muted-foreground">
                   Base URL actual: <span className="font-mono text-foreground">{agentUrl}</span>

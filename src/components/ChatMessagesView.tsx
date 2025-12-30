@@ -1,9 +1,10 @@
 import type React from "react";
 import type { ChatMessage } from "@/lib/chat-types";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Loader2, Copy, CopyCheck } from "lucide-react";
+import { Loader2, Copy, CopyCheck, Database, Terminal, ChevronDown, ChevronUp } from "lucide-react";
 import { InputForm } from "@/components/InputForm";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState, ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
@@ -11,7 +12,9 @@ import { Badge } from "@/components/ui/badge";
 import {
   ActivityTimeline,
   ProcessedEvent,
-} from "@/components/ActivityTimeline"; // Assuming ActivityTimeline is in the same dir or adjust path
+} from "@/components/ActivityTimeline";
+import { RunLogs } from "@/components/RunLogs";
+import { ProteinViewer } from "@/components/molecules";
 
 function extractText(node: ReactNode): string {
   if (node == null) return "";
@@ -231,6 +234,35 @@ function formatContent(content: any): string {
   return typeof content === "string" ? content : JSON.stringify(content, null, 2);
 }
 
+function extractUniProtIds(content: string, metadata?: any): string[] {
+  const ids = new Set<string>();
+  
+  // 1. Check metadata for explicit artifact
+  if (metadata?.artifact?.type === 'protein_3d' && metadata.artifact.id) {
+    ids.add(metadata.artifact.id);
+  }
+
+  // 2. Check raw metadata for AlphaFold results
+  const raw = metadata?.raw;
+  if (raw?.query_alphafold?.results) {
+    const results = Array.isArray(raw.query_alphafold.results) ? raw.query_alphafold.results : [];
+    results.forEach((r: any) => {
+      if (r.uniprot_id) ids.add(r.uniprot_id);
+      else if (r.uniprotId) ids.add(r.uniprotId);
+    });
+  }
+
+  // 3. Regex fallback for UniProt IDs in text
+  // UniProt IDs: [OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}
+  const uniprotRegex = /\b([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2})\b/g;
+  const matches = content.match(uniprotRegex);
+  if (matches) {
+    matches.forEach(id => ids.add(id));
+  }
+
+  return Array.from(ids);
+}
+
 // Props for HumanMessageBubble
 interface HumanMessageBubbleProps {
   message: ChatMessage;
@@ -283,8 +315,46 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
   const isLiveActivityForThisBubble = isLastMessage && isOverallLoading;
   const formatted = formatContent(message.content);
 
+  const metadata = (message.metadata || {}) as any;
+  const source = metadata.source;
+  const raw = metadata.raw;
+  const ts = metadata.ts;
+
+  const uniProtIds = extractUniProtIds(formatted, metadata);
+
   return (
     <div className={`relative break-words flex flex-col w-full`}>
+      {source && (
+        <div className="flex items-center gap-2 mb-2">
+          <Badge variant="outline" className="text-[10px] uppercase tracking-wider font-mono py-0 px-1.5 bg-primary/5 border-primary/20 text-primary/80">
+            {source.replace(/_/g, ' ')}
+          </Badge>
+          {ts && (
+            <span className="text-[10px] text-muted-foreground font-mono">
+              {new Date(ts).toLocaleTimeString()}
+            </span>
+          )}
+          {raw && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-4 w-4 text-muted-foreground hover:text-primary">
+                  <Database className="h-3 w-3" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[400px] p-0 bg-black border-border">
+                <div className="p-2 bg-muted/50 border-b border-border flex justify-between items-center">
+                  <span className="text-[10px] font-mono text-muted-foreground uppercase">Raw Node Output</span>
+                </div>
+                <ScrollArea className="h-[300px] w-full p-4">
+                  <pre className="text-[10px] font-mono text-green-400/90 whitespace-pre-wrap">
+                    {JSON.stringify(raw, null, 2)}
+                  </pre>
+                </ScrollArea>
+              </PopoverContent>
+            </Popover>
+          )}
+        </div>
+      )}
       {activityForThisBubble && activityForThisBubble.length > 0 && (
         <div className="mb-3 border-b border-border pb-3 text-xs">
           <ActivityTimeline
@@ -298,6 +368,15 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
           {formatted}
         </ReactMarkdown>
       </div>
+
+      {uniProtIds.length > 0 && (
+        <div className="mt-4 space-y-4">
+          {uniProtIds.map(id => (
+            <ProteinViewer key={id} uniprotId={id} />
+          ))}
+        </div>
+      )}
+
       <Button
         variant="ghost"
         size="sm"
@@ -329,6 +408,7 @@ interface ChatMessagesViewProps {
   historicalActivities: Record<string, ProcessedEvent[]>;
   sourcesByMessageId?: Record<string, Record<string, string>>;
   sourcesListByMessageId?: Record<string, Array<{ label?: string; url: string; id?: string }>>;
+  rawEvents?: any[];
 }
 
 export function ChatMessagesView({
@@ -341,8 +421,10 @@ export function ChatMessagesView({
   historicalActivities,
   sourcesByMessageId,
   sourcesListByMessageId,
+  rawEvents = [],
 }: ChatMessagesViewProps) {
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
+  const [showLogs, setShowLogs] = useState(false);
 
   const mdComponents = makeMdComponents();
 
@@ -402,11 +484,31 @@ export function ChatMessagesView({
           {isLoading &&
             (messages.length === 0 ||
               messages[messages.length - 1].type === "human") && (
-              <div className="flex items-start gap-3 mt-3">
-                {" "}
-                {/* AI message row structure */}
-                <div className="relative group max-w-[85%] md:max-w-[80%] rounded-xl p-3 shadow-sm break-words bg-muted/20 border border-border text-foreground rounded-bl-none w-full min-h-[56px]">
-                  {liveActivityEvents.length > 0 ? (
+              <div className="flex flex-col gap-3 mt-3 w-full">
+                <div className="flex items-center gap-3 px-1">
+                  <div className="flex items-center justify-center h-8 w-8 rounded-full bg-primary/10 border border-primary/20">
+                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                  </div>
+                  <span className="text-sm font-medium text-foreground animate-pulse">Agent is Thinking...</span>
+                  
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => setShowLogs(!showLogs)}
+                    className="ml-auto text-[10px] uppercase tracking-widest text-muted-foreground hover:text-primary h-7"
+                  >
+                    <Terminal className="h-3 w-3 mr-1.5" />
+                    {showLogs ? "Hide Logs" : "Show Logs"}
+                    {showLogs ? <ChevronUp className="ml-1 h-3 w-3" /> : <ChevronDown className="ml-1 h-3 w-3" />}
+                  </Button>
+                </div>
+
+                <div className="relative group max-w-full rounded-2xl p-4 shadow-sm break-words bg-muted/10 border border-border/50 text-foreground w-full min-h-[100px] backdrop-blur-sm">
+                  {showLogs ? (
+                    <div className="h-[300px] rounded-lg overflow-hidden border border-border/50">
+                      <RunLogs events={rawEvents} />
+                    </div>
+                  ) : liveActivityEvents.length > 0 ? (
                     <div className="text-xs">
                       <ActivityTimeline
                         processedEvents={liveActivityEvents}
@@ -414,9 +516,15 @@ export function ChatMessagesView({
                       />
                     </div>
                   ) : (
-                    <div className="flex items-center justify-start h-full">
-                      <Loader2 className="h-5 w-5 animate-spin text-primary mr-2" />
-                      <span className="text-muted-foreground">Processing...</span>
+                    <div className="flex flex-col items-center justify-center py-8 opacity-50">
+                      <div className="relative h-12 w-12 mb-4">
+                        <div className="absolute inset-0 rounded-full border-2 border-primary/20 animate-ping" />
+                        <div className="absolute inset-2 rounded-full border-2 border-primary/40 animate-pulse" />
+                        <div className="absolute inset-4 rounded-full bg-primary/20 flex items-center justify-center">
+                           <Database className="h-4 w-4 text-primary" />
+                        </div>
+                      </div>
+                      <span className="text-xs text-muted-foreground font-mono uppercase tracking-tighter">Initializing Neural Pathways...</span>
                     </div>
                   )}
                 </div>

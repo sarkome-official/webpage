@@ -52,11 +52,6 @@ const data = {
                     url: "/whiteboard",
                     icon: LayoutGrid,
                 },
-                {
-                    title: "Agent Status",
-                    url: "/status",
-                    icon: Brain,
-                },
             ],
         },
         {

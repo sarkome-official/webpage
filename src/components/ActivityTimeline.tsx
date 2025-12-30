@@ -21,6 +21,9 @@ import { useEffect, useState } from "react";
 export interface ProcessedEvent {
   title: string;
   data: any;
+  raw?: any;
+  ts?: string;
+  type?: string;
 }
 
 interface ActivityTimelineProps {
@@ -32,8 +35,19 @@ export function ActivityTimeline({
   processedEvents,
   isLoading,
 }: ActivityTimelineProps) {
+  const [expanded, setExpanded] = useState<Record<number, boolean>>({});
   const [isTimelineCollapsed, setIsTimelineCollapsed] =
     useState<boolean>(false);
+
+  const firstTs = processedEvents[0]?.ts ? new Date(processedEvents[0].ts).getTime() : null;
+
+  const getRelativeTime = (ts?: string) => {
+    if (!ts || !firstTs) return "";
+    const diff = new Date(ts).getTime() - firstTs;
+    const seconds = (diff / 1000).toFixed(1);
+    return `+${seconds}s`;
+  };
+
   const getEventIcon = (title: string, index: number) => {
     if (index === 0 && isLoading && processedEvents.length === 0) {
       return <Loader2 className="h-4 w-4 text-neutral-400 animate-spin" />;
@@ -103,9 +117,23 @@ export function ActivityTimeline({
                       {getEventIcon(eventItem.title, index)}
                     </div>
                     <div>
-                      <p className="text-sm text-neutral-200 font-medium mb-0.5">
-                        {eventItem.title}
-                      </p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm text-neutral-200 font-medium mb-0.5">
+                          {eventItem.title}
+                        </p>
+                        {eventItem.ts && (
+                          <span className="text-[10px] text-neutral-400 font-mono">
+                            {new Date(eventItem.ts).toLocaleTimeString()} ({getRelativeTime(eventItem.ts)})
+                          </span>
+                        )}
+                        <button
+                          type="button"
+                          className="ml-2 text-xs text-neutral-400 hover:text-neutral-200"
+                          onClick={() => setExpanded((s) => ({ ...s, [index]: !s[index] }))}
+                        >
+                          {expanded[index] ? "Hide" : "Details"}
+                        </button>
+                      </div>
                       <p className="text-xs text-neutral-300 leading-relaxed">
                         {typeof eventItem.data === "string"
                           ? eventItem.data
@@ -113,6 +141,9 @@ export function ActivityTimeline({
                           ? (eventItem.data as string[]).join(", ")
                           : JSON.stringify(eventItem.data)}
                       </p>
+                      {expanded[index] && (
+                        <pre className="mt-2 p-2 rounded bg-neutral-800 text-xs overflow-auto border border-neutral-700 max-h-64">{JSON.stringify(eventItem.raw ?? eventItem.data, null, 2)}</pre>
+                      )}
                     </div>
                   </div>
                 ))}

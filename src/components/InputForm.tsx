@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { SquarePen, Brain, Send, StopCircle, Zap, Cpu, Users, Search, Activity, Box, Plus, ArrowUp } from "lucide-react";
+import { SquarePen, Brain, Send, StopCircle, Zap, Cpu, Users, Search, Activity, Box, Plus, ArrowUp, Loader2, Database } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -67,11 +67,7 @@ function EffortTooltipBody({ level }: { level: string }) {
   );
 }
 
-const ADDITIONAL_AGENTS = [
-  { id: "researcher", name: "Search Researcher", icon: Search, color: "bg-zinc-500", desc: "Performs deep web-based inquiries" },
-  { id: "analyst", name: "Causal Analyst", icon: Activity, color: "bg-zinc-600", desc: "Analyzes causal pathways" },
-  { id: "expert", name: "Modality Expert", icon: Box, color: "bg-zinc-700", desc: "Cross-references multiple data sources" },
-];
+// Quick tools are represented by agent ids: 'web_search', 'primekg', 'alphafold_rag'
 
 // Updated InputFormProps
 interface InputFormProps {
@@ -116,7 +112,8 @@ export const InputForm: React.FC<InputFormProps> = ({
   const handleInternalSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!internalInputValue.trim()) return;
-    onSubmit(internalInputValue, effort, { queryModel, answerModel }, activeAgents);
+    const agentsToSend = activeAgents.length > 0 ? activeAgents : ['web_search'];
+    onSubmit(internalInputValue, effort, { queryModel, answerModel }, agentsToSend);
     setInternalInputValue("");
   };
 
@@ -172,8 +169,11 @@ export const InputForm: React.FC<InputFormProps> = ({
                 size="icon"
                 className="h-8 w-8 rounded-full bg-destructive/10 text-destructive hover:bg-destructive/20"
                 onClick={onCancel}
+                aria-label="Cancel run"
+                title="Cancel"
               >
-                <StopCircle className="size-4" />
+                <span className="sr-only">Thinking</span>
+                <Loader2 className="size-4 animate-spin" />
               </Button>
             ) : (
               <Button
@@ -202,7 +202,7 @@ export const InputForm: React.FC<InputFormProps> = ({
                 }`}
             >
               <Users className="size-3.5" />
-              COLLABORATE
+              TOOLS
               {isCollaborating && (
                 <span className="ml-1 px-1.5 py-0.5 rounded-md bg-primary text-primary-foreground text-[9px]">
                   {activeAgents.length}
@@ -211,36 +211,75 @@ export const InputForm: React.FC<InputFormProps> = ({
             </button>
           </PopoverTrigger>
           <PopoverContent className="bg-popover border-border w-80 p-0 shadow-2xl">
-            <div className="p-4 border-b border-border bg-muted/30">
-              <h4 className="text-[11px] font-bold text-foreground uppercase tracking-[0.2em]">Multi-Agent Protocol</h4>
-              <p className="text-[10px] text-muted-foreground mt-1 font-medium italic">Distribute query workload across specialized nodes.</p>
+            <div className="p-3 border-b border-border bg-muted/30">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-[11px] font-bold text-foreground uppercase tracking-[0.2em]">Quick Tools</h4>
+                <span className="text-[10px] text-muted-foreground">Minimum: 1</span>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => toggleAgent('web_search')}
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[11px] font-semibold border transition-colors ${activeAgents.includes('web_search') ? 'bg-primary/10 border-primary/20 text-primary' : 'bg-muted/10 border-border text-muted-foreground hover:bg-muted/30'}`}
+                >
+                  <Search className="size-4" />
+                  <span className="hidden sm:inline">Web Search</span>
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => toggleAgent('primekg')}
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[11px] font-semibold border transition-colors ${activeAgents.includes('primekg') ? 'bg-primary/10 border-primary/20 text-primary' : 'bg-muted/10 border-border text-muted-foreground hover:bg-muted/30'}`}
+                >
+                  <Database className="size-4" />
+                  <span className="hidden sm:inline">PrimeKG</span>
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => toggleAgent('alphafold_rag')}
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[11px] font-semibold border transition-colors ${activeAgents.includes('alphafold_rag') ? 'bg-primary/10 border-primary/20 text-primary' : 'bg-muted/10 border-border text-muted-foreground hover:bg-muted/30'}`}
+                >
+                  <Box className="size-4" />
+                  <span className="hidden sm:inline">AlphaFold RAG</span>
+                </Button>
+              </div>
             </div>
-            <div className="p-2 space-y-1">
-              {ADDITIONAL_AGENTS.map((agent) => {
-                const isActive = activeAgents.includes(agent.id);
-                const isToggleDisabled = !isActive && activeAgents.length >= 3;
-                return (
-                  <div
-                    key={agent.id}
-                    className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 cursor-pointer ${isActive ? 'bg-muted border border-border' : 'border border-transparent'} ${isToggleDisabled ? 'opacity-40 cursor-not-allowed' : 'hover:bg-muted/50'}`}
-                    onClick={() => !isToggleDisabled && toggleAgent(agent.id)}
-                  >
-                    <div className={`size-9 rounded-xl ${agent.color} flex items-center justify-center shrink-0 shadow-lg shadow-black/20`}>
-                      <agent.icon className="size-4 text-white" />
-                    </div>
-                    <div className="flex-1 flex flex-col items-start text-left overflow-hidden">
-                      <span className="text-[11px] font-bold text-foreground uppercase tracking-tight truncate">{agent.name}</span>
-                      <span className="text-[9px] text-muted-foreground text-left font-medium leading-tight">{agent.desc}</span>
-                    </div>
-                    <Switch
-                      checked={isActive}
-                      onCheckedChange={() => !isToggleDisabled && toggleAgent(agent.id)}
-                      className="data-[state=checked]:bg-primary"
-                      disabled={isToggleDisabled}
-                    />
+            <div className="p-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <label className="flex items-center gap-2 p-2 rounded-md bg-muted/5 border border-border">
+                  <Search className="size-4 text-muted-foreground" />
+                  <div className="flex-1">
+                    <div className="text-sm font-semibold">Web Search</div>
+                    <div className="text-[11px] text-muted-foreground">Live web queries</div>
                   </div>
-                );
-              })}
+                  <Switch checked={activeAgents.includes('web_search')} onCheckedChange={() => toggleAgent('web_search')} />
+                </label>
+
+                <label className="flex items-center gap-2 p-2 rounded-md bg-muted/5 border border-border">
+                  <Database className="size-4 text-muted-foreground" />
+                  <div className="flex-1">
+                    <div className="text-sm font-semibold">PrimeKG</div>
+                    <div className="text-[11px] text-muted-foreground">GraphRAG retrieval</div>
+                  </div>
+                  <Switch checked={activeAgents.includes('primekg')} onCheckedChange={() => toggleAgent('primekg')} />
+                </label>
+
+                <label className="flex items-center gap-2 p-2 rounded-md bg-muted/5 border border-border">
+                  <Box className="size-4 text-muted-foreground" />
+                  <div className="flex-1">
+                    <div className="text-sm font-semibold">AlphaFold RAG</div>
+                    <div className="text-[11px] text-muted-foreground">Protein model retrieval</div>
+                  </div>
+                  <Switch checked={activeAgents.includes('alphafold_rag')} onCheckedChange={() => toggleAgent('alphafold_rag')} />
+                </label>
+              </div>
             </div>
           </PopoverContent>
         </Popover>

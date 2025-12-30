@@ -1,9 +1,55 @@
-import React from 'react';
-import { Box, Activity, Info, Layers, Maximize2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Box, Activity, Info, Layers, Maximize2, Construction, X } from 'lucide-react';
 
 export const AlphaFoldView = () => {
+    const [showNotice, setShowNotice] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setShowNotice(true), 500);
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
-        <div className="flex flex-col h-full w-full bg-background text-muted-foreground font-sans overflow-hidden">
+        <div className="flex flex-col h-full w-full bg-background text-muted-foreground font-sans overflow-hidden relative">
+            {/* Construction Notice Modal */}
+            {showNotice && (
+                <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="max-w-md w-full bg-card border border-primary/20 rounded-2xl shadow-2xl p-8 relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 via-primary to-primary/50"></div>
+                        
+                        <button 
+                            onClick={() => setShowNotice(false)}
+                            className="absolute top-4 right-4 p-1 rounded-full hover:bg-muted transition-colors text-muted-foreground"
+                        >
+                            <X className="w-4 h-4" />
+                        </button>
+
+                        <div className="flex flex-col items-center text-center space-y-6">
+                            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                                <Construction className="w-8 h-8 text-primary animate-pulse" />
+                            </div>
+                            
+                            <div className="space-y-2">
+                                <h2 className="text-xl font-bold text-foreground tracking-tight">Feature Under Construction</h2>
+                                <p className="text-sm leading-relaxed">
+                                    The AlphaFold Server protein visualizer is already conceptualized and currently under construction.
+                                </p>
+                                <p className="text-xs text-muted-foreground italic">
+                                    This module will enable high-fidelity 3D analysis of biomolecular structures directly within Sarkome OS.
+                                </p>
+                            </div>
+
+                            <button 
+                                onClick={() => setShowNotice(false)}
+                                className="w-full py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+                            >
+                                Understood
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Header Section */}
             <div className="p-4 md:p-8 border-b border-border bg-muted/10 backdrop-blur-md">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
@@ -85,6 +131,22 @@ export const AlphaFoldView = () => {
                 {/* Info Sidebar */}
                 <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-border bg-muted/10 p-6 overflow-y-auto">
                     <div className="space-y-8">
+                        <section>
+                            <h3 className="text-foreground font-bold mb-4 flex items-center gap-2">
+                                <Info className="w-4 h-4 text-primary" />
+                                About AlphaFold Integration
+                            </h3>
+                            <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-3">
+                                <h4 className="text-xs font-bold text-primary uppercase tracking-wider">How does AlphaFold Server work?</h4>
+                                <p className="text-xs leading-relaxed text-foreground/80">
+                                    AlphaFold Server is a web-service that can generate highly accurate biomolecular structure predictions containing proteins, DNA, RNA, ligands, ions, and also model chemical modifications for proteins and nucleic acids in one platform.
+                                </p>
+                                <p className="text-xs leading-relaxed text-foreground/80 font-medium">
+                                    It’s powered by the newest AlphaFold 3 model.
+                                </p>
+                            </div>
+                        </section>
+
                         <section>
                             <h3 className="text-foreground font-bold mb-4 flex items-center gap-2">
                                 <Info className="w-4 h-4 text-primary" />

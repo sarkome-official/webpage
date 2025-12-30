@@ -56,6 +56,7 @@
   --text-muted: #6b7280;
   --surface: #f9fafb;
   --border-custom: #e5e7eb;
+  --dot-color: rgba(12, 12, 12, 0.171);
 }
 
 .dark {
@@ -82,6 +83,7 @@
   --text-muted: #a1a1aa;
   --surface: #121212;
   --border-custom: #27272a;
+  --dot-color: rgba(255, 255, 255, 0.1);
 }
 
 @layer utilities {
@@ -97,11 +99,10 @@
   }
 
   .bg-uiverse-grid {
-    --grid-color: var(--border);
     background-color: var(--background);
-    background-image: linear-gradient(0deg, transparent 24%, var(--grid-color) 25%, var(--grid-color) 26%, transparent 27%,transparent 74%, var(--grid-color) 75%, var(--grid-color) 76%, transparent 77%,transparent),
-        linear-gradient(90deg, transparent 24%, var(--grid-color) 25%, var(--grid-color) 26%, transparent 27%,transparent 74%, var(--grid-color) 75%, var(--grid-color) 76%, transparent 77%,transparent);
-    background-size: 55px 55px;
+    background-image: radial-gradient(var(--dot-color) 2px, transparent 0);
+    background-size: 30px 30px;
+    background-position: -5px -5px;
   }
 
   .mono-text {

@@ -29,7 +29,7 @@ export default defineConfig({
         ws: true,
         rewrite: (path) => path.replace(/^\/langgraph/, ""),
       },
-      // LangServe (custom backend): /agent -> host:8080
+      // Sarkome Agent (custom backend): /agent -> host:8080
       "/agent": {
         target: "http://127.0.0.1:8080",
         changeOrigin: true,
