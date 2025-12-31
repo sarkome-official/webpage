@@ -231,7 +231,37 @@ function formatContent(content: any): string {
   }
 
   // Fallback
-  return typeof content === "string" ? content : JSON.stringify(content, null, 2);
+  const raw = typeof content === "string" ? content : JSON.stringify(content, null, 2);
+
+  // Normalize simple LaTeX-like macros to Unicode to avoid Markdown/math parsing issues
+  // Examples: "$\\Delta^9$" -> "Δ^9", "\\Delta" -> "Δ"
+  const macroMap: Record<string, string> = {
+    Delta: "Δ",
+    delta: "Δ",
+    alpha: "α",
+    beta: "β",
+    gamma: "γ",
+    mu: "μ",
+    lambda: "λ",
+    Omega: "Ω",
+    omega: "ω",
+    pi: "π",
+  };
+
+  let normalized = raw;
+
+  // Replace $\Macro^n$ patterns
+  normalized = normalized.replace(/\$\\([A-Za-z]+)(\^[-+]?\d+)?\$/g, (_m, macro: string, sup: string) => {
+    const sym = macroMap[macro] ?? macro;
+    return sup ? `${sym}${sup}` : `${sym}`;
+  });
+
+  // Replace bare \Macro occurrences
+  normalized = normalized.replace(/\\([A-Za-z]+)/g, (_m, macro: string) => {
+    return macroMap[macro] ?? macro;
+  });
+
+  return normalized;
 }
 
 function extractUniProtIds(content: string, metadata?: any): string[] {
@@ -355,19 +385,20 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
           )}
         </div>
       )}
+      <div className="prose prose-invert max-w-none">
+        <ReactMarkdown components={mdComponents}>
+          {formatted}
+        </ReactMarkdown>
+      </div>
+
       {activityForThisBubble && activityForThisBubble.length > 0 && (
-        <div className="mb-3 border-b border-border pb-3 text-xs">
+        <div className="mt-3 border-t border-border pt-3 text-xs">
           <ActivityTimeline
             processedEvents={activityForThisBubble}
             isLoading={isLiveActivityForThisBubble}
           />
         </div>
       )}
-      <div className="prose prose-invert max-w-none">
-        <ReactMarkdown components={mdComponents}>
-          {formatted}
-        </ReactMarkdown>
-      </div>
 
       {uniProtIds.length > 0 && (
         <div className="mt-4 space-y-4">
