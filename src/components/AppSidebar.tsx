@@ -14,6 +14,7 @@ import {
     Settings,
     User,
     ArrowLeft,
+    Database,
 } from "lucide-react"
 
 import { Link, useLocation } from "react-router-dom"
@@ -48,10 +49,11 @@ const data = {
                     icon: Network,
                 },
                 {
-                    title: "Whiteboard",
-                    url: "/whiteboard",
-                    icon: LayoutGrid,
+                    title: "Knowledge Nodes",
+                    url: "/knowledge-graph-nodes",
+                    icon: Database,
                 },
+
             ],
         },
         {
@@ -67,13 +69,9 @@ const data = {
         {
             title: "Governance & Ops",
             items: [
+
                 {
-                    title: "Data Ingestion",
-                    url: "/ingestion",
-                    icon: CloudUpload,
-                },
-                {
-                    title: "Export & API",
+                    title: "API",
                     url: "/api",
                     icon: Code,
                 },

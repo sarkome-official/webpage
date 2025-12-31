@@ -2,75 +2,15 @@ import React, { useState } from 'react';
 import { Database, FileJson, Table, Copy, FileText, Lock, Webhook } from 'lucide-react';
 
 export const KnowledgeExportView = () => {
+    const [showWipDialog, setShowWipDialog] = useState(true);
+
     return (
         <div className="flex flex-col min-h-screen bg-background text-foreground font-sans">
             {/* Header */}
 
             <div className="flex-1 flex flex-col lg:flex-row max-w-[1600px] mx-auto w-full p-4 md:p-6 lg:p-10 gap-6 md:gap-8">
                 {/* Left Column: Export Options */}
-                <section className="flex-1 flex flex-col gap-6">
-                    <div>
-                        <h2 className="text-xl md:text-2xl font-bold text-foreground mb-2">Knowledge Graph Snippets</h2>
-                        <p className="text-sm md:text-base text-muted-foreground">Download high-fidelity, conflict-resolved slices of the ASPS Knowledge Graph.</p>
-                    </div>
 
-                    <div className="grid grid-cols-1 gap-4">
-                        {/* Option 1: Neo4j Dump */}
-                        <div className="bg-muted/20 border border-border p-4 md:p-6 rounded-xl flex flex-col sm:flex-row items-start justify-between gap-4 group hover:border-primary/50 transition-colors">
-                            <div className="flex items-start gap-4">
-                                <div className="size-10 md:size-12 rounded bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                                    <Database className="w-6 h-6 md:w-7 md:h-7" />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-foreground text-base md:text-lg">Neo4j Dump (.dump)</h3>
-                                    <p className="text-xs md:text-sm text-muted-foreground/60 mt-1 max-w-md">Full graph binary dump compatible with Neo4j Enterprise 5.x.</p>
-                                    <div className="flex gap-2 mt-3">
-                                        <span className="text-[9px] md:text-[10px] bg-muted/30 text-muted-foreground px-2 py-0.5 rounded border border-border">Updated: 2h ago</span>
-                                        <span className="text-[9px] md:text-[10px] bg-muted/30 text-muted-foreground px-2 py-0.5 rounded border border-border">Size: 1.2 GB</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <button className="w-full sm:w-auto px-4 py-2 bg-muted/30 hover:bg-primary text-foreground rounded-lg font-bold text-xs md:text-sm transition-colors border border-border group-hover:border-primary group-hover:text-white">
-                                Download
-                            </button>
-                        </div>
-
-                        {/* Option 2: JSON Excerpt */}
-                        <div className="bg-muted/20 border border-border p-6 rounded-xl flex items-start justify-between group hover:border-primary/50 transition-colors">
-                            <div className="flex items-start gap-4">
-                                <div className="size-12 rounded bg-amber-500/10 flex items-center justify-center text-amber-500">
-                                    <FileJson className="w-7 h-7" />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-foreground text-lg">JSON Excerpt (Sarkome Schema)</h3>
-                                    <p className="text-sm text-muted-foreground/60 mt-1 max-w-md">Lightweight JSON export of "Approved" edges only. Optimized for web visualization and analysis.</p>
-                                    <div className="flex gap-2 mt-3">
-                                        <span className="text-[10px] bg-muted/30 text-muted-foreground px-2 py-0.5 rounded border border-border">Updated: Live</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <button className="px-4 py-2 bg-muted/30 hover:bg-amber-500/20 text-foreground rounded-lg font-bold text-sm transition-colors border border-border group-hover:border-amber-500 group-hover:text-amber-500">
-                                Generate
-                            </button>
-                        </div>
-
-                        {/* Option 3: CSV Triples */}
-                        <div className="bg-muted/20 border border-border p-6 rounded-xl flex items-start justify-between group hover:border-primary/50 transition-colors">
-                            <div className="flex items-start gap-4">
-                                <div className="size-12 rounded bg-purple-500/10 flex items-center justify-center text-purple-500">
-                                    <Table className="w-7 h-7" />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-foreground text-lg">RDF Triples / CSV</h3>
-                                    <p className="text-sm text-muted-foreground/60 mt-1 max-w-md">Standard node-edge-node csv format. Suitable for import into other graph tools or spreadsheet analysis.</p>
-                                </div>
-                            </div>
-                            <button className="px-4 py-2 bg-muted/30 hover:bg-purple-500/20 text-foreground rounded-lg font-bold text-sm transition-colors border border-border group-hover:border-purple-500 group-hover:text-purple-500">
-                                Download
-                            </button>
-                        </div>
-                    </div>
-                </section>
 
                 {/* Right Column: API Access */}
                 <section className="flex-1">
@@ -149,6 +89,30 @@ export const KnowledgeExportView = () => {
                     </div>
                 </section>
             </div>
+
+            {showWipDialog && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+                    <div className="bg-background border border-border p-6 rounded-xl shadow-2xl max-w-sm w-full mx-auto relative animate-in zoom-in-95 duration-200">
+                        <div className="flex flex-col items-center text-center gap-2">
+                            <div className="p-3 bg-primary/10 rounded-full mb-2">
+                                <FileText className="w-6 h-6 text-primary" />
+                            </div>
+                            <h2 className="text-xl font-bold tracking-tight">We are working here</h2>
+                            <p className="text-sm text-muted-foreground">
+                                The API management interface is currently under development. Stay tuned for updates!
+                            </p>
+                        </div>
+                        <div className="mt-6 flex justify-center w-full">
+                            <button
+                                onClick={() => setShowWipDialog(false)}
+                                className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+                            >
+                                Understood
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

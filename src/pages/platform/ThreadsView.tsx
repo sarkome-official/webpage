@@ -4,6 +4,8 @@ import { getAgentUrl } from "@/lib/langgraph-api";
 import type { ChatMessage } from "@/lib/chat-types";
 import { getThread, listThreads, type StoredThread } from "@/lib/local-threads";
 
+
+
 function asThreadLabel(t: StoredThread): string {
   if (t.title && t.title.trim().length > 0) return t.title;
   return t.id;
@@ -20,7 +22,9 @@ function stringifyContent(content: unknown): string {
 }
 
 export const ThreadsView = () => {
+  const [showWipDialog, setShowWipDialog] = useState(true);
   const agentUrl = useMemo(() => getAgentUrl(), []);
+
 
   const [threads, setThreads] = useState<StoredThread[]>(() => listThreads());
   const [selectedThreadId, setSelectedThreadId] = useState<string | null>(() => {
@@ -116,11 +120,10 @@ export const ThreadsView = () => {
                       <button
                         key={`${id}-${idx}`}
                         onClick={() => setSelectedThreadId(id)}
-                        className={`w-full text-left px-3 py-2 rounded-lg border transition-colors ${
-                          isActive
-                            ? "bg-white/5 border-primary/30"
-                            : "bg-background/20 border-border hover:bg-muted/30"
-                        }`}
+                        className={`w-full text-left px-3 py-2 rounded-lg border transition-colors ${isActive
+                          ? "bg-white/5 border-primary/30"
+                          : "bg-background/20 border-border hover:bg-muted/30"
+                          }`}
                       >
                         <div className="flex items-center justify-between gap-2">
                           <div className="min-w-0">
@@ -174,6 +177,29 @@ export const ThreadsView = () => {
               )}
             </div>
           </section>
+          {showWipDialog && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+              <div className="bg-background border border-border p-6 rounded-xl shadow-2xl max-w-sm w-full mx-auto relative animate-in zoom-in-95 duration-200">
+                <div className="flex flex-col items-center text-center gap-2">
+                  <div className="p-3 bg-primary/10 rounded-full mb-2">
+                    <LinkIcon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h2 className="text-xl font-bold tracking-tight">We are working here</h2>
+                  <p className="text-sm text-muted-foreground">
+                    The Threads management interface is currently under development. Stay tuned for updates!
+                  </p>
+                </div>
+                <div className="mt-6 flex justify-center w-full">
+                  <button
+                    onClick={() => setShowWipDialog(false)}
+                    className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+                  >
+                    Understood
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

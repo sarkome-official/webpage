@@ -11,9 +11,9 @@ import { KnowledgeGraphView as KnowledgeGraph } from "@/pages/platform/Knowledge
 import { KnowledgeGraphNodes } from "@/pages/platform/KnowledgeGraphNodes";
 import LandingPage from "@/pages/LandingPage";
 import { AlphaFoldView } from "@/pages/platform/AlphaFoldView";
-import { DataIngestionView } from "@/pages/platform/DataIngestionView";
+
 import { KnowledgeExportView } from "@/pages/platform/KnowledgeExportView";
-import { WhiteboardView } from "@/pages/platform/WhiteboardView";
+
 import { ThreadsView } from "@/pages/platform/ThreadsView";
 import ProgramDetail from "@/pages/programs/ProgramDetail";
 import { DocsLayout } from "@/pages/docs/DocsLayout";
@@ -73,9 +73,9 @@ export default function App() {
 
   const isPlatformRoute = location.pathname.startsWith("/platform") ||
     location.pathname === "/knowledge-graph" ||
-    location.pathname === "/whiteboard" ||
+
     location.pathname === "/alphafold" ||
-    location.pathname === "/ingestion" ||
+
     location.pathname === "/knowledge-graph-nodes" ||
     location.pathname === "/api" ||
     location.pathname === "/threads";
@@ -412,12 +412,12 @@ export default function App() {
                   const lastPart = location.pathname.split("/").pop() || "";
                   const routeMap: Record<string, string> = {
                     'knowledge-graph': 'Knowledge Substrate',
-                    'whiteboard': 'Whiteboard',
+
                     'sim': 'Simulation Lab',
                     'alphafold': 'AlphaFold 3',
                     'audit': 'Investigation Audit',
                     'constitution': 'System Constitution',
-                    'ingestion': 'Data Refinery',
+
                     'api': 'Developer Hub',
                     'threads': 'Threads'
                   };
@@ -434,9 +434,9 @@ export default function App() {
             <Routes>
               <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
               <Route path="/knowledge-graph-nodes" element={<KnowledgeGraphNodes />} />
-              <Route path="/whiteboard" element={<WhiteboardView />} />
+
               <Route path="/alphafold" element={<AlphaFoldView />} />
-              <Route path="/ingestion" element={<DataIngestionView />} />
+
               <Route path="/api" element={<KnowledgeExportView />} />
               <Route path="/threads" element={<ThreadsView />} />
               <Route path="/platform" element={

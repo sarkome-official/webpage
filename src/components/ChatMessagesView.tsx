@@ -414,7 +414,7 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
         </div>
       )}
 
-      import remarkGfm from 'remark-gfm';
+
       // ...
       <div className="prose prose-invert max-w-none">
         <ReactMarkdown components={mdComponents} rehypePlugins={[rehypeSanitize]} remarkPlugins={[remarkGfm]}>
