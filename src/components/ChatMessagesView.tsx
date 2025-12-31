@@ -19,7 +19,7 @@ import {
   ProcessedEvent,
 } from "@/components/ActivityTimeline";
 import { RunLogs } from "@/components/RunLogs";
-import { ProteinViewer } from "@/components/molecules";
+import { ProteinLinkCard } from "@/components/molecules/ProteinLinkCard";
 
 function extractText(node: ReactNode): string {
   if (node == null) return "";
@@ -425,7 +425,7 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
       {uniProtIds.length > 0 && (
         <div className="mt-4 space-y-4">
           {uniProtIds.map(id => (
-            <ProteinViewer key={id} uniprotId={id} />
+            <ProteinLinkCard key={id} uniprotId={id} />
           ))}
         </div>
       )}

@@ -156,14 +156,18 @@ export const InputForm = ({
         <div className="flex items-start justify-between mt-1">
           <div
             onClick={handleContainerClick}
-            className={`relative flex items-center gap-3 px-4 py-2 rounded-full flex-1 transition-all duration-200 search-bar-container ${isCollaborating ? 'ring-1 ring-primary/20' : ''}`}
+            className={`relative flex items-center gap-3 px-4 py-2 rounded-full flex-1 transition-all duration-200 search-bar-container 
+              ${isCollaborating ? 'ring-1 ring-primary/20' : ''} 
+              ${isLoading ? 'animate-pulse ring-1 ring-primary/30 bg-muted/20' : ''}
+            `}
           >
             <Textarea
               ref={textareaRef}
               value={internalInputValue}
               onChange={(e) => setInternalInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Escribe un mensaje..."
+              placeholder={isLoading ? "Thinking..." : "Escribe un mensaje..."}
+              disabled={isLoading}
               className="flex-1 bg-transparent border-0 focus-visible:ring-0 resize-none text-[14px] p-2 pr-20 min-h-[36px] max-h-[160px] leading-relaxed search-bar-input"
               rows={1}
             />
