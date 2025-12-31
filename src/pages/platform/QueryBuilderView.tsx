@@ -9,16 +9,18 @@ export const QueryBuilderView = () => {
     type LogEntry = { node: string; message: string; ts: number; status: 'pending' | 'active' | 'done'; raw?: any };
     const [agentLogs, setAgentLogs] = useState<LogEntry[]>([]);
     const [activeNode, setActiveNode] = useState<string | null>(null);
-        const [kgContext, setKgContext] = useState<any>(null);
-        const [alphafoldContext, setAlphafoldContext] = useState<any>(null);
-        const [webResearchDrafts, setWebResearchDrafts] = useState<any[]>([]);
-        const [reflectionNotes, setReflectionNotes] = useState<any>(null);
-        const [finalAnswer, setFinalAnswer] = useState<string | null>(null);
+    const [totalCost, setTotalCost] = useState(0);
+    const [totalTokens, setTotalTokens] = useState(0);
+    const [kgContext, setKgContext] = useState<any>(null);
+    const [alphafoldContext, setAlphafoldContext] = useState<any>(null);
+    const [webResearchDrafts, setWebResearchDrafts] = useState<any[]>([]);
+    const [reflectionNotes, setReflectionNotes] = useState<any>(null);
+    const [finalAnswer, setFinalAnswer] = useState<string | null>(null);
     const esRef = useRef<EventSource | null>(null);
 
-    const STEP_ORDER = ['query_knowledge_graph','query_alphafold','generate_query','web_research','reflection','finalize_answer'];
+    const STEP_ORDER = ['query_knowledge_graph', 'query_alphafold', 'generate_query', 'web_research', 'reflection', 'finalize_answer'];
 
-    const NODE_LABELS: Record<string, {title: string; message: string}> = {
+    const NODE_LABELS: Record<string, { title: string; message: string }> = {
         query_knowledge_graph: { title: 'Grafo de Conocimiento', message: 'Consultando Grafo de Conocimiento Biomédico...' },
         query_alphafold: { title: 'AlphaFold', message: 'Analizando estructuras proteicas en AlphaFold...' },
         generate_query: { title: 'Estrategia', message: 'Diseñando estrategia de búsqueda web basada en evidencia biológica...' },
@@ -30,6 +32,8 @@ export const QueryBuilderView = () => {
     const handleStart = () => {
         setIsStarting(true);
         setAgentLogs([]);
+        setTotalCost(0);
+        setTotalTokens(0);
         setActiveNode(null);
         // generate client run id for correlation with backend logs
         const runId = `client_${Date.now()}_${Math.random().toString(16).slice(2)}`;
@@ -49,7 +53,7 @@ export const QueryBuilderView = () => {
     function pushLog(node: string, message?: string, raw?: any) {
         const msg = message ?? NODE_LABELS[node]?.message ?? `Ejecutando ${node}`;
         setAgentLogs((s) => {
-            const next: LogEntry[] = s.map(l => ({...l, status: l.status === 'active' ? 'done' as const : l.status}));
+            const next: LogEntry[] = s.map(l => ({ ...l, status: l.status === 'active' ? 'done' as const : l.status }));
             next.push({ node, message: msg, ts: Date.now(), status: 'active', raw });
             return next;
         });
@@ -57,18 +61,29 @@ export const QueryBuilderView = () => {
     }
 
     function markDone(node: string) {
-        setAgentLogs((s) => s.map(l => l.node === node ? {...l, status: 'done'} : l));
+        setAgentLogs((s) => s.map(l => l.node === node ? { ...l, status: 'done' } : l));
         if (activeNode === node) setActiveNode(null);
     }
 
     function handleNodeEvent(payload: any) {
-        const nodeName = payload?.event || payload?.node || payload?.metadata?.node || payload?.type;
+        let nodeName = payload?.event || payload?.node || payload?.metadata?.node || payload?.type;
+        let data = payload;
+
+        if (!nodeName && typeof payload === 'object' && payload !== null) {
+            const keys = Object.keys(payload);
+            const match = keys.find(k => STEP_ORDER.includes(k) || NODE_LABELS[k]);
+            if (match) {
+                nodeName = match;
+                data = payload[match];
+            }
+        }
+
         if (!nodeName) return;
 
-        // Prefer explicit message text from payload.message/data, but also
-        // detect backend-emitted assistant messages inside payload.messages
-        let userMessage = payload?.message ?? payload?.data ?? undefined;
-        const maybeMsgs = payload?.messages ?? payload?.output?.messages ?? payload?.result?.messages;
+        // Prefer explicit message text from data.message/data.data, but also
+        // detect backend-emitted assistant messages inside data.messages
+        let userMessage = data?.message ?? data?.data ?? undefined;
+        const maybeMsgs = data?.messages ?? data?.output?.messages ?? data?.result?.messages;
         if (!userMessage && Array.isArray(maybeMsgs) && maybeMsgs.length > 0) {
             try {
                 const assistantPieces = maybeMsgs
@@ -81,43 +96,49 @@ export const QueryBuilderView = () => {
             }
         }
 
+
+        // Clean up common artifacts from backend streaming (like "// ...")
+        if (typeof userMessage === 'string') {
+            userMessage = userMessage.replace(/^\/\/ \.\.\.\s*/, '').trim();
+        }
+
         pushLog(nodeName, userMessage, payload);
-            // Extract and surface structured contexts for the UI
-            try {
-                if (nodeName === 'query_knowledge_graph') {
-                    if (payload.kg_context) setKgContext(payload.kg_context);
-                    if (payload.extracted_entities) setKgContext((prev:any)=>({...(prev||{}), entities: payload.extracted_entities}));
-                    if (payload.entities) setKgContext((prev:any)=>({...(prev||{}), entities: payload.entities}));
-                }
-
-                if (nodeName === 'query_alphafold') {
-                    if (payload.alphafold_context) setAlphafoldContext(payload.alphafold_context);
-                    if (payload.alphafold_logs) setAlphafoldContext((prev:any)=>({...(prev||{}), logs: payload.alphafold_logs}));
-                }
-
-                if (nodeName === 'web_research') {
-                    const draft = payload.web_research_result ?? payload.summary ?? payload;
-                    if (draft) setWebResearchDrafts((prev) => [...prev, draft]);
-                }
-
-                if (nodeName === 'reflection') {
-                    setReflectionNotes(payload.reflection ?? payload);
-                }
-
-                if (nodeName === 'finalize_answer') {
-                    // final answer may include messages array
-                    const msgs = payload.messages ?? payload.output?.messages ?? payload.result?.messages ?? null;
-                    if (Array.isArray(msgs) && msgs.length > 0) {
-                        const m = msgs[0];
-                        const content = typeof m.content === 'string' ? m.content : (m.text ?? JSON.stringify(m));
-                        setFinalAnswer(content);
-                    } else if (typeof payload.content === 'string') {
-                        setFinalAnswer(payload.content);
-                    }
-                }
-            } catch (e) {
-                // ignore structured extraction errors
+        // Extract and surface structured contexts for the UI
+        try {
+            if (nodeName === 'query_knowledge_graph') {
+                if (payload.kg_context) setKgContext(payload.kg_context);
+                if (payload.extracted_entities) setKgContext((prev: any) => ({ ...(prev || {}), entities: payload.extracted_entities }));
+                if (payload.entities) setKgContext((prev: any) => ({ ...(prev || {}), entities: payload.entities }));
             }
+
+            if (nodeName === 'query_alphafold') {
+                if (payload.alphafold_context) setAlphafoldContext(payload.alphafold_context);
+                if (payload.alphafold_logs) setAlphafoldContext((prev: any) => ({ ...(prev || {}), logs: payload.alphafold_logs }));
+            }
+
+            if (nodeName === 'web_research') {
+                const draft = payload.web_research_result ?? payload.summary ?? payload;
+                if (draft) setWebResearchDrafts((prev) => [...prev, draft]);
+            }
+
+            if (nodeName === 'reflection') {
+                setReflectionNotes(payload.reflection ?? payload);
+            }
+
+            if (nodeName === 'finalize_answer') {
+                // final answer may include messages array
+                const msgs = payload.messages ?? payload.output?.messages ?? payload.result?.messages ?? null;
+                if (Array.isArray(msgs) && msgs.length > 0) {
+                    const m = msgs[0];
+                    const content = typeof m.content === 'string' ? m.content : (m.text ?? JSON.stringify(m));
+                    setFinalAnswer(content);
+                } else if (typeof payload.content === 'string') {
+                    setFinalAnswer(payload.content);
+                }
+            }
+        } catch (e) {
+            // ignore structured extraction errors
+        }
 
         // If reflection indicates routing back, keep as active until next event
         if (nodeName === 'finalize_answer') {
@@ -199,6 +220,27 @@ export const QueryBuilderView = () => {
                         }
                     } catch (e) {
                         contentPiece = line;
+                    }
+
+                    // Extract Usage Metadata (Cost & Tokens)
+                    try {
+                        // Check if contentPiece itself has usage_metadata (rare) or if values have it
+                        const values = typeof contentPiece === 'object' && contentPiece !== null ? Object.values(contentPiece) : [];
+                        values.forEach((val: any) => {
+                            if (val?.usage_metadata) {
+                                const { total_cost, input_tokens, output_tokens } = val.usage_metadata;
+                                if (typeof total_cost === 'number') {
+                                    setTotalCost(prev => prev + total_cost);
+                                }
+                                const inT = typeof input_tokens === 'number' ? input_tokens : 0;
+                                const outT = typeof output_tokens === 'number' ? output_tokens : 0;
+                                if (inT + outT > 0) {
+                                    setTotalTokens(prev => prev + inT + outT);
+                                }
+                            }
+                        });
+                    } catch (e) {
+                        // ignore cost extraction errors
                     }
 
                     try {
@@ -403,10 +445,20 @@ export const QueryBuilderView = () => {
                                 </div>
                             </div>
 
-                            <div className="mt-2 text-xs text-muted-foreground">{clientRunId ? `Run ID: ${clientRunId}` : ''}</div>
-                            <div className="mt-4 flex items-center justify-end gap-3">
-                                <button className="px-4 py-2 rounded-lg border border-border bg-background text-sm text-muted-foreground" onClick={() => { if (esRef.current) { esRef.current.close(); esRef.current = null; } setIsStarting(false); }}>Cancelar</button>
-                                <button className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-bold" onClick={() => { if (esRef.current) { esRef.current.close(); esRef.current = null; } window.location.href = '/platform/agents'; }}>Ir a Agentes</button>
+                            <div className="mt-4 flex items-center justify-between gap-4">
+                                <div className="text-xs font-mono text-muted-foreground flex items-center gap-3">
+                                    {clientRunId ? <span>ID: {clientRunId.split('_')[1]}...</span> : ''}
+                                    {(totalCost > 0 || totalTokens > 0) && (
+                                        <div className="flex items-center gap-2 px-2 py-1 bg-muted/20 rounded border border-border">
+                                            {totalCost > 0 && <span className="text-green-600 font-bold">${totalCost.toFixed(5)}</span>}
+                                            {totalTokens > 0 && <span>{totalTokens} toks</span>}
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <button className="px-4 py-2 rounded-lg border border-border bg-background text-sm text-muted-foreground" onClick={() => { if (esRef.current) { esRef.current.close(); esRef.current = null; } setIsStarting(false); }}>Cancelar</button>
+                                    <button className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-bold" onClick={() => { if (esRef.current) { esRef.current.close(); esRef.current = null; } window.location.href = '/platform/agents'; }}>Ir a Agentes</button>
+                                </div>
                             </div>
                         </div>
                     </div>
