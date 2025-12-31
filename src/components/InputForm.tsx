@@ -80,6 +80,7 @@ interface InputFormProps {
   onCancel?: () => void;
   isLoading: boolean;
   hasHistory: boolean;
+  setInputControl?: string;
 }
 
 export const InputForm = ({
@@ -87,8 +88,19 @@ export const InputForm = ({
   onCancel,
   isLoading,
   hasHistory,
+  setInputControl,
 }: InputFormProps) => {
   const [internalInputValue, setInternalInputValue] = useState("");
+
+  useEffect(() => {
+    if (setInputControl) {
+      setInternalInputValue(setInputControl);
+      // Focus the textarea when value is set programmatically
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+      }
+    }
+  }, [setInputControl]);
   const [effort, setEffort] = useState("medium");
   const [queryModel, setQueryModel] = useState("gemini-3-flash-preview");
   const [answerModel, setAnswerModel] = useState("gemini-3-pro-preview");

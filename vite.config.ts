@@ -8,7 +8,8 @@ export default defineConfig(({ mode }) => {
   // Load env file based on `mode` in the current working directory.
   // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
   const env = loadEnv(mode, process.cwd(), "");
-  const target = env.VITE_LANGGRAPH_API_URL || "http://localhost:8000";
+  // Use VITE_API_URL as the source of truth for the backend location
+  const target = env.VITE_API_URL || env.VITE_LANGGRAPH_API_URL || "http://localhost:8000";
 
   return {
     plugins: [react(), tailwindcss()],
@@ -36,7 +37,13 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false,
           ws: true,
-          // rewrite: (path) => path.replace(/^\/langgraph/, ""), // Verify if backend expects this prefix
+        },
+        // Proxy runs directly to support relative paths avoiding CORS
+        "/runs": {
+          target: target,
+          changeOrigin: true,
+          secure: false,
+          ws: true,
         },
         // Sarkome Agent
         "/agent": {

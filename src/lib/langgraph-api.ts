@@ -1,4 +1,9 @@
 export function getAgentUrl() {
+  // In development, force relative path to use Vite Proxy (avoids CORS)
+  if (import.meta.env.DEV) {
+    return "";
+  }
+
   const fromEnv = import.meta.env.VITE_LANGGRAPH_API_URL || import.meta.env.VITE_AGENT_URL || import.meta.env.VITE_LANGSERVE_URL;
   if (typeof fromEnv === "string" && fromEnv.trim().length > 0) return fromEnv;
 
