@@ -1,5 +1,13 @@
 import type React from "react";
 import rehypeSanitize from 'rehype-sanitize';
+import remarkGfm from "remark-gfm"; // Brought to top
+import { calculateCost, formatCost } from "@/lib/pricing";
+
+<div className="prose prose-invert max-w-none">
+  <ReactMarkdown components={mdComponents} rehypePlugins={[rehypeSanitize]} remarkPlugins={[remarkGfm]}>
+    {formatted}
+  </ReactMarkdown>
+</div>
 import type { ChatMessage } from "@/lib/chat-types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2, Copy, CopyCheck, Database, Terminal, ChevronDown, ChevronUp } from "lucide-react";
@@ -251,6 +259,12 @@ function formatContent(content: any): string {
 
   let normalized = raw;
 
+  // Replace $\Macro$ pattern (inline math like $\alpha$C)
+  normalized = normalized.replace(/\$\\([A-Za-z]+)\$([A-Za-z0-9-]+)/g, (_m, macro: string, suffix: string) => {
+    const sym = macroMap[macro] ?? macro;
+    return `${sym}${suffix}`;
+  });
+
   // Replace $\Macro^n$ patterns
   normalized = normalized.replace(/\$\\([A-Za-z]+)(\^[-+]?\d+)?\$/g, (_m, macro: string, sup: string) => {
     const sym = macroMap[macro] ?? macro;
@@ -360,6 +374,11 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
           <Badge variant="outline" className="text-[10px] uppercase tracking-wider font-mono py-0 px-1.5 bg-primary/5 border-primary/20 text-primary/80">
             {source.replace(/_/g, ' ')}
           </Badge>
+          {message.usage && (
+            <Badge variant="outline" className="text-[10px] uppercase tracking-wider font-mono py-0 px-1.5 bg-green-500/10 border-green-500/20 text-green-500/80" title={`In: ${message.usage.input_tokens}, Out: ${message.usage.output_tokens}`}>
+              {formatCost(calculateCost(message.usage.input_tokens, message.usage.output_tokens, "gemini-1.5-pro"))}
+            </Badge>
+          )}
           {ts && (
             <span className="text-[10px] text-muted-foreground font-mono">
               {new Date(ts).toLocaleTimeString()}
@@ -396,8 +415,10 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
         </div>
       )}
 
+      import remarkGfm from 'remark-gfm';
+      // ...
       <div className="prose prose-invert max-w-none">
-        <ReactMarkdown components={mdComponents} rehypePlugins={[rehypeSanitize]}>
+        <ReactMarkdown components={mdComponents} rehypePlugins={[rehypeSanitize]} remarkPlugins={[remarkGfm]}>
           {formatted}
         </ReactMarkdown>
       </div>

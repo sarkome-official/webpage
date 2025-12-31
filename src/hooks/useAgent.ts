@@ -283,6 +283,7 @@ export function useAgent(options: UseAgentOptions) {
                     id: mId,
                     type: "ai",
                     content,
+                    usage: m.usage_metadata, // Capture usage if present
                     metadata: {
                       source: m.name || nodeName,
                       ts: new Date().toISOString(),

@@ -257,7 +257,7 @@ export default function LandingPage() {
                     </section>
 
                     {/* Request Access */}
-                    <section className="border-t border-dashed border-border-custom pt-12">
+                    <section className="pt-12">
                         <h3 className="text-xs font-bold tracking-widest text-text-muted uppercase mb-6">Communicate with Us</h3>
                         <p className="text-sm text-text-muted mb-8">
                             Partnership inquiries and investor relations can reach us using the form below.
