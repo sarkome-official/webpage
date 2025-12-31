@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Database, FileJson, Table, Copy, FileText, Lock, Webhook } from 'lucide-react';
 
-export const KnowledgeExportView = () => {
+export const ApiView = () => {
     const [showWipDialog, setShowWipDialog] = useState(true);
 
     return (

@@ -48,11 +48,7 @@ const data = {
                     url: "/knowledge-graph",
                     icon: Network,
                 },
-                {
-                    title: "Knowledge Nodes",
-                    url: "/knowledge-graph-nodes",
-                    icon: Database,
-                },
+
 
             ],
         },
@@ -69,12 +65,13 @@ const data = {
         {
             title: "Governance & Ops",
             items: [
-
                 {
                     title: "API",
                     url: "/api",
                     icon: Code,
                 },
+
+
                 {
                     title: "Threads",
                     url: "/threads",

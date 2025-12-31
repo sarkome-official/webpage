@@ -11,8 +11,9 @@ import { KnowledgeGraphView as KnowledgeGraph } from "@/pages/platform/Knowledge
 import { KnowledgeGraphNodes } from "@/pages/platform/KnowledgeGraphNodes";
 import LandingPage from "@/pages/LandingPage";
 import { AlphaFoldView } from "@/pages/platform/AlphaFoldView";
+import { ApiView } from "@/pages/platform/ApiView";
 
-import { KnowledgeExportView } from "@/pages/platform/KnowledgeExportView";
+
 
 import { ThreadsView } from "@/pages/platform/ThreadsView";
 import ProgramDetail from "@/pages/programs/ProgramDetail";
@@ -78,6 +79,7 @@ export default function App() {
 
     location.pathname === "/knowledge-graph-nodes" ||
     location.pathname === "/api" ||
+
     location.pathname === "/threads";
 
   const thread = useAgent({
@@ -417,8 +419,9 @@ export default function App() {
                     'alphafold': 'AlphaFold 3',
                     'audit': 'Investigation Audit',
                     'constitution': 'System Constitution',
-
                     'api': 'Developer Hub',
+
+
                     'threads': 'Threads'
                   };
 
@@ -436,8 +439,9 @@ export default function App() {
               <Route path="/knowledge-graph-nodes" element={<KnowledgeGraphNodes />} />
 
               <Route path="/alphafold" element={<AlphaFoldView />} />
+              <Route path="/api" element={<ApiView />} />
 
-              <Route path="/api" element={<KnowledgeExportView />} />
+
               <Route path="/threads" element={<ThreadsView />} />
               <Route path="/platform" element={
                 <div className="max-w-4xl mx-auto h-full">

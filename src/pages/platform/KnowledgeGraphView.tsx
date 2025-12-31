@@ -1,63 +1,141 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Database, Code, ExternalLink, Info, Activity, Zap, ShieldCheck } from 'lucide-react';
+import { Search, Database, ExternalLink, Activity, Check, ArrowRight, Play } from 'lucide-react';
 
 export const KnowledgeGraphView = () => {
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState('overview');
+
 
     return (
-        <div className="flex flex-col h-full w-full bg-background text-muted-foreground font-sans overflow-hidden">
-            {/* Header Section */}
-            <div className="p-4 md:p-8 border-b border-border bg-muted/10 backdrop-blur-md">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
-                    <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
-                            <Database className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-                        </div>
-                        <div className="min-w-0">
-                            <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight truncate">PrimeKG: Precision Medicine Knowledge Graph</h1>
-                            <div className="flex flex-wrap items-center gap-2 mt-1">
-                                <span className="px-2 py-0.5 rounded bg-primary/10 text-[10px] font-mono text-primary uppercase tracking-wider border border-primary/20">Precision Medicine Substrate</span>
-                                <span className="flex items-center gap-1 ml-0 md:ml-2 text-[10px] text-green-500 font-mono">
-                                    <Activity className="w-3 h-3" />
-                                    LIVE SUBSTRATE
-                                </span>
+        <div className="flex flex-col h-full w-full bg-background text-foreground font-sans overflow-hidden">
+            <div className="flex-1 overflow-y-auto no-scrollbar">
+                <div className="max-w-[1800px] mx-auto p-6 md:p-10 lg:p-12 h-full">
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 h-full">
+
+                        {/* Left Column: Content */}
+                        <div className="flex flex-col gap-8">
+                            {/* Header */}
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-4">
+                                    <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-foreground">PrimeKG</h1>
+                                    <div className="flex flex-col gap-1.5 opacity-0 animate-in fade-in slide-in-from-left-4 duration-700 delay-300 fill-mode-forwards">
+                                        <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] font-bold uppercase tracking-wider w-fit">
+                                            v2.0 Stable
+                                        </span>
+                                        <span className="px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-[10px] font-bold uppercase tracking-wider w-fit">
+                                            Updated 24h ago
+                                        </span>
+                                    </div>
+                                </div>
+                                <h2 className="text-sm md:text-base font-bold text-muted-foreground uppercase tracking-[0.2em]">
+                                    Precision Medicine Knowledge Graph
+                                </h2>
+                            </div>
+
+                            {/* Stats Grid */}
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div className="bg-muted/30 border border-border p-4 rounded-xl">
+                                    <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Total Diseases</div>
+                                    <div className="text-2xl font-black text-foreground">17,080</div>
+                                </div>
+                                <div className="bg-muted/30 border border-border p-4 rounded-xl">
+                                    <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Relationships</div>
+                                    <div className="text-2xl font-black text-foreground">4,050,249</div>
+                                </div>
+                                <div className="bg-muted/30 border border-border p-4 rounded-xl">
+                                    <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Data Sources</div>
+                                    <div className="text-2xl font-black text-foreground">20</div>
+                                </div>
+                                <div className="bg-muted/30 border border-border p-4 rounded-xl">
+                                    <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Biological Scales</div>
+                                    <div className="text-2xl font-black text-foreground">10</div>
+                                </div>
+                            </div>
+
+                            {/* Description */}
+                            <div className="text-muted-foreground leading-relaxed space-y-6 text-lg">
+                                <p>
+                                    PrimeKG integrates disparate biomedical datasets into a unified graph structure, bridging the gap between molecular interactions and clinical outcomes. This architecture enables high-fidelity analysis for precision medicine applications.
+                                </p>
+
+                                <div className="relative pl-6">
+                                    <div className="absolute left-0 top-1 bottom-1 w-1 bg-purple-600 rounded-full"></div>
+                                    <p className="text-xl md:text-2xl font-medium italic text-foreground tracking-tight">
+                                        "Not just this disease, but specifically <span className="text-purple-500">this patient's disease context</span>."
+                                    </p>
+                                </div>
+
+                                <ul className="space-y-3 pt-2">
+                                    {[
+                                        "Drug-disease prediction algorithms",
+                                        "Traceable off-label use edges",
+                                        "Multi-modal analysis support"
+                                    ].map((item, i) => (
+                                        <li key={i} className="flex items-center gap-3 text-base">
+                                            <div className="bg-purple-500/10 p-1 rounded-full">
+                                                <Check className="w-3.5 h-3.5 text-purple-500" strokeWidth={3} />
+                                            </div>
+                                            <span className="text-foreground/90">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Actions */}
+                            <div className="flex flex-wrap gap-4 pt-4 mt-auto">
+
+                                <button
+                                    onClick={() => window.open('https://zitniklab.hms.harvard.edu/projects/PrimeKG/', '_blank')}
+                                    className="px-8 py-3.5 rounded-lg bg-transparent border border-border hover:bg-muted text-foreground font-bold text-sm transition-all flex items-center gap-2"
+                                >
+                                    View Source
+                                    <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div className="flex gap-3">
-                        <button
-                            onClick={() => window.open('https://zitniklab.hms.harvard.edu/projects/PrimeKG/', '_blank')}
-                            className="flex-1 md:flex-none px-4 py-2 rounded-lg bg-muted/50 hover:bg-muted border border-border text-xs md:text-sm font-medium transition-all flex items-center justify-center gap-2 text-foreground"
-                        >
-                            <ExternalLink className="w-4 h-4" />
-                            Source
-                        </button>
-                        <button
-                            onClick={() => navigate('/knowledge-graph-nodes')}
-                            className="flex-1 md:flex-none px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground text-xs md:text-sm font-medium transition-all shadow-lg shadow-primary/20"
-                        >
-                            Explore Nodes
-                        </button>
-                    </div>
-                </div>
 
-                <div className="text-muted-foreground max-w-4xl leading-relaxed text-sm md:text-base space-y-4">
-                    <p>
-                        Developing personalized diagnostic strategies and targeted treatments requires a deep understanding of disease biology and the ability to dissect the relationship between molecular and genetic factors and their phenotypic consequences. However, such knowledge is fragmented across publications, non-standardized research repositories, and evolving ontologies describing various scales of biological organization between genotypes and clinical phenotypes.
-                    </p>
-                    <p>
-                        We introduce <strong>PrimeKG</strong>, a precision medicine-oriented knowledge graph that provides a holistic view of diseases. PrimeKG integrates 20 high-quality resources to describe 17,080 diseases with 4,050,249 relationships representing ten major biological scales, including disease-associated protein perturbations, biological processes and pathways, anatomical and phenotypic scale, and the entire range of approved and experimental drugs with their therapeutic action, considerably expanding previous efforts in disease-rooted knowledge graphs.
-                    </p>
-                    <div className="border-l-4 border-primary/40 pl-4 py-2 my-6 bg-muted/30 rounded-r-lg">
-                        <p className="italic text-foreground font-medium">
-                            "Not just 'this disease exists', but 'this disease is linked to this specific gene, which is affected by this drug, which has this side effect'."
-                        </p>
+                        {/* Right Column: Visualization Preview */}
+                        <div className="flex flex-col h-full min-h-[500px] xl:min-h-0">
+                            <div className="flex-1 bg-black/40 border border-border rounded-3xl overflow-hidden relative group">
+                                {/* Top Label */}
+                                <div className="absolute top-6 left-6 z-10 flex items-center gap-2 px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-full border border-white/10">
+                                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                    <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Live Preview - 2900 Node Sample</span>
+                                </div>
+
+                                {/* Placeholder Graph Visuals (Background) */}
+                                <div className="absolute inset-0 opacity-30 group-hover:opacity-40 transition-opacity duration-1000">
+                                    <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-500/20 rounded-full blur-[80px]"></div>
+                                    <div className="absolute bottom-1/3 right-1/4 w-48 h-48 bg-blue-500/20 rounded-full blur-[100px]"></div>
+                                    <svg className="w-full h-full opacity-20" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                        <circle cx="20" cy="20" r="1" fill="currentColor" className="text-white" />
+                                        <circle cx="80" cy="30" r="1" fill="currentColor" className="text-white" />
+                                        <circle cx="50" cy="50" r="1.5" fill="currentColor" className="text-purple-400" />
+                                        <circle cx="30" cy="80" r="1" fill="currentColor" className="text-white" />
+                                        <circle cx="70" cy="70" r="1" fill="currentColor" className="text-white" />
+
+                                        <line x1="20" y1="20" x2="50" y2="50" stroke="currentColor" strokeWidth="0.1" className="text-muted-foreground" />
+                                        <line x1="80" y1="30" x2="50" y2="50" stroke="currentColor" strokeWidth="0.1" className="text-muted-foreground" />
+                                        <line x1="30" y1="80" x2="50" y2="50" stroke="currentColor" strokeWidth="0.1" className="text-muted-foreground" />
+                                        <line x1="70" y1="70" x2="50" y2="50" stroke="currentColor" strokeWidth="0.1" className="text-muted-foreground" />
+                                    </svg>
+                                </div>
+
+                                {/* Interactive Center Button */}
+                                <div className="absolute inset-0 flex items-center justify-center z-20">
+                                    <button
+                                        onClick={() => navigate('/knowledge-graph-nodes')}
+                                        className="group/btn relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden transition-transform hover:scale-105 active:scale-95"
+                                    >
+                                        <span className="relative z-10 flex items-center gap-2">
+                                            Initialize Visualization
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <p>
-                        PrimeKG supports drug-disease prediction by including an abundance of 'indications', 'contradictions' and 'off-label use' edges, which are usually missing in other knowledge graphs. We accompany PrimeKG's graph structure with text descriptions of clinical guidelines for drugs and diseases to enable multi-modal analyses.
-                    </p>
                 </div>
             </div>
         </div>
