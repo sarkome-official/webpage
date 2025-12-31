@@ -17,7 +17,11 @@ import {
     Briefcase,
     Sparkles,
     Link as LinkIcon,
-    FileText
+    FileText,
+    Database,
+    Cpu,
+    Dna,
+    Globe
 } from 'lucide-react';
 
 export default function LandingPage() {
@@ -222,46 +226,33 @@ export default function LandingPage() {
                     {/* Latest Research */}
                     <section>
                         <h3 className="text-xs font-bold tracking-widest text-text-muted uppercase mb-6">Latest Research</h3>
-                        <div className="flex flex-col gap-4">
-                            {[
-                                { date: "FEB 2024", title: "Graph Neural Networks in Protein Folding", time: "5 m" },
-                                { date: "JAN 2024", title: "Causal Inference for Target Validation", time: "12 m" },
-                                { date: "DEC 2023", title: "The Future of In-Silico Trials", time: "8 m" }
-                            ].map((item, i) => (
-                                <div key={i} className="flex justify-between items-start group cursor-pointer">
-                                    <div>
-                                        <div className="text-xs text-text-muted mb-1 mono-text">{item.date}</div>
-                                        <h4 className="text-sm font-medium text-text-main group-hover:text-primary transition-colors">{item.title}</h4>
-                                    </div>
-                                    <div className="flex items-center gap-1 text-xs text-text-muted">
-                                        <Clock className="w-3.5 h-3.5" />
-                                        {item.time}
-                                    </div>
-                                </div>
-                            ))}
+                        <div className="p-6 border border-dashed border-border-custom rounded-lg bg-surface/30 flex items-center justify-center">
+                            <p className="text-sm text-text-muted mono-text animate-pulse">Working...</p>
                         </div>
                     </section>
 
-                    {/* Inside the Lab */}
+                    {/* Technical Stats / Substrate */}
                     <section>
-                        <h3 className="text-xs font-bold tracking-widest text-text-muted uppercase mb-6">Inside the Lab</h3>
-                        <p className="text-sm text-text-muted mb-8">
-                            Located in the heart of Kendall Square, where computation meets biology.
+                        <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-6">The Computational Substrate</h3>
+                        <p className="text-sm text-text-main mb-8">
+                            We don't need a physical lab to find answers. We need a map. Our agents traverse the largest integrated biological knowledge graph in existence.
                         </p>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 h-48 md:h-64">
-                            <div className="col-span-1 h-full rounded-2xl overflow-hidden relative group">
-                                <img alt="Lab Equipment" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNKDlFib6AZKnh32dRkk-aLpn591NWremRhUatLgWJwj6_iJTiBzC2iyTw2QL-ojNYXtH9Tb8a-cEm5CPHROsh-OULatrfoljGIReaLcy9X4dQU36JWHrOMQI-T8J_cn0K4lv17EMcFzwlbW2m0UV-KRM0uZKu06sxCjWvAtBXQU2NpZ6HJDSjFD-KjHpIu9I8WBukydVLHCGZJx14pz7p1sPdLV7C6wTJeOGwbZ37MAT77mwhmATq7Y6LXcPYM2zuP5ut5xrsHQyf" />
-                                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-                            </div>
-                            <div className="col-span-1 h-full rounded-2xl overflow-hidden relative group translate-y-4 md:translate-y-8">
-                                <img alt="Scientist working" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm6A_hlu7YcnV7qXvPzqzRo3Rt-FoyBZnJV_zv62qWPI9kjqiGd3CKZhELunA8ZRueFCu9tELV4DPBGo9gA4OVKFuYXas6v46thrB5aj8Z05WzgZMSIfkb43i8_tZuFeLX77bQt9DNpQMmaHspVYAs4fjuwMJgVHeAmPxGzK5OwtBRrtT5xT7IOh12np_oyg1V-L3f2uiWrqID4lsPbuJajWWOUWhaylapNWTPcDpzx5AnQwzJcdyZBz8QEtKHg38xaERij3QbJleW" />
-                            </div>
-                            <div className="col-span-1 h-full rounded-2xl overflow-hidden relative group">
-                                <img alt="Data Visualization" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYwVBglgF0xeJ1Qkxm5pIs9jWnSkY_X4G4hHfbWswuwE3ZR7WWs2zXlhG3CGJRvuEVnBBK5N911XLFKPGpg7_qR11R9pvhjB0YIB5oMrOWWiaduA7jLQttU3awPwF3RCnF9sStnI1tGu-jfqU_AQzjz5lE4fMUE2sWx0ptZzeUQ5iXj18fUMxkLX2BcGfM-97znYMSOj2oaT_JRDrK34OVYKIZxrxXIkwQheNHbWV1KahZoE_G-vhxrqDxk-uzg4ckgSwOEEIUSwU_" />
-                            </div>
-                            <div className="col-span-1 h-full rounded-2xl overflow-hidden relative group translate-y-4 md:translate-y-8">
-                                <img alt="Code on screen" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBowVOMD1mGapNdw_MeyuxVgkFrMvlIFeA0ueKZRbUUgZlZ7qnwxAY0evNTC-EErGl1jNOUE3mgyGUF2swZDmICFw7DIiUsUqhq3qYSxEBrWjV0J1xmS0JdkKvmnW6pqaELPmhGMSn5rWIneJ9_jOXHQFfgEyRCxz572BCz4qHedhF077LfwwhbOT7sCePOa0WFo4h6OsL8_ef_wgTHDbzct7bYVi9xSHZEKJ90rIzeDspff1968osoxDBJusGEhI3D97LhVWgmlzkR" />
-                            </div>
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            {[
+                                { icon: Database, label: "Knowledge Nodes", value: "100,000+", sub: "Validated Entities" },
+                                { icon: Dna, label: "Structural Models", value: "200M+", sub: "via AlphaFold 3" },
+                                { icon: Cpu, label: "Inference Speed", value: "< 200ms", sub: "Causal Reasoning" },
+                                { icon: Globe, label: "Data Sources", value: "Real-time", sub: "PubMed & BioRxiv" }
+                            ].map((stat, i) => (
+                                <div key={i} className="p-4 rounded-xl bg-surface border border-border-custom hover:border-primary/50 transition-colors group">
+                                    <div className="mb-3 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
+                                        <stat.icon className="w-4 h-4" />
+                                    </div>
+                                    <div className="text-2xl font-bold text-text-main mb-1">{stat.value}</div>
+                                    <div className="text-xs font-semibold text-text-main mb-0.5">{stat.label}</div>
+                                    <div className="text-[10px] text-text-muted mono-text uppercase tracking-wider">{stat.sub}</div>
+                                </div>
+                            ))}
                         </div>
                     </section>
 

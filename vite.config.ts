@@ -19,23 +19,25 @@ export default defineConfig({
     strictPort: true,
     proxy: {
       // Proxy API requests to the backend server
+      // Proxy API requests to the backend server
       "/api": {
-        target: "http://127.0.0.1:8000", // Default backend address
+        target: "https://backend-service-d8075c1-3qralpu7na-uc.a.run.app", // Cloud Run Backend
         changeOrigin: true,
-        // Optionally rewrite path if needed (e.g., remove /api prefix if backend doesn't expect it)
-        // rewrite: (path) => path.replace(/^\/api/, ''),
+        secure: false, // Often needed for self-signed or specific cloud certs issues, safe for testing
       },
-      // LangGraph API (Docker: langgraph-api -> host:8080)
+      // LangGraph API
       "/langgraph": {
-        target: "http://127.0.0.1:8080",
+        target: "https://backend-service-d8075c1-3qralpu7na-uc.a.run.app",
         changeOrigin: true,
+        secure: false,
         ws: true,
-        rewrite: (path) => path.replace(/^\/langgraph/, ""),
+        // rewrite: (path) => path.replace(/^\/langgraph/, ""), // Verify if backend expects this prefix
       },
-      // Sarkome Agent (custom backend): /agent -> host:8080
+      // Sarkome Agent
       "/agent": {
-        target: "http://127.0.0.1:8080",
+        target: "https://backend-service-d8075c1-3qralpu7na-uc.a.run.app",
         changeOrigin: true,
+        secure: false,
         ws: true,
       },
     },
