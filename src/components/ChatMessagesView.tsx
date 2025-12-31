@@ -1,4 +1,5 @@
 import type React from "react";
+import rehypeSanitize from 'rehype-sanitize';
 import type { ChatMessage } from "@/lib/chat-types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2, Copy, CopyCheck, Database, Terminal, ChevronDown, ChevronUp } from "lucide-react";
@@ -309,7 +310,7 @@ const HumanMessageBubble: React.FC<HumanMessageBubbleProps> = ({
     <div
       className={`text-foreground rounded-3xl break-words min-h-7 bg-muted/30 border border-border max-w-[100%] sm:max-w-[90%] px-4 pt-3 rounded-br-lg`}
     >
-      <ReactMarkdown components={mdComponents}>
+      <ReactMarkdown components={mdComponents} rehypePlugins={[rehypeSanitize]}>
         {formatted}
       </ReactMarkdown>
     </div>
@@ -396,7 +397,7 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
       )}
 
       <div className="prose prose-invert max-w-none">
-        <ReactMarkdown components={mdComponents}>
+        <ReactMarkdown components={mdComponents} rehypePlugins={[rehypeSanitize]}>
           {formatted}
         </ReactMarkdown>
       </div>

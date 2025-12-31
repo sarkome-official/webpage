@@ -13,9 +13,6 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tailwindcss()],
-    optimizeDeps: {
-      exclude: ["@huggingface/transformers"],
-    },
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
