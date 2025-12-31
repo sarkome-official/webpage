@@ -439,6 +439,9 @@ interface ChatMessagesViewProps {
   historicalActivities: Record<string, ProcessedEvent[]>;
   sourcesListByMessageId?: Record<string, Array<{ label?: string; url: string; id?: string }>>;
   rawEvents?: any[];
+  onCancel?: () => void;
+  liveActivityEvents?: ProcessedEvent[];
+  sourcesByMessageId?: Record<string, Record<string, string>>;
 }
 
 export function ChatMessagesView({
