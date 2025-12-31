@@ -166,58 +166,6 @@ export const DataIngestionView = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/* Right: System Logs */}
-                    <div className="lg:col-span-1 flex flex-col gap-4">
-                        <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-                            System Logs
-                        </h3>
-                        <div className="bg-muted/10 rounded-xl border border-border overflow-hidden flex flex-col h-[500px]">
-                            <div className="px-4 py-3 bg-muted/20 border-b border-border flex justify-between items-center">
-                                <div className="flex items-center gap-2">
-                                    <Terminal className="w-4 h-4 text-muted-foreground/60" />
-                                    <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Console Output</span>
-                                </div>
-                                <div className="flex gap-1.5">
-                                    <div className="size-2.5 rounded-full bg-red-500/20 border border-red-500"></div>
-                                    <div className="size-2.5 rounded-full bg-yellow-500/20 border border-yellow-500"></div>
-                                    <div className="size-2.5 rounded-full bg-green-500/20 border border-green-500"></div>
-                                </div>
-                            </div>
-                            <div className="p-4 font-mono text-xs overflow-y-auto flex-1 flex flex-col gap-1.5 bg-background/50">
-                                <div className="flex gap-3 text-muted-foreground/60">
-                                    <span className="opacity-50 w-16">10:42:01</span>
-                                    <span className="text-primary">[INFO]</span>
-                                    <span>Initializing Neo4j Bolt driver...</span>
-                                </div>
-                                <div className="flex gap-3 text-muted-foreground/60">
-                                    <span className="opacity-50 w-16">10:42:02</span>
-                                    <span className="text-emerald-400">[SUCCESS]</span>
-                                    <span>Connection established. Session active.</span>
-                                </div>
-                                <div className="flex gap-3 text-muted-foreground/60">
-                                    <span className="opacity-50 w-16">10:42:15</span>
-                                    <span className="text-primary">[INFO]</span>
-                                    <span>Establishing secure handshake with AlphaFold API (v4)...</span>
-                                </div>
-                                <div className="flex gap-3 text-muted-foreground/60">
-                                    <span className="opacity-50 w-16">10:42:18</span>
-                                    <span className="text-yellow-400">[WARN]</span>
-                                    <span>Rate limit threshold approaching for UniProt endpoint. Throttling requests.</span>
-                                </div>
-                                <div className="flex gap-3 text-muted-foreground/60">
-                                    <span className="opacity-50 w-16">10:42:22</span>
-                                    <span className="text-red-400">[ERROR]</span>
-                                    <span>PrimeKG Sync: Connection timeout on node resolution. Retrying...</span>
-                                </div>
-                                <div className="flex gap-3 text-muted-foreground/60">
-                                    <span className="opacity-50 w-16">10:43:05</span>
-                                    <span className="text-primary">[INFO]</span>
-                                    <span className="text-muted-foreground">Entity Resolution: Found 12 new potential 'Gene' entities in ASPS context. <span className="animate-pulse">_</span></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </main>
         </div>

@@ -389,6 +389,8 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
         {copiedMessageId === message.id ? "Copied" : "Copy"}
         {copiedMessageId === message.id ? <CopyCheck className="ml-2 h-4 w-4" /> : <Copy className="ml-2 h-4 w-4" />}
       </Button>
+
+      {/* transform buttons removed */}
     </div>
   );
 };
@@ -403,10 +405,7 @@ interface ChatMessagesViewProps {
     models: { queryModel: string; answerModel: string },
     activeAgents: string[]
   ) => void;
-  onCancel: () => void;
-  liveActivityEvents: ProcessedEvent[];
   historicalActivities: Record<string, ProcessedEvent[]>;
-  sourcesByMessageId?: Record<string, Record<string, string>>;
   sourcesListByMessageId?: Record<string, Array<{ label?: string; url: string; id?: string }>>;
   rawEvents?: any[];
 }
@@ -422,6 +421,7 @@ export function ChatMessagesView({
   sourcesByMessageId,
   sourcesListByMessageId,
   rawEvents = [],
+ 
 }: ChatMessagesViewProps) {
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const [showLogs, setShowLogs] = useState(false);

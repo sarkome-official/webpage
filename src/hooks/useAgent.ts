@@ -111,27 +111,69 @@ export function useAgent(options: UseAgentOptions) {
 
         const assistantTop = typeof options.assistantId === "string" ? options.assistantId : "default";
 
-        const body = JSON.stringify({
-          // Some backends require assistant_id at the top-level of the run payload
+        // Preserve any model hints present in extraConfig and duplicate them
+        const reasoning = (extraConfig as any).reasoning_model ?? (extraConfig as any).reasoningModel;
+        const reflection = (extraConfig as any).reflection_model ?? (extraConfig as any).reflectionModel;
+        const clientRunId = `client_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+
+        const payload: Record<string, any> = {
           assistant_id: assistantTop,
-          input: { messages: lcMessages },
+          input: {
+            messages: lcMessages,
+            ...(reasoning ? { reasoning_model: reasoning } : {}),
+            ...(reflection ? { reflection_model: reflection } : {}),
+            client_run_id: clientRunId,
+          },
           config: {
             assistant_id: assistantTop,
             configurable: {
               thread_id: threadId,
               assistant_id: assistantTop,
+              client_run_id: clientRunId,
             },
             ...extraConfig,
-          }
-        });
+            model: {
+              ...(reasoning ? { reasoning_model: reasoning } : {}),
+              ...(reflection ? { reflection_model: reflection } : {}),
+            },
+          },
+        };
+
+        // Backwards-compat: duplicate to top-level fields some backends expect
+        if (reasoning) payload.reasoning_model = reasoning;
+        if (reflection) payload.reflection_model = reflection;
+
+        const body = JSON.stringify(payload);
+
+        // Debug: expose the outgoing run payload so developers can verify fields
+        try {
+          // eslint-disable-next-line no-console
+          console.debug("[useAgent] Posting run to endpoint:", endpoint, "client_run_id:", clientRunId, "payload:", payload);
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.debug("[useAgent] Posting run (payload stringify failed)", endpoint, body);
+        }
 
         // Try using fetch stream directly for the agent.
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body,
-          signal: controller.signal,
-        });
+        const timeoutMs = 30000; // 30 seconds timeout for initial connection
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+        let res;
+        try {
+          res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body,
+            signal: controller.signal,
+          });
+        } catch (err: any) {
+          if (err.name === 'AbortError') {
+            throw new Error(`Connection timed out after ${timeoutMs}ms`);
+          }
+          throw err;
+        } finally {
+          clearTimeout(timeoutId);
+        }
 
         if (!res.ok) {
           const errorText = await res.text();
@@ -142,48 +184,75 @@ export function useAgent(options: UseAgentOptions) {
 
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
-        let buffer = "";
+        
+        let streamBuffer = ""; // Buffer for raw stream chunks (line splitting)
+        let messageContentBuffer = ""; // Buffer for accumulated message text
 
         // Read streamed chunks
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
+          
           const chunkText = decoder.decode(value, { stream: true });
+          console.debug("[Stream Chunk]", chunkText); // Debug log
+          
+          streamBuffer += chunkText;
+          const lines = streamBuffer.split(/\r?\n/);
+          streamBuffer = lines.pop() || ""; // Keep the last partial line
 
-          // Try parsing as SSE-style data lines
-          const parts = chunkText.split(/\r?\n/).filter(Boolean);
-          for (const part of parts) {
-            let contentPiece: unknown = part;
+          for (const line of lines) {
+            if (!line.trim()) continue; // Skip empty lines/heartbeats
 
-            // SSE lines commonly start with "data:"
-            const sseMatch = part.match(/^data:\s*(.*)$/s);
-            if (sseMatch) {
-              const payload = sseMatch[1];
-              try {
-                contentPiece = JSON.parse(payload);
-              } catch {
-                contentPiece = payload;
-              }
+            let contentPiece: unknown = null;
+
+            // Handle SSE format
+            if (line.startsWith("event:")) {
+               // We can handle specific events here if needed
+               continue;
+            } else if (line.startsWith("data:")) {
+               const payload = line.slice(5).trim();
+               try {
+                 contentPiece = JSON.parse(payload);
+               } catch (e) {
+                 console.warn("Failed to parse SSE data JSON:", payload, e);
+                 contentPiece = payload;
+               }
             } else {
-              // Try JSON otherwise
-              try {
-                contentPiece = JSON.parse(part);
-              } catch {
-                contentPiece = part;
-              }
+               // Try parsing line as direct JSON (legacy/fallback)
+               try {
+                 contentPiece = JSON.parse(line);
+               } catch (e) {
+                 // Treat as raw string if not JSON
+                 contentPiece = line;
+               }
             }
 
+            if (!contentPiece) continue;
+
+            // Notify listeners about any update (progress, node outputs, etc.)
             options.onUpdateEvent?.(contentPiece);
 
-            // If backend sends full messages array (common in LangGraph state updates), prefer replacing buffer.
+            // Determine node name early. Many events will be shaped like { node_name: { messages: [...] } }
+            // or include metadata.node/event fields. Use them to decide whether this chunk should
+            // be shown as a final assistant message or treated as intermediate reasoning.
+            let nodeName = "agent";
+            try {
+              if (contentPiece && typeof contentPiece === "object") {
+                if ((contentPiece as any).node) nodeName = (contentPiece as any).node;
+                else if ((contentPiece as any).event) nodeName = (contentPiece as any).event;
+                else if ((contentPiece as any).metadata && (contentPiece as any).metadata.node) nodeName = (contentPiece as any).metadata.node;
+              }
+            } catch (e) {
+              nodeName = "agent";
+            }
+
+            // If backend sent a wrapper object like { node_name: { messages: [...] } }, dig it out
             const maybeMessages =
               contentPiece && typeof contentPiece === "object"
                 ? (contentPiece as any).messages ?? (contentPiece as any).output?.messages ?? (contentPiece as any).result?.messages
                 : null;
 
-            // Also check for LangGraph node outputs like { "node_name": { "messages": [...] } }
             let foundMessages = maybeMessages;
-            let nodeName = "agent";
             if (!foundMessages && contentPiece && typeof contentPiece === "object") {
               for (const key in contentPiece as any) {
                 const val = (contentPiece as any)[key];
@@ -195,15 +264,20 @@ export function useAgent(options: UseAgentOptions) {
               }
             }
 
+            // Only convert node messages into UI chat messages when they come from the
+            // final node that produces the assistant's answer.
             if (Array.isArray(foundMessages) && foundMessages.length > 0) {
+              // Map found messages into chat UI. For intermediate nodes (non-finalize),
+              // mark them as progress messages so the UI can render them differently if desired.
               setMessages((prev) => {
                 let next = [...prev];
                 foundMessages.forEach((m: any) => {
                   if (m.type === "human" || m.role === "user") return;
-                  const mId = m.id || aiId;
+                  const mId = m.id || `${nodeName}_${Date.now()}_${Math.random().toString(16).slice(2)}`;
                   const content = extractTextFromChunk(m);
                   const existingIdx = next.findIndex((ex) => ex.id === mId);
-                  
+
+                  const isFinal = nodeName === "finalize_answer";
                   const newMsg: ChatMessage = {
                     id: mId,
                     type: "ai",
@@ -212,15 +286,15 @@ export function useAgent(options: UseAgentOptions) {
                       source: m.name || nodeName,
                       ts: new Date().toISOString(),
                       raw: contentPiece,
+                      progress: !isFinal,
                       ...(m.metadata || {}),
                     },
                   };
 
                   if (existingIdx >= 0) {
-                    next[existingIdx] = { 
-                      ...next[existingIdx], 
+                    next[existingIdx] = {
+                      ...next[existingIdx],
                       ...newMsg,
-                      // Preserve existing metadata if any, but update with new
                       metadata: { ...(next[existingIdx].metadata as any || {}), ...(newMsg.metadata as any || {}) }
                     };
                   } else {
@@ -228,41 +302,51 @@ export function useAgent(options: UseAgentOptions) {
                   }
                 });
 
-                // If we have real messages with content, and the initial placeholder is still empty, remove it
+                // If any final content exists (from finalize_answer), remove the placeholder aiId entry
                 const hasRealContent = next.some(m => m.id !== aiId && m.content);
                 if (hasRealContent) {
                   next = next.filter(m => m.id !== aiId || m.content !== "");
                 }
                 return next;
               });
+
+              // If this was a finalize node we've already added final messages.
+              // For intermediate nodes we still continue the loop but we've appended progress messages.
               continue;
             }
 
+            // Handle streaming deltas. Only accumulate token deltas for the final answer node.
             const delta = extractTextFromChunk(contentPiece);
             if (delta) {
-              buffer += delta;
+              // If we cannot confidently detect the node, be conservative and only
+              // append to chat when nodeName is finalize_answer.
+              if (nodeName !== "finalize_answer") {
+                // Treat as intermediate chunk; notify through onUpdateEvent already done.
+                continue;
+              }
+
+              messageContentBuffer += delta;
               setMessages((prev) => {
                 const next = [...prev];
                 const idx = next.findIndex((m) => m.id === aiId);
                 if (idx >= 0) {
-                  next[idx] = { 
-                    ...next[idx], 
-                    content: buffer,
-                    metadata: { 
-                      ...(next[idx].metadata as any || {}), 
-                      ts: new Date().toISOString(), 
+                  next[idx] = {
+                    ...next[idx],
+                    content: messageContentBuffer,
+                    metadata: {
+                      ...(next[idx].metadata as any || {}),
+                      ts: new Date().toISOString(),
                       raw: contentPiece,
-                      source: nodeName 
+                      source: nodeName
                     }
                   };
                 } else {
-                  // If placeholder was removed or doesn't exist, add it
                   next.push({
                     id: aiId,
                     type: "ai",
-                    content: buffer,
-                    metadata: { 
-                      ts: new Date().toISOString(), 
+                    content: messageContentBuffer,
+                    metadata: {
+                      ts: new Date().toISOString(),
                       raw: contentPiece,
                       source: nodeName
                     }
@@ -308,21 +392,50 @@ export function useAgent(options: UseAgentOptions) {
 
       const assistantTopInvoke = typeof options.assistantId === "string" ? options.assistantId : "default";
 
+      // Duplicate model/reflection hints and add client_run_id for correlation
+      const reasoningI = (extraConfigInvoke as any).reasoning_model ?? (extraConfigInvoke as any).reasoningModel;
+      const reflectionI = (extraConfigInvoke as any).reflection_model ?? (extraConfigInvoke as any).reflectionModel;
+      const clientRunIdInvoke = `client_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+
+      const payloadInvoke: Record<string, any> = {
+        assistant_id: assistantTopInvoke,
+        input: {
+          messages: lcMessages,
+          ...(reasoningI ? { reasoning_model: reasoningI } : {}),
+          ...(reflectionI ? { reflection_model: reflectionI } : {}),
+          client_run_id: clientRunIdInvoke,
+        },
+        config: {
+          assistant_id: assistantTopInvoke,
+          configurable: {
+            thread_id: threadId,
+            assistant_id: assistantTopInvoke,
+            client_run_id: clientRunIdInvoke,
+          },
+          ...extraConfigInvoke,
+          model: {
+            ...(reasoningI ? { reasoning_model: reasoningI } : {}),
+            ...(reflectionI ? { reflection_model: reflectionI } : {}),
+          },
+        },
+      };
+
+      if (reasoningI) payloadInvoke.reasoning_model = reasoningI;
+      if (reflectionI) payloadInvoke.reflection_model = reflectionI;
+
+      // Debug log for invoke
+      try {
+        // eslint-disable-next-line no-console
+        console.debug("[useAgent.invoke] Posting run to endpoint:", endpoint, "client_run_id:", clientRunIdInvoke, "payload:", payloadInvoke);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.debug("[useAgent.invoke] Posting run (stringify failed)", endpoint, JSON.stringify(payloadInvoke));
+      }
+
       const resp = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          assistant_id: assistantTopInvoke,
-          input: { messages: lcMessages },
-          config: {
-            assistant_id: assistantTopInvoke,
-            configurable: {
-              thread_id: threadId,
-              assistant_id: assistantTopInvoke,
-            },
-            ...extraConfigInvoke,
-          }
-        }),
+        body: JSON.stringify(payloadInvoke),
       });
 
       if (!resp.ok) {

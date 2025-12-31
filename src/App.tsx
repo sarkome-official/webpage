@@ -10,10 +10,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { KnowledgeGraphView as KnowledgeGraph } from "@/pages/platform/KnowledgeGraphView";
 import { KnowledgeGraphNodes } from "@/pages/platform/KnowledgeGraphNodes";
 import LandingPage from "@/pages/LandingPage";
-import { SimulationView } from "@/pages/platform/SimulationView";
 import { AlphaFoldView } from "@/pages/platform/AlphaFoldView";
-import { ReportView } from "@/pages/platform/ReportView";
-import { ConstitutionEditor } from "@/pages/platform/ConstitutionEditor";
 import { DataIngestionView } from "@/pages/platform/DataIngestionView";
 import { KnowledgeExportView } from "@/pages/platform/KnowledgeExportView";
 import { WhiteboardView } from "@/pages/platform/WhiteboardView";
@@ -72,10 +69,7 @@ export default function App() {
   const isPlatformRoute = location.pathname.startsWith("/platform") ||
     location.pathname === "/knowledge-graph" ||
     location.pathname === "/whiteboard" ||
-    location.pathname === "/sim" ||
     location.pathname === "/alphafold" ||
-    location.pathname === "/audit" ||
-    location.pathname === "/constitution" ||
     location.pathname === "/ingestion" ||
     location.pathname === "/knowledge-graph-nodes" ||
     location.pathname === "/api" ||
@@ -350,6 +344,8 @@ export default function App() {
     [thread, processedEventsTimeline]
   );
 
+  
+
   const handleCancel = useCallback(() => {
     // Abort the running stream and record a cancellation event without reloading.
     thread.stop();
@@ -434,10 +430,7 @@ export default function App() {
               <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
               <Route path="/knowledge-graph-nodes" element={<KnowledgeGraphNodes />} />
               <Route path="/whiteboard" element={<WhiteboardView />} />
-              <Route path="/sim" element={<SimulationView />} />
               <Route path="/alphafold" element={<AlphaFoldView />} />
-              <Route path="/audit" element={<ReportView />} />
-              <Route path="/constitution" element={<ConstitutionEditor />} />
               <Route path="/ingestion" element={<DataIngestionView />} />
               <Route path="/api" element={<KnowledgeExportView />} />
               <Route path="/threads" element={<ThreadsView />} />
@@ -475,6 +468,7 @@ export default function App() {
                       sourcesByMessageId={sourcesByMessageId}
                       sourcesListByMessageId={sourcesListByMessageId}
                       rawEvents={rawEvents}
+                     
                     />
                   )}
                 </div>

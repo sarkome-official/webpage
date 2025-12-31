@@ -58,11 +58,6 @@ const data = {
             title: "Lab & Results",
             items: [
                 {
-                    title: "Metabolic Sim",
-                    url: "/sim",
-                    icon: FlaskConical,
-                },
-                {
                     title: "AlphaFold View",
                     url: "/alphafold",
                     icon: Cpu,
@@ -72,16 +67,6 @@ const data = {
         {
             title: "Governance & Ops",
             items: [
-                {
-                    title: "Audit Report",
-                    url: "/audit",
-                    icon: FileText,
-                },
-                {
-                    title: "Constitution",
-                    url: "/constitution",
-                    icon: Gavel,
-                },
                 {
                     title: "Data Ingestion",
                     url: "/ingestion",
@@ -150,41 +135,36 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarHeader>
 
             <SidebarContent className="px-2">
-                {filteredNavMain.map((group) => (
-                    <SidebarGroup key={group.title} className="py-2">
-                        <SidebarGroupLabel className="px-3 text-muted-foreground uppercase text-[9px] font-bold tracking-widest mb-1">
-                            {group.title}
-                        </SidebarGroupLabel>
-                        <SidebarGroupContent>
-                            <SidebarMenu>
-                                {group.items.map((item) => {
-                                    const isActive = location.pathname === item.url;
-                                    return (
-                                        <SidebarMenuItem key={item.title}>
-                                            <SidebarMenuButton
-                                                asChild
-                                                isActive={isActive}
-                                                tooltip={item.title}
-                                                className={`transition-all duration-200 ${isActive
-                                                    ? "bg-white/5 text-foreground font-medium translate-x-1"
-                                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                                                    }`}
-                                            >
-                                                <Link to={item.url} className="flex items-center gap-3">
-                                                    <item.icon className={`size-4 shrink-0 ${isActive ? "text-foreground" : "text-muted-foreground"}`} />
-                                                    <span className="text-xs">{item.title}</span>
-                                                    {isActive && (
-                                                        <div className="ml-auto size-1 rounded-full bg-foreground shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
-                                                    )}
-                                                </Link>
-                                            </SidebarMenuButton>
-                                        </SidebarMenuItem>
-                                    );
-                                })}
-                            </SidebarMenu>
-                        </SidebarGroupContent>
-                    </SidebarGroup>
-                ))}
+                <SidebarGroup className="py-2">
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {filteredNavMain.flatMap((group) => group.items).map((item) => {
+                                const isActive = location.pathname === item.url;
+                                return (
+                                    <SidebarMenuItem key={item.title}>
+                                        <SidebarMenuButton
+                                            asChild
+                                            isActive={isActive}
+                                            tooltip={item.title}
+                                            className={`transition-all duration-200 ${isActive
+                                                ? "bg-white/5 text-foreground font-medium translate-x-1"
+                                                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                                }`}
+                                        >
+                                            <Link to={item.url} className="flex items-center gap-3">
+                                                <item.icon className={`size-4 shrink-0 ${isActive ? "text-foreground" : "text-muted-foreground"}`} />
+                                                <span className="text-xs">{item.title}</span>
+                                                {isActive && (
+                                                    <div className="ml-auto size-1 rounded-full bg-foreground shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
+                                                )}
+                                            </Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                );
+                            })}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
             </SidebarContent>
 
             <SidebarSeparator className="opacity-50" />
