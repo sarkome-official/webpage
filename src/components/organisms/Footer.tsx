@@ -8,7 +8,7 @@ export function Footer() {
             </div>
             <div className={"text-[10px] text-text-muted text-center space-y-2"}>
                 <p>Designed for Scientific Discovery</p>
-                <p>© 2024 Sarkome Institute. All rights reserved.</p>
+                <p>© 2025 Sarkome Institute. All rights reserved.</p>
             </div>
             <div className={"w-full flex justify-between text-[10px] text-text-muted mt-4"}>
                 <div className={"flex items-center gap-1"}>

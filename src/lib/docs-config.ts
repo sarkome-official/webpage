@@ -6,11 +6,18 @@ import philosophy from "@/content/philosophy.md?raw";
 import technology from "@/content/technology.md?raw";
 import infrastructure from "@/content/infrastructure.md?raw";
 
+import agentReasoning from "@/content/agent_reasoning.md?raw";
+
 export const docsConfig = [
   {
     title: "Introduction",
     slug: "intro",
     content: intro,
+  },
+  {
+    title: "Agent Reasoning",
+    slug: "agent",
+    content: agentReasoning,
   },
   {
     title: "Philosophy",

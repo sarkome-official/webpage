@@ -57,6 +57,14 @@
   --surface: #f9fafb;
   --border-custom: #e5e7eb;
   --dot-color: rgba(12, 12, 12, 0.171);
+
+  /* Semantic Input Bar Variables - Light Mode */
+  --input-bar-bg: #f9fafb;
+  /* neutral-50/gray-50 */
+  --input-bar-border: #e5e7eb;
+  --input-bar-text: #111827;
+  --input-bar-placeholder: #6b7280;
+  --input-bar-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
 
 .dark {
@@ -84,6 +92,14 @@
   --surface: #121212;
   --border-custom: #27272a;
   --dot-color: rgba(255, 255, 255, 0.1);
+
+  /* Semantic Input Bar Variables - Dark Mode */
+  --input-bar-bg: rgba(37, 38, 41, 0.95);
+  --input-bar-border: transparent;
+  /* or #27272a if border needed */
+  --input-bar-text: #ededed;
+  --input-bar-placeholder: #a1a1aa;
+  --input-bar-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 @layer utilities {
@@ -103,6 +119,34 @@
     background-image: radial-gradient(var(--dot-color) 2px, transparent 0);
     background-size: 30px 30px;
     background-position: -5px -5px;
+  }
+
+  /* Optimized Input Bar Styles */
+  .search-bar-container {
+    background-color: var(--input-bar-bg);
+    border: 1px solid var(--input-bar-border);
+    color: var(--input-bar-text);
+    box-shadow: var(--input-bar-shadow);
+  }
+
+  .search-bar-input::placeholder {
+    color: var(--input-bar-placeholder);
+    opacity: 0.7;
+  }
+
+  .search-bar-button {
+    background-color: color-mix(in srgb, var(--input-bar-bg), var(--foreground) 5%);
+    color: var(--input-bar-placeholder);
+  }
+
+  .search-bar-button:hover {
+    background-color: color-mix(in srgb, var(--input-bar-bg), var(--foreground) 10%);
+    color: var(--input-bar-text);
+  }
+
+  .search-bar-button-active {
+    background-color: var(--foreground);
+    color: var(--background);
   }
 
   .mono-text {

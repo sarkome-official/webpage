@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fetch-transformer": "node scripts/fetch-transformer.js"
   },
   "dependencies": {
+    "@huggingface/transformers": "^3.8.1",
     "@langchain/core": "^0.3.55",
     "@langchain/langgraph-sdk": "^0.1.0",
     "@radix-ui/react-collapsible": "^1.1.12",

@@ -28,6 +28,11 @@ import { RunLogs } from "@/components/RunLogs";
 
 export default function App() {
   const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   const [processedEventsTimeline, setProcessedEventsTimeline] = useState<
     ProcessedEvent[]
   >([]);
@@ -238,10 +243,10 @@ export default function App() {
       const scrollViewport = scrollAreaRef.current.querySelector(
         "[data-radix-scroll-area-viewport]"
       ) as HTMLElement;
-      
+
       if (scrollViewport) {
         const threshold = 150; // pixels from bottom to consider "at bottom"
-        const isAtBottom = 
+        const isAtBottom =
           scrollViewport.scrollHeight - scrollViewport.scrollTop - scrollViewport.clientHeight < threshold;
 
         if (isAtBottom) {
@@ -319,7 +324,7 @@ export default function App() {
         },
       ];
       console.log("Co-Research Nodes Active:", activeAgents.length > 0 ? activeAgents.join(", ") : "None");
-      
+
       // Force scroll to bottom on new submission
       setTimeout(() => {
         if (scrollAreaRef.current) {
@@ -344,7 +349,7 @@ export default function App() {
     [thread, processedEventsTimeline]
   );
 
-  
+
 
   const handleCancel = useCallback(() => {
     // Abort the running stream and record a cancellation event without reloading.
@@ -468,7 +473,7 @@ export default function App() {
                       sourcesByMessageId={sourcesByMessageId}
                       sourcesListByMessageId={sourcesListByMessageId}
                       rawEvents={rawEvents}
-                     
+
                     />
                   )}
                 </div>

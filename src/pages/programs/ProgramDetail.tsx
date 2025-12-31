@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { diseases } from '../../data/diseases';
-import { ArrowLeft, ArrowUpRight, Activity, Beaker } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Activity,
+  Sparkles,
+  Layers,
+  Microchip,
+  Shield,
+  Dna
+} from 'lucide-react';
 import { Header } from '../../components/organisms/Header';
 import { Footer } from '../../components/organisms/Footer';
 
@@ -9,131 +18,117 @@ export default function ProgramDetail() {
   const { id } = useParams<{ id: string }>();
   const disease = diseases.find(d => d.id === id);
 
+  const activePrograms = useMemo(() => diseases.filter(d => d.type === 'active'), []);
+
   if (!disease) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Program Not Found</h1>
-          <Link to="/" className="text-primary hover:underline">Back to Home</Link>
+          <Link to="/" className="text-primary hover:underline flex items-center gap-2">
+            <ArrowLeft className="w-4 h-4" /> Back to Home
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-background text-foreground min-h-screen flex flex-col items-center">
-      <div className="max-w-4xl w-full mx-auto px-6 py-12 md:py-20 space-y-12">
+    <div className="text-text-main transition-colors duration-300 antialiased font-sans flex flex-col items-center min-h-screen relative overflow-x-hidden bg-background">
+      {/* Grid Pattern Background */}
+      <div className="fixed inset-0 z-[-1] pointer-events-none bg-uiverse-grid opacity-20"></div>
+
+      <div className="max-w-6xl w-full mx-auto px-6 py-12 md:py-16 space-y-12">
         <Header />
-        
-        <main className="space-y-12">
-          <div>
-            <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Pipeline
-            </Link>
-            
-            <div className="flex items-center gap-4 mb-4">
-              <span className={`px-3 py-1 rounded-full text-xs font-mono border ${disease.type === 'active' ? 'bg-primary/10 border-primary text-primary' : 'bg-card border-border text-muted-foreground'}`}>
-                {disease.code}
-              </span>
-              <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
-                {disease.type === 'active' ? 'Active Program' : 'Pipeline Candidate'}
-              </span>
-            </div>
 
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">{disease.name}</h1>
-            <p className="text-xl text-muted-foreground font-light border-l-2 border-primary pl-4">
-              {disease.fusion} <span className="text-primary mx-2">→</span> {disease.mechanism}
-            </p>
-          </div>
+        <main className="animate-fadeIn">
+          <Link to="/" className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-text-muted hover:text-primary transition-colors uppercase mb-6 group">
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            Back to Home
+          </Link>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="md:col-span-2 space-y-8">
-              <section>
-                <h2 className="text-sm font-bold tracking-widest text-muted-foreground uppercase mb-4">Disease Summary</h2>
-                <p className="leading-relaxed text-foreground">
-                  {/* @ts-ignore */}
-                  {disease.description || "Detailed analysis of the molecular drivers and clinical presentation of this rare sarcoma subtype."}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-8">
+
+            {/* Left Content Area */}
+            <div className="lg:col-span-8 space-y-12">
+
+              {/* Disease Summary Section */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-text-main">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  <h2 className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-70">Disease Summary</h2>
+                </div>
+                <p className="text-sm leading-relaxed text-text-main/90 max-w-2xl">
+                  {disease.description}
                 </p>
-              </section>
+              </div>
 
-              <section>
-                <h2 className="text-sm font-bold tracking-widest text-muted-foreground uppercase mb-4">Molecular Mechanism</h2>
-                <div className="bg-card border border-border p-6 rounded-xl">
-                  <p className="leading-relaxed text-sm text-foreground">
-                    {/* @ts-ignore */}
-                    {disease.molecular_detail || "Our research focuses on the specific fusion protein interactions that drive oncogenesis, utilizing multi-agent modeling to identify vulnerable nodes in the signaling network."}
+              {/* Molecular Mechanism Section */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-text-main">
+                  <Layers className="w-4 h-4 text-primary" />
+                  <h2 className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-70">Molecular Mechanism</h2>
+                </div>
+                <div className="bg-surface border border-border-custom p-6 rounded-2xl">
+                  <p className="leading-relaxed text-sm text-text-main/80 italic">
+                    "{disease.molecular_detail}"
                   </p>
                 </div>
-              </section>
+              </div>
+
+              {/* Info Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-surface border border-border-custom p-5 rounded-xl space-y-3">
+                  <div className="text-[9px] font-bold text-text-muted uppercase tracking-widest">Driver Class</div>
+                  <div className="text-sm font-semibold text-text-main">TF Fusion</div>
+                </div>
+                <div className="bg-surface border border-border-custom p-5 rounded-xl space-y-3">
+                  <div className="text-[9px] font-bold text-text-muted uppercase tracking-widest">Modality</div>
+                  <div className="text-sm font-semibold text-primary">PROTAC</div>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-6">
-              <div className="bg-card border border-border p-6 rounded-xl">
-                <h3 className="text-xs font-bold text-muted-foreground uppercase mb-4">Target Profile</h3>
-                <div className="space-y-4 text-sm">
-                  <div>
-                    <div className="text-xs text-muted-foreground mb-1">Driver</div>
-                    <div className="font-mono">{disease.fusion}</div>
-                  </div>
-                   <div>
-                    <div className="text-xs text-muted-foreground mb-1">Class</div>
-                    <div className="font-medium">Transcription Factor Fusion</div>
-                  </div>
-                   <div>
-                    <div className="text-xs text-muted-foreground mb-1">Therapeutic Strategy</div>
-                    <div className="font-medium">Direct Degrader (PROTAC) / Interface Inhibitor</div>
+            {/* Right Sidebar Area */}
+            <div className="lg:col-span-4 space-y-8">
+
+              {/* Structural Insight Card */}
+              <div className="relative group overflow-hidden rounded-2xl border border-border-custom bg-black">
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    alt="Lab Visualization"
+                    className="w-full h-full object-cover opacity-70"
+                    src="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&q=80&w=800"
+                  />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black to-transparent">
+                  <div className="text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase mb-1">Structural Insight</div>
+                  <div className="text-white text-xs font-medium">Molecular Dynamics Simulation</div>
+                </div>
+              </div>
+
+              {/* Active Portfolio Section */}
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-70">Active Portfolio</h3>
+                <div className="bg-surface border border-border-custom p-6 rounded-2xl">
+                  <div className="space-y-2">
+                    {activePrograms.map(p => (
+                      <Link
+                        key={p.id}
+                        to={`/programs/${p.id}`}
+                        className={`flex items-center justify-between p-3 rounded-xl border transition-all ${p.id === disease.id ? 'bg-primary/10 border-primary/30 text-primary' : 'bg-transparent border-transparent hover:bg-white/5 text-text-muted'}`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <Activity className="w-3.5 h-3.5" />
+                          <span className="text-xs font-bold">{p.code}</span>
+                        </div>
+                        <ArrowUpRight className="w-3 h-3 opacity-50" />
+                      </Link>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              <section>
-                <h3 className="text-xs font-bold tracking-widest text-muted-foreground uppercase mb-8">Active Programs</h3>
-                <div className="space-y-4">
-                  {diseases.filter(d => d.type === 'active').map(activeDisease => (
-                    <Link 
-                      key={activeDisease.id}
-                      to={`/programs/${activeDisease.id}`}
-                      className={`group flex items-center justify-between p-4 -mx-4 rounded-xl hover:bg-card transition-colors ${activeDisease.id === disease.id ? 'bg-card' : ''}`}
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
-                          <Activity className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <div className="font-medium text-sm">{activeDisease.code}</div>
-                          <div className="text-xs text-muted-foreground">Rare Oncology / {activeDisease.name}</div>
-                        </div>
-                      </div>
-                      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors transform group-hover:translate-x-1" />
-                    </Link>
-                  ))}
-                </div>
-              </section>
-
-              <section>
-                <h3 className="text-xs font-bold tracking-widest text-muted-foreground uppercase mb-8">Pipeline Candidates</h3>
-                <div className="space-y-4">
-                  {diseases.filter(d => d.type === 'candidate').map(candidate => (
-                    <Link 
-                      key={candidate.id}
-                      to={`/programs/${candidate.id}`}
-                      className={`group flex items-center justify-between p-4 -mx-4 rounded-xl hover:bg-card transition-colors ${candidate.id === disease.id ? 'bg-card' : ''}`}
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-900/30 text-slate-600 dark:text-slate-400 flex items-center justify-center">
-                          <Beaker className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <div className="font-medium text-sm">{candidate.code}</div>
-                          <div className="text-xs text-muted-foreground">{candidate.name}</div>
-                        </div>
-                      </div>
-                      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors transform group-hover:translate-x-1" />
-                    </Link>
-                  ))}
-                </div>
-              </section>
             </div>
           </div>
         </main>

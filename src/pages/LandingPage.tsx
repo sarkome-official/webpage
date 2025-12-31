@@ -42,10 +42,10 @@ export default function LandingPage() {
                         </div>
                         <div className="space-y-6">
                             <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">
-                                Biomedical research <span className="text-primary">Operating System</span>
+                                Biomedical Reasoning <span className="text-primary">Engine</span>
                             </h2>
                             <p className="text-lg text-text-main leading-relaxed max-w-xl">
-                                A multi-agent graph reasoning system powered by Gemini, built to accelerate biomedical research using PrimeKG.
+                                A graph reasoning system that validates hypotheses by cross-referencing PrimeKG, AlphaFold, and real-time literature.
                             </p>
                             <div className="pt-2">
                                 <Link to="/platform" className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary transition-all group">
@@ -110,19 +110,16 @@ export default function LandingPage() {
 
                     {/* Discovery Pipeline */}
                     <section>
-                        <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">Agentic Reasoning Pipeline</h3>
+                        <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">How Our Agent Optimizes Every Answer</h3>
                         <p className="mb-10 text-text-main text-sm leading-relaxed">
-                            A transparent, iterative reasoning loop that bridges internal knowledge graphs with live external research.
+                            Our AI engine doesn't just answer; it decides. We have replaced traditional linear processing with a dynamic architecture that prioritizes speed and precision.
                         </p>
                         <div className="space-y-8 relative pl-2">
-
-
                             {[
-                                { phase: "01", title: "Contextualize", desc: "Query the internal Knowledge Graph to ground the user's request in established biological facts.", label: "query_knowledge_graph" },
-                                { phase: "02", title: "Strategize", desc: "Decompose the problem into atomic search queries to target missing information.", label: "generate_query" },
-                                { phase: "03", title: "Investigate", desc: "Execute external web research to gather broad, unstructured data from live sources.", label: "web_research" },
-                                { phase: "04", title: "Reflect", desc: "Critique the gathered data for relevance and accuracy, triggering a re-search loop if necessary.", label: "reflection" },
-                                { phase: "05", title: "Synthesize", desc: "Consolidate structured graph data and unstructured web findings into a final causal argument.", label: "finalize_answer" }
+                                { title: "Understanding Before Action", desc: "Before searching, the agent analyzes your intent. If you ask about a protein structure, it doesn't waste time searching for news; it goes straight to our scientific databases (AlphaFold/KG).", label: "intent_analysis" },
+                                { title: "Maximum Speed", desc: "We consult multiple data sources simultaneously, not one after another. This allows us to deliver complex answers in half the time.", label: "parallel_execution" },
+                                { title: "Cost Efficiency", desc: "If the agent already 'knows' the answer based on its internal data, it delivers it immediately without unnecessary web searches. We only browse the internet when strictly necessary to fill information gaps.", label: "smart_retrieval" },
+                                { title: "Self-Correction", desc: "If the information found is insufficient, the agent enters a 'reflection' mode, seeking additional data and refining its response until it meets our quality standards.", label: "recursive_reflection" }
                             ].map((step, i) => (
                                 <div key={i} className="relative pl-8 group">
                                     <div className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-border-custom group-hover:bg-primary transition-colors"></div>
@@ -142,7 +139,7 @@ export default function LandingPage() {
                     <section>
                         <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">Advisory Board</h3>
                         <div className="grid md:grid-cols-2 gap-6">
-                            <div className="bg-surface border border-border-custom p-6 rounded-2xl hover:border-primary/50 transition-colors cursor-default">
+                            <a href="https://www.linkedin.com/in/bryramirezp/" target="_blank" rel="noopener noreferrer" className="bg-surface border border-border-custom p-6 rounded-2xl hover:border-primary/50 transition-colors cursor-pointer block">
                                 <p className="text-sm leading-relaxed mb-6 text-text-main">
                                     "Building Sarkome as a generative biotechnology institute that uses AI to create missing biological knowledge, turning rare-disease treatment, such as ASPS, from probabilistic guessing into systematic causal discovery."
                                 </p>
@@ -153,7 +150,7 @@ export default function LandingPage() {
                                         <div className="text-xs text-text-main">Founder & Lead Architect, Sarkome Institute</div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
 
                             <div className="bg-surface border border-border-custom p-6 rounded-2xl hover:border-primary/50 transition-colors cursor-default">
                                 <p className="text-sm leading-relaxed mb-6 text-text-main">
@@ -179,11 +176,11 @@ export default function LandingPage() {
                             {[
                                 { name: "Gemini 3.0", src: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.svg", color: "from-blue-400/20 to-purple-400/20" },
                                 { name: "Docker", src: "https://www.vectorlogo.zone/logos/docker/docker-tile.svg", color: "from-blue-500/10 to-blue-600/10" },
-                                { name: "LangChain", src: "https://avatars.githubusercontent.com/u/126733545?s=200&v=4", color: "from-green-400/10 to-emerald-500/10" },
-                                { name: "NetworkX", src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><rect rx='12' fill='%230b1220' width='100%' height='100%'/><text x='50%' y='50%' font-size='26' fill='%23ffffff' text-anchor='middle' dominant-baseline='central' font-family='Arial,Helvetica,sans-serif'>NX</text></svg>", color: "from-slate-700/10 to-slate-900/10" },
+                                { name: "LangGraph", src: "https://avatars.githubusercontent.com/u/126733545?s=200&v=4", color: "from-green-400/10 to-emerald-500/10" },
+                                { name: "NetworkX", src: "https://logo.svgcdn.com/devicon/networkx-original.svg", color: "from-slate-700/10 to-slate-900/10" },
                                 { name: "Google Cloud", src: "https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg", color: "from-blue-500/10 to-red-500/10" },
                                 { name: "Python", src: "https://www.vectorlogo.zone/logos/python/python-icon.svg", color: "from-yellow-400/10 to-blue-500/10" },
-                                { name: "AlphaFold", src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><rect rx='12' fill='%2308162b' width='100%' height='100%'/><text x='50%' y='50%' font-size='22' fill='%23ffd24d' text-anchor='middle' dominant-baseline='central' font-family='Arial,Helvetica,sans-serif'>AF</text></svg>", color: "from-purple-600/10 to-rose-400/10" }
+                                { name: "Alphafold", src: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepmind-icon.svg", color: "from-purple-600/10 to-rose-400/10" }
                             ].map((tech, i) => (
                                 <div key={i} className="group relative">
                                     {/* Tooltip */}
@@ -270,7 +267,7 @@ export default function LandingPage() {
 
                     {/* Request Access */}
                     <section className="border-t border-dashed border-border-custom pt-12">
-                        <h3 className="text-xs font-bold tracking-widest text-text-muted uppercase mb-6">Request Access</h3>
+                        <h3 className="text-xs font-bold tracking-widest text-text-muted uppercase mb-6">Communicate with Us</h3>
                         <p className="text-sm text-text-muted mb-8">
                             Partnership inquiries and investor relations can reach us using the form below.
                         </p>

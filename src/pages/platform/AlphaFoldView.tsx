@@ -1,187 +1,317 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Activity, Info, Layers, Maximize2, Construction, X } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+    Search,
+    History,
+    Box,
+    Dna,
+    Activity,
+    ChevronRight,
+    Copy,
+    Check,
+    Trash2,
+    ExternalLink,
+    Atom,
+    Loader2
+} from 'lucide-react';
+import { ProteinViewer } from '@/components/molecules/ProteinViewer';
+import { searchProteins, type UniProtResult } from '@/lib/uniprot-service';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 
-export const AlphaFoldView = () => {
-    const [showNotice, setShowNotice] = useState(false);
+// --- Types ---
+interface HistoryItem extends UniProtResult {
+    timestamp: number;
+}
 
-    useEffect(() => {
-        const timer = setTimeout(() => setShowNotice(true), 500);
-        return () => clearTimeout(timer);
-    }, []);
+// --- Components ---
 
+const SearchResultCard = ({
+    result,
+    onSelect,
+    isSelected
+}: {
+    result: UniProtResult;
+    onSelect: (r: UniProtResult) => void;
+    isSelected: boolean;
+}) => {
     return (
-        <div className="flex flex-col h-full w-full bg-background text-muted-foreground font-sans overflow-hidden relative">
-            {/* Construction Notice Modal */}
-            {showNotice && (
-                <div className="absolute inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-300">
-                    <div className="max-w-md w-full bg-card border border-primary/20 rounded-2xl shadow-2xl p-8 relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 via-primary to-primary/50"></div>
-                        
-                        <button 
-                            onClick={() => setShowNotice(false)}
-                            className="absolute top-4 right-4 p-1 rounded-full hover:bg-muted transition-colors text-muted-foreground"
-                        >
-                            <X className="w-4 h-4" />
-                        </button>
+        <div
+            onClick={() => onSelect(result)}
+            className={`
+        p-3 rounded-lg border cursor-pointer transition-all hover:bg-accent/50 group
+        ${isSelected ? 'bg-primary/10 border-primary/50' : 'bg-muted/20 border-border'}
+      `}
+        >
+            <div className="flex justify-between items-start mb-1">
+                <h4 className={`font-bold text-sm truncate pr-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                    {result.proteinName}
+                </h4>
+                {result.length && <Badge variant="outline" className="text-[10px] h-5 px-1">{result.length} aa</Badge>}
+            </div>
 
-                        <div className="flex flex-col items-center text-center space-y-6">
-                            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20">
-                                <Construction className="w-8 h-8 text-primary animate-pulse" />
-                            </div>
-                            
-                            <div className="space-y-2">
-                                <h2 className="text-xl font-bold text-foreground tracking-tight">Feature Under Construction</h2>
-                                <p className="text-sm leading-relaxed">
-                                    The AlphaFold Server protein visualizer is already conceptualized and currently under construction.
-                                </p>
-                                <p className="text-xs text-muted-foreground italic">
-                                    This module will enable high-fidelity 3D analysis of biomolecular structures directly within Sarkome OS.
-                                </p>
-                            </div>
-
-                            <button 
-                                onClick={() => setShowNotice(false)}
-                                className="w-full py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
-                            >
-                                Understood
-                            </button>
-                        </div>
+            <div className="flex flex-wrap gap-2 text-xs text-muted-foreground mb-2">
+                {result.geneName && (
+                    <div className="flex items-center gap-1 bg-background/50 px-1.5 py-0.5 rounded">
+                        <Dna className="w-3 h-3" />
+                        <span className="font-mono">{result.geneName}</span>
                     </div>
-                </div>
-            )}
-
-            {/* Header Section */}
-            <div className="p-4 md:p-8 border-b border-border bg-muted/10 backdrop-blur-md">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
-                    <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
-                            <Box className="w-5 h-5 md:w-6 md:h-6 text-primary" />
-                        </div>
-                        <div className="min-w-0">
-                            <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight truncate">AlphaFold Structural Enricher</h1>
-                            <div className="flex flex-wrap items-center gap-2 mt-1">
-                                <span className="px-2 py-0.5 rounded bg-muted text-[10px] font-mono text-muted-foreground uppercase tracking-wider">UniProt: P04626</span>
-                                <span className="flex items-center gap-1 ml-0 md:ml-2 text-[10px] text-primary font-mono">
-                                    <Activity className="w-3 h-3" />
-                                    FETCHING METADATA
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex gap-3">
-                        <button
-                            onClick={() => window.location.href = '/platform/simulation'}
-                            className="flex-1 md:flex-none px-4 py-2 rounded-lg bg-muted/50 hover:bg-muted border border-border text-xs md:text-sm font-medium transition-all text-foreground"
-                        >
-                            Run Simulation
-                        </button>
-                        <button
-                            onClick={() => window.location.href = '/platform/report'}
-                            className="flex-1 md:flex-none px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground text-xs md:text-sm font-medium transition-all shadow-lg shadow-primary/20"
-                        >
-                            Generate Report
-                        </button>
-                    </div>
+                )}
+                <div className="flex items-center gap-1 bg-background/50 px-1.5 py-0.5 rounded">
+                    <Atom className="w-3 h-3" />
+                    <span>{result.organismName}</span>
                 </div>
             </div>
 
-            {/* Main Content Area */}
-            <div className="flex-1 overflow-hidden flex flex-col lg:flex-row">
-                {/* 3D Viewer Placeholder */}
-                <div className="flex-1 bg-muted/5 relative group">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        {/* Abstract Protein Representation */}
-                        <div className="relative w-64 h-64">
-                            <div className="absolute inset-0 border-4 border-primary/20 rounded-full animate-[spin_10s_linear_infinite]"></div>
-                            <div className="absolute inset-4 border-2 border-primary/10 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <Layers className="w-32 h-32 text-primary/40 blur-[1px]" />
-                            </div>
-                        </div>
+            <div className="flex items-center justify-between mt-2 pt-2 border-t border-border/50">
+                <span className="font-mono text-[10px] text-muted-foreground">{result.accession}</span>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        navigator.clipboard.writeText(result.accession);
+                    }}
+                >
+                    <Copy className="w-3 h-3" />
+                </Button>
+            </div>
+        </div>
+    );
+}
+
+export const AlphaFoldView = () => {
+    // State
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState<UniProtResult[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [selectedProtein, setSelectedProtein] = useState<UniProtResult | null>(null);
+    const [history, setHistory] = useState<HistoryItem[]>([]);
+    const [viewMode, setViewMode] = useState<'search' | 'history'>('search');
+
+    // Load history on mount
+    useEffect(() => {
+        const saved = localStorage.getItem('alphafold_search_history');
+        if (saved) {
+            try {
+                setHistory(JSON.parse(saved));
+            } catch (e) {
+                console.error("Failed to parse history", e);
+            }
+        }
+    }, []);
+
+    // Save history handler
+    const addToHistory = (item: UniProtResult) => {
+        setHistory(prev => {
+            const filtered = prev.filter(i => i.accession !== item.accession);
+            const newHistory = [{ ...item, timestamp: Date.now() }, ...filtered].slice(0, 50);
+            localStorage.setItem('alphafold_search_history', JSON.stringify(newHistory));
+            return newHistory;
+        });
+    };
+
+    const clearHistory = () => {
+        setHistory([]);
+        localStorage.removeItem('alphafold_search_history');
+    };
+
+    // Search Logic
+    useEffect(() => {
+        if (!query) {
+            setResults([]);
+            return;
+        }
+
+        const timer = setTimeout(async () => {
+            setIsLoading(true);
+            try {
+                const data = await searchProteins(query);
+                setResults(data);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setIsLoading(false);
+            }
+        }, 500); // 500ms debounce
+
+        return () => clearTimeout(timer);
+    }, [query]);
+
+    // Handlers
+    const handleSelect = (protein: UniProtResult) => {
+        setSelectedProtein(protein);
+        addToHistory(protein);
+    };
+
+    return (
+        <div className="flex h-full w-full bg-background text-foreground overflow-hidden">
+
+            {/* LEFT SIDEBAR: Search & Results */}
+            <div className="w-[400px] flex flex-col border-r border-border bg-muted/5">
+
+                {/* Header / Search Bar */}
+                <div className="p-4 space-y-4 border-b border-border bg-background/50 backdrop-blur">
+                    <div className="flex items-center gap-2 mb-2">
+                        <Box className="w-5 h-5 text-primary" />
+                        <h2 className="font-bold text-lg tracking-tight">AlphaFold Hub</h2>
                     </div>
 
-                    {/* Viewer Controls */}
-                    <div className="absolute bottom-6 left-6 flex gap-2">
-                        <button className="p-2 rounded bg-muted/80 border border-border hover:bg-muted transition-colors text-foreground">
-                            <Maximize2 className="w-4 h-4" />
-                        </button>
+                    <div className="relative">
+                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                            placeholder="Search protein (e.g. Insulin, BRCA1)..."
+                            className="pl-9 bg-background/50"
+                            value={query}
+                            onChange={(e) => {
+                                setQuery(e.target.value);
+                                setViewMode('search');
+                            }}
+                        />
+                        {isLoading && (
+                            <div className="absolute right-3 top-2.5">
+                                <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                            </div>
+                        )}
                     </div>
 
-                    <div className="absolute top-6 right-6 p-4 rounded-xl bg-muted/80 border border-border backdrop-blur-md max-w-xs">
-                        <h4 className="text-xs font-bold text-foreground mb-3 uppercase tracking-widest">Confidence (pLDDT)</h4>
-                        <div className="space-y-2">
-                            <div className="flex justify-between text-[10px]">
-                                <span>Very High ({'>'}90)</span>
-                                <span className="text-primary">82%</span>
-                            </div>
-                            <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
-                                <div className="h-full bg-primary w-[82%]"></div>
-                            </div>
-                            <div className="flex justify-between text-[10px]">
-                                <span>Confident (70-90)</span>
-                                <span className="text-muted-foreground">12%</span>
-                            </div>
-                            <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
-                                <div className="h-full bg-muted-foreground/50 w-[12%]"></div>
-                            </div>
-                        </div>
+                    <div className="flex gap-1 p-1 bg-muted/50 rounded-lg">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className={`flex-1 h-7 text-xs ${viewMode === 'search' ? 'bg-background shadow-sm' : ''}`}
+                            onClick={() => setViewMode('search')}
+                        >
+                            <Search className="w-3 h-3 mr-1.5" />
+                            Results ({results.length})
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className={`flex-1 h-7 text-xs ${viewMode === 'history' ? 'bg-background shadow-sm' : ''}`}
+                            onClick={() => setViewMode('history')}
+                        >
+                            <History className="w-3 h-3 mr-1.5" />
+                            History
+                        </Button>
                     </div>
                 </div>
 
-                {/* Info Sidebar */}
-                <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-border bg-muted/10 p-6 overflow-y-auto">
-                    <div className="space-y-8">
-                        <section>
-                            <h3 className="text-foreground font-bold mb-4 flex items-center gap-2">
-                                <Info className="w-4 h-4 text-primary" />
-                                About AlphaFold Integration
-                            </h3>
-                            <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-3">
-                                <h4 className="text-xs font-bold text-primary uppercase tracking-wider">How does AlphaFold Server work?</h4>
-                                <p className="text-xs leading-relaxed text-foreground/80">
-                                    AlphaFold Server is a web-service that can generate highly accurate biomolecular structure predictions containing proteins, DNA, RNA, ligands, ions, and also model chemical modifications for proteins and nucleic acids in one platform.
-                                </p>
-                                <p className="text-xs leading-relaxed text-foreground/80 font-medium">
-                                    It’s powered by the newest AlphaFold 3 model.
-                                </p>
-                            </div>
-                        </section>
+                {/* List Content */}
+                <ScrollArea className="flex-1 p-4">
+                    {viewMode === 'search' ? (
+                        <div className="space-y-3">
+                            {query.length > 0 && results.length === 0 && !isLoading && (
+                                <div className="text-center py-8 text-muted-foreground text-sm">
+                                    No matching proteins found.
+                                </div>
+                            )}
+                            {query.length === 0 && (
+                                <div className="text-center py-8 text-muted-foreground text-sm flex flex-col items-center">
+                                    <Activity className="w-8 h-8 opacity-20 mb-2" />
+                                    <p>Start typing to search UniProtKB</p>
+                                </div>
+                            )}
+                            {results.map((item) => (
+                                <SearchResultCard
+                                    key={item.accession}
+                                    result={item}
+                                    onSelect={handleSelect}
+                                    isSelected={selectedProtein?.accession === item.accession}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            {history.length === 0 && (
+                                <div className="text-center py-8 text-muted-foreground text-sm">
+                                    No search history yet.
+                                </div>
+                            )}
+                            {history.length > 0 && (
+                                <div className="flex justify-between items-center px-1 mb-2">
+                                    <span className="text-xs text-muted-foreground">Recent</span>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="h-5 text-[10px] text-destructive hover:bg-destructive/10"
+                                        onClick={clearHistory}
+                                    >
+                                        <Trash2 className="w-3 h-3 mr-1" />
+                                        Clear
+                                    </Button>
+                                </div>
+                            )}
+                            {history.map((item) => (
+                                <SearchResultCard
+                                    key={item.accession + '_hist'}
+                                    result={item}
+                                    onSelect={handleSelect}
+                                    isSelected={selectedProtein?.accession === item.accession}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </ScrollArea>
 
-                        <section>
-                            <h3 className="text-foreground font-bold mb-4 flex items-center gap-2">
-                                <Info className="w-4 h-4 text-primary" />
-                                Structure Details
-                            </h3>
-                            <div className="space-y-4">
-                                <div className="p-4 rounded-xl bg-muted/20 border border-border">
-                                    <div className="text-[10px] text-muted-foreground uppercase font-mono mb-1">Protein Name</div>
-                                    <div className="text-sm text-foreground font-medium">VCP (Valosin-containing protein)</div>
-                                </div>
-                                <div className="p-4 rounded-xl bg-muted/20 border border-border">
-                                    <div className="text-[10px] text-muted-foreground uppercase font-mono mb-1">Sequence Length</div>
-                                    <div className="text-sm text-foreground font-medium">806 amino acids</div>
-                                </div>
-                                <div className="p-4 rounded-xl bg-muted/20 border border-border">
-                                    <div className="text-[10px] text-muted-foreground uppercase font-mono mb-1">Model Source</div>
-                                    <div className="text-sm text-foreground font-medium">AlphaFold DB v4 (2024-07-15)</div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section>
-                            <h3 className="text-foreground font-bold mb-4">Functional Domains</h3>
-                            <div className="space-y-2">
-                                {['AAA+ ATPase domain 1', 'AAA+ ATPase domain 2', 'N-terminal domain'].map((domain, i) => (
-                                    <div key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors cursor-default">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-                                        <span className="text-xs text-muted-foreground">{domain}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
-                    </div>
+                {/* Footer */}
+                <div className="p-3 border-t border-border bg-muted/20 text-[10px] text-center text-muted-foreground">
+                    Data sourced from UniProtKB • Visualization via AlphaFold Server
                 </div>
+            </div>
+
+            {/* MAIN CONTENT Area (Viewer) */}
+            <div className="flex-1 flex flex-col bg-background relative">
+                {selectedProtein ? (
+                    <>
+                        <div className="h-16 border-b border-border flex items-center justify-between px-6 bg-muted/5">
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <h1 className="text-xl font-bold">{selectedProtein.proteinName}</h1>
+                                    <Badge variant="outline" className="font-mono text-xs">{selectedProtein.accession}</Badge>
+                                </div>
+                                <p className="text-sm text-muted-foreground flex items-center gap-2">
+                                    <span className="font-semibold text-primary">{selectedProtein.geneName}</span>
+                                    <span>•</span>
+                                    <span>{selectedProtein.organismName}</span>
+                                </p>
+                            </div>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="gap-2"
+                                onClick={() => window.open(`https://www.uniprot.org/uniprotkb/${selectedProtein.accession}/entry`, '_blank')}
+                            >
+                                UniProt Profile
+                                <ExternalLink className="w-3 h-3" />
+                            </Button>
+                        </div>
+
+                        <div className="flex-1 p-6 overflow-hidden flex flex-col">
+                            <div className="flex-1 bg-black/10 rounded-2xl border border-border overflow-hidden relative shadow-inner">
+                                <ProteinViewer
+                                    uniprotId={selectedProtein.accession}
+                                    title={selectedProtein.geneName || selectedProtein.id}
+                                />
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground p-8">
+                        <div className="w-24 h-24 bg-muted/20 rounded-full flex items-center justify-center mb-6 animate-pulse">
+                            <Box className="w-10 h-10 opacity-50" />
+                        </div>
+                        <h3 className="text-xl font-medium text-foreground mb-2">Ready to Explore</h3>
+                        <p className="max-w-md text-center text-sm leading-relaxed">
+                            Search for a protein by name, gene, or UniProt ID in the sidebar to visualize its AlphaFold predicted structure in 3D.
+                        </p>
+                    </div>
+                )}
             </div>
         </div>
     );
 };
+

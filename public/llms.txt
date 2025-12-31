@@ -1,20 +1,83 @@
-# Sarkome
+# Sarkome Institute: System Context for AI Agents (llms.txt)
 
-> Sarkome is a single-asset entity (SAE) dedicated to identifying, validating, and licensing a selective protein degrader (SAR-001) for Alveolar Soft Part Sarcoma (ASPS).
+> **Core Objective**: Sarkome is a Single-Asset Entity (SAE) dedicated to identifying, validating, and licensing selective protein degraders (e.g., SAR-001) for Alveolar Soft Part Sarcoma (ASPS).
 
-## Core Documentation
+This document serves as the unified source of truth for Large Language Models (LLMs) interacting with the Sarkome web ecosystem. It aggregates critical scientific, philosophical, and technical context.
 
-- [Home](index.md): Overview of the ASPS Therapeutics Discovery Initiative, mission, and key scientific facts.
-- [About](about.md): The story and mission behind Sarkome.
+---
 
-## Research & Science
+## 1. The Sarkome Philosophy: "Venture Institute"
 
-- [ASPS Overview](asps.md): Detailed information on Alveolar Soft Part Sarcoma and the ASPSCR1-TFE3 fusion driver.
-- [The Gap](the_gap.md): Analysis of the "Epistemological Gap" in current discovery methods and the need for new approaches.
-- [Discovery Engine](discovery_engine.md): The virtual-first drug discovery platform using agentic AI and cloud labs.
-- [Roadmap](roadmap.md): Strategic development plan from in silico design to clinical proof of concept.
+Sarkome is not a standard startup or VC fund. It operates as a **Venture Institute**—a permanent, biology-first organization whose primary output is **de-risked therapeutic programs**.
 
-## Optional
+### The Problem: The "Epistemological Gap"
+Modern biotech is trapped between two failing extremes:
+1.  **Asset-centric startups**: Fast but binary (one failure = death).
+2.  **Platform companies**: Diverse but bloated (accumulate infrastructure faster than insight).
 
-- [Home Page](/): The main website landing page.
-- [About Page](/about): The website about page.
+Both fail to address the core problem in rare disease: the gap between knowing a genetic mutation (trivial) and knowing how to intervene causally and safely (complex).
+
+### The Solution: "Sniper Unit" Model
+Sarkome rejects high-throughput "shotgun" screening. Instead, it adopts a **"Sniper" philosophy**:
+*   **Hypothesis-First**: Theories are generated internally using causal logic.
+*   **Ruthless Discipline**: Bad ideas are killed quickly via *in silico* simulation or low-cost lab tests before major capital deployment.
+*   **Lean Hub**: A small high-expertise core team deploys capital to CROs only when uncertainty is sufficiently collapsed.
+
+---
+
+## 2. Cognitive Architecture: The "Virtual Mind"
+
+Sarkome's discovery engine is not just a database; it is a **cognitive architecture** designed to "think."
+
+### Structure
+*   **Substrate**: A generic Knowledge Graph (PrimeKG) enriched with proprietary data.
+*   **Topology**: Nodes (Genes, Drugs, Phenotypes) and Edges (Inhibits, Upregulates) form a semantic web.
+*   **Multi-Modal**: Unifies protein sequences, histopathology images, and text into a single vector space.
+
+### Memory Temperature (Resource Efficiency)
+The systems mimics biological "synaptic pruning" to manage computational resources:
+*   **Hot Memory (Active)**: Core ASPS knowledge (drivers, targets) kept in high-speed vector indices.
+*   **Warm Memory (Traversable)**: Adjacent oncology research, accessible via graph traversal but not preloaded.
+*   **Cold Memory (Archived)**: Pruned data that remains in the graph structure but is inactive until semantically triggered.
+
+### Reasoning Capabilities
+*   **Transitive Inference**: "If A inhibits B, and B upregulates C, then A may suppress C."
+*   **Analogical Leaps**: Transferring successful mechanisms from metabolically similar cancers to ASPS.
+*   **Negative Space**: Analyzing why previous drugs failed to find orthogonal approaches.
+
+---
+
+## 3. Scientific Target: Alveolar Soft Part Sarcoma (ASPS)
+
+*   **Disease Type**: Ultra-rare, chemotherapy-resistant soft tissue sarcoma.
+*   **Primary Driver**: The **ASPSCR1-TFE3** fusion protein.
+*   **Therapeutic Goal**: Develop a specific protein degrader (PROTAC/GLUE) that targets the fusion protein without affecting wild-type TFE3.
+*   **Current Status**: Discovery / Pre-clinical Validation.
+
+---
+
+## 4. Technical Implementation (The "Refinery")
+
+The software platform ("Refinery") allows researchers to interact with the Virtual Mind.
+
+### Frontend Stack (Sarkome React)
+*   **Framework**: React 19 (RC/Beta features) + Vite 6.
+*   **Visualization**: `react-force-graph-3d` (WebGL/Three.js) for immersive graph exploration.
+*   **Styling**: Tailwind CSS v4 (Bleeding edge) + Shadcn/UI.
+*   **Philosophy**: "Vibecoding" – High aesthetics, fluid animations, dark/glassmorphism UI.
+
+### Agent Pipeline (Backend)
+*   **Architecture**: Stateless LangGraph pipeline.
+*   **Workflow**:
+    1.  **Grounding**: Query PrimeKG & AlphaFold *before* LLM generation.
+    2.  **Reasoning**: Gemini/GPT-4o synthesizes findings.
+    3.  **Reflection**: Loop ensures sufficiency of evidence before answering.
+*   **Constraint**: No hallucinations. Every claim must be backed by a graph node or citation.
+
+---
+
+## 5. Navigation & Links
+
+*   **Repository Readme**: `/README.md` (Technical Setup)
+*   **Knowledge Graph**: `/graph` (Visual Interface)
+*   **Agent Chat**: `/` (Main Interface)

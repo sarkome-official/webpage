@@ -266,7 +266,7 @@ function formatContent(content: any): string {
 
 function extractUniProtIds(content: string, metadata?: any): string[] {
   const ids = new Set<string>();
-  
+
   // 1. Check metadata for explicit artifact
   if (metadata?.artifact?.type === 'protein_3d' && metadata.artifact.id) {
     ids.add(metadata.artifact.id);
@@ -385,11 +385,6 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
           )}
         </div>
       )}
-      <div className="prose prose-invert max-w-none">
-        <ReactMarkdown components={mdComponents}>
-          {formatted}
-        </ReactMarkdown>
-      </div>
 
       {activityForThisBubble && activityForThisBubble.length > 0 && (
         <div className="mt-3 border-t border-border pt-3 text-xs">
@@ -399,6 +394,12 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
           />
         </div>
       )}
+
+      <div className="prose prose-invert max-w-none">
+        <ReactMarkdown components={mdComponents}>
+          {formatted}
+        </ReactMarkdown>
+      </div>
 
       {uniProtIds.length > 0 && (
         <div className="mt-4 space-y-4">
@@ -455,7 +456,7 @@ export function ChatMessagesView({
   sourcesByMessageId,
   sourcesListByMessageId,
   rawEvents = [],
- 
+
 }: ChatMessagesViewProps) {
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const [showLogs, setShowLogs] = useState(false);
@@ -524,10 +525,10 @@ export function ChatMessagesView({
                     <Loader2 className="h-4 w-4 animate-spin text-primary" />
                   </div>
                   <span className="text-sm font-medium text-foreground animate-pulse">Agent is Thinking...</span>
-                  
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => setShowLogs(!showLogs)}
                     className="ml-auto text-[10px] uppercase tracking-widest text-muted-foreground hover:text-primary h-7"
                   >
@@ -542,7 +543,7 @@ export function ChatMessagesView({
                     <div className="h-[300px] rounded-lg overflow-hidden border border-border/50">
                       <RunLogs events={rawEvents} />
                     </div>
-                  ) : liveActivityEvents.length > 0 ? (
+                  ) : liveActivityEvents && liveActivityEvents.length > 0 ? (
                     <div className="text-xs">
                       <ActivityTimeline
                         processedEvents={liveActivityEvents}
@@ -555,7 +556,7 @@ export function ChatMessagesView({
                         <div className="absolute inset-0 rounded-full border-2 border-primary/20 animate-ping" />
                         <div className="absolute inset-2 rounded-full border-2 border-primary/40 animate-pulse" />
                         <div className="absolute inset-4 rounded-full bg-primary/20 flex items-center justify-center">
-                           <Database className="h-4 w-4 text-primary" />
+                          <Database className="h-4 w-4 text-primary" />
                         </div>
                       </div>
                       <span className="text-xs text-muted-foreground font-mono uppercase tracking-tighter">Initializing Neural Pathways...</span>

@@ -49,7 +49,7 @@ export const QueryBuilderView = () => {
     function pushLog(node: string, message?: string, raw?: any) {
         const msg = message ?? NODE_LABELS[node]?.message ?? `Ejecutando ${node}`;
         setAgentLogs((s) => {
-            const next = s.map(l => ({...l, status: l.status === 'active' ? 'done' : l.status}));
+            const next: LogEntry[] = s.map(l => ({...l, status: l.status === 'active' ? 'done' as const : l.status}));
             next.push({ node, message: msg, ts: Date.now(), status: 'active', raw });
             return next;
         });
