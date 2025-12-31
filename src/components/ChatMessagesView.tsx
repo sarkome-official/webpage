@@ -3,11 +3,7 @@ import rehypeSanitize from 'rehype-sanitize';
 import remarkGfm from "remark-gfm"; // Brought to top
 import { calculateCost, formatCost } from "@/lib/pricing";
 
-<div className="prose prose-invert max-w-none">
-  <ReactMarkdown components={mdComponents} rehypePlugins={[rehypeSanitize]} remarkPlugins={[remarkGfm]}>
-    {formatted}
-  </ReactMarkdown>
-</div>
+
 import type { ChatMessage } from "@/lib/chat-types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2, Copy, CopyCheck, Database, Terminal, ChevronDown, ChevronUp } from "lucide-react";
@@ -369,42 +365,45 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
 
   return (
     <div className={`relative break-words flex flex-col w-full`}>
-      {source && (
-        <div className="flex items-center gap-2 mb-2">
+      <div className="flex flex-wrap items-center gap-2 mb-2">
+        {source && (
           <Badge variant="outline" className="text-[10px] uppercase tracking-wider font-mono py-0 px-1.5 bg-primary/5 border-primary/20 text-primary/80">
             {source.replace(/_/g, ' ')}
           </Badge>
-          {message.usage && (
-            <Badge variant="outline" className="text-[10px] uppercase tracking-wider font-mono py-0 px-1.5 bg-green-500/10 border-green-500/20 text-green-500/80" title={`In: ${message.usage.input_tokens}, Out: ${message.usage.output_tokens}`}>
-              {formatCost(calculateCost(message.usage.input_tokens, message.usage.output_tokens, "gemini-1.5-pro"))}
-            </Badge>
-          )}
-          {ts && (
-            <span className="text-[10px] text-muted-foreground font-mono">
-              {new Date(ts).toLocaleTimeString()}
-            </span>
-          )}
-          {raw && (
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-4 w-4 text-muted-foreground hover:text-primary">
-                  <Database className="h-3 w-3" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[400px] p-0 bg-black border-border">
-                <div className="p-2 bg-muted/50 border-b border-border flex justify-between items-center">
-                  <span className="text-[10px] font-mono text-muted-foreground uppercase">Raw Node Output</span>
-                </div>
-                <ScrollArea className="h-[300px] w-full p-4">
-                  <pre className="text-[10px] font-mono text-green-400/90 whitespace-pre-wrap">
-                    {JSON.stringify(raw, null, 2)}
-                  </pre>
-                </ScrollArea>
-              </PopoverContent>
-            </Popover>
-          )}
-        </div>
-      )}
+        )}
+
+        {message.usage && (
+          <Badge variant="outline" className="text-[10px] uppercase tracking-wider font-mono py-0 px-1.5 bg-green-500/10 border-green-500/20 text-green-500/80" title={`In: ${message.usage.input_tokens}, Out: ${message.usage.output_tokens}`}>
+            {formatCost(calculateCost(message.usage.input_tokens, message.usage.output_tokens, "gemini-3.0-pro"))}
+          </Badge>
+        )}
+
+        {source && ts && (
+          <span className="text-[10px] text-muted-foreground font-mono">
+            {new Date(ts).toLocaleTimeString()}
+          </span>
+        )}
+
+        {source && raw && (
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-4 w-4 text-muted-foreground hover:text-primary">
+                <Database className="h-3 w-3" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[400px] p-0 bg-black border-border">
+              <div className="p-2 bg-muted/50 border-b border-border flex justify-between items-center">
+                <span className="text-[10px] font-mono text-muted-foreground uppercase">Raw Node Output</span>
+              </div>
+              <ScrollArea className="h-[300px] w-full p-4">
+                <pre className="text-[10px] font-mono text-green-400/90 whitespace-pre-wrap">
+                  {JSON.stringify(raw, null, 2)}
+                </pre>
+              </ScrollArea>
+            </PopoverContent>
+          </Popover>
+        )}
+      </div>
 
       {activityForThisBubble && activityForThisBubble.length > 0 && (
         <div className="mt-3 border-t border-border pt-3 text-xs">
