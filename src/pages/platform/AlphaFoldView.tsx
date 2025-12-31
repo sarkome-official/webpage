@@ -148,10 +148,10 @@ export const AlphaFoldView = () => {
     };
 
     return (
-        <div className="flex h-full w-full bg-background text-foreground overflow-hidden">
+        <div className="flex flex-col md:flex-row h-full w-full bg-background text-foreground overflow-hidden">
 
             {/* LEFT SIDEBAR: Search & Results */}
-            <div className="w-[400px] flex flex-col border-r border-border bg-muted/5">
+            <div className="w-full md:w-[350px] lg:w-[400px] flex flex-col border-b md:border-b-0 md:border-r border-border bg-muted/5 h-[40%] md:h-full">
 
                 {/* Header / Search Bar */}
                 <div className="p-4 space-y-4 border-b border-border bg-background/50 backdrop-blur">

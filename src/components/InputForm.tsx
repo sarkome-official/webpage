@@ -222,7 +222,7 @@ export const InputForm = ({
             <Select value={effort} onValueChange={setEffort}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <SelectTrigger className="h-7 w-[90px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2">
+                  <SelectTrigger className="h-7 w-[90px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2">
                     <SelectValue />
                   </SelectTrigger>
                 </TooltipTrigger>
@@ -267,9 +267,9 @@ export const InputForm = ({
 
             <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-start gap-x-8 gap-y-3 w-full sm:w-auto">
               <div className="flex items-center gap-3 w-full sm:w-auto">
-                <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 whitespace-nowrap w-[110px] shrink-0 text-left">Query & Reflection</span>
+                <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 whitespace-nowrap w-[110px] shrink-0 text-left">Query & Reflection</span>
                 <Select value={queryModel} onValueChange={setQueryModel}>
-                  <SelectTrigger className="h-7 min-w-[140px] sm:w-[130px] md:w-[160px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2 text-left justify-start">
+                  <SelectTrigger className="h-7 min-w-[140px] sm:w-[130px] md:w-[160px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2 text-left justify-start">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-popover border-border">
@@ -280,9 +280,9 @@ export const InputForm = ({
               </div>
 
               <div className="flex items-center gap-3 w-full sm:w-auto">
-                <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 whitespace-nowrap w-[110px] shrink-0 text-left">Answer</span>
+                <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 whitespace-nowrap w-[110px] shrink-0 text-left">Answer</span>
                 <Select value={answerModel} onValueChange={setAnswerModel}>
-                  <SelectTrigger className="h-7 min-w-[140px] sm:w-[130px] md:w-[160px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2 text-left justify-start">
+                  <SelectTrigger className="h-7 min-w-[140px] sm:w-[130px] md:w-[160px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2 text-left justify-start">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-popover border-border">

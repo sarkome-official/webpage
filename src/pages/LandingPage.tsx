@@ -29,7 +29,7 @@ export default function LandingPage() {
         <div className="text-text-main transition-colors duration-300 antialiased font-sans flex flex-col items-center min-h-screen relative">
             <div className="fixed inset-0 z-[-1] pointer-events-none bg-uiverse-grid"></div>
 
-            <div className="max-w-3xl w-full mx-auto px-6 py-12 md:py-20 space-y-24">
+            <div className="max-w-3xl w-full mx-auto px-4 md:px-6 py-12 md:py-20 space-y-24">
                 <Header />
 
                 <main className="space-y-24">

@@ -24,9 +24,27 @@ export const KnowledgeGraphNodes = () => {
     };
 
     useEffect(() => {
-        const handleResize = () => setDimensions({ width: window.innerWidth, height: window.innerHeight });
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        const updateDimensions = () => {
+            if (containerRef.current) {
+                setDimensions({
+                    width: containerRef.current.clientWidth,
+                    height: containerRef.current.clientHeight
+                });
+            }
+        };
+
+        // Initial measurement
+        updateDimensions();
+
+        const observer = new ResizeObserver(() => {
+            updateDimensions();
+        });
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        return () => observer.disconnect();
     }, []);
 
     // Efficiently load data once
@@ -142,8 +160,8 @@ export const KnowledgeGraphNodes = () => {
                     onClick={() => navigate('/knowledge-graph')}
                     variant="outline"
                     className={`gap-2 backdrop-blur-md border shadow-xl transition-colors ${isDark
-                            ? 'bg-black/60 border-white/20 text-white hover:bg-white/20'
-                            : 'bg-white/60 border-black/10 text-black hover:bg-black/5'
+                        ? 'bg-black/60 border-white/20 text-white hover:bg-white/20'
+                        : 'bg-white/60 border-black/10 text-black hover:bg-black/5'
                         }`}
                 >
                     <ArrowLeft className="w-4 h-4" />
@@ -153,8 +171,8 @@ export const KnowledgeGraphNodes = () => {
 
             {/* Entity 2: Information Overlay */}
             <div className={`absolute bottom-6 left-6 z-[100] backdrop-blur-md p-4 rounded-xl border select-none max-w-[280px] shadow-2xl transition-colors ${isDark
-                    ? 'bg-black/70 border-white/10 text-white'
-                    : 'bg-white/70 border-black/10 text-black'
+                ? 'bg-black/70 border-white/10 text-white'
+                : 'bg-white/70 border-black/10 text-black'
                 }`}>
                 <h3 className="text-sm font-bold mb-1 flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
@@ -172,8 +190,8 @@ export const KnowledgeGraphNodes = () => {
                     variant="outline"
                     size="icon"
                     className={`backdrop-blur-md border shadow-xl transition-colors rounded-full w-10 h-10 ${isDark
-                            ? 'bg-black/60 border-white/20 text-white hover:bg-white/20'
-                            : 'bg-white/60 border-black/10 text-black hover:bg-black/5'
+                        ? 'bg-black/60 border-white/20 text-white hover:bg-white/20'
+                        : 'bg-white/60 border-black/10 text-black hover:bg-black/5'
                         }`}
                 >
                     <Maximize2 className="w-4 h-4" />
