@@ -184,7 +184,7 @@ export function useAgent(options: UseAgentOptions) {
 
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
-        
+
         let streamBuffer = ""; // Buffer for raw stream chunks (line splitting)
         let messageContentBuffer = ""; // Buffer for accumulated message text
 
@@ -192,12 +192,13 @@ export function useAgent(options: UseAgentOptions) {
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-          
+
           const chunkText = decoder.decode(value, { stream: true });
           console.debug("[Stream Chunk]", chunkText); // Debug log
-          
+
           streamBuffer += chunkText;
-          const lines = streamBuffer.split(/\r?\n/);
+          // Split by either \r\n (Windows), \n (Unix), or just \r (Old Mac/weird streams)
+          const lines = streamBuffer.split(/\r\n|\n|\r/);
           streamBuffer = lines.pop() || ""; // Keep the last partial line
 
           for (const line of lines) {
@@ -207,24 +208,24 @@ export function useAgent(options: UseAgentOptions) {
 
             // Handle SSE format
             if (line.startsWith("event:")) {
-               // We can handle specific events here if needed
-               continue;
+              // We can handle specific events here if needed
+              continue;
             } else if (line.startsWith("data:")) {
-               const payload = line.slice(5).trim();
-               try {
-                 contentPiece = JSON.parse(payload);
-               } catch (e) {
-                 console.warn("Failed to parse SSE data JSON:", payload, e);
-                 contentPiece = payload;
-               }
+              const payload = line.slice(5).trim();
+              try {
+                contentPiece = JSON.parse(payload);
+              } catch (e) {
+                console.warn("Failed to parse SSE data JSON:", payload, e);
+                contentPiece = payload;
+              }
             } else {
-               // Try parsing line as direct JSON (legacy/fallback)
-               try {
-                 contentPiece = JSON.parse(line);
-               } catch (e) {
-                 // Treat as raw string if not JSON
-                 contentPiece = line;
-               }
+              // Try parsing line as direct JSON (legacy/fallback)
+              try {
+                contentPiece = JSON.parse(line);
+              } catch (e) {
+                // Treat as raw string if not JSON
+                contentPiece = line;
+              }
             }
 
             if (!contentPiece) continue;

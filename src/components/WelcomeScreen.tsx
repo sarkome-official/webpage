@@ -17,22 +17,22 @@ const SAMPLE_QUESTIONS = [
   {
     icon: <Activity className="w-5 h-5 text-purple-400" />,
     text: "Predict structural impact of V600E mutation on BRAF drug binding.",
-    short: "Mutation Impact Analysis",
+    short: "Structural & Variant Analysis",
   },
   {
     icon: <Sparkles className="w-5 h-5 text-amber-400" />,
     text: "Validate amyloid-beta toxicity hypothesis against 2024 clinical trial data.",
-    short: "Clinical Trial Validation",
+    short: "Hypothesis Validation",
   },
   {
     icon: <Network className="w-5 h-5 text-blue-400" />,
     text: "Map protein interactions connecting diabetes mechanisms to cardiovascular disease.",
-    short: "Mechanism Mapping",
+    short: "Network Discovery",
   },
   {
     icon: <Layers className="w-5 h-5 text-emerald-400" />,
-    text: "Complex Synthesis (Recursive Reflection)",
-    short: "Recursive Synthesis",
+    text: "Resolve conflicting studies regarding Cas9 off-target effects in T-cells.",
+    short: "Complex Synthesis",
   },
 ];
 
