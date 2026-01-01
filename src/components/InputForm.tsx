@@ -27,22 +27,22 @@ const EFFORT_SUMMARY: Record<
   }
 > = {
   low: {
-    depth: "Superficial",
-    latency: "Muy baja",
-    tokens: "Bajo",
-    hallucinationRisk: "Moderado (en tareas complejas)",
+    depth: "Surface",
+    latency: "Very Low",
+    tokens: "Low",
+    hallucinationRisk: "Moderate (complex tasks)",
   },
   medium: {
-    depth: "Estructurada",
-    latency: "Media",
-    tokens: "Medio",
-    hallucinationRisk: "Bajo",
+    depth: "Structured",
+    latency: "Medium",
+    tokens: "Medium",
+    hallucinationRisk: "Low",
   },
   high: {
-    depth: "Recursiva / Crítica",
-    latency: "Alta",
-    tokens: "Muy alto",
-    hallucinationRisk: "Mínimo",
+    depth: "Recursive / Critical",
+    latency: "High",
+    tokens: "Very High",
+    hallucinationRisk: "Minimal",
   },
 };
 
@@ -54,13 +54,13 @@ function EffortTooltipBody({ level }: { level: string }) {
     <div className="space-y-1.5">
       <div className="text-[10px] font-black tracking-[0.2em]">{label}</div>
       <div className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-[11px]">
-        <div className="opacity-80">Profundidad / CoT</div>
+        <div className="opacity-80">Depth / CoT</div>
         <div className="font-semibold">{info.depth}</div>
-        <div className="opacity-80">Latencia</div>
+        <div className="opacity-80">Latency</div>
         <div className="font-semibold">{info.latency}</div>
-        <div className="opacity-80">Tokens (inferencia)</div>
+        <div className="opacity-80">Tokens (inference)</div>
         <div className="font-semibold">{info.tokens}</div>
-        <div className="opacity-80">Riesgo alucinación lógica</div>
+        <div className="opacity-80">Logic Hallucination Risk</div>
         <div className="font-semibold">{info.hallucinationRisk}</div>
       </div>
     </div>
@@ -166,7 +166,7 @@ export const InputForm = ({
               value={internalInputValue}
               onChange={(e) => setInternalInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder={isLoading ? "Thinking..." : "Escribe un mensaje..."}
+              placeholder={isLoading ? "Thinking..." : "Type a message..."}
               disabled={isLoading}
               className="flex-1 bg-transparent border-0 focus-visible:ring-0 resize-none text-[14px] p-2 pr-20 min-h-[36px] max-h-[160px] leading-relaxed search-bar-input"
               rows={1}

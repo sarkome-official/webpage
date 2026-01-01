@@ -31,6 +31,7 @@ import {
     SidebarRail,
     SidebarFooter,
     SidebarSeparator,
+    useSidebar,
 } from "@/components/ui/sidebar"
 
 const data = {
@@ -84,6 +85,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const location = useLocation();
+    const { isMobile, setOpenMobile } = useSidebar();
     const [searchQuery, setSearchQuery] = React.useState("");
 
     const filteredNavMain = React.useMemo(() => {
@@ -146,7 +148,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                 : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                                                 }`}
                                         >
-                                            <Link to={item.url} className="flex items-center gap-3">
+                                            <Link
+                                                to={item.url}
+                                                className="flex items-center gap-3"
+                                                onClick={() => isMobile && setOpenMobile(false)}
+                                            >
                                                 <item.icon className={`size-4 shrink-0 ${isActive ? "text-foreground" : "text-muted-foreground"}`} />
                                                 <span className="text-xs">{item.title}</span>
                                                 {isActive && (

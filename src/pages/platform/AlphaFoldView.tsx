@@ -151,11 +151,11 @@ export const AlphaFoldView = () => {
         <div className="flex flex-col md:flex-row h-full w-full bg-background text-foreground overflow-hidden">
 
             {/* LEFT SIDEBAR: Search & Results */}
-            <div className="w-full md:w-[350px] lg:w-[400px] flex flex-col border-b md:border-b-0 md:border-r border-border bg-muted/5 h-[40%] md:h-full">
+            <div className="w-full md:w-[350px] lg:w-[400px] flex flex-col border-b md:border-b-0 md:border-r border-border bg-muted/5 h-[50%] md:h-full">
 
                 {/* Header / Search Bar */}
-                <div className="p-4 space-y-4 border-b border-border bg-background/50 backdrop-blur">
-                    <div className="flex items-center gap-2 mb-2">
+                <div className="p-2 md:p-4 space-y-2 md:space-y-4 border-b border-border bg-background/50 backdrop-blur">
+                    <div className="hidden md:flex items-center gap-2 mb-2">
                         <Box className="w-5 h-5 text-primary" />
                         <h2 className="font-bold text-lg tracking-tight">AlphaFold Hub</h2>
                     </div>
@@ -163,7 +163,7 @@ export const AlphaFoldView = () => {
                     <div className="relative">
                         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
-                            placeholder="Search protein (e.g. Insulin, BRCA1)..."
+                            placeholder="Search protein..."
                             className="pl-9 bg-background/50"
                             value={query}
                             onChange={(e) => {
@@ -258,7 +258,7 @@ export const AlphaFoldView = () => {
                 </ScrollArea>
 
                 {/* Footer */}
-                <div className="p-3 border-t border-border bg-muted/20 text-[10px] text-center text-muted-foreground">
+                <div className="hidden md:block p-3 border-t border-border bg-muted/20 text-[10px] text-center text-muted-foreground">
                     Data sourced from UniProtKB • Visualization via AlphaFold Server
                 </div>
             </div>
@@ -267,13 +267,13 @@ export const AlphaFoldView = () => {
             <div className="flex-1 flex flex-col bg-background relative">
                 {selectedProtein ? (
                     <>
-                        <div className="h-16 border-b border-border flex items-center justify-between px-6 bg-muted/5">
-                            <div>
-                                <div className="flex items-center gap-2">
-                                    <h1 className="text-xl font-bold">{selectedProtein.proteinName}</h1>
-                                    <Badge variant="outline" className="font-mono text-xs">{selectedProtein.accession}</Badge>
+                        <div className="min-h-16 h-auto py-4 border-b border-border flex flex-col md:flex-row items-start md:items-center justify-between px-4 md:px-6 bg-muted/5 gap-4">
+                            <div className="w-full md:w-auto">
+                                <div className="flex flex-col md:flex-row md:items-center gap-2 mb-1 md:mb-0">
+                                    <h1 className="text-lg md:text-xl font-bold leading-tight">{selectedProtein.proteinName}</h1>
+                                    <Badge variant="outline" className="font-mono text-xs w-fit">{selectedProtein.accession}</Badge>
                                 </div>
-                                <p className="text-sm text-muted-foreground flex items-center gap-2">
+                                <p className="text-sm text-muted-foreground flex flex-wrap items-center gap-2">
                                     <span className="font-semibold text-primary">{selectedProtein.geneName}</span>
                                     <span>•</span>
                                     <span>{selectedProtein.organismName}</span>
@@ -282,7 +282,7 @@ export const AlphaFoldView = () => {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="gap-2"
+                                className="w-full md:w-auto gap-2"
                                 onClick={() => window.open(`https://www.uniprot.org/uniprotkb/${selectedProtein.accession}/entry`, '_blank')}
                             >
                                 UniProt Profile

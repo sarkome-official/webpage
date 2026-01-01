@@ -13,7 +13,7 @@ export const KnowledgeGraphView = () => {
                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 h-full">
 
                         {/* Left Column: Content */}
-                        <div className="flex flex-col gap-8">
+                        <div className="flex flex-col gap-8 order-2 xl:order-1">
                             {/* Header */}
                             <div className="space-y-4">
                                 <div className="flex items-center gap-4">
@@ -95,7 +95,7 @@ export const KnowledgeGraphView = () => {
                         </div>
 
                         {/* Right Column: Visualization Preview */}
-                        <div className="flex flex-col h-full min-h-[500px] xl:min-h-0">
+                        <div className="flex flex-col h-full min-h-[500px] xl:min-h-0 order-1 xl:order-2">
                             <div className="flex-1 bg-black/40 border border-border rounded-3xl overflow-hidden relative group">
                                 {/* Top Label */}
                                 <div className="absolute top-6 left-6 z-10 flex items-center gap-2 px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-full border border-white/10">

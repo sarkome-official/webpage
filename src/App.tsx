@@ -51,19 +51,6 @@ export default function App() {
 
   const [activeThreadId] = useState(() => {
     const id = getOrCreateActiveThreadId();
-    try {
-      const nav = (performance && performance.getEntriesByType && performance.getEntriesByType("navigation") && (performance.getEntriesByType("navigation") as any)[0]) || null;
-      const isReload = nav && (nav as any).type === "reload";
-      if (isReload) {
-        const existing = getThread(id);
-        if (existing) {
-          // Clear messages on refresh but keep thread metadata
-          upsertThread({ ...existing, messages: [], updatedAt: Date.now() });
-        }
-      }
-    } catch {
-      // ignore if performance API not available
-    }
     return id;
   });
 

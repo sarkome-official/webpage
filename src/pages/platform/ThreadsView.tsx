@@ -59,9 +59,9 @@ export const ThreadsView = () => {
             <MessageSquare className="w-5 h-5 md:w-6 md:h-6 text-primary" />
           </div>
           <div className="min-w-0">
-            <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight truncate">Hilos (Threads) & Historial del Agente</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight truncate">Agent Threads & History</h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Historial de conversaciones guardado localmente (el backend no expone /threads).
+              Conversation history saved locally (backend does not expose /threads).
             </p>
           </div>
         </div>
@@ -71,32 +71,17 @@ export const ThreadsView = () => {
             <div className="flex items-start gap-3">
               <Database className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <div className="text-sm text-foreground font-semibold">Cómo funciona la persistencia</div>
+                <div className="text-sm text-foreground font-semibold">How persistence works</div>
                 <ul className="text-sm text-muted-foreground list-disc pl-5 space-y-1">
-                  <li>Hilos (Threads): Cada conversación se guarda localmente con un <span className="font-mono text-foreground">thread_id</span>.</li>
-                  <li>Persistencia Automática: El frontend guarda cada mensaje del usuario y cada respuesta del agente en <span className="font-mono text-foreground">localStorage</span>.</li>
-                  <li>Backend: El agente se invoca vía FastAPI en <span className="font-mono text-foreground">/runs</span> (invoke/stream).</li>
+                  <li>Threads: Each conversation is saved locally with a <span className="font-mono text-foreground">thread_id</span>.</li>
+                  <li>Auto Persistence: The frontend saves every user message and agent response to <span className="font-mono text-foreground">localStorage</span>.</li>
+                  <li>Backend: The agent is invoked via FastAPI at <span className="font-mono text-foreground">/runs</span> (invoke/stream).</li>
                 </ul>
               </div>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-muted/20 border border-border">
-            <div className="flex items-start gap-3">
-              <LinkIcon className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-              <div className="space-y-2">
-                <div className="text-sm text-foreground font-semibold">Endpoints</div>
-                <div className="text-xs text-muted-foreground">
-                  <div className="font-mono text-foreground">POST /runs/wait</div>
-                  <div className="font-mono text-foreground">POST /runs/stream</div>
-                  <div className="font-mono text-foreground">/runs/playground</div>
-                </div>
-                <div className="text-[11px] text-muted-foreground">
-                  Base URL actual: <span className="font-mono text-foreground">{agentUrl}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
 
@@ -106,11 +91,11 @@ export const ThreadsView = () => {
           <section className="lg:col-span-4 h-full rounded-xl border border-border bg-muted/10 overflow-hidden flex flex-col">
             <div className="p-4 border-b border-border">
               <div className="text-sm font-bold text-foreground">Threads</div>
-              <div className="text-xs text-muted-foreground mt-1">Selecciona un thread_id para ver el historial.</div>
+              <div className="text-xs text-muted-foreground mt-1">Select a thread_id to view history.</div>
             </div>
             <div className="flex-1 overflow-y-auto">
               {threads.length === 0 ? (
-                <div className="p-4 text-sm text-muted-foreground">No hay threads todavía.</div>
+                <div className="p-4 text-sm text-muted-foreground">No threads yet.</div>
               ) : (
                 <div className="p-2">
                   {threads.map((t, idx) => {
@@ -143,15 +128,15 @@ export const ThreadsView = () => {
           {/* Thread state */}
           <section className="lg:col-span-8 h-full rounded-xl border border-border bg-muted/10 overflow-hidden flex flex-col">
             <div className="p-4 border-b border-border">
-              <div className="text-sm font-bold text-foreground">Historial</div>
+              <div className="text-sm font-bold text-foreground">History</div>
               <div className="text-xs text-muted-foreground mt-1">
-                Thread seleccionado: <span className="font-mono text-foreground">{selectedThreadId || "—"}</span>
+                Selected Thread: <span className="font-mono text-foreground">{selectedThreadId || "—"}</span>
               </div>
             </div>
 
             <div className="flex-1 overflow-y-auto p-4">
               {!selectedThreadId ? (
-                <div className="text-sm text-muted-foreground">Selecciona un thread para ver su estado.</div>
+                <div className="text-sm text-muted-foreground">Select a thread to view its state.</div>
               ) : extractedMessages.length > 0 ? (
                 <div className="space-y-3">
                   {extractedMessages.map((m, i) => {
@@ -172,7 +157,7 @@ export const ThreadsView = () => {
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <div className="text-sm text-muted-foreground">No hay mensajes en este thread todavía.</div>
+                  <div className="text-sm text-muted-foreground">No messages in this thread yet.</div>
                 </div>
               )}
             </div>
@@ -186,7 +171,7 @@ export const ThreadsView = () => {
                   </div>
                   <h2 className="text-xl font-bold tracking-tight">We are working here</h2>
                   <p className="text-sm text-muted-foreground">
-                    The Threads management interface is currently under development. Stay tuned for updates!
+                    Chat history is currently saved here and in local storage.
                   </p>
                 </div>
                 <div className="mt-6 flex justify-center w-full">
