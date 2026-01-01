@@ -169,9 +169,9 @@ export const ThreadsView = () => {
                   <div className="p-3 bg-primary/10 rounded-full mb-2">
                     <LinkIcon className="w-6 h-6 text-primary" />
                   </div>
-                  <h2 className="text-xl font-bold tracking-tight">We are working here</h2>
+                  <h2 className="text-xl font-bold tracking-tight">Work in Progress</h2>
                   <p className="text-sm text-muted-foreground">
-                    Chat history is currently saved here and in local storage.
+                    Chat history is currently saved only in local storage.
                   </p>
                 </div>
                 <div className="mt-6 flex justify-center w-full">

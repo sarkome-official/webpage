@@ -282,15 +282,28 @@ export default function LandingPage() {
                                 { icon: AtSign, label: "Twitter / X", value: "@sarkome_ai", href: "https://x.com/sarkome_ai" },
                                 { icon: Code, label: "GitHub", value: "@sarkome-official", href: "https://github.com/sarkome-official" },
                                 { icon: Briefcase, label: "LinkedIn", value: "/company/sarkome", href: "https://www.linkedin.com/company/sarkome/" }
-                            ].map((social, i) => (
-                                <a key={i} className="flex justify-between items-center group text-text-muted hover:text-primary transition-colors" href={social.href}>
-                                    <div className="flex items-center gap-3">
-                                        <social.icon className="w-4 h-4" />
-                                        <span className="text-text-main">{social.label}</span>
-                                    </div>
-                                    <span className="mono-text text-xs opacity-60 text-text-main">{social.value} ↗</span>
-                                </a>
-                            ))}
+                            ].map((social, i) => {
+                                if (social.label === "Documentation") {
+                                    return (
+                                        <div key={i} className="flex justify-between items-center text-text-muted opacity-50 cursor-not-allowed select-none">
+                                            <div className="flex items-center gap-3">
+                                                <social.icon className="w-4 h-4" />
+                                                <span className="text-text-main">{social.label}</span>
+                                            </div>
+                                            <span className="mono-text text-xs opacity-60 text-text-main">{social.value}</span>
+                                        </div>
+                                    );
+                                }
+                                return (
+                                    <a key={i} className="flex justify-between items-center group text-text-muted hover:text-primary transition-colors" href={social.href}>
+                                        <div className="flex items-center gap-3">
+                                            <social.icon className="w-4 h-4" />
+                                            <span className="text-text-main">{social.label}</span>
+                                        </div>
+                                        <span className="mono-text text-xs opacity-60 text-text-main">{social.value} ↗</span>
+                                    </a>
+                                );
+                            })}
                         </div>
                     </section>
 
