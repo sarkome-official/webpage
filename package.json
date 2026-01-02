@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "postbuild": "tsx scripts/generate-sitemap.ts",
     "lint": "eslint .",
     "preview": "vite preview",
     "fetch-transformer": "node scripts/fetch-transformer.js"
@@ -51,6 +52,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "tsx": "^4.21.0",
     "tw-animate-css": "^1.2.9",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.26.1",
