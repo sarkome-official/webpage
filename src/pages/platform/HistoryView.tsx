@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { MessageSquare, Database, Link as LinkIcon } from "lucide-react";
+import { MessageSquare, Database, Link as LinkIcon, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { getAgentUrl } from "@/lib/langgraph-api";
 import type { ChatMessage } from "@/lib/chat-types";
-import { getThread, listThreads, type StoredThread } from "@/lib/local-threads";
+import { getThread, listThreads, type StoredThread, setActiveThreadId, createThreadId } from "@/lib/local-threads";
 
 
 
@@ -21,7 +22,7 @@ function stringifyContent(content: unknown): string {
   }
 }
 
-export const ThreadsView = () => {
+export const HistoryView = () => {
   const [showWipDialog, setShowWipDialog] = useState(true);
   const agentUrl = useMemo(() => getAgentUrl(), []);
 
@@ -31,6 +32,15 @@ export const ThreadsView = () => {
     const first = listThreads()[0];
     return first?.id ?? null;
   });
+  const navigate = useNavigate();
+
+
+
+  const handleOpenSelectedThread = () => {
+    if (!selectedThreadId) return;
+    setActiveThreadId(selectedThreadId);
+    window.location.href = "/platform";
+  };
 
   useEffect(() => {
     // Refresh list on mount and when the browser storage changes (other tabs).
@@ -58,10 +68,10 @@ export const ThreadsView = () => {
           <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
             <MessageSquare className="w-5 h-5 md:w-6 md:h-6 text-primary" />
           </div>
-          <div className="min-w-0">
-            <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight truncate">Agent Threads & History</h1>
+          <div className="min-w-0 mr-auto">
+            <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight truncate">Chat History</h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Conversation history saved locally (backend does not expose /threads).
+              Your conversation history is saved locally in your browser.
             </p>
           </div>
         </div>
@@ -73,9 +83,9 @@ export const ThreadsView = () => {
               <div className="space-y-1">
                 <div className="text-sm text-foreground font-semibold">How persistence works</div>
                 <ul className="text-sm text-muted-foreground list-disc pl-5 space-y-1">
-                  <li>Threads: Each conversation is saved locally with a <span className="font-mono text-foreground">thread_id</span>.</li>
-                  <li>Auto Persistence: The frontend saves every user message and agent response to <span className="font-mono text-foreground">localStorage</span>.</li>
-                  <li>Backend: The agent is invoked via FastAPI at <span className="font-mono text-foreground">/runs</span> (invoke/stream).</li>
+                  <li>Each conversation is saved locally with a unique identifier.</li>
+                  <li>User messages and agent responses are automatically persisted to <span className="font-mono text-foreground">localStorage</span>.</li>
+                  <li>Conversations persist across browser sessions until cleared.</li>
                 </ul>
               </div>
             </div>
@@ -88,12 +98,12 @@ export const ThreadsView = () => {
           {/* Threads list */}
           <section className="md:col-span-4 h-full rounded-xl border border-border bg-muted/10 overflow-hidden flex flex-col">
             <div className="p-4 border-b border-border">
-              <div className="text-sm font-bold text-foreground">Threads</div>
-              <div className="text-xs text-muted-foreground mt-1">Select a thread_id to view history.</div>
+              <div className="text-sm font-bold text-foreground">Conversations</div>
+              <div className="text-xs text-muted-foreground mt-1">Select a conversation to view its messages.</div>
             </div>
             <div className="flex-1 overflow-y-auto">
               {threads.length === 0 ? (
-                <div className="p-4 text-sm text-muted-foreground">No threads yet.</div>
+                <div className="p-4 text-sm text-muted-foreground">No conversations yet.</div>
               ) : (
                 <div className="p-2">
                   {threads.map((t, idx) => {
@@ -125,16 +135,28 @@ export const ThreadsView = () => {
 
           {/* Thread state */}
           <section className="md:col-span-8 h-full rounded-xl border border-border bg-muted/10 overflow-hidden flex flex-col">
-            <div className="p-4 border-b border-border">
-              <div className="text-sm font-bold text-foreground">History</div>
-              <div className="text-xs text-muted-foreground mt-1">
-                Selected Thread: <span className="font-mono text-foreground">{selectedThreadId || "—"}</span>
+            <div className="p-4 border-b border-border flex items-center justify-between gap-4">
+              <div>
+                <div className="text-sm font-bold text-foreground">Messages</div>
+                <div className="text-xs text-muted-foreground mt-1 truncate">
+                  Selected: <span className="font-mono text-foreground">{selectedThreadId || "—"}</span>
+                </div>
               </div>
+
+              {selectedThreadId && (
+                <button
+                  onClick={handleOpenSelectedThread}
+                  className="flex items-center gap-2 border border-primary/30 bg-primary/10 text-primary px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-primary/20 transition-all shrink-0 active:scale-95"
+                >
+                  <span>Open in Chat</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
 
             <div className="flex-1 overflow-y-auto p-4">
               {!selectedThreadId ? (
-                <div className="text-sm text-muted-foreground">Select a thread to view its state.</div>
+                <div className="text-sm text-muted-foreground">Select a conversation to view its messages.</div>
               ) : extractedMessages.length > 0 ? (
                 <div className="space-y-3">
                   {extractedMessages.map((m, i) => {

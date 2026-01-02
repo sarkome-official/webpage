@@ -45,6 +45,11 @@ const data = {
                     icon: Search,
                 },
                 {
+                    title: "Chat History",
+                    url: "/history",
+                    icon: MessageSquare,
+                },
+                {
                     title: "Knowledge Graph",
                     url: "/knowledge-graph",
                     icon: Network,
@@ -70,13 +75,6 @@ const data = {
                     title: "API",
                     url: "/api",
                     icon: Code,
-                },
-
-
-                {
-                    title: "Threads",
-                    url: "/threads",
-                    icon: MessageSquare,
                 },
             ],
         },

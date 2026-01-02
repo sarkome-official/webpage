@@ -14,7 +14,7 @@ const KnowledgeGraph = lazy(() => import("@/pages/platform/KnowledgeGraphView").
 const KnowledgeGraphNodes = lazy(() => import("@/pages/platform/KnowledgeGraphNodes").then(m => ({ default: m.KnowledgeGraphNodes })));
 const AlphaFoldView = lazy(() => import("@/pages/platform/AlphaFoldView").then(m => ({ default: m.AlphaFoldView })));
 const ApiView = lazy(() => import("@/pages/platform/ApiView").then(m => ({ default: m.ApiView })));
-const ThreadsView = lazy(() => import("@/pages/platform/ThreadsView").then(m => ({ default: m.ThreadsView })));
+const HistoryView = lazy(() => import("@/pages/platform/HistoryView").then(m => ({ default: m.HistoryView })));
 const SimulationView = lazy(() => import("@/pages/platform/SimulationView").then(m => ({ default: m.SimulationView })));
 const LandingPage = lazy(() => import("@/pages/LandingPage"));
 const ProgramDetail = lazy(() => import("@/pages/programs/ProgramDetail"));
@@ -22,7 +22,7 @@ const DocsLayout = lazy(() => import("@/pages/docs/DocsLayout").then(m => ({ def
 const DocPage = lazy(() => import("@/pages/docs/DocPage"));
 
 const LoadingFallback = () => (
-  <div className="flex items-center justify-center h-full w-full">
+  <div className="flex items-center justify-center min-h-screen w-full">
     <Loader2 className="w-8 h-8 animate-spin text-primary" />
   </div>
 );
@@ -75,7 +75,7 @@ export default function App() {
     location.pathname === "/knowledge-graph-nodes" ||
     location.pathname === "/api" ||
 
-    location.pathname === "/threads";
+    location.pathname === "/history";
 
   const thread = useAgent({
     url: getAgentUrl(),
@@ -253,11 +253,18 @@ export default function App() {
     }
   }, [thread.messages]);
 
+  // Track previous loading state to detect when loading ends
+  const wasLoadingRef = useRef(false);
+
   useEffect(() => {
+    // Detect when loading transitions from true to false (run completed)
+    const justFinishedLoading = wasLoadingRef.current && !thread.isLoading;
+    wasLoadingRef.current = thread.isLoading;
+
     if (
-      hasFinalizeEventOccurredRef.current &&
-      !thread.isLoading &&
-      thread.messages.length > 0
+      justFinishedLoading &&
+      thread.messages.length > 0 &&
+      processedEventsTimeline.length > 0
     ) {
       const lastMessage = thread.messages[thread.messages.length - 1];
       if (lastMessage && lastMessage.type === "ai" && lastMessage.id) {
@@ -397,10 +404,15 @@ export default function App() {
       <div className="flex h-screen bg-background text-foreground font-sans antialiased w-full">
         <AppSidebar />
         <SidebarInset className="flex flex-col flex-1 overflow-hidden bg-background">
-          <header className="flex h-14 items-center gap-4 border-b border-border bg-background/50 px-6 backdrop-blur-xl sticky top-0 z-10">
+          <header className="flex h-14 items-center gap-3 border-b border-border bg-background/50 px-4 sm:px-6 backdrop-blur-xl sticky top-0 z-10">
             <SidebarTrigger className="text-[#7E22CE] hover:text-[#7E22CE] transition-colors" />
 
-            <div className="ml-auto flex items-center gap-4">
+            {/* App branding - visible on mobile */}
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-sm tracking-tight text-foreground">Sarkome</span>
+            </div>
+
+            <div className="ml-auto flex items-center gap-3">
               <ThemeToggle />
             </div>
           </header>
@@ -414,7 +426,7 @@ export default function App() {
                 <Route path="/api" element={<ApiView />} />
                 <Route path="/sim" element={<SimulationView />} />
 
-                <Route path="/threads" element={<ThreadsView />} />
+                <Route path="/history" element={<HistoryView />} />
                 <Route path="/platform" element={
                   <div className="max-w-4xl mx-auto h-full">
                     {thread.messages.length === 0 ? (

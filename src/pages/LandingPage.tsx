@@ -54,7 +54,7 @@ const SUBSTRATE_STATS = [
 // Data: Social Links
 const SOCIAL_LINKS = [
     { icon: FileText, label: "Documentation", value: "sarkome.com/docs", href: "/docs/intro", disabled: true },
-    { icon: Mail, label: "Email", value: "partners@sarkome.bio", href: "mailto:partners@sarkome.bio" },
+    { icon: Mail, label: "Email", value: "contact@sarkome.com", href: "mailto:contact@sarkome.com" },
     { icon: AtSign, label: "Twitter / X", value: "@sarkome_ai", href: "https://x.com/sarkome", disabled: true },
     { icon: Code, label: "GitHub", value: "@sarkome-official", href: "https://github.com/sarkome-official" },
     { icon: Briefcase, label: "LinkedIn", value: "/company/sarkome", href: "https://www.linkedin.com/company/sarkome/" }
@@ -66,7 +66,7 @@ export default function LandingPage() {
         <div className="text-text-main transition-colors duration-300 antialiased font-sans flex flex-col items-center min-h-screen relative">
             <div className="fixed inset-0 z-[-1] pointer-events-none bg-uiverse-grid"></div>
 
-            <div className="max-w-3xl w-full mx-auto px-4 md:px-6 py-12 md:py-20 space-y-24">
+            <div className="max-w-3xl w-full mx-auto px-4 md:px-6 py-12 md:py-20 space-y-12">
                 <Header />
 
                 <main className="space-y-24">

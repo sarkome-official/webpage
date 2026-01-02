@@ -6,7 +6,8 @@ import { calculateCost, formatCost } from "@/lib/pricing";
 
 import type { ChatMessage } from "@/lib/chat-types";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Loader2, Copy, CopyCheck, Database, Terminal, ChevronDown, ChevronUp } from "lucide-react";
+import { Loader2, Copy, CopyCheck, Database, Terminal, ChevronDown, ChevronUp, Plus } from "lucide-react";
+import { setActiveThreadId, createThreadId } from "@/lib/local-threads";
 import { InputForm } from "@/components/InputForm";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -304,6 +305,23 @@ function extractUniProtIds(content: string, metadata?: any): string[] {
   return Array.from(ids);
 }
 
+// Helper to shorten source names for mobile
+function shortenSourceName(source: string): { full: string; short: string } {
+  const mapping: Record<string, string> = {
+    'query_knowledge_graph': 'KG',
+    'query_alphafold': 'AlphaFold',
+    'web_research': 'Web',
+    'generate_query': 'Query',
+    'reflection': 'Reflect',
+    'finalize_answer': 'Final',
+  };
+  const normalized = source.toLowerCase().replace(/[\s-]/g, '_');
+  return {
+    full: source.replace(/_/g, ' '),
+    short: mapping[normalized] || source.replace(/_/g, ' ').slice(0, 8)
+  };
+}
+
 // Props for HumanMessageBubble
 interface HumanMessageBubbleProps {
   message: ChatMessage;
@@ -350,6 +368,12 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
   handleCopy,
   copiedMessageId,
 }) => {
+  const handleNewChat = () => {
+    const newId = createThreadId();
+    setActiveThreadId(newId);
+    window.location.href = "/platform";
+  };
+
   // Determine which activity events to show and if it's for a live loading message
   const activityForThisBubble =
     isLastMessage && isOverallLoading ? liveActivity : historicalActivity;
@@ -368,7 +392,8 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
       <div className="flex flex-wrap items-center gap-2 mb-2">
         {source && (
           <Badge variant="outline" className="text-[10px] uppercase tracking-wider font-mono py-0 px-1.5 bg-primary/5 border-primary/20 text-primary/80">
-            {source.replace(/_/g, ' ')}
+            <span className="hidden sm:inline">{shortenSourceName(source).full}</span>
+            <span className="sm:hidden">{shortenSourceName(source).short}</span>
           </Badge>
         )}
 
@@ -391,12 +416,12 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
                 <Database className="h-3 w-3" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[400px] p-0 bg-black border-border">
+            <PopoverContent className="w-[400px] max-w-[95vw] p-0 bg-popover border-border shadow-lg">
               <div className="p-2 bg-muted/50 border-b border-border flex justify-between items-center">
                 <span className="text-[10px] font-mono text-muted-foreground uppercase">Raw Node Output</span>
               </div>
-              <ScrollArea className="h-[300px] w-full p-4">
-                <pre className="text-[10px] font-mono text-green-400/90 whitespace-pre-wrap">
+              <ScrollArea className="h-[300px] w-full p-4 bg-muted/20">
+                <pre className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 whitespace-pre-wrap">
                   {JSON.stringify(raw, null, 2)}
                 </pre>
               </ScrollArea>
@@ -405,8 +430,37 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
         )}
       </div>
 
+      {/* Thinking indicator with breathing animation - shows when loading with no content */}
+      {isLiveActivityForThisBubble && formatted.trim().length === 0 && (
+        <div className="flex items-center gap-2 py-3">
+          <div className="flex items-center gap-1.5">
+            <span
+              className="w-1.5 h-1.5 rounded-full bg-primary"
+              style={{ animation: 'breathing 1.5s ease-in-out infinite' }}
+            ></span>
+            <span
+              className="w-1.5 h-1.5 rounded-full bg-primary"
+              style={{ animation: 'breathing 1.5s ease-in-out infinite 0.2s' }}
+            ></span>
+            <span
+              className="w-1.5 h-1.5 rounded-full bg-primary"
+              style={{ animation: 'breathing 1.5s ease-in-out infinite 0.4s' }}
+            ></span>
+          </div>
+          <span className="text-sm text-muted-foreground animate-pulse">Thinking...</span>
+        </div>
+      )}
+
+      {/* Message content - rendered first */}
+      <div className="prose prose-invert max-w-none overflow-hidden break-words [overflow-wrap:anywhere]">
+        <ReactMarkdown components={mdComponents} rehypePlugins={[rehypeSanitize]} remarkPlugins={[remarkGfm]}>
+          {formatted}
+        </ReactMarkdown>
+      </div>
+
+      {/* Research timeline - rendered after content */}
       {activityForThisBubble && activityForThisBubble.length > 0 && (
-        <div className="mt-3 border-t border-border pt-3 text-xs">
+        <div className="mt-4 text-xs">
           <ActivityTimeline
             processedEvents={activityForThisBubble}
             isLoading={isLiveActivityForThisBubble}
@@ -414,14 +468,7 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
         </div>
       )}
 
-
-      // ...
-      <div className="prose prose-invert max-w-none">
-        <ReactMarkdown components={mdComponents} rehypePlugins={[rehypeSanitize]} remarkPlugins={[remarkGfm]}>
-          {formatted}
-        </ReactMarkdown>
-      </div>
-
+      {/* Protein cards */}
       {uniProtIds.length > 0 && (
         <div className="mt-4 space-y-4">
           {uniProtIds.map(id => (
@@ -430,18 +477,32 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
         </div>
       )}
 
-      <Button
-        variant="ghost"
-        size="sm"
-        className={`cursor-pointer text-muted-foreground hover:text-foreground self-end mt-2 ${formatted.length > 0 ? "visible" : "hidden"
-          }`}
-        onClick={() =>
-          handleCopy(formatted, message.id!)
-        }
-      >
-        {copiedMessageId === message.id ? "Copied" : "Copy"}
-        {copiedMessageId === message.id ? <CopyCheck className="ml-2 h-4 w-4" /> : <Copy className="ml-2 h-4 w-4" />}
-      </Button>
+      {/* Show action buttons only when conversation is finished (not loading) */}
+      {formatted.length > 0 && (!isLastMessage || !isOverallLoading) && (
+        <div className="flex items-center justify-between mt-2">
+          <button
+            onClick={handleNewChat}
+            className="flex items-center gap-2 bg-primary/10 text-primary px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-primary/20 transition-all shrink-0 active:scale-95"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>New Chat</span>
+          </button>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            className="cursor-pointer text-muted-foreground hover:text-foreground h-8 px-2 sm:px-3"
+            onClick={() => handleCopy(formatted, message.id!)}
+            title={copiedMessageId === message.id ? "Copied" : "Copy to clipboard"}
+          >
+            {copiedMessageId === message.id ? (
+              <><CopyCheck className="h-4 w-4" /><span className="hidden sm:inline ml-1.5">Copied</span></>
+            ) : (
+              <><Copy className="h-4 w-4" /><span className="hidden sm:inline ml-1.5">Copy</span></>
+            )}
+          </Button>
+        </div>
+      )}
 
       {/* transform buttons removed */}
     </div>
@@ -564,7 +625,7 @@ export function ChatMessagesView({
   return (
     <div className="flex flex-col h-full">
       <ScrollArea className="flex-1 overflow-y-auto" ref={scrollAreaRef}>
-        <div className="p-4 md:p-6 space-y-2 max-w-4xl mx-auto pt-16">
+        <div className="p-4 md:p-6 space-y-2 max-w-4xl mx-auto pt-16 w-full overflow-x-hidden">
           {messages.map((message, index) => (
             <MessageRow
               key={message.id || `msg-${index}`}

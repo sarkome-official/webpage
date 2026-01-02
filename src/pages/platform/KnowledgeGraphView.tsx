@@ -58,27 +58,9 @@ export const KnowledgeGraphView = () => {
                                     PrimeKG integrates disparate biomedical datasets into a unified graph structure, bridging the gap between molecular interactions and clinical outcomes. This architecture enables high-fidelity analysis for precision medicine applications.
                                 </p>
 
-                                <div className="relative pl-6">
-                                    <div className="absolute left-0 top-1 bottom-1 w-1 bg-purple-600 rounded-full"></div>
-                                    <p className="text-xl md:text-2xl font-medium italic text-foreground tracking-tight">
-                                        "Not just this disease, but specifically <span className="text-purple-500">this patient's disease context</span>."
-                                    </p>
-                                </div>
 
-                                <ul className="space-y-3 pt-2">
-                                    {[
-                                        "Drug-disease prediction algorithms",
-                                        "Traceable off-label use edges",
-                                        "Multi-modal analysis support"
-                                    ].map((item, i) => (
-                                        <li key={i} className="flex items-center gap-3 text-base">
-                                            <div className="bg-purple-500/10 p-1 rounded-full">
-                                                <Check className="w-3.5 h-3.5 text-purple-500" strokeWidth={3} />
-                                            </div>
-                                            <span className="text-foreground/90">{item}</span>
-                                        </li>
-                                    ))}
-                                </ul>
+
+
                             </div>
 
                             {/* Actions */}

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { SquarePen, Brain, Send, StopCircle, Zap, Cpu, Users, Search, Activity, Box, Plus, ArrowUp, Loader2, Database } from "lucide-react";
+import { SquarePen, Brain, Send, StopCircle, Zap, Cpu, Users, Search, Activity, Box, Plus, ArrowUp, Loader2, Database, ChevronDown } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -152,7 +152,7 @@ export const InputForm = ({
     <>
       <form
         onSubmit={handleInternalSubmit}
-        className="flex flex-col gap-4 w-full"
+        className="flex flex-col gap-4 w-full px-3 sm:px-4 pb-4 sm:pb-6"
       >
         <div className="flex items-start justify-between mt-1 w-full">
           <div
@@ -178,15 +178,111 @@ export const InputForm = ({
             />
 
             <div className="flex items-center justify-between gap-2 px-3 pb-2 pt-1">
-              <button
-                data-slot="button"
-                className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-9 h-8 w-8 rounded-full transition-colors search-bar-button"
-                type="button"
-                aria-label="Add attachment or extra tool"
-              >
-                <Plus className="size-4" />
-              </button>
+              {/* Left side: Plus button + Effort selector */}
+              <div className="flex items-center gap-2">
+                <button
+                  data-slot="button"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-9 h-8 w-8 rounded-full transition-colors search-bar-button"
+                  type="button"
+                  aria-label="Add attachment or extra tool"
+                >
+                  <Plus className="size-4" />
+                </button>
 
+                {/* Effort selector - inline in input bar */}
+                <div className="flex items-center bg-accent/30 border border-border rounded-full px-2 sm:px-3 py-0.5 backdrop-blur-sm">
+                  <Brain className="size-3 text-muted-foreground/60 mr-1.5" />
+                  <Select value={effort} onValueChange={setEffort}>
+                    <SelectTrigger className="h-6 w-[60px] sm:w-[75px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-foreground/90 p-0 hover:text-foreground transition-all" aria-label="Select effort level">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover border-border">
+                      <Tooltip open={hoveredEffort === 'low'} onOpenChange={(open) => !open && setHoveredEffort(null)}>
+                        <TooltipTrigger asChild>
+                          <div onMouseEnter={() => setHoveredEffort('low')} onMouseLeave={() => setHoveredEffort(null)}>
+                            <SelectItem value="low" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Low</SelectItem>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
+                          <EffortTooltipBody level="low" />
+                        </TooltipContent>
+                      </Tooltip>
+                      <Tooltip open={hoveredEffort === 'medium'} onOpenChange={(open) => !open && setHoveredEffort(null)}>
+                        <TooltipTrigger asChild>
+                          <div onMouseEnter={() => setHoveredEffort('medium')} onMouseLeave={() => setHoveredEffort(null)}>
+                            <SelectItem value="medium" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Medium</SelectItem>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
+                          <EffortTooltipBody level="medium" />
+                        </TooltipContent>
+                      </Tooltip>
+                      <Tooltip open={hoveredEffort === 'high'} onOpenChange={(open) => !open && setHoveredEffort(null)}>
+                        <TooltipTrigger asChild>
+                          <div onMouseEnter={() => setHoveredEffort('high')} onMouseLeave={() => setHoveredEffort(null)}>
+                            <SelectItem value="high" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">High</SelectItem>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
+                          <EffortTooltipBody level="high" />
+                        </TooltipContent>
+                      </Tooltip>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Models selector - inline in input bar */}
+                <div className="flex items-center bg-accent/30 border border-border rounded-full px-2 sm:px-3 py-0.5 backdrop-blur-sm">
+                  <Cpu className="size-3 text-muted-foreground/60 mr-1.5" />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        className="flex items-center justify-between h-6 w-[60px] sm:w-[75px] bg-transparent border-none focus:ring-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-foreground/90 p-0 hover:text-foreground transition-all"
+                      >
+                        <span>Model</span>
+                        <ChevronDown className="size-4 opacity-50" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-72 p-4 bg-popover border-border" align="center">
+                      <div className="space-y-4">
+                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 flex items-center gap-2">
+                          <Cpu className="size-3" />
+                          Model Configuration
+                        </div>
+                        <div className="space-y-3">
+                          <div className="space-y-1.5">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50">Query & Reflection</span>
+                            <Select value={queryModel} onValueChange={setQueryModel}>
+                              <SelectTrigger className="h-8 w-full bg-accent/30 border-border text-xs font-semibold" aria-label="Select query model">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent className="bg-popover border-border">
+                                <SelectItem value="gemini-3-pro-preview" className="text-xs">Gemini 3 Pro</SelectItem>
+                                <SelectItem value="gemini-3-flash-preview" className="text-xs">Gemini 3 Flash</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="space-y-1.5">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50">Answer</span>
+                            <Select value={answerModel} onValueChange={setAnswerModel}>
+                              <SelectTrigger className="h-8 w-full bg-accent/30 border-border text-xs font-semibold" aria-label="Select answer model">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent className="bg-popover border-border">
+                                <SelectItem value="gemini-3-pro-preview" className="text-xs">Gemini 3 Pro</SelectItem>
+                                <SelectItem value="gemini-3-flash-preview" className="text-xs">Gemini 3 Flash</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </div>
+
+              {/* Right side: Send/Cancel button */}
               {isLoading ? (
                 <Button
                   type="button"
@@ -214,87 +310,6 @@ export const InputForm = ({
                   <ArrowUp className="size-4" />
                 </Button>
               )}
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-center gap-3 flex-wrap">
-          <div className="flex items-center bg-accent/30 border border-border rounded-full px-4 py-1 backdrop-blur-sm">
-            <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 border-r border-border pr-4 mr-2">
-              <Brain className="size-3" />
-              EFFORT
-            </div>
-            <Select value={effort} onValueChange={setEffort}>
-              <SelectTrigger className="h-7 w-[100px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2" aria-label="Select effort level">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="bg-popover border-border">
-                <Tooltip open={hoveredEffort === 'low'} onOpenChange={(open) => !open && setHoveredEffort(null)}>
-                  <TooltipTrigger asChild>
-                    <div onMouseEnter={() => setHoveredEffort('low')} onMouseLeave={() => setHoveredEffort(null)}>
-                      <SelectItem value="low" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Low</SelectItem>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
-                    <EffortTooltipBody level="low" />
-                  </TooltipContent>
-                </Tooltip>
-                <Tooltip open={hoveredEffort === 'medium'} onOpenChange={(open) => !open && setHoveredEffort(null)}>
-                  <TooltipTrigger asChild>
-                    <div onMouseEnter={() => setHoveredEffort('medium')} onMouseLeave={() => setHoveredEffort(null)}>
-                      <SelectItem value="medium" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Medium</SelectItem>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
-                    <EffortTooltipBody level="medium" />
-                  </TooltipContent>
-                </Tooltip>
-                <Tooltip open={hoveredEffort === 'high'} onOpenChange={(open) => !open && setHoveredEffort(null)}>
-                  <TooltipTrigger asChild>
-                    <div onMouseEnter={() => setHoveredEffort('high')} onMouseLeave={() => setHoveredEffort(null)}>
-                      <SelectItem value="high" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">High</SelectItem>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
-                    <EffortTooltipBody level="high" />
-                  </TooltipContent>
-                </Tooltip>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-start sm:items-center bg-accent/30 border border-border rounded-2xl sm:rounded-full px-5 py-3.5 sm:py-1.5 gap-4 sm:gap-4 backdrop-blur-sm w-full sm:w-auto">
-            <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 sm:border-r border-border sm:pr-4 sm:mr-2 shrink-0">
-              <Cpu className="size-3" />
-              MODEL
-            </div>
-
-            <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-start gap-x-8 gap-y-3 w-full sm:w-auto">
-              <div className="flex items-center gap-3 w-full sm:w-auto">
-                <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 whitespace-nowrap shrink-0 text-left">Query & Reflection</span>
-                <Select value={queryModel} onValueChange={setQueryModel}>
-                  <SelectTrigger className="h-7 w-auto min-w-[140px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2 text-left justify-start" aria-label="Select query model">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-popover border-border">
-                    <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Pro</SelectItem>
-                    <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Flash</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="flex items-center gap-3 w-full sm:w-auto">
-                <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50 whitespace-nowrap shrink-0 text-left">Answer</span>
-                <Select value={answerModel} onValueChange={setAnswerModel}>
-                  <SelectTrigger className="h-7 w-auto min-w-[140px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-foreground/90 p-0 hover:text-foreground hover:bg-accent/50 transition-all rounded-md px-2 text-left justify-start" aria-label="Select answer model">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-popover border-border">
-                    <SelectItem value="gemini-3-pro-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Pro</SelectItem>
-                    <SelectItem value="gemini-3-flash-preview" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Gemini 3 Flash</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
           </div>
         </div>
