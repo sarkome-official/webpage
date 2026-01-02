@@ -78,15 +78,15 @@ export default function LandingPage() {
                             </div>
                             <div>
                                 <h1 className="font-semibold text-lg text-text-main transition-none duration-0">Sarkome Institute</h1>
-                                <p className="text-sm text-text-main">Generative Biotechnology</p>
+                                <p className="text-sm text-text-main">Computational Oncology</p>
                             </div>
                         </div>
                         <div className="space-y-6">
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">
-                                Biomedical Reasoning <span className="text-primary">Engine</span>
+                                Oncology Reasoning <span className="text-primary">Engine</span>
                             </h2>
                             <p className="text-base md:text-lg text-text-main leading-relaxed max-w-xl">
-                                A graph reasoning system that validates hypotheses by cross-referencing PrimeKG, AlphaFold, and real-time literature.
+                                A graph-driven reasoning system that validates cancer hypotheses by integrating PrimeKG, AlphaFold, and context-constrained real-time literature..
                             </p>
                             <div className="pt-2">
                                 <Link to="/platform" className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary transition-all group" aria-label="Enter Sarkome platform">
