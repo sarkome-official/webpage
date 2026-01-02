@@ -16,7 +16,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export interface ProcessedEvent {
   title: string;
@@ -66,11 +66,7 @@ export function ActivityTimeline({
     return <Activity className="h-4 w-4 text-neutral-400" />;
   };
 
-  useEffect(() => {
-    if (!isLoading && processedEvents.length !== 0) {
-      setIsTimelineCollapsed(true);
-    }
-  }, [isLoading, processedEvents]);
+  // Auto-collapse removed: Research timeline now stays expanded after conversation ends
 
   return (
     <Card className="border-none rounded-lg bg-neutral-700 max-h-96">
@@ -110,7 +106,7 @@ export function ActivityTimeline({
                 {processedEvents.map((eventItem, index) => (
                   <div key={index} className="relative pl-8 pb-4">
                     {index < processedEvents.length - 1 ||
-                    (isLoading && index === processedEvents.length - 1) ? (
+                      (isLoading && index === processedEvents.length - 1) ? (
                       <div className="absolute left-3 top-3.5 h-full w-0.5 bg-neutral-600" />
                     ) : null}
                     <div className="absolute left-0.5 top-2 h-6 w-6 rounded-full bg-neutral-600 flex items-center justify-center ring-4 ring-neutral-700">
@@ -138,8 +134,8 @@ export function ActivityTimeline({
                         {typeof eventItem.data === "string"
                           ? eventItem.data
                           : Array.isArray(eventItem.data)
-                          ? (eventItem.data as string[]).join(", ")
-                          : JSON.stringify(eventItem.data)}
+                            ? (eventItem.data as string[]).join(", ")
+                            : JSON.stringify(eventItem.data)}
                       </p>
                       {expanded[index] && (
                         <pre className="mt-2 p-2 rounded bg-neutral-800 text-xs overflow-auto border border-neutral-700 max-h-64">{JSON.stringify(eventItem.raw ?? eventItem.data, null, 2)}</pre>
