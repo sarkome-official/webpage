@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
 import { ProcessedEvent } from "@/components/ActivityTimeline";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { ChatMessagesView } from "@/components/ChatMessagesView";
@@ -7,18 +7,26 @@ import { ThemeToggle } from "@/components/molecules";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { KnowledgeGraphView as KnowledgeGraph } from "@/pages/platform/KnowledgeGraphView";
-import { KnowledgeGraphNodes } from "@/pages/platform/KnowledgeGraphNodes";
-import LandingPage from "@/pages/LandingPage";
-import { AlphaFoldView } from "@/pages/platform/AlphaFoldView";
-import { ApiView } from "@/pages/platform/ApiView";
+import { Loader2 } from "lucide-react";
 
+// Lazy loaded components
+const KnowledgeGraph = lazy(() => import("@/pages/platform/KnowledgeGraphView").then(m => ({ default: m.KnowledgeGraphView })));
+const KnowledgeGraphNodes = lazy(() => import("@/pages/platform/KnowledgeGraphNodes").then(m => ({ default: m.KnowledgeGraphNodes })));
+const AlphaFoldView = lazy(() => import("@/pages/platform/AlphaFoldView").then(m => ({ default: m.AlphaFoldView })));
+const ApiView = lazy(() => import("@/pages/platform/ApiView").then(m => ({ default: m.ApiView })));
+const ThreadsView = lazy(() => import("@/pages/platform/ThreadsView").then(m => ({ default: m.ThreadsView })));
+const SimulationView = lazy(() => import("@/pages/platform/SimulationView").then(m => ({ default: m.SimulationView })));
+const LandingPage = lazy(() => import("@/pages/LandingPage"));
+const ProgramDetail = lazy(() => import("@/pages/programs/ProgramDetail"));
+const DocsLayout = lazy(() => import("@/pages/docs/DocsLayout").then(m => ({ default: m.DocsLayout })));
+const DocPage = lazy(() => import("@/pages/docs/DocPage"));
 
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center h-full w-full">
+    <Loader2 className="w-8 h-8 animate-spin text-primary" />
+  </div>
+);
 
-import { ThreadsView } from "@/pages/platform/ThreadsView";
-import ProgramDetail from "@/pages/programs/ProgramDetail";
-import { DocsLayout } from "@/pages/docs/DocsLayout";
-import DocPage from "@/pages/docs/DocPage";
 import { docsConfig } from "@/lib/docs-config";
 import { Navigate } from "react-router-dom";
 import { getAgentUrl } from "@/lib/langgraph-api";
@@ -370,15 +378,17 @@ export default function App() {
 
   if (!isPlatformRoute) {
     return (
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/programs/:id" element={<ProgramDetail />} />
-        <Route path="/docs" element={<DocsLayout />}>
-          <Route index element={<Navigate to={`/docs/${docsConfig[0].slug}`} replace />} />
-          <Route path=":slug" element={<DocPage />} />
-        </Route>
-        <Route path="*" element={<LandingPage />} />
-      </Routes>
+      <Suspense fallback={<LoadingFallback />}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/programs/:id" element={<ProgramDetail />} />
+          <Route path="/docs" element={<DocsLayout />}>
+            <Route index element={<Navigate to={`/docs/${docsConfig[0].slug}`} replace />} />
+            <Route path=":slug" element={<DocPage />} />
+          </Route>
+          <Route path="*" element={<LandingPage />} />
+        </Routes>
+      </Suspense>
     );
   }
 
@@ -389,87 +399,63 @@ export default function App() {
         <SidebarInset className="flex flex-col flex-1 overflow-hidden bg-background">
           <header className="flex h-14 items-center gap-4 border-b border-border bg-background/50 px-6 backdrop-blur-xl sticky top-0 z-10">
             <SidebarTrigger className="text-[#7E22CE] hover:text-[#7E22CE] transition-colors" />
-            <div className="h-4 w-[1px] bg-border" />
-            <div className="flex items-center gap-2 text-xs font-medium tracking-wide">
-              <span className="text-muted-foreground uppercase tracking-widest">Sarkome OS</span>
-              <span className="text-muted-foreground/50">/</span>
-              <span className="text-foreground capitalize">
-                {(() => {
-                  if (location.pathname === "/platform") return "Query Builder";
-                  if (location.pathname === "/") return "Sarkome Institute";
 
-                  const lastPart = location.pathname.split("/").pop() || "";
-                  const routeMap: Record<string, string> = {
-                    'knowledge-graph': 'Knowledge Substrate',
-
-                    'sim': 'Simulation Lab',
-                    'alphafold': 'AlphaFold 3',
-                    'audit': 'Investigation Audit',
-                    'constitution': 'System Constitution',
-                    'api': 'Developer Hub',
-
-
-                    'threads': 'Threads'
-                  };
-
-                  return routeMap[lastPart] || lastPart.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-                })()}
-              </span>
-            </div>
             <div className="ml-auto flex items-center gap-4">
               <ThemeToggle />
             </div>
           </header>
           <main className="h-full w-full mx-auto overflow-y-auto no-scrollbar">
-            <Routes>
-              <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
-              <Route path="/knowledge-graph-nodes" element={<KnowledgeGraphNodes />} />
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
+                <Route path="/knowledge-graph-nodes" element={<KnowledgeGraphNodes />} />
 
-              <Route path="/alphafold" element={<AlphaFoldView />} />
-              <Route path="/api" element={<ApiView />} />
+                <Route path="/alphafold" element={<AlphaFoldView />} />
+                <Route path="/api" element={<ApiView />} />
+                <Route path="/sim" element={<SimulationView />} />
 
+                <Route path="/threads" element={<ThreadsView />} />
+                <Route path="/platform" element={
+                  <div className="max-w-4xl mx-auto h-full">
+                    {thread.messages.length === 0 ? (
+                      <WelcomeScreen
+                        handleSubmit={handleSubmit}
+                        isLoading={thread.isLoading}
+                        onCancel={handleCancel}
+                      />
+                    ) : error ? (
+                      <div className="flex flex-col items-center justify-center h-full">
+                        <div className="flex flex-col items-center justify-center gap-4">
+                          <h1 className="text-2xl text-red-400 font-bold">Error</h1>
+                          <p className="text-red-400">{JSON.stringify(error)}</p>
 
-              <Route path="/threads" element={<ThreadsView />} />
-              <Route path="/platform" element={
-                <div className="max-w-4xl mx-auto h-full">
-                  {thread.messages.length === 0 ? (
-                    <WelcomeScreen
-                      handleSubmit={handleSubmit}
-                      isLoading={thread.isLoading}
-                      onCancel={handleCancel}
-                    />
-                  ) : error ? (
-                    <div className="flex flex-col items-center justify-center h-full">
-                      <div className="flex flex-col items-center justify-center gap-4">
-                        <h1 className="text-2xl text-red-400 font-bold">Error</h1>
-                        <p className="text-red-400">{JSON.stringify(error)}</p>
-
-                        <Button
-                          variant="destructive"
-                          onClick={() => window.location.reload()}
-                        >
-                          Retry
-                        </Button>
+                          <Button
+                            variant="destructive"
+                            onClick={() => window.location.reload()}
+                          >
+                            Retry
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    <ChatMessagesView
-                      messages={thread.messages}
-                      isLoading={thread.isLoading}
-                      scrollAreaRef={scrollAreaRef}
-                      onSubmit={handleSubmit}
-                      onCancel={handleCancel}
-                      liveActivityEvents={processedEventsTimeline}
-                      historicalActivities={historicalActivities}
-                      sourcesByMessageId={sourcesByMessageId}
-                      sourcesListByMessageId={sourcesListByMessageId}
-                      rawEvents={rawEvents}
+                    ) : (
+                      <ChatMessagesView
+                        messages={thread.messages}
+                        isLoading={thread.isLoading}
+                        scrollAreaRef={scrollAreaRef}
+                        onSubmit={handleSubmit}
+                        onCancel={handleCancel}
+                        liveActivityEvents={processedEventsTimeline}
+                        historicalActivities={historicalActivities}
+                        sourcesByMessageId={sourcesByMessageId}
+                        sourcesListByMessageId={sourcesListByMessageId}
+                        rawEvents={rawEvents}
 
-                    />
-                  )}
-                </div>
-              } />
-            </Routes>
+                      />
+                    )}
+                  </div>
+                } />
+              </Routes>
+            </Suspense>
           </main>
         </SidebarInset>
       </div>

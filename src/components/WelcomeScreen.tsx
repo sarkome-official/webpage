@@ -60,21 +60,22 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-3xl">
+      <div className="grid grid-cols-2 gap-3 md:gap-4 w-full max-w-3xl">
         {SAMPLE_QUESTIONS.map((q, i) => (
           <button
             key={i}
             onClick={() => handleQuestionClick(q.text)}
-            className="flex items-center gap-4 p-4 rounded-xl border border-border bg-muted/10 hover:bg-muted/30 hover:border-primary/30 transition-all text-left group"
+            className="flex flex-col md:flex-row items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl border border-border bg-muted/10 hover:bg-muted/30 hover:border-primary/40 hover:shadow-sm transition-all text-center md:text-left group h-full relative overflow-hidden"
+            aria-label={`Ask about ${q.short}`}
           >
-            <div className="p-3 rounded-lg bg-background/50 border border-border group-hover:scale-110 transition-transform">
+            <div className={`p-2 md:p-3 rounded-lg bg-background/50 border border-border group-hover:scale-110 group-hover:border-primary/30 transition-all shrink-0 ${isLoading ? 'opacity-50' : ''}`}>
               {q.icon}
             </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-sm font-semibold text-foreground">
+            <div className="flex flex-col gap-1 min-w-0">
+              <span className="text-sm font-semibold text-foreground leading-tight group-hover:text-primary transition-colors">
                 {q.short}
               </span>
-              <span className="text-xs text-muted-foreground line-clamp-1">
+              <span className="text-xs text-muted-foreground line-clamp-2 md:line-clamp-1">
                 {q.text}
               </span>
             </div>
@@ -91,9 +92,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
           setInputControl={selectedQuestion}
         />
       </div>
-      <p className="text-[11px] text-muted-foreground/60 font-medium tracking-wide">
-        Powered by Google Gemini and LangChain LangGraph.
-      </p>
+
     </div>
   );
 };

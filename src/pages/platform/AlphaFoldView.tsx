@@ -16,7 +16,6 @@ import {
 import { ProteinViewer } from '@/components/molecules/ProteinViewer';
 import { searchProteins, type UniProtResult } from '@/lib/uniprot-service';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
@@ -41,15 +40,15 @@ const SearchResultCard = ({
         <div
             onClick={() => onSelect(result)}
             className={`
-        p-3 rounded-lg border cursor-pointer transition-all hover:bg-accent/50 group
+        w-full max-w-full overflow-hidden p-3 rounded-lg border cursor-pointer transition-all hover:bg-accent/50 group
         ${isSelected ? 'bg-primary/10 border-primary/50' : 'bg-muted/20 border-border'}
       `}
         >
-            <div className="flex justify-between items-start mb-1">
-                <h4 className={`font-bold text-sm truncate pr-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+            <div className="flex justify-between items-start mb-1 gap-2 min-w-0">
+                <h4 className={`font-bold text-sm truncate min-w-0 flex-1 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
                     {result.proteinName}
                 </h4>
-                {result.length && <Badge variant="outline" className="text-[10px] h-5 px-1">{result.length} aa</Badge>}
+                {result.length && <Badge variant="outline" className="text-[10px] h-5 px-1 shrink-0">{result.length} aa</Badge>}
             </div>
 
             <div className="flex flex-wrap gap-2 text-xs text-muted-foreground mb-2">
@@ -151,7 +150,7 @@ export const AlphaFoldView = () => {
         <div className="flex flex-col md:flex-row h-full w-full bg-background text-foreground overflow-hidden">
 
             {/* LEFT SIDEBAR: Search & Results */}
-            <div className="w-full md:w-[350px] lg:w-[400px] flex flex-col border-b md:border-b-0 md:border-r border-border bg-muted/5 h-[50%] md:h-full">
+            <div className="w-full md:w-[350px] lg:w-[400px] shrink-0 flex flex-col border-b md:border-b-0 md:border-r border-border bg-muted/5 h-[50%] md:h-full overflow-hidden">
 
                 {/* Header / Search Bar */}
                 <div className="p-2 md:p-4 space-y-2 md:space-y-4 border-b border-border bg-background/50 backdrop-blur">
@@ -200,62 +199,64 @@ export const AlphaFoldView = () => {
                     </div>
                 </div>
 
-                {/* List Content */}
-                <ScrollArea className="flex-1 p-4">
-                    {viewMode === 'search' ? (
-                        <div className="space-y-3">
-                            {query.length > 0 && results.length === 0 && !isLoading && (
-                                <div className="text-center py-8 text-muted-foreground text-sm">
-                                    No matching proteins found.
-                                </div>
-                            )}
-                            {query.length === 0 && (
-                                <div className="text-center py-8 text-muted-foreground text-sm flex flex-col items-center">
-                                    <Activity className="w-8 h-8 opacity-20 mb-2" />
-                                    <p>Start typing to search UniProtKB</p>
-                                </div>
-                            )}
-                            {results.map((item) => (
-                                <SearchResultCard
-                                    key={item.accession}
-                                    result={item}
-                                    onSelect={handleSelect}
-                                    isSelected={selectedProtein?.accession === item.accession}
-                                />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="space-y-3">
-                            {history.length === 0 && (
-                                <div className="text-center py-8 text-muted-foreground text-sm">
-                                    No search history yet.
-                                </div>
-                            )}
-                            {history.length > 0 && (
-                                <div className="flex justify-between items-center px-1 mb-2">
-                                    <span className="text-xs text-muted-foreground">Recent</span>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="h-5 text-[10px] text-destructive hover:bg-destructive/10"
-                                        onClick={clearHistory}
-                                    >
-                                        <Trash2 className="w-3 h-3 mr-1" />
-                                        Clear
-                                    </Button>
-                                </div>
-                            )}
-                            {history.map((item) => (
-                                <SearchResultCard
-                                    key={item.accession + '_hist'}
-                                    result={item}
-                                    onSelect={handleSelect}
-                                    isSelected={selectedProtein?.accession === item.accession}
-                                />
-                            ))}
-                        </div>
-                    )}
-                </ScrollArea>
+                {/* List Content - using native scroll instead of ScrollArea to avoid Radix display:table issue */}
+                <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden subtle-scrollbar">
+                    <div className="p-4">
+                        {viewMode === 'search' ? (
+                            <div className="space-y-3">
+                                {query.length > 0 && results.length === 0 && !isLoading && (
+                                    <div className="text-center py-8 text-muted-foreground text-sm">
+                                        No matching proteins found.
+                                    </div>
+                                )}
+                                {query.length === 0 && (
+                                    <div className="text-center py-8 text-muted-foreground text-sm flex flex-col items-center">
+                                        <Activity className="w-8 h-8 opacity-20 mb-2" />
+                                        <p>Start typing to search UniProtKB</p>
+                                    </div>
+                                )}
+                                {results.map((item) => (
+                                    <SearchResultCard
+                                        key={item.accession}
+                                        result={item}
+                                        onSelect={handleSelect}
+                                        isSelected={selectedProtein?.accession === item.accession}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="space-y-3">
+                                {history.length === 0 && (
+                                    <div className="text-center py-8 text-muted-foreground text-sm">
+                                        No search history yet.
+                                    </div>
+                                )}
+                                {history.length > 0 && (
+                                    <div className="flex justify-between items-center px-1 mb-2">
+                                        <span className="text-xs text-muted-foreground">Recent</span>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-5 text-[10px] text-destructive hover:bg-destructive/10"
+                                            onClick={clearHistory}
+                                        >
+                                            <Trash2 className="w-3 h-3 mr-1" />
+                                            Clear
+                                        </Button>
+                                    </div>
+                                )}
+                                {history.map((item) => (
+                                    <SearchResultCard
+                                        key={item.accession + '_hist'}
+                                        result={item}
+                                        onSelect={handleSelect}
+                                        isSelected={selectedProtein?.accession === item.accession}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
 
                 {/* Footer */}
                 <div className="hidden md:block p-3 border-t border-border bg-muted/20 text-[10px] text-center text-muted-foreground">

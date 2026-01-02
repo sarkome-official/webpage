@@ -66,8 +66,8 @@ export const ThreadsView = () => {
           </div>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2 p-4 rounded-xl bg-muted/20 border border-border">
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="sm:col-span-2 lg:col-span-2 p-4 rounded-xl bg-muted/20 border border-border">
             <div className="flex items-start gap-3">
               <Database className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div className="space-y-1">
@@ -80,15 +80,13 @@ export const ThreadsView = () => {
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
 
       <div className="flex-1 overflow-hidden p-4 md:p-8">
-        <div className="h-full grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+        <div className="h-full grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
           {/* Threads list */}
-          <section className="lg:col-span-4 h-full rounded-xl border border-border bg-muted/10 overflow-hidden flex flex-col">
+          <section className="md:col-span-4 h-full rounded-xl border border-border bg-muted/10 overflow-hidden flex flex-col">
             <div className="p-4 border-b border-border">
               <div className="text-sm font-bold text-foreground">Threads</div>
               <div className="text-xs text-muted-foreground mt-1">Select a thread_id to view history.</div>
@@ -126,7 +124,7 @@ export const ThreadsView = () => {
           </section>
 
           {/* Thread state */}
-          <section className="lg:col-span-8 h-full rounded-xl border border-border bg-muted/10 overflow-hidden flex flex-col">
+          <section className="md:col-span-8 h-full rounded-xl border border-border bg-muted/10 overflow-hidden flex flex-col">
             <div className="p-4 border-b border-border">
               <div className="text-sm font-bold text-foreground">History</div>
               <div className="text-xs text-muted-foreground mt-1">

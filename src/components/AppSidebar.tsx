@@ -103,13 +103,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <Sidebar variant="inset" className="bg-background" {...props}>
             <SidebarHeader className="p-4 pt-6">
                 <div className="flex flex-col gap-4">
-                    <Link to="/platform" className="flex items-center gap-3 px-1 hover:opacity-80 transition-opacity group">
+                    <Link to="/platform" className="flex items-center gap-3 px-1 hover:opacity-80 transition-opacity group" aria-label="Sarkome Home">
                         <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-white/5 border border-white/10 group-hover:scale-105 transition-transform">
                             <img src="/logo_purple_nobackground.svg" alt="Sarkome Logo" className="size-5 object-contain" />
                         </div>
                         <div className="flex flex-col">
                             <h2 className="text-sm font-bold tracking-tight text-foreground uppercase">
-                                Sarkome OS
+                                Sarkome
                             </h2>
                             <p className="text-[10px] text-muted-foreground font-medium leading-none tracking-tighter">
                                 Precision Research AI
@@ -126,6 +126,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="flex h-8 w-full items-center rounded-md border border-border bg-muted/50 pl-8 pr-3 text-[11px] text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-1 focus:ring-primary/50 transition-all shadow-xs"
+                            aria-label="Search modules"
                         />
                     </div>
                 </div>

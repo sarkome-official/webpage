@@ -43,12 +43,12 @@ export const KnowledgeGraphView = () => {
                                     <div className="text-2xl font-black text-foreground">4,050,249</div>
                                 </div>
                                 <div className="bg-muted/30 border border-border p-4 rounded-xl">
-                                    <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Data Sources</div>
-                                    <div className="text-2xl font-black text-foreground">20</div>
+                                    <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Total Nodes</div>
+                                    <div className="text-2xl font-black text-foreground">129,375</div>
                                 </div>
                                 <div className="bg-muted/30 border border-border p-4 rounded-xl">
-                                    <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Biological Scales</div>
-                                    <div className="text-2xl font-black text-foreground">10</div>
+                                    <div className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Data Sources</div>
+                                    <div className="text-2xl font-black text-foreground">20</div>
                                 </div>
                             </div>
 
@@ -103,21 +103,57 @@ export const KnowledgeGraphView = () => {
                                     <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Live Preview - 2900 Node Sample</span>
                                 </div>
 
-                                {/* Placeholder Graph Visuals (Background) */}
-                                <div className="absolute inset-0 opacity-30 group-hover:opacity-40 transition-opacity duration-1000">
+                                {/* Animated Graph Visuals (Background) */}
+                                <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-1000">
                                     <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-500/20 rounded-full blur-[80px]"></div>
                                     <div className="absolute bottom-1/3 right-1/4 w-48 h-48 bg-blue-500/20 rounded-full blur-[100px]"></div>
-                                    <svg className="w-full h-full opacity-20" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                        <circle cx="20" cy="20" r="1" fill="currentColor" className="text-white" />
-                                        <circle cx="80" cy="30" r="1" fill="currentColor" className="text-white" />
-                                        <circle cx="50" cy="50" r="1.5" fill="currentColor" className="text-purple-400" />
-                                        <circle cx="30" cy="80" r="1" fill="currentColor" className="text-white" />
-                                        <circle cx="70" cy="70" r="1" fill="currentColor" className="text-white" />
 
-                                        <line x1="20" y1="20" x2="50" y2="50" stroke="currentColor" strokeWidth="0.1" className="text-muted-foreground" />
-                                        <line x1="80" y1="30" x2="50" y2="50" stroke="currentColor" strokeWidth="0.1" className="text-muted-foreground" />
-                                        <line x1="30" y1="80" x2="50" y2="50" stroke="currentColor" strokeWidth="0.1" className="text-muted-foreground" />
-                                        <line x1="70" y1="70" x2="50" y2="50" stroke="currentColor" strokeWidth="0.1" className="text-muted-foreground" />
+                                    {/* Animated nodes */}
+                                    <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                        {/* Connecting lines - subtle pulse */}
+                                        <g className="opacity-30">
+                                            <line x1="20" y1="20" x2="50" y2="50" stroke="currentColor" strokeWidth="0.15" className="text-purple-400" />
+                                            <line x1="80" y1="30" x2="50" y2="50" stroke="currentColor" strokeWidth="0.15" className="text-purple-400" />
+                                            <line x1="30" y1="80" x2="50" y2="50" stroke="currentColor" strokeWidth="0.15" className="text-purple-400" />
+                                            <line x1="70" y1="70" x2="50" y2="50" stroke="currentColor" strokeWidth="0.15" className="text-purple-400" />
+                                            <line x1="15" y1="55" x2="50" y2="50" stroke="currentColor" strokeWidth="0.1" className="text-blue-400" />
+                                            <line x1="85" y1="65" x2="70" y2="70" stroke="currentColor" strokeWidth="0.1" className="text-blue-400" />
+                                        </g>
+
+                                        {/* Animated floating nodes */}
+                                        <circle cx="20" cy="20" r="1.2" fill="currentColor" className="text-white/70">
+                                            <animate attributeName="cy" values="20;18;22;20" dur="4s" repeatCount="indefinite" />
+                                            <animate attributeName="cx" values="20;21;19;20" dur="5s" repeatCount="indefinite" />
+                                        </circle>
+                                        <circle cx="80" cy="30" r="1" fill="currentColor" className="text-white/60">
+                                            <animate attributeName="cy" values="30;32;28;30" dur="3.5s" repeatCount="indefinite" />
+                                            <animate attributeName="cx" values="80;78;81;80" dur="4.5s" repeatCount="indefinite" />
+                                        </circle>
+                                        <circle cx="50" cy="50" r="2" fill="currentColor" className="text-purple-400">
+                                            <animate attributeName="r" values="2;2.3;1.8;2" dur="3s" repeatCount="indefinite" />
+                                        </circle>
+                                        <circle cx="30" cy="80" r="1" fill="currentColor" className="text-white/60">
+                                            <animate attributeName="cy" values="80;78;82;80" dur="4.2s" repeatCount="indefinite" />
+                                            <animate attributeName="cx" values="30;32;29;30" dur="5.5s" repeatCount="indefinite" />
+                                        </circle>
+                                        <circle cx="70" cy="70" r="1.2" fill="currentColor" className="text-white/70">
+                                            <animate attributeName="cy" values="70;72;68;70" dur="3.8s" repeatCount="indefinite" />
+                                            <animate attributeName="cx" values="70;68;71;70" dur="4.8s" repeatCount="indefinite" />
+                                        </circle>
+                                        <circle cx="15" cy="55" r="0.8" fill="currentColor" className="text-blue-400/60">
+                                            <animate attributeName="cy" values="55;53;57;55" dur="4.5s" repeatCount="indefinite" />
+                                            <animate attributeName="cx" values="15;17;14;15" dur="5.2s" repeatCount="indefinite" />
+                                        </circle>
+                                        <circle cx="85" cy="65" r="0.8" fill="currentColor" className="text-blue-400/60">
+                                            <animate attributeName="cy" values="65;67;63;65" dur="4s" repeatCount="indefinite" />
+                                            <animate attributeName="cx" values="85;83;86;85" dur="4.3s" repeatCount="indefinite" />
+                                        </circle>
+                                        <circle cx="40" cy="35" r="0.6" fill="currentColor" className="text-white/40">
+                                            <animate attributeName="cy" values="35;33;37;35" dur="5s" repeatCount="indefinite" />
+                                        </circle>
+                                        <circle cx="60" cy="85" r="0.6" fill="currentColor" className="text-white/40">
+                                            <animate attributeName="cy" values="85;83;87;85" dur="4.7s" repeatCount="indefinite" />
+                                        </circle>
                                     </svg>
                                 </div>
 
@@ -125,9 +161,10 @@ export const KnowledgeGraphView = () => {
                                 <div className="absolute inset-0 flex items-center justify-center z-20">
                                     <button
                                         onClick={() => navigate('/knowledge-graph-nodes')}
-                                        className="group/btn relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden transition-transform hover:scale-105 active:scale-95"
+                                        className="group/btn relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden transition-transform hover:scale-105 active:scale-95 shadow-2xl shadow-white/20"
                                     >
                                         <span className="relative z-10 flex items-center gap-2">
+                                            <Play className="w-4 h-4 fill-current" />
                                             Initialize Visualization
                                         </span>
                                     </button>

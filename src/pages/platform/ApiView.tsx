@@ -68,23 +68,7 @@ export const ApiView = () => {
                             </div>
 
                             {/* Helpful Links */}
-                            <div className="bg-primary/5 border border-primary/20 rounded-xl p-5">
-                                <h3 className="text-primary font-bold text-sm mb-3">Documentation Resources</h3>
-                                <ul className="flex flex-col gap-3">
-                                    <li className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary cursor-pointer transition-colors">
-                                        <FileText className="w-4 h-4" />
-                                        Neo4j Schema Reference
-                                    </li>
-                                    <li className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary cursor-pointer transition-colors">
-                                        <Lock className="w-4 h-4" />
-                                        Authentication & Scopes Guide
-                                    </li>
-                                    <li className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary cursor-pointer transition-colors">
-                                        <Webhook className="w-4 h-4" />
-                                        Webhooks Configuration
-                                    </li>
-                                </ul>
-                            </div>
+
                         </div>
                     </div>
                 </section>

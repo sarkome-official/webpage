@@ -10,7 +10,7 @@ import { Loader2, Copy, CopyCheck, Database, Terminal, ChevronDown, ChevronUp } 
 import { InputForm } from "@/components/InputForm";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -448,6 +448,73 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
   );
 };
 
+// New MessageRow component to properly handle hooks per message
+interface MessageRowProps {
+  message: ChatMessage;
+  index: number;
+  isLast: boolean;
+  isLoading: boolean;
+  baseMdComponents: any;
+  sourcesByMessageId?: Record<string, Record<string, string>>;
+  sourcesListByMessageId?: Record<string, Array<{ label?: string; url: string; id?: string }>>;
+  historicalActivities: Record<string, ProcessedEvent[]>;
+  liveActivityEvents?: ProcessedEvent[];
+  handleCopy: (text: string, messageId: string) => void;
+  copiedMessageId: string | null;
+}
+
+const MessageRow: React.FC<MessageRowProps> = ({
+  message,
+  index,
+  isLast,
+  isLoading,
+  baseMdComponents,
+  sourcesByMessageId,
+  sourcesListByMessageId,
+  historicalActivities,
+  liveActivityEvents,
+  handleCopy,
+  copiedMessageId,
+}) => {
+  const msgMdComponents = useMemo(() => {
+    if (message.type === "ai" && message.id) {
+      return makeMdComponents({
+        sourcesByLabel: sourcesByMessageId?.[message.id],
+        sourcesList: sourcesListByMessageId?.[message.id],
+      });
+    }
+    return baseMdComponents;
+  }, [message.id, message.type, sourcesByMessageId?.[message.id!], sourcesListByMessageId?.[message.id!], baseMdComponents]);
+
+  return (
+    <div className="space-y-3">
+      <div
+        className={`flex items-start gap-3 ${message.type === "human" ? "justify-end" : ""
+          }`}
+      >
+        {message.type === "human" ? (
+          <HumanMessageBubble
+            message={message}
+            mdComponents={msgMdComponents}
+          />
+        ) : (
+          <AiMessageBubble
+            message={message}
+            historicalActivity={historicalActivities[message.id!]}
+            liveActivity={liveActivityEvents}
+            isLastMessage={isLast}
+            isOverallLoading={isLoading}
+            mdComponents={msgMdComponents}
+            handleCopy={handleCopy}
+            copiedMessageId={copiedMessageId}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+
 interface ChatMessagesViewProps {
   messages: ChatMessage[];
   isLoading: boolean;
@@ -482,7 +549,7 @@ export function ChatMessagesView({
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const [showLogs, setShowLogs] = useState(false);
 
-  const mdComponents = makeMdComponents();
+  const baseMdComponents = useMemo(() => makeMdComponents(), []);
 
   const handleCopy = async (text: string, messageId: string) => {
     try {
@@ -493,50 +560,27 @@ export function ChatMessagesView({
       console.error("Failed to copy text: ", err);
     }
   };
+
   return (
     <div className="flex flex-col h-full">
       <ScrollArea className="flex-1 overflow-y-auto" ref={scrollAreaRef}>
         <div className="p-4 md:p-6 space-y-2 max-w-4xl mx-auto pt-16">
-          {messages.map((message, index) => {
-            const isLast = index === messages.length - 1;
-            const mdForMessage =
-              message.type === "ai" && message.id
-                ? makeMdComponents({ sourcesByLabel: sourcesByMessageId?.[message.id] })
-                : mdComponents;
-            const mdForMessageResolved =
-              message.type === "ai" && message.id
-                ? makeMdComponents({
-                  sourcesByLabel: sourcesByMessageId?.[message.id],
-                  sourcesList: sourcesListByMessageId?.[message.id],
-                })
-                : mdForMessage;
-            return (
-              <div key={message.id || `msg-${index}`} className="space-y-3">
-                <div
-                  className={`flex items-start gap-3 ${message.type === "human" ? "justify-end" : ""
-                    }`}
-                >
-                  {message.type === "human" ? (
-                    <HumanMessageBubble
-                      message={message}
-                      mdComponents={mdForMessageResolved}
-                    />
-                  ) : (
-                    <AiMessageBubble
-                      message={message}
-                      historicalActivity={historicalActivities[message.id!]}
-                      liveActivity={liveActivityEvents} // Pass global live events
-                      isLastMessage={isLast}
-                      isOverallLoading={isLoading} // Pass global loading state
-                      mdComponents={mdForMessageResolved}
-                      handleCopy={handleCopy}
-                      copiedMessageId={copiedMessageId}
-                    />
-                  )}
-                </div>
-              </div>
-            );
-          })}
+          {messages.map((message, index) => (
+            <MessageRow
+              key={message.id || `msg-${index}`}
+              message={message}
+              index={index}
+              isLast={index === messages.length - 1}
+              isLoading={isLoading}
+              baseMdComponents={baseMdComponents}
+              sourcesByMessageId={sourcesByMessageId}
+              sourcesListByMessageId={sourcesListByMessageId}
+              historicalActivities={historicalActivities}
+              liveActivityEvents={liveActivityEvents}
+              handleCopy={handleCopy}
+              copiedMessageId={copiedMessageId}
+            />
+          ))}
           {isLoading &&
             (messages.length === 0 ||
               messages[messages.length - 1].type === "human") && (

@@ -24,6 +24,43 @@ import {
     Globe
 } from 'lucide-react';
 
+// Data: Discovery Pipeline Steps
+const DISCOVERY_STEPS = [
+    { title: "Understanding Before Action", desc: "Before searching, the agent analyzes your intent. If you ask about a protein structure, it doesn't waste time searching for news; it goes straight to our scientific databases (AlphaFold/KG).", label: "intent_analysis" },
+    { title: "Maximum Speed", desc: "We consult multiple data sources simultaneously, not one after another. This allows us to deliver complex answers in half the time.", label: "parallel_execution" },
+    { title: "Cost Efficiency", desc: "If the agent already 'knows' the answer based on its internal data, it delivers it immediately without unnecessary web searches. We only browse the internet when strictly necessary to fill information gaps.", label: "smart_retrieval" },
+    { title: "Self-Correction", desc: "If the information found is insufficient, the agent enters a 'reflection' mode, seeking additional data and refining its response until it meets our quality standards.", label: "recursive_reflection" }
+];
+
+// Data: Technology Stack
+const TECH_STACK = [
+    { name: "Gemini 3.0", src: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.svg", color: "from-blue-400/20 to-purple-400/20" },
+    { name: "Docker", src: "https://www.vectorlogo.zone/logos/docker/docker-tile.svg", color: "from-blue-500/10 to-blue-600/10" },
+    { name: "LangGraph", src: "https://avatars.githubusercontent.com/u/126733545?s=200&v=4", color: "from-green-400/10 to-emerald-500/10" },
+    { name: "NetworkX", src: "https://logo.svgcdn.com/devicon/networkx-original.svg", color: "from-slate-700/10 to-slate-900/10" },
+    { name: "Google Cloud", src: "https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg", color: "from-blue-500/10 to-red-500/10" },
+    { name: "Python", src: "https://www.vectorlogo.zone/logos/python/python-icon.svg", color: "from-yellow-400/10 to-blue-500/10" },
+    { name: "Alphafold", src: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepmind-icon.svg", color: "from-purple-600/10 to-rose-400/10" }
+];
+
+// Data: Computational Substrate Stats
+const SUBSTRATE_STATS = [
+    { icon: Database, label: "Knowledge Nodes", value: "100,000+", sub: "Validated Entities" },
+    { icon: Dna, label: "Structural Models", value: "200M+", sub: "via AlphaFold 3" },
+    { icon: Cpu, label: "Inference Speed", value: "< 200ms", sub: "Causal Reasoning" },
+    { icon: Globe, label: "Data Sources", value: "Real-time", sub: "PubMed & BioRxiv" }
+];
+
+// Data: Social Links
+const SOCIAL_LINKS = [
+    { icon: FileText, label: "Documentation", value: "sarkome.com/docs", href: "/docs/intro", disabled: true },
+    { icon: Mail, label: "Email", value: "partners@sarkome.bio", href: "mailto:partners@sarkome.bio" },
+    { icon: AtSign, label: "Twitter / X", value: "@sarkome_ai", href: "https://x.com/sarkome", disabled: true },
+    { icon: Code, label: "GitHub", value: "@sarkome-official", href: "https://github.com/sarkome-official" },
+    { icon: Briefcase, label: "LinkedIn", value: "/company/sarkome", href: "https://www.linkedin.com/company/sarkome/" }
+];
+
+
 export default function LandingPage() {
     return (
         <div className="text-text-main transition-colors duration-300 antialiased font-sans flex flex-col items-center min-h-screen relative">
@@ -45,14 +82,14 @@ export default function LandingPage() {
                             </div>
                         </div>
                         <div className="space-y-6">
-                            <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">
                                 Biomedical Reasoning <span className="text-primary">Engine</span>
                             </h2>
-                            <p className="text-lg text-text-main leading-relaxed max-w-xl">
+                            <p className="text-base md:text-lg text-text-main leading-relaxed max-w-xl">
                                 A graph reasoning system that validates hypotheses by cross-referencing PrimeKG, AlphaFold, and real-time literature.
                             </p>
                             <div className="pt-2">
-                                <Link to="/platform" className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary transition-all group">
+                                <Link to="/platform" className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary transition-all group" aria-label="Enter Sarkome platform">
                                     <span className="mono-text">[ ENTER PLATFORM ]</span>
                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                                 </Link>
@@ -74,7 +111,7 @@ export default function LandingPage() {
                                         <div className="text-[10px] font-mono text-text-main">causal_inference_engine_v4.py</div>
                                     </div>
                                     <div className="relative h-[200px] md:h-[280px] bg-black rounded-lg overflow-hidden flex items-center justify-center">
-                                        <img alt="Abstract Data Visualization" className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTu0_VpIa_addIxGdTpsucwH6Q83MTH8RS60p-EV4FyTg1BasX_a-IozLR5yNXBU5cAZqNlbSFGFFvs4jvddCDRvfdFmHtS76ZipuSrXg532wHWW6BbuaUyissY6pbHc4Myau1g2eIyhr40TuZtADOJSoBHoqPe_OHtMx2_A0E7RjsCZS3Ah25YSXU4kmX1_hdeSPhwfkkgr7MkB-dkQxmFll7BzIJ4g9hrj9RwPo33LfkBWMjZtyxuPHt4mywlha_qlMtEpke4jCJ" />
+                                        <img alt="Abstract Data Visualization" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTu0_VpIa_addIxGdTpsucwH6Q83MTH8RS60p-EV4FyTg1BasX_a-IozLR5yNXBU5cAZqNlbSFGFFvs4jvddCDRvfdFmHtS76ZipuSrXg532wHWW6BbuaUyissY6pbHc4Myau1g2eIyhr40TuZtADOJSoBHoqPe_OHtMx2_A0E7RjsCZS3Ah25YSXU4kmX1_hdeSPhwfkkgr7MkB-dkQxmFll7BzIJ4g9hrj9RwPo33LfkBWMjZtyxuPHt4mywlha_qlMtEpke4jCJ" />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                                         <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
                                             <div className="bg-white/10 backdrop-blur-md p-3 rounded border border-white/20">
@@ -119,12 +156,7 @@ export default function LandingPage() {
                             Our AI engine doesn't just answer; it decides. We have replaced traditional linear processing with a dynamic architecture that prioritizes speed and precision.
                         </p>
                         <div className="space-y-8 relative pl-2">
-                            {[
-                                { title: "Understanding Before Action", desc: "Before searching, the agent analyzes your intent. If you ask about a protein structure, it doesn't waste time searching for news; it goes straight to our scientific databases (AlphaFold/KG).", label: "intent_analysis" },
-                                { title: "Maximum Speed", desc: "We consult multiple data sources simultaneously, not one after another. This allows us to deliver complex answers in half the time.", label: "parallel_execution" },
-                                { title: "Cost Efficiency", desc: "If the agent already 'knows' the answer based on its internal data, it delivers it immediately without unnecessary web searches. We only browse the internet when strictly necessary to fill information gaps.", label: "smart_retrieval" },
-                                { title: "Self-Correction", desc: "If the information found is insufficient, the agent enters a 'reflection' mode, seeking additional data and refining its response until it meets our quality standards.", label: "recursive_reflection" }
-                            ].map((step, i) => (
+                            {DISCOVERY_STEPS.map((step, i) => (
                                 <div key={i} className="relative pl-8 group">
                                     <div className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-border-custom group-hover:bg-primary transition-colors"></div>
                                     <div className="grid md:grid-cols-[1fr_3fr] gap-2 md:gap-8">
@@ -143,7 +175,7 @@ export default function LandingPage() {
                     <section>
                         <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">Advisory Board</h3>
                         <div className="grid md:grid-cols-2 gap-6">
-                            <a href="https://www.linkedin.com/in/bryramirezp/" target="_blank" rel="noopener noreferrer" className="bg-surface border border-border-custom p-6 rounded-2xl hover:border-primary/50 transition-colors cursor-pointer block">
+                            <a href="https://www.linkedin.com/in/bryramirezp/" target="_blank" rel="noopener noreferrer" className="bg-surface border border-border-custom p-6 rounded-2xl hover:border-primary/50 transition-colors cursor-pointer block" aria-label="View LinkedIn profile of Bryan Ramírez Palacios">
                                 <p className="text-sm leading-relaxed mb-6 text-text-main">
                                     "Building Sarkome as a generative biotechnology institute that uses AI to create missing biological knowledge, turning rare-disease treatment, such as ASPS, from probabilistic guessing into systematic causal discovery."
                                 </p>
@@ -177,15 +209,7 @@ export default function LandingPage() {
                     <section>
                         <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">Technology Stack</h3>
                         <div className="flex flex-wrap gap-6">
-                            {[
-                                { name: "Gemini 3.0", src: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.svg", color: "from-blue-400/20 to-purple-400/20" },
-                                { name: "Docker", src: "https://www.vectorlogo.zone/logos/docker/docker-tile.svg", color: "from-blue-500/10 to-blue-600/10" },
-                                { name: "LangGraph", src: "https://avatars.githubusercontent.com/u/126733545?s=200&v=4", color: "from-green-400/10 to-emerald-500/10" },
-                                { name: "NetworkX", src: "https://logo.svgcdn.com/devicon/networkx-original.svg", color: "from-slate-700/10 to-slate-900/10" },
-                                { name: "Google Cloud", src: "https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg", color: "from-blue-500/10 to-red-500/10" },
-                                { name: "Python", src: "https://www.vectorlogo.zone/logos/python/python-icon.svg", color: "from-yellow-400/10 to-blue-500/10" },
-                                { name: "Alphafold", src: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepmind-icon.svg", color: "from-purple-600/10 to-rose-400/10" }
-                            ].map((tech, i) => (
+                            {TECH_STACK.map((tech, i) => (
                                 <div key={i} className="group relative">
                                     {/* Tooltip */}
                                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-foreground text-background text-[10px] font-medium rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
@@ -194,7 +218,7 @@ export default function LandingPage() {
                                     </div>
 
                                     <div className={`absolute -inset-2 bg-gradient-to-br ${tech.color} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                                    <div className="relative w-12 h-12 bg-surface border border-border-custom rounded-xl flex items-center justify-center p-2.5 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 shadow-sm">
+                                    <div className="relative w-12 h-12 bg-surface border border-border-custom rounded-xl flex items-center justify-center p-2.5 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 shadow-sm" aria-label={tech.name}>
                                         <img alt={tech.name} className="w-full h-full object-contain" src={tech.src} />
                                     </div>
                                 </div>
@@ -207,7 +231,7 @@ export default function LandingPage() {
                         <h3 className="text-xs font-bold tracking-widest text-text-muted uppercase mb-8">Active Programs</h3>
                         <div className="space-y-4">
                             {diseases.filter(d => d.type === 'active').map(disease => (
-                                <Link key={disease.id} to={`/programs/${disease.id}`} className="group flex items-center justify-between p-4 -mx-4 rounded-xl hover:bg-surface transition-colors">
+                                <Link key={disease.id} to={`/programs/${disease.id}`} className="group flex items-center justify-between p-4 -mx-4 rounded-xl hover:bg-surface transition-colors" aria-label={`View details for ${disease.name} program`}>
                                     <div className="flex items-center gap-4">
                                         <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
                                             {disease.id === 'als' ? <Brain className="w-5 h-5" /> : <Biohazard className="w-5 h-5" />}
@@ -238,12 +262,7 @@ export default function LandingPage() {
                             We don't need a physical lab to find answers. We need a map. Our agents traverse the largest integrated biological knowledge graph in existence.
                         </p>
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                            {[
-                                { icon: Database, label: "Knowledge Nodes", value: "100,000+", sub: "Validated Entities" },
-                                { icon: Dna, label: "Structural Models", value: "200M+", sub: "via AlphaFold 3" },
-                                { icon: Cpu, label: "Inference Speed", value: "< 200ms", sub: "Causal Reasoning" },
-                                { icon: Globe, label: "Data Sources", value: "Real-time", sub: "PubMed & BioRxiv" }
-                            ].map((stat, i) => (
+                            {SUBSTRATE_STATS.map((stat, i) => (
                                 <div key={i} className="p-4 rounded-xl bg-surface border border-border-custom hover:border-primary/50 transition-colors group">
                                     <div className="mb-3 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
                                         <stat.icon className="w-4 h-4" />
@@ -276,14 +295,8 @@ export default function LandingPage() {
                         </form>
 
                         <div className="mt-16 space-y-3 text-sm">
-                            {[
-                                { icon: FileText, label: "Documentation", value: "sarkome.com/docs", href: "/docs/intro" },
-                                { icon: Mail, label: "Email", value: "partners@sarkome.bio", href: "mailto:partners@sarkome.bio" },
-                                { icon: AtSign, label: "Twitter / X", value: "@sarkome_ai", href: "https://x.com/sarkome_ai" },
-                                { icon: Code, label: "GitHub", value: "@sarkome-official", href: "https://github.com/sarkome-official" },
-                                { icon: Briefcase, label: "LinkedIn", value: "/company/sarkome", href: "https://www.linkedin.com/company/sarkome/" }
-                            ].map((social, i) => {
-                                if (social.label === "Documentation") {
+                            {SOCIAL_LINKS.map((social, i) => {
+                                if (social.disabled) {
                                     return (
                                         <div key={i} className="flex justify-between items-center text-text-muted opacity-50 cursor-not-allowed select-none">
                                             <div className="flex items-center gap-3">
@@ -295,7 +308,7 @@ export default function LandingPage() {
                                     );
                                 }
                                 return (
-                                    <a key={i} className="flex justify-between items-center group text-text-muted hover:text-primary transition-colors" href={social.href}>
+                                    <a key={i} className="flex justify-between items-center group text-text-muted hover:text-primary transition-colors" href={social.href} aria-label={`Follow us on ${social.label}`}>
                                         <div className="flex items-center gap-3">
                                             <social.icon className="w-4 h-4" />
                                             <span className="text-text-main">{social.label}</span>
