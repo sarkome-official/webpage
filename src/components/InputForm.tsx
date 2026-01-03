@@ -105,7 +105,6 @@ export const InputForm = ({
   const [queryModel, setQueryModel] = useState("gemini-3-flash-preview");
   const [answerModel, setAnswerModel] = useState("gemini-3-pro-preview");
   const [activeAgents, setActiveAgents] = useState<string[]>([]);
-  const [hoveredEffort, setHoveredEffort] = useState<string | null>(null);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -192,43 +191,46 @@ export const InputForm = ({
                 {/* Effort selector - inline in input bar */}
                 <div className="flex items-center bg-accent/30 border border-border rounded-full px-2 sm:px-3 py-0.5 backdrop-blur-sm">
                   <Brain className="size-3 text-muted-foreground/60 mr-1.5" />
-                  <Select value={effort} onValueChange={setEffort}>
-                    <SelectTrigger className="h-6 w-[60px] sm:w-[75px] bg-transparent dark:bg-transparent border-none focus:ring-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-foreground/90 p-0 hover:text-foreground transition-all" aria-label="Select effort level">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-popover border-border">
-                      <Tooltip open={hoveredEffort === 'low'} onOpenChange={(open) => !open && setHoveredEffort(null)}>
-                        <TooltipTrigger asChild>
-                          <div onMouseEnter={() => setHoveredEffort('low')} onMouseLeave={() => setHoveredEffort(null)}>
-                            <SelectItem value="low" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Low</SelectItem>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
-                          <EffortTooltipBody level="low" />
-                        </TooltipContent>
-                      </Tooltip>
-                      <Tooltip open={hoveredEffort === 'medium'} onOpenChange={(open) => !open && setHoveredEffort(null)}>
-                        <TooltipTrigger asChild>
-                          <div onMouseEnter={() => setHoveredEffort('medium')} onMouseLeave={() => setHoveredEffort(null)}>
-                            <SelectItem value="medium" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">Medium</SelectItem>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
-                          <EffortTooltipBody level="medium" />
-                        </TooltipContent>
-                      </Tooltip>
-                      <Tooltip open={hoveredEffort === 'high'} onOpenChange={(open) => !open && setHoveredEffort(null)}>
-                        <TooltipTrigger asChild>
-                          <div onMouseEnter={() => setHoveredEffort('high')} onMouseLeave={() => setHoveredEffort(null)}>
-                            <SelectItem value="high" className="text-[10px] font-bold uppercase tracking-widest focus:bg-accent focus:text-accent-foreground">High</SelectItem>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
-                          <EffortTooltipBody level="high" />
-                        </TooltipContent>
-                      </Tooltip>
-                    </SelectContent>
-                  </Select>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        className="flex items-center justify-between h-6 w-[60px] sm:w-[75px] bg-transparent border-none focus:ring-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-foreground/90 p-0 hover:text-foreground transition-all"
+                      >
+                        <span>{effort}</span>
+                        <ChevronDown className="size-4 opacity-50" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-56 p-3 bg-popover border-border" align="center">
+                      <div className="space-y-2">
+                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 flex items-center gap-2">
+                          <Brain className="size-3" />
+                          Effort Level
+                        </div>
+                        <div className="space-y-1">
+                          {(['low', 'medium', 'high'] as const).map((level) => (
+                            <Tooltip key={level}>
+                              <TooltipTrigger asChild>
+                                <button
+                                  type="button"
+                                  onClick={() => setEffort(level)}
+                                  className={`w-full text-left px-3 py-2 rounded-md text-[10px] font-bold uppercase tracking-widest transition-colors ${effort === level
+                                    ? 'bg-accent text-accent-foreground'
+                                    : 'hover:bg-accent/50'
+                                    }`}
+                                >
+                                  {level}
+                                </button>
+                              </TooltipTrigger>
+                              <TooltipContent side="right" sideOffset={10} className="max-w-[280px]">
+                                <EffortTooltipBody level={level} />
+                              </TooltipContent>
+                            </Tooltip>
+                          ))}
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </div>
 
                 {/* Models selector - inline in input bar */}
