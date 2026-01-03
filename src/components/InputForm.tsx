@@ -95,10 +95,6 @@ export const InputForm = ({
   useEffect(() => {
     if (setInputControl) {
       setInternalInputValue(setInputControl);
-      // Focus the textarea when value is set programmatically
-      if (textareaRef.current) {
-        textareaRef.current.focus();
-      }
     }
   }, [setInputControl]);
   const [effort, setEffort] = useState("medium");

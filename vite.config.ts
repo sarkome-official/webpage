@@ -22,6 +22,12 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       strictPort: true,
       proxy: {
+        // Auth API (Vercel Functions - run with 'vercel dev --listen 3001')
+        "/api/auth": {
+          target: "http://localhost:3001",
+          changeOrigin: true,
+          secure: false,
+        },
         // Proxy API requests to the backend server
         "/api": {
           target: target,

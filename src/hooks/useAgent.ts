@@ -73,6 +73,17 @@ function extractTextFromChunk(chunk: unknown): string {
   return "";
 }
 
+function extractAlphaFoldNames(context?: string): string[] {
+  if (!context) return [];
+  // Strategy 1: Bold names **Name**
+  const boldMatches = Array.from(context.matchAll(/\*\*([^*]+)\*\*/g), (m) => m[1].trim());
+  if (boldMatches.length > 0) return Array.from(new Set(boldMatches));
+
+  // Strategy 2: "Name (UniProt:" pattern fallback
+  const fallbackMatches = Array.from(context.matchAll(/-\s*([^(]+)\s*\(UniProt:/g), (m) => m[1].trim());
+  return Array.from(new Set(fallbackMatches));
+}
+
 export function useAgent(options: UseAgentOptions) {
   const [messages, setMessages] = useState<ChatMessage[]>(options.initialMessages ?? []);
   const [isLoading, setIsLoading] = useState(false);
@@ -254,15 +265,19 @@ export function useAgent(options: UseAgentOptions) {
                 : null;
 
             let foundMessages = maybeMessages;
+            let enrichedNodeData: any = null;
             if (!foundMessages && contentPiece && typeof contentPiece === "object") {
               for (const key in contentPiece as any) {
                 const val = (contentPiece as any)[key];
                 if (val && typeof val === "object" && Array.isArray(val.messages)) {
                   foundMessages = val.messages;
                   nodeName = key;
+                  enrichedNodeData = val;
                   break;
                 }
               }
+            } else if (contentPiece && typeof contentPiece === "object") {
+              enrichedNodeData = contentPiece;
             }
 
             // Only convert node messages into UI chat messages when they come from the
@@ -275,7 +290,23 @@ export function useAgent(options: UseAgentOptions) {
                 foundMessages.forEach((m: any) => {
                   if (m.type === "human" || m.role === "user") return;
                   const mId = m.id || `${nodeName}_${Date.now()}_${Math.random().toString(16).slice(2)}`;
-                  const content = extractTextFromChunk(m);
+                  let content = extractTextFromChunk(m);
+
+                  // Enrichment for AlphaFold progress messages
+                  if (nodeName === "query_alphafold" && enrichedNodeData?.alphafold_context) {
+                    const names = extractAlphaFoldNames(enrichedNodeData.alphafold_context);
+                    if (names.length > 0) {
+                      const suffix = names.join(", ");
+                      const trimmed = content.trim();
+                      // Remove trailing period if present, then append suffix
+                      if (trimmed.endsWith(".")) {
+                        content = trimmed.slice(0, -1) + `: ${suffix}`;
+                      } else {
+                        content = `${trimmed}: ${suffix}`;
+                      }
+                    }
+                  }
+
                   const existingIdx = next.findIndex((ex) => ex.id === mId);
 
                   const isFinal = nodeName === "finalize_answer";
@@ -283,7 +314,7 @@ export function useAgent(options: UseAgentOptions) {
                     id: mId,
                     type: "ai",
                     content,
-                    usage: m.usage_metadata, // Capture usage if present
+                    usage: m.usage_metadata || enrichedNodeData?.usage_metadata, // Capture usage from message or parent node
                     metadata: {
                       source: m.name || nodeName,
                       ts: new Date().toISOString(),

@@ -2,6 +2,7 @@ import { diseases } from '../data/diseases';
 import { Header } from '../components/organisms/Header';
 import { Footer } from '../components/organisms/Footer';
 import { Link } from 'react-router-dom';
+import { GoogleLoginButton } from '@/components/auth/GoogleLoginButton';
 import {
     ArrowRight,
     Activity,
@@ -89,10 +90,7 @@ export default function LandingPage() {
                                 A graph-driven reasoning system that validates cancer hypotheses by integrating PrimeKG, AlphaFold, and context-constrained real-time literature..
                             </p>
                             <div className="pt-2">
-                                <Link to="/platform" className="inline-flex items-center gap-2 bg-foreground text-background px-5 py-2.5 rounded-full text-sm font-medium hover:bg-primary transition-all group" aria-label="Enter Sarkome platform">
-                                    <span className="mono-text">[ ENTER PLATFORM ]</span>
-                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                                </Link>
+                                <GoogleLoginButton />
                             </div>
                         </div>
 

@@ -33,6 +33,7 @@ import {
     SidebarSeparator,
     useSidebar,
 } from "@/components/ui/sidebar"
+import { useAuth } from "@/components/auth/AuthProvider"
 
 const data = {
     navMain: [
@@ -84,6 +85,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const location = useLocation();
     const { isMobile, setOpenMobile } = useSidebar();
+    const { user } = useAuth();
     const [searchQuery, setSearchQuery] = React.useState("");
 
     const filteredNavMain = React.useMemo(() => {
@@ -183,12 +185,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <div className="flex items-center gap-3 mt-4 px-2 py-3 rounded-xl bg-muted/30 border border-border">
                         <div className="size-8 rounded-full bg-gradient-to-tr from-neutral-700 to-neutral-500 p-[1px]">
                             <div className="size-full rounded-full bg-background flex items-center justify-center overflow-hidden">
-                                <User className="size-4 text-muted-foreground" />
+                                {user?.picture ? (
+                                    <img src={user.picture} alt={user.name} className="size-full object-cover" referrerPolicy="no-referrer" />
+                                ) : (
+                                    <User className="size-4 text-muted-foreground" />
+                                )}
                             </div>
                         </div>
                         <div className="flex flex-col overflow-hidden">
-                            <span className="text-xs font-semibold text-foreground truncate">Nebula Researcher</span>
-                            <span className="text-[10px] text-muted-foreground truncate">pro-account@sarkome.ai</span>
+                            <span className="text-xs font-semibold text-foreground truncate">{user?.name || "Sarkome User"}</span>
+                            <span className="text-[10px] text-muted-foreground truncate">{user?.email || "guest@sarkome.ai"}</span>
                         </div>
                     </div>
                 </div>

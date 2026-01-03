@@ -451,14 +451,7 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
         </div>
       )}
 
-      {/* Message content - rendered first */}
-      <div className="prose prose-invert max-w-none overflow-hidden break-words [overflow-wrap:anywhere]">
-        <ReactMarkdown components={mdComponents} rehypePlugins={[rehypeSanitize]} remarkPlugins={[remarkGfm]}>
-          {formatted}
-        </ReactMarkdown>
-      </div>
-
-      {/* Research timeline - rendered after content */}
+      {/* Research timeline - rendered before content */}
       {activityForThisBubble && activityForThisBubble.length > 0 && (
         <div className="mt-4 text-xs">
           <ActivityTimeline
@@ -467,6 +460,13 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
           />
         </div>
       )}
+
+      {/* Message content */}
+      <div className="prose prose-invert max-w-none overflow-hidden break-words [overflow-wrap:anywhere] mt-4">
+        <ReactMarkdown components={mdComponents} rehypePlugins={[rehypeSanitize]} remarkPlugins={[remarkGfm]}>
+          {formatted}
+        </ReactMarkdown>
+      </div>
 
       {/* Protein cards */}
       {uniProtIds.length > 0 && (
@@ -488,19 +488,26 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
             <span>New Chat</span>
           </button>
 
-          <Button
-            variant="ghost"
-            size="sm"
-            className="cursor-pointer text-muted-foreground hover:text-foreground h-8 px-2 sm:px-3"
-            onClick={() => handleCopy(formatted, message.id!)}
-            title={copiedMessageId === message.id ? "Copied" : "Copy to clipboard"}
-          >
-            {copiedMessageId === message.id ? (
-              <><CopyCheck className="h-4 w-4" /><span className="hidden sm:inline ml-1.5">Copied</span></>
-            ) : (
-              <><Copy className="h-4 w-4" /><span className="hidden sm:inline ml-1.5">Copy</span></>
+          <div className="flex items-center gap-2">
+            {message.usage && (
+              <Badge variant="outline" className="text-[10px] uppercase tracking-wider font-mono py-0 px-1.5 bg-green-500/10 border-green-500/20 text-green-500/80 h-7" title={`In: ${message.usage.input_tokens}, Out: ${message.usage.output_tokens}`}>
+                {formatCost(calculateCost(message.usage.input_tokens, message.usage.output_tokens, "gemini-3.0-pro"))}
+              </Badge>
             )}
-          </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="cursor-pointer text-muted-foreground hover:text-foreground h-8 px-2 sm:px-3"
+              onClick={() => handleCopy(formatted, message.id!)}
+              title={copiedMessageId === message.id ? "Copied" : "Copy to clipboard"}
+            >
+              {copiedMessageId === message.id ? (
+                <><CopyCheck className="h-4 w-4" /><span className="hidden sm:inline ml-1.5">Copied</span></>
+              ) : (
+                <><Copy className="h-4 w-4" /><span className="hidden sm:inline ml-1.5">Copy</span></>
+              )}
+            </Button>
+          </div>
         </div>
       )}
 

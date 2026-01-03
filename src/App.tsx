@@ -8,6 +8,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Loader2 } from "lucide-react";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 // Lazy loaded components
 const KnowledgeGraph = lazy(() => import("@/pages/platform/KnowledgeGraphView").then(m => ({ default: m.KnowledgeGraphView })));
@@ -400,77 +401,79 @@ export default function App() {
   }
 
   return (
-    <SidebarProvider defaultOpen={false}>
-      <div className="flex h-screen bg-background text-foreground font-sans antialiased w-full">
-        <AppSidebar />
-        <SidebarInset className="flex flex-col flex-1 overflow-hidden bg-background">
-          <header className="flex h-14 items-center gap-3 border-b border-border bg-background/50 px-4 sm:px-6 backdrop-blur-xl sticky top-0 z-10">
-            <SidebarTrigger className="text-[#7E22CE] hover:text-[#7E22CE] transition-colors" />
+    <ProtectedRoute>
+      <SidebarProvider defaultOpen={false}>
+        <div className="flex h-screen bg-background text-foreground font-sans antialiased w-full">
+          <AppSidebar />
+          <SidebarInset className="flex flex-col flex-1 overflow-hidden bg-background">
+            <header className="flex h-14 items-center gap-3 border-b border-border bg-background/50 px-4 sm:px-6 backdrop-blur-xl sticky top-0 z-10">
+              <SidebarTrigger className="text-[#7E22CE] hover:text-[#7E22CE] transition-colors" />
 
-            {/* App branding - visible on mobile */}
-            <div className="flex items-center gap-2">
-              <span className="font-semibold text-sm tracking-tight text-foreground">Sarkome</span>
-            </div>
+              {/* App branding - visible on mobile */}
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-sm tracking-tight text-foreground">Sarkome</span>
+              </div>
 
-            <div className="ml-auto flex items-center gap-3">
-              <ThemeToggle />
-            </div>
-          </header>
-          <main className="h-full w-full mx-auto overflow-y-auto no-scrollbar">
-            <Suspense fallback={<LoadingFallback />}>
-              <Routes>
-                <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
-                <Route path="/knowledge-graph-nodes" element={<KnowledgeGraphNodes />} />
+              <div className="ml-auto flex items-center gap-3">
+                <ThemeToggle />
+              </div>
+            </header>
+            <main className="h-full w-full mx-auto overflow-y-auto no-scrollbar">
+              <Suspense fallback={<LoadingFallback />}>
+                <Routes>
+                  <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
+                  <Route path="/knowledge-graph-nodes" element={<KnowledgeGraphNodes />} />
 
-                <Route path="/alphafold" element={<AlphaFoldView />} />
-                <Route path="/api" element={<ApiView />} />
-                <Route path="/sim" element={<SimulationView />} />
+                  <Route path="/alphafold" element={<AlphaFoldView />} />
+                  <Route path="/api" element={<ApiView />} />
+                  <Route path="/sim" element={<SimulationView />} />
 
-                <Route path="/history" element={<HistoryView />} />
-                <Route path="/platform" element={
-                  <div className="max-w-4xl mx-auto h-full">
-                    {thread.messages.length === 0 ? (
-                      <WelcomeScreen
-                        handleSubmit={handleSubmit}
-                        isLoading={thread.isLoading}
-                        onCancel={handleCancel}
-                      />
-                    ) : error ? (
-                      <div className="flex flex-col items-center justify-center h-full">
-                        <div className="flex flex-col items-center justify-center gap-4">
-                          <h1 className="text-2xl text-red-400 font-bold">Error</h1>
-                          <p className="text-red-400">{JSON.stringify(error)}</p>
+                  <Route path="/history" element={<HistoryView />} />
+                  <Route path="/platform" element={
+                    <div className="max-w-4xl mx-auto h-full">
+                      {thread.messages.length === 0 ? (
+                        <WelcomeScreen
+                          handleSubmit={handleSubmit}
+                          isLoading={thread.isLoading}
+                          onCancel={handleCancel}
+                        />
+                      ) : error ? (
+                        <div className="flex flex-col items-center justify-center h-full">
+                          <div className="flex flex-col items-center justify-center gap-4">
+                            <h1 className="text-2xl text-red-400 font-bold">Error</h1>
+                            <p className="text-red-400">{JSON.stringify(error)}</p>
 
-                          <Button
-                            variant="destructive"
-                            onClick={() => window.location.reload()}
-                          >
-                            Retry
-                          </Button>
+                            <Button
+                              variant="destructive"
+                              onClick={() => window.location.reload()}
+                            >
+                              Retry
+                            </Button>
+                          </div>
                         </div>
-                      </div>
-                    ) : (
-                      <ChatMessagesView
-                        messages={thread.messages}
-                        isLoading={thread.isLoading}
-                        scrollAreaRef={scrollAreaRef}
-                        onSubmit={handleSubmit}
-                        onCancel={handleCancel}
-                        liveActivityEvents={processedEventsTimeline}
-                        historicalActivities={historicalActivities}
-                        sourcesByMessageId={sourcesByMessageId}
-                        sourcesListByMessageId={sourcesListByMessageId}
-                        rawEvents={rawEvents}
+                      ) : (
+                        <ChatMessagesView
+                          messages={thread.messages}
+                          isLoading={thread.isLoading}
+                          scrollAreaRef={scrollAreaRef}
+                          onSubmit={handleSubmit}
+                          onCancel={handleCancel}
+                          liveActivityEvents={processedEventsTimeline}
+                          historicalActivities={historicalActivities}
+                          sourcesByMessageId={sourcesByMessageId}
+                          sourcesListByMessageId={sourcesListByMessageId}
+                          rawEvents={rawEvents}
 
-                      />
-                    )}
-                  </div>
-                } />
-              </Routes>
-            </Suspense>
-          </main>
-        </SidebarInset>
-      </div>
-    </SidebarProvider>
+                        />
+                      )}
+                    </div>
+                  } />
+                </Routes>
+              </Suspense>
+            </main>
+          </SidebarInset>
+        </div>
+      </SidebarProvider>
+    </ProtectedRoute>
   );
 }

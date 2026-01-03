@@ -2,6 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { getAgentUrl } from '@/lib/langgraph-api';
 import { Paperclip, Rocket, Pill, Search, ArrowLeftRight, Bot, Zap, CheckCircle, Loader2 } from 'lucide-react';
 
+function extractAlphaFoldNames(context?: string): string[] {
+    if (!context) return [];
+    // Strategy 1: Bold names **Name**
+    const boldMatches = Array.from(context.matchAll(/\*\*([^*]+)\*\*/g), (m) => m[1].trim());
+    if (boldMatches.length > 0) return Array.from(new Set(boldMatches));
+
+    // Strategy 2: "Name (UniProt:" pattern fallback
+    const fallbackMatches = Array.from(context.matchAll(/-\s*([^(]+)\s*\(UniProt:/g), (m) => m[1].trim());
+    return Array.from(new Set(fallbackMatches));
+}
+
 export const QueryBuilderView = () => {
     const [query, setQuery] = useState('');
     const [isStarting, setIsStarting] = useState(false);
@@ -100,6 +111,20 @@ export const QueryBuilderView = () => {
         // Clean up common artifacts from backend streaming (like "// ...")
         if (typeof userMessage === 'string') {
             userMessage = userMessage.replace(/^\/\/ \.\.\.\s*/, '').trim();
+
+            // Enrichment for AlphaFold progress messages
+            if (nodeName === 'query_alphafold' && data?.alphafold_context) {
+                const names = extractAlphaFoldNames(data.alphafold_context);
+                if (names.length > 0) {
+                    const suffix = names.join(", ");
+                    const trimmed = userMessage.trim();
+                    if (trimmed.endsWith(".")) {
+                        userMessage = trimmed.slice(0, -1) + `: ${suffix}`;
+                    } else {
+                        userMessage = `${trimmed}: ${suffix}`;
+                    }
+                }
+            }
         }
 
         pushLog(nodeName, userMessage, payload);
