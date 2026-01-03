@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { SignJWT } from 'jose';
 import crypto from 'crypto';
-import { checkRateLimit, getClientIP } from '../../lib/rate-limit';
+import { checkRateLimit, getClientIP } from '../../../lib/rate-limit.js';
 
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const GOOGLE_USERINFO_URL = 'https://www.googleapis.com/oauth2/v3/userinfo';

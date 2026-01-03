@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import crypto from 'crypto';
-import { checkRateLimit, getClientIP } from '../lib/rate-limit';
+import { checkRateLimit, getClientIP } from '../../lib/rate-limit.js';
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 
