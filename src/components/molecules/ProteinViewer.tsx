@@ -134,25 +134,26 @@ export const ProteinViewer: React.FC<ProteinViewerProps> = ({ uniprotId, title }
   }, [uniprotId]);
 
   return (
-    <div className={`flex flex-col w-full bg-card/50 overflow-hidden group relative transition-all duration-300 ${isMaximized ? 'fixed inset-0 z-50 h-screen w-screen bg-background' : 'h-full'}`}>
-      <div className="flex-none flex items-center justify-between px-4 py-2 border-b border-primary/10 bg-primary/5">
+    <div className={`flex flex-col w-full bg-card/50 overflow-hidden group relative transition-all duration-300 ${isMaximized ? 'fixed inset-0 z-[100] bg-background' : 'h-full'}`}>
+      <div className="flex-none flex items-center justify-between px-3 sm:px-4 py-2 border-b border-primary/10 bg-primary/5">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-          <span className="text-xs font-bold text-foreground tracking-tight">
+          <span className="text-[10px] sm:text-xs font-bold text-foreground tracking-tight">
             {title || `Protein Structure: ${uniprotId}`}
           </span>
         </div>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-primary">
-            <Info className="w-3 h-3" />
+          <Button variant="ghost" size="icon" className="h-6 w-6 sm:h-7 sm:w-7 text-muted-foreground hover:text-primary">
+            <Info className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            className="h-6 w-6 text-muted-foreground hover:text-primary"
+            className="h-6 w-6 sm:h-7 sm:w-7 text-muted-foreground hover:text-primary"
             onClick={() => setIsMaximized(!isMaximized)}
+            title={isMaximized ? "Exit fullscreen" : "Enter fullscreen"}
           >
-            {isMaximized ? <Minimize2 className="w-3 h-3" /> : <Maximize2 className="w-3 h-3" />}
+            {isMaximized ? <Minimize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> : <Maximize2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />}
           </Button>
         </div>
       </div>
@@ -184,26 +185,26 @@ export const ProteinViewer: React.FC<ProteinViewerProps> = ({ uniprotId, title }
         {!isLoading && !error && (
           <>
             {/* Model Confidence Legend */}
-            <div className="absolute bottom-4 left-4 p-3 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 shadow-lg z-10 pointer-events-none select-none">
-              <h5 className="text-[10px] font-bold text-white mb-2 uppercase tracking-wider flex items-center gap-2">
+            <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 p-2 sm:p-3 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 shadow-lg z-10 pointer-events-none select-none max-w-[200px] sm:max-w-none">
+              <h5 className="text-[9px] sm:text-[10px] font-bold text-white mb-1.5 sm:mb-2 uppercase tracking-wider flex items-center gap-2">
                 Model Confidence
               </h5>
-              <div className="space-y-1.5">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-sm bg-[#0053D6] shadow-sm border border-white/10" />
-                  <span className="text-[10px] text-white/90">Very high (pLDDT &gt; 90)</span>
+              <div className="space-y-1 sm:space-y-1.5">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[#0053D6] shadow-sm border border-white/10 shrink-0" />
+                  <span className="text-[9px] sm:text-[10px] text-white/90">Very high (pLDDT &gt; 90)</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-sm bg-[#65CBF3] shadow-sm border border-white/10" />
-                  <span className="text-[10px] text-white/90">High (90 &gt; pLDDT &gt; 70)</span>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[#65CBF3] shadow-sm border border-white/10 shrink-0" />
+                  <span className="text-[9px] sm:text-[10px] text-white/90">High (90 &gt; pLDDT &gt; 70)</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-sm bg-[#FFDB13] shadow-sm border border-white/10" />
-                  <span className="text-[10px] text-white/90">Low (70 &gt; pLDDT &gt; 50)</span>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[#FFDB13] shadow-sm border border-white/10 shrink-0" />
+                  <span className="text-[9px] sm:text-[10px] text-white/90">Low (70 &gt; pLDDT &gt; 50)</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-sm bg-[#FF7D45] shadow-sm border border-white/10" />
-                  <span className="text-[10px] text-white/90">Very low (pLDDT &lt; 50)</span>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[#FF7D45] shadow-sm border border-white/10 shrink-0" />
+                  <span className="text-[9px] sm:text-[10px] text-white/90">Very low (pLDDT &lt; 50)</span>
                 </div>
               </div>
             </div>
@@ -213,20 +214,21 @@ export const ProteinViewer: React.FC<ProteinViewerProps> = ({ uniprotId, title }
                 href={`https://alphafold.ebi.ac.uk/entry/${uniprotId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-primary text-primary-foreground text-[10px] font-medium shadow-lg hover:bg-primary/90 transition-all"
+                className="flex items-center gap-1.5 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-md bg-primary text-primary-foreground text-[9px] sm:text-[10px] font-medium shadow-lg hover:bg-primary/90 transition-all"
               >
                 <Download className="w-3 h-3" />
-                AlphaFold DB
+                <span className="hidden sm:inline">AlphaFold DB</span>
+                <span className="sm:hidden">DB</span>
               </a>
             </div>
           </>
         )}
       </div>
 
-      <div className="flex-none px-4 py-2 bg-primary/5 border-t border-primary/10">
-        <p className="text-[10px] text-muted-foreground leading-relaxed">
+      <div className="flex-none px-3 sm:px-4 py-1.5 sm:py-2 bg-primary/5 border-t border-primary/10">
+        <p className="text-[9px] sm:text-[10px] text-muted-foreground leading-relaxed">
           Interactive 3D visualization powered by AlphaFold 3 & 3Dmol.js.
-          Drag to rotate, scroll to zoom.
+          <span className="hidden sm:inline"> Drag to rotate, scroll to zoom.</span>
         </p>
       </div>
     </div>

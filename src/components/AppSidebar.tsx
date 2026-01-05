@@ -357,9 +357,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 </button>
                                 <button
                                     onClick={() => logout()}
-                                    className="flex items-center gap-3 w-full px-2.5 py-2 text-sm text-foreground hover:bg-muted rounded-md transition-colors text-left"
+                                    className="flex items-center gap-3 w-full px-2.5 py-2 text-sm text-foreground hover:bg-destructive/10 hover:text-destructive rounded-md transition-colors text-left group"
                                 >
-                                    <LogOut className="size-4 text-muted-foreground" />
+                                    <LogOut className="size-4 text-muted-foreground group-hover:text-destructive transition-colors" />
                                     <span>Sign out</span>
                                 </button>
 
