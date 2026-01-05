@@ -12,12 +12,14 @@
 1. [Resumen Ejecutivo](#resumen-ejecutivo)
 2. [Arquitectura del Sistema](#arquitectura-del-sistema)
 3. [Payload del Frontend](#payload-del-frontend)
-4. [Herramientas Disponibles](#herramientas-disponibles)
-5. [Implementación en LangChain](#implementación-en-langchain)
-6. [Knowledge Graph API](#knowledge-graph-api)
-7. [Flujo de Ejecución](#flujo-de-ejecución)
-8. [Manejo de Errores](#manejo-de-errores)
-9. [Ejemplos Completos](#ejemplos-completos)
+4. [Configuración de Effort Level](#configuración-de-effort-level)
+5. [Configuración de Modelos](#configuración-de-modelos)
+6. [Herramientas Disponibles](#herramientas-disponibles)
+7. [Implementación en LangChain](#implementación-en-langchain)
+8. [Knowledge Graph API](#knowledge-graph-api)
+9. [Flujo de Ejecución](#flujo-de-ejecución)
+10. [Manejo de Errores](#manejo-de-errores)
+11. [Ejemplos Completos](#ejemplos-completos)
 
 ---
 
@@ -139,14 +141,21 @@ Content-Type: application/json
     },
     
     // ═══════════════════════════════════════════════════════════════
-    // CONFIGURACIÓN DE HERRAMIENTAS (LO QUE DEBES LEER)
+    // CONFIGURACIÓN DE EFFORT LEVEL (Profundidad de razonamiento)
     // ═══════════════════════════════════════════════════════════════
     
-    // Número de queries de búsqueda iniciales
-    "initial_search_query_count": 3,
+    // Número de queries de búsqueda iniciales (depende del effort)
+    "initial_search_query_count": 3,    // low=1, medium=3, high=5
     
-    // Máximo de loops de investigación
-    "max_research_loops": 3,
+    // Máximo de loops de investigación (depende del effort)
+    "max_research_loops": 3,            // low=1, medium=3, high=10
+    
+    // Nivel de effort seleccionado por el usuario
+    "effort_level": "medium",           // "low" | "medium" | "high"
+    
+    // ═══════════════════════════════════════════════════════════════
+    // CONFIGURACIÓN DE HERRAMIENTAS (LO QUE DEBES LEER)
+    // ═══════════════════════════════════════════════════════════════
     
     // ─────────────────────────────────────────────────────────────────
     // FLAGS DE HERRAMIENTAS PRIMARIAS (boolean)
@@ -187,6 +196,140 @@ Content-Type: application/json
   "reasoning_model": "gemini-3-pro-preview",
   "reflection_model": "gemini-3-flash-preview"
 }
+```
+
+---
+
+## ⚡ Configuración de Effort Level
+
+El selector de **Effort Level** (icono de cerebro 🧠) permite al usuario controlar la profundidad y exhaustividad del análisis del agente. Esto impacta directamente en la latencia, consumo de tokens, y calidad de las respuestas.
+
+### Valores Disponibles
+
+| Nivel | `effort_level` | Descripción UI |
+|-------|----------------|----------------|
+| Bajo | `"low"` | "Quick responses, minimal analysis" |
+| Medio | `"medium"` | "Balanced depth and speed" |
+| Alto | `"high"` | "Comprehensive analysis, longer wait" |
+
+### Impacto en Parámetros del Agente
+
+| Parámetro | Low | Medium | High |
+|-----------|-----|--------|------|
+| `initial_search_query_count` | 1 | 3 | 5 |
+| `max_research_loops` | 1 | 2 | 3 |
+| Latencia esperada | ~5s | ~15s | ~30s+ |
+| Tokens consumidos | ~2K | ~8K | ~20K+ |
+| Riesgo de alucinación | Mayor | Medio | Menor |
+
+### Implementación Backend Sugerida
+
+```python
+# En tu configuración de LangGraph
+EFFORT_CONFIGS = {
+    "low": {
+        "initial_search_query_count": 1,
+        "max_research_loops": 1,
+        "reflection_enabled": False,
+        "max_sources_per_query": 3
+    },
+    "medium": {
+        "initial_search_query_count": 3,
+        "max_research_loops": 2,
+        "reflection_enabled": True,
+        "max_sources_per_query": 5
+    },
+    "high": {
+        "initial_search_query_count": 5,
+        "max_research_loops": 3,
+        "reflection_enabled": True,
+        "max_sources_per_query": 10
+    }
+}
+
+def get_agent_config(effort_level: str) -> dict:
+    return EFFORT_CONFIGS.get(effort_level, EFFORT_CONFIGS["medium"])
+```
+
+### Casos de Uso por Nivel
+
+- **Low**: Preguntas simples, verificaciones rápidas, chat casual
+- **Medium**: Investigación estándar, preguntas clínicas típicas
+- **High**: Análisis complejos, generación de hipótesis, revisiones sistemáticas
+
+---
+
+## 🤖 Configuración de Modelos
+
+El selector de **Modelo** (icono de CPU 💻) permite seleccionar qué LLMs usar para diferentes tareas del agente.
+
+### Estructura del Payload
+
+```json
+{
+  "configurable": {
+    "model": {
+      "reasoning_model": "gemini-3-pro-preview",
+      "reflection_model": "gemini-3-flash-preview"
+    }
+  }
+}
+```
+
+### Roles de Cada Modelo
+
+| Campo | Propósito | Características Ideales |
+|-------|-----------|------------------------|
+| `reasoning_model` | Generar la respuesta final, síntesis de información | Alta capacidad de razonamiento, contexto largo |
+| `reflection_model` | Generar queries de búsqueda, reflexión sobre suficiencia | Rápido, económico, bueno para tareas estructuradas |
+
+### Modelos Disponibles (Ejemplos)
+
+```typescript
+// Frontend: src/components/InputForm.tsx
+const AI_MODELS = [
+  { id: "gemini-3-pro-preview", name: "Gemini 3 Pro" },
+  { id: "gemini-3-flash-preview", name: "Gemini 3 Flash" },
+  { id: "claude-sonnet-4-20250514", name: "Claude Sonnet 4" },
+  { id: "claude-3-5-haiku-20241022", name: "Claude 3.5 Haiku" },
+  { id: "gpt-4o", name: "GPT-4o" },
+  { id: "gpt-4o-mini", name: "GPT-4o Mini" },
+  { id: "o3-mini", name: "o3-mini" },
+];
+```
+
+### Estrategia Recomendada por Effort Level
+
+| Effort | Reasoning Model | Reflection Model |
+|--------|-----------------|------------------|
+| Low | Flash/Mini (rápido) | Flash/Mini |
+| Medium | Pro/Standard | Flash/Mini |
+| High | Pro/Opus/o3 | Standard |
+
+### Implementación Backend
+
+```python
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_anthropic import ChatAnthropic
+from langchain_openai import ChatOpenAI
+
+def get_model(model_id: str):
+    """Factory para obtener el modelo LLM correcto."""
+    if model_id.startswith("gemini"):
+        return ChatGoogleGenerativeAI(model=model_id)
+    elif model_id.startswith("claude"):
+        return ChatAnthropic(model=model_id)
+    elif model_id.startswith("gpt") or model_id.startswith("o3"):
+        return ChatOpenAI(model=model_id)
+    else:
+        raise ValueError(f"Modelo no soportado: {model_id}")
+
+# Uso en el agente
+config = payload.get("configurable", {})
+model_config = config.get("model", {})
+
+reasoning_llm = get_model(model_config.get("reasoning_model", "gemini-3-pro-preview"))
+reflection_llm = get_model(model_config.get("reflection_model", "gemini-3-flash-preview"))
 ```
 
 ---
