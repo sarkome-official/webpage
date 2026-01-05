@@ -104,22 +104,5 @@
     "selectThread": "Seleccionar una conversación",
     "noThreads": "Aún no hay conversaciones",
     "openSelectedThread": "Abrir Conversación Seleccionada"
-  },
-  "auth": {
-    "signIn": "Iniciar Sesión",
-    "signUp": "Registrarse",
-    "logout": "Cerrar Sesión",
-    "loginWithGoogle": "Iniciar Sesión con Google",
-    "welcome": "¡Bienvenido de vuelta!"
-  },
-  "errors": {
-    "required": "Este campo es requerido",
-    "invalidEmail": "Por favor ingresa un email válido",
-    "error": "Ocurrió un error"
-  },
-  "success": {
-    "saved": "Guardado exitosamente",
-    "created": "Creado exitosamente",
-    "deleted": "Eliminado exitosamente"
   }
 }

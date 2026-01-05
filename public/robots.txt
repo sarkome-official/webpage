@@ -1,4 +1,49 @@
+# Sarkome Robots Configuration
+# https://sarkome.com
+
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /platform/
 
+# Google Search Bot
+User-agent: Googlebot
+Allow: /
+
+# Google AI (Gemini training)
+User-agent: Google-Extended
+Allow: /
+
+# OpenAI GPT Crawler
+User-agent: GPTBot
+Allow: /
+
+# Anthropic Claude Crawler
+User-agent: ClaudeBot
+Allow: /
+
+# Perplexity AI Crawler
+User-agent: PerplexityBot
+Allow: /
+
+# Amazon AI Crawler
+User-agent: Amazonbot
+Allow: /
+
+# Microsoft Bing
+User-agent: Bingbot
+Allow: /
+
+# Apple Bot
+User-agent: Applebot
+Allow: /
+
+# Common Crawl (used by many AI models)
+User-agent: CCBot
+Allow: /
+
+# Sitemaps
 Sitemap: https://sarkome.com/sitemap.xml
+
+# LLM Context File
+# See: https://sarkome.com/llms.txt

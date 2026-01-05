@@ -104,22 +104,5 @@
     "selectThread": "Select a thread",
     "noThreads": "No conversations yet",
     "openSelectedThread": "Open Selected Thread"
-  },
-  "auth": {
-    "signIn": "Sign In",
-    "signUp": "Sign Up",
-    "logout": "Log Out",
-    "loginWithGoogle": "Login with Google",
-    "welcome": "Welcome back!"
-  },
-  "errors": {
-    "required": "This field is required",
-    "invalidEmail": "Please enter a valid email",
-    "error": "An error occurred"
-  },
-  "success": {
-    "saved": "Saved successfully",
-    "created": "Created successfully",
-    "deleted": "Deleted successfully"
   }
 }

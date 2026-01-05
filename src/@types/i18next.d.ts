@@ -10,11 +10,3 @@ declare module 'i18next' {
     ns: ['common'];
   }
 }
-
-declare module 'react-i18next' {
-  function useTranslation(ns?: string): {
-    t: (key: string | string[], options?: any) => string;
-    i18n: any;
-    ready: boolean;
-  };
-}

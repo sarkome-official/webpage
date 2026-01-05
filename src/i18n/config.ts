@@ -1,7 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import Backend from 'i18next-http-backend';
 
 // Import static files
 import commonEn from './locales/en/common.json';
@@ -35,12 +34,21 @@ i18n
     defaultNS,
     resources,
     detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
+      // Prioritize navigator (browser language) over localStorage to fix detection issues
+      order: ['querystring', 'navigator', 'localStorage', 'htmlTag'],
+      lookupQuerystring: 'lang',
+      lookupLocalStorage: 'i18nextLng',
       caches: ['localStorage'],
+      excludeCacheFor: ['cimode'],
     },
     interpolation: {
       escapeValue: false, // React already escapes values
     },
   });
+
+// Update HTML lang attribute on change for SEO and accessibility
+i18n.on('languageChanged', (lng) => {
+  document.documentElement.setAttribute('lang', lng);
+});
 
 export default i18n;

@@ -10,6 +10,7 @@ const DIST_DIR = 'dist';
 const STATIC_ROUTES = [
     { path: '/', priority: '1.0', changefreq: 'weekly' },
     { path: '/platform', priority: '0.9', changefreq: 'weekly' },
+    { path: '/faq', priority: '0.9', changefreq: 'monthly' },
     { path: '/knowledge-graph', priority: '0.8', changefreq: 'monthly' },
     { path: '/knowledge-graph-nodes', priority: '0.7', changefreq: 'monthly' },
     { path: '/alphafold', priority: '0.8', changefreq: 'monthly' },

@@ -24,6 +24,7 @@ const DocPage = lazy(() => import("@/pages/docs/DocPage"));
 const NewPatientForm = lazy(() => import("@/components/NewPatientForm"));
 const PatientRecordView = lazy(() => import("@/pages/platform/PatientRecordView"));
 const PatientChatView = lazy(() => import("@/pages/platform/PatientChatView"));
+const FAQPage = lazy(() => import("@/pages/FAQPage"));
 
 const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-screen w-full">
@@ -399,6 +400,7 @@ export default function App() {
             <Route index element={<Navigate to={`/docs/${docsConfig[0].slug}`} replace />} />
             <Route path=":slug" element={<DocPage />} />
           </Route>
+          <Route path="/faq" element={<FAQPage />} />
           <Route path="*" element={<LandingPage />} />
         </Routes>
       </Suspense>
