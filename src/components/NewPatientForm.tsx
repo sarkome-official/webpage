@@ -62,7 +62,7 @@ export default function NewPatientForm() {
                     onClick={() => navigate(-1)}
                 >
                     <ArrowLeft className="mr-2 size-4" />
-                    Volver
+                    Back
                 </Button>
 
                 <Card className="border-white/10 bg-white/5 backdrop-blur-xl">
@@ -71,20 +71,20 @@ export default function NewPatientForm() {
                             <div className="p-2 rounded-lg bg-primary/10 text-primary">
                                 <UserPlus className="size-5" />
                             </div>
-                            <CardTitle className="text-2xl">Nuevo Paciente</CardTitle>
+                            <CardTitle className="text-2xl">New Patient</CardTitle>
                         </div>
                         <CardDescription>
-                            Crea un nuevo expediente digital para comenzar el análisis oncológico de precisión.
+                            Create a new digital record to start precision oncology analysis.
                         </CardDescription>
                     </CardHeader>
                     <form onSubmit={handleSubmit}>
                         <CardContent className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="firstName">Nombre(s)</Label>
+                                    <Label htmlFor="firstName">First Name</Label>
                                     <Input 
                                         id="firstName" 
-                                        placeholder="Ej: Juan" 
+                                        placeholder="e.g., John" 
                                         required 
                                         value={formData.firstName}
                                         onChange={(e) => setFormData({...formData, firstName: e.target.value})}
@@ -92,10 +92,10 @@ export default function NewPatientForm() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="lastName">Apellidos</Label>
+                                    <Label htmlFor="lastName">Last Name</Label>
                                     <Input 
                                         id="lastName" 
-                                        placeholder="Ej: Pérez García" 
+                                        placeholder="e.g., Smith" 
                                         required 
                                         value={formData.lastName}
                                         onChange={(e) => setFormData({...formData, lastName: e.target.value})}
@@ -106,7 +106,7 @@ export default function NewPatientForm() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="dob">Fecha de Nacimiento</Label>
+                                    <Label htmlFor="dob">Date of Birth</Label>
                                     <Input 
                                         id="dob" 
                                         type="date" 
@@ -117,31 +117,31 @@ export default function NewPatientForm() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="sex">Sexo</Label>
+                                    <Label htmlFor="sex">Sex</Label>
                                     <Select 
                                         value={formData.sex} 
                                         onValueChange={(val: any) => setFormData({...formData, sex: val})}
                                     >
                                         <SelectTrigger className="bg-white/5 border-white/10">
-                                            <SelectValue placeholder="Seleccionar" />
+                                            <SelectValue placeholder="Select" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="M">Masculino</SelectItem>
-                                            <SelectItem value="F">Femenino</SelectItem>
-                                            <SelectItem value="Other">Otro / No especificado</SelectItem>
+                                            <SelectItem value="M">Male</SelectItem>
+                                            <SelectItem value="F">Female</SelectItem>
+                                            <SelectItem value="Other">Other / Not specified</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>
                             </div>
 
                             <div className="space-y-4 pt-4 border-t border-white/10">
-                                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Información Diagnóstica</h3>
+                                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Diagnostic Information</h3>
                                 
                                 <div className="space-y-2">
-                                    <Label htmlFor="cancerType">Tipo de Cáncer</Label>
+                                    <Label htmlFor="cancerType">Cancer Type</Label>
                                     <Input 
                                         id="cancerType" 
-                                        placeholder="Ej: Leiomiosarcoma de útero" 
+                                        placeholder="e.g., Uterine leiomyosarcoma" 
                                         required 
                                         value={formData.cancerType}
                                         onChange={(e) => setFormData({...formData, cancerType: e.target.value})}
@@ -151,10 +151,10 @@ export default function NewPatientForm() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="primarySite">Sitio Primario</Label>
+                                        <Label htmlFor="primarySite">Primary Site</Label>
                                         <Input 
                                             id="primarySite" 
-                                            placeholder="Ej: Útero" 
+                                            placeholder="e.g., Uterus" 
                                             required 
                                             value={formData.primarySite}
                                             onChange={(e) => setFormData({...formData, primarySite: e.target.value})}
@@ -162,10 +162,10 @@ export default function NewPatientForm() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="stage">Estadio (opcional)</Label>
+                                        <Label htmlFor="stage">Stage (optional)</Label>
                                         <Input 
                                             id="stage" 
-                                            placeholder="Ej: IIIA" 
+                                            placeholder="e.g., IIIA" 
                                             value={formData.stage}
                                             onChange={(e) => setFormData({...formData, stage: e.target.value})}
                                             className="bg-white/5 border-white/10"
@@ -176,10 +176,10 @@ export default function NewPatientForm() {
                         </CardContent>
                         <CardFooter className="flex justify-end gap-3 pt-6 border-t border-white/10">
                             <Button type="button" variant="ghost" onClick={() => navigate(-1)}>
-                                Cancelar
+                                Cancel
                             </Button>
                             <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                                Crear Expediente
+                                Create Record
                             </Button>
                         </CardFooter>
                     </form>

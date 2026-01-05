@@ -54,7 +54,7 @@ const data = {
             title: "Intelligence",
             items: [
                 {
-                    title: "Nuevo chat",
+                    title: "New Chat",
                     url: "/platform",
                     icon: Search,
                 },
@@ -215,14 +215,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 {/* Patients Section */}
                 <SidebarGroup className="py-2 mt-2 group-data-[collapsible=icon]:hidden">
                     <SidebarGroupLabel className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70 px-2 mb-1 flex items-center justify-between">
-                        <span>Mis Pacientes</span>
+                        <span>My Patients</span>
                         <Users className="size-3 opacity-50" />
                     </SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {patients.length === 0 ? (
                                 <SidebarMenuItem>
-                                    <div className="px-2 py-2 text-[11px] text-muted-foreground italic">No hay pacientes registrados.</div>
+                                    <div className="px-2 py-2 text-[11px] text-muted-foreground italic">No patients registered.</div>
                                 </SidebarMenuItem>
                             ) : (
                                 patients.map((p) => (
@@ -251,7 +251,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     }}
                                 >
                                     <UserPlus className="size-3.5 mr-2" />
-                                    <span className="text-xs font-semibold">Nuevo Paciente</span>
+                                    <span className="text-xs font-semibold">New Patient</span>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenu>
@@ -261,13 +261,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 {/* Recent Chats Section */}
                 <SidebarGroup className="py-2 mt-2 group-data-[collapsible=icon]:hidden">
                     <SidebarGroupLabel className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70 px-2 mb-1">
-                        Chats sin paciente
+                        Chats without patient
                     </SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {recentThreads.filter(t => !t.patientId).length === 0 ? (
                                 <SidebarMenuItem>
-                                    <div className="px-2 py-2 text-[11px] text-muted-foreground italic">No hay chats recientes.</div>
+                                    <div className="px-2 py-2 text-[11px] text-muted-foreground italic">No recent chats.</div>
                                 </SidebarMenuItem>
                             ) : (
                                 recentThreads.filter(t => !t.patientId).map((t) => (
