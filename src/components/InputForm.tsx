@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { SquarePen, Brain, Send, StopCircle, Zap, Cpu, Users, Search, Activity, Box, Plus, ArrowUp, Loader2, Database, ChevronDown } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { InstructionImproverButton } from "@/components/InstructionImprover";
 import {
   Select,
   SelectContent,
@@ -215,9 +216,10 @@ export const InputForm = ({
               aria-label="Scientific query input"
             />
 
+            {/* Bottom bar with controls */}
             <div className="flex items-center justify-between gap-2 px-3 pb-2 pt-1">
-              {/* Left side: Plus button + Effort selector */}
-              <div className="flex items-center gap-2">
+              {/* Left side: Controls that may wrap on very small screens */}
+              <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
                 <button
                   data-slot="button"
                   className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-9 h-8 w-8 rounded-full transition-colors search-bar-button"
@@ -227,14 +229,14 @@ export const InputForm = ({
                   <Plus className="size-4" />
                 </button>
 
-                {/* Effort selector - inline in input bar */}
-                <div className="flex items-center bg-accent/30 border border-border rounded-full px-2 sm:px-3 py-0.5 backdrop-blur-sm">
-                  <Brain className="size-3 text-muted-foreground/60 mr-1.5" />
+                {/* Effort selector - compact */}
+                <div className="flex items-center bg-accent/30 border border-border rounded-full px-2 py-0.5 backdrop-blur-sm">
+                  <Brain className="hidden sm:block size-3 text-muted-foreground/60 mr-1.5" />
                   <Popover>
                     <PopoverTrigger asChild>
                       <button
                         type="button"
-                        className="flex items-center justify-between h-6 w-[60px] sm:w-[75px] bg-transparent border-none focus:ring-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-foreground/90 p-0 hover:text-foreground transition-all"
+                        className="flex items-center justify-between h-6 w-[55px] sm:w-[70px] bg-transparent border-none focus:ring-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-foreground/90 p-0 hover:text-foreground transition-all"
                       >
                         <span>{effort}</span>
                         <ChevronDown className="size-4 opacity-50" />
@@ -272,14 +274,14 @@ export const InputForm = ({
                   </Popover>
                 </div>
 
-                {/* Models selector - inline in input bar */}
-                <div className="flex items-center bg-accent/30 border border-border rounded-full px-2 sm:px-3 py-0.5 backdrop-blur-sm">
-                  <Cpu className="size-3 text-muted-foreground/60 mr-1.5" />
+                {/* Models selector - compact */}
+                <div className="flex items-center bg-accent/30 border border-border rounded-full px-2 py-0.5 backdrop-blur-sm">
+                  <Cpu className="hidden sm:block size-3 text-muted-foreground/60 mr-1.5" />
                   <Popover>
                     <PopoverTrigger asChild>
                       <button
                         type="button"
-                        className="flex items-center justify-between h-6 w-[60px] sm:w-[75px] bg-transparent border-none focus:ring-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-foreground/90 p-0 hover:text-foreground transition-all"
+                        className="flex items-center justify-between h-6 w-[50px] sm:w-[70px] bg-transparent border-none focus:ring-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-foreground/90 p-0 hover:text-foreground transition-all"
                       >
                         <span>Model</span>
                         <ChevronDown className="size-4 opacity-50" />
@@ -322,14 +324,14 @@ export const InputForm = ({
                   </Popover>
                 </div>
 
-                {/* Tools selector - inline in input bar */}
-                <div className="flex items-center bg-accent/30 border border-border rounded-full px-2 sm:px-3 py-0.5 backdrop-blur-sm">
-                  <Box className="size-3 text-muted-foreground/60 mr-1.5" />
+                {/* Tools selector - compact */}
+                <div className="flex items-center bg-accent/30 border border-border rounded-full px-2 py-0.5 backdrop-blur-sm">
+                  <Box className="hidden sm:block size-3 text-muted-foreground/60 mr-1.5" />
                   <Popover>
                     <PopoverTrigger asChild>
                       <button
                         type="button"
-                        className="flex items-center justify-between h-6 w-[60px] sm:w-[75px] bg-transparent border-none focus:ring-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-foreground/90 p-0 hover:text-foreground transition-all"
+                        className="flex items-center justify-between h-6 w-[50px] sm:w-[70px] bg-transparent border-none focus:ring-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-foreground/90 p-0 hover:text-foreground transition-all"
                       >
                         <span>Tools</span>
                         <ChevronDown className="size-4 opacity-50" />
@@ -477,34 +479,42 @@ export const InputForm = ({
                 </div>
               </div>
 
-              {/* Right side: Send/Cancel button */}
-              {isLoading ? (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 rounded-full bg-destructive/10 text-destructive hover:bg-destructive/20"
-                  onClick={onCancel}
-                  disabled={!onCancel}
-                  aria-label="Cancel run"
-                  title="Cancel"
-                >
-                  <span className="sr-only">Thinking</span>
-                  <Loader2 className="size-4 animate-spin" />
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  size="icon"
-                  className={`h-8 w-8 rounded-full transition-all duration-200 ${isSubmitDisabled
-                    ? 'opacity-50 cursor-not-allowed search-bar-button'
-                    : 'search-bar-button-active shadow-sm hover:opacity-90'}`}
-                  disabled={isSubmitDisabled}
-                  aria-label="Send message"
-                >
-                  <ArrowUp className="size-4" />
-                </Button>
-              )}
+              {/* Right side: Action buttons - always visible and grouped */}
+              <div className="flex items-center gap-2 shrink-0">
+                <InstructionImproverButton
+                  currentInput={internalInputValue}
+                  onImprovedPrompt={(improved) => setInternalInputValue(improved)}
+                  disabled={isLoading}
+                />
+                
+                {isLoading ? (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 rounded-full bg-destructive/10 text-destructive hover:bg-destructive/20"
+                    onClick={onCancel}
+                    disabled={!onCancel}
+                    aria-label="Cancel run"
+                    title="Cancel"
+                  >
+                    <span className="sr-only">Thinking</span>
+                    <Loader2 className="size-4 animate-spin" />
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    size="icon"
+                    className={`h-8 w-8 rounded-full transition-all duration-200 ${isSubmitDisabled
+                      ? 'opacity-50 cursor-not-allowed search-bar-button'
+                      : 'search-bar-button-active shadow-sm hover:opacity-90'}`}
+                    disabled={isSubmitDisabled}
+                    aria-label="Send message"
+                  >
+                    <ArrowUp className="size-4" />
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </div>

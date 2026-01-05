@@ -6,8 +6,7 @@ import { calculateCost, formatCost } from "@/lib/pricing";
 
 import type { ChatMessage } from "@/lib/chat-types";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Loader2, Copy, CopyCheck, Database, Terminal, ChevronDown, ChevronUp, Plus } from "lucide-react";
-import { setActiveThreadId, createThreadId } from "@/lib/local-threads";
+import { Loader2, Copy, CopyCheck, Database, Terminal, ChevronDown, ChevronUp } from "lucide-react";
 import { InputForm } from "@/components/InputForm";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -370,12 +369,6 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
   copiedMessageId,
   onSaveHypothesis,
 }) => {
-  const handleNewChat = () => {
-    const newId = createThreadId();
-    setActiveThreadId(newId);
-    window.location.href = "/platform";
-  };
-
   // Determine which activity events to show and if it's for a live loading message
   const activityForThisBubble =
     isLastMessage && isOverallLoading ? liveActivity : historicalActivity;
@@ -481,15 +474,7 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
 
       {/* Show action buttons only when conversation is finished (not loading) */}
       {formatted.length > 0 && (!isLastMessage || !isOverallLoading) && (
-        <div className="flex items-center justify-between mt-2">
-          <button
-            onClick={handleNewChat}
-            className="flex items-center gap-2 bg-primary/10 text-primary px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-primary/20 transition-all shrink-0 active:scale-95"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>New Chat</span>
-          </button>
-
+        <div className="flex items-center justify-end mt-2">
           <div className="flex items-center gap-2">
             {onSaveHypothesis && (
               <Button

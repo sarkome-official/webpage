@@ -114,7 +114,7 @@ export function useAgent(options: UseAgentOptions) {
         }));
 
         const threadId = typeof options.threadId === "string" ? options.threadId : "default-thread";
-        const endpoint = `${options.url.replace(/\/$/, "")}/runs/stream`;
+        const endpoint = `${options.url.replace(/\/$/, "")}/runs/stream/v2`;
 
         // Preserve any extra options sent via `input` (e.g. initial_search_query_count)
         const extraConfig: Record<string, unknown> = { ...(input as Record<string, unknown>) };

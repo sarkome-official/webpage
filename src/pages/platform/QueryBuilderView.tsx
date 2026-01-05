@@ -189,7 +189,7 @@ export const QueryBuilderView = () => {
         esRef.current = null; // mark EventSource not used; keep ref for cancellation
 
         try {
-            const endpoint = `${getAgentUrl().replace(/\/$/, '')}/runs/stream`;
+            const endpoint = `${getAgentUrl().replace(/\/$/, '')}/runs/stream/v2`;
             const threadId = runId;
 
             const messages = [
