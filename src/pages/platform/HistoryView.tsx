@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next"
 import { MessageSquare, Database, Link as LinkIcon, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { getAgentUrl } from "@/lib/langgraph-api";
@@ -23,6 +24,7 @@ function stringifyContent(content: unknown): string {
 }
 
 export const HistoryView = () => {
+  const { t } = useTranslation()
   const [showWipDialog, setShowWipDialog] = useState(true);
   const agentUrl = useMemo(() => getAgentUrl(), []);
 
@@ -69,9 +71,9 @@ export const HistoryView = () => {
             <MessageSquare className="w-5 h-5 md:w-6 md:h-6 text-primary" />
           </div>
           <div className="min-w-0 mr-auto">
-            <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight truncate">Chat History</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-foreground tracking-tight truncate">{t('history.chatHistory')}</h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Your conversation history is saved locally in your browser.
+              {t('history.localSavedHistory')}
             </p>
           </div>
         </div>
@@ -81,11 +83,11 @@ export const HistoryView = () => {
             <div className="flex items-start gap-3">
               <Database className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <div className="text-sm text-foreground font-semibold">How persistence works</div>
+                <div className="text-sm text-foreground font-semibold">{t('history.howPersistenceWorks')}</div>
                 <ul className="text-sm text-muted-foreground list-disc pl-5 space-y-1">
-                  <li>Each conversation is saved locally with a unique identifier.</li>
-                  <li>User messages and agent responses are automatically persisted to <span className="font-mono text-foreground">localStorage</span>.</li>
-                  <li>Conversations persist across browser sessions until cleared.</li>
+                  <li>{t('history.eachConversation')}</li>
+                  <li>{t('history.messagesAutoSaved')} <span className="font-mono text-foreground">localStorage</span>.</li>
+                  <li>{t('history.persistAcrossSessions')}</li>
                 </ul>
               </div>
             </div>

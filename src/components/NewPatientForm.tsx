@@ -1,5 +1,6 @@
 import * as React from "react"
 import { useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,6 +11,7 @@ import { ArrowLeft, UserPlus } from "lucide-react"
 
 export default function NewPatientForm() {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const [formData, setFormData] = React.useState({
         firstName: "",
         lastName: "",
@@ -62,7 +64,7 @@ export default function NewPatientForm() {
                     onClick={() => navigate(-1)}
                 >
                     <ArrowLeft className="mr-2 size-4" />
-                    Back
+                    {t('buttons.back')}
                 </Button>
 
                 <Card className="border-white/10 bg-white/5 backdrop-blur-xl">
@@ -71,7 +73,7 @@ export default function NewPatientForm() {
                             <div className="p-2 rounded-lg bg-primary/10 text-primary">
                                 <UserPlus className="size-5" />
                             </div>
-                            <CardTitle className="text-2xl">New Patient</CardTitle>
+                            <CardTitle className="text-2xl">{t('patient.newPatient')}</CardTitle>
                         </div>
                         <CardDescription>
                             Create a new digital record to start precision oncology analysis.
@@ -81,7 +83,7 @@ export default function NewPatientForm() {
                         <CardContent className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="firstName">First Name</Label>
+                                    <Label htmlFor="firstName">{t('patient.firstName')}</Label>
                                     <Input 
                                         id="firstName" 
                                         placeholder="e.g., John" 
@@ -92,7 +94,7 @@ export default function NewPatientForm() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="lastName">Last Name</Label>
+                                    <Label htmlFor="lastName">{t('patient.lastName')}</Label>
                                     <Input 
                                         id="lastName" 
                                         placeholder="e.g., Smith" 
@@ -106,7 +108,7 @@ export default function NewPatientForm() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="dob">Date of Birth</Label>
+                                    <Label htmlFor="dob">{t('patient.dateOfBirth')}</Label>
                                     <Input 
                                         id="dob" 
                                         type="date" 
@@ -117,7 +119,7 @@ export default function NewPatientForm() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="sex">Sex</Label>
+                                    <Label htmlFor="sex">{t('patient.sex')}</Label>
                                     <Select 
                                         value={formData.sex} 
                                         onValueChange={(val: any) => setFormData({...formData, sex: val})}
@@ -126,9 +128,9 @@ export default function NewPatientForm() {
                                             <SelectValue placeholder="Select" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="M">Male</SelectItem>
-                                            <SelectItem value="F">Female</SelectItem>
-                                            <SelectItem value="Other">Other / Not specified</SelectItem>
+                                            <SelectItem value="M">{t('patient.male')}</SelectItem>
+                                            <SelectItem value="F">{t('patient.female')}</SelectItem>
+                                            <SelectItem value="Other">{t('patient.other')}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>
@@ -138,7 +140,7 @@ export default function NewPatientForm() {
                                 <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Diagnostic Information</h3>
                                 
                                 <div className="space-y-2">
-                                    <Label htmlFor="cancerType">Cancer Type</Label>
+                                    <Label htmlFor="cancerType">{t('patient.cancerType')}</Label>
                                     <Input 
                                         id="cancerType" 
                                         placeholder="e.g., Uterine leiomyosarcoma" 
@@ -151,7 +153,7 @@ export default function NewPatientForm() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="primarySite">Primary Site</Label>
+                                        <Label htmlFor="primarySite">{t('patient.primarySite')}</Label>
                                         <Input 
                                             id="primarySite" 
                                             placeholder="e.g., Uterus" 
@@ -162,7 +164,7 @@ export default function NewPatientForm() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="stage">Stage (optional)</Label>
+                                        <Label htmlFor="stage">{t('patient.stage')}</Label>
                                         <Input 
                                             id="stage" 
                                             placeholder="e.g., IIIA" 
@@ -176,10 +178,10 @@ export default function NewPatientForm() {
                         </CardContent>
                         <CardFooter className="flex justify-end gap-3 pt-6 border-t border-white/10">
                             <Button type="button" variant="ghost" onClick={() => navigate(-1)}>
-                                Cancel
+                                {t('buttons.cancel')}
                             </Button>
                             <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                                Create Record
+                                {t('patient.createRecord')}
                             </Button>
                         </CardFooter>
                     </form>

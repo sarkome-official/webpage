@@ -1,0 +1,125 @@
+{
+  "welcome": "Bienvenido a Sarkome",
+  "buttons": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "submit": "Enviar",
+    "back": "Volver",
+    "create": "Crear",
+    "signOut": "Cerrar Sesión",
+    "search": "Buscar",
+    "new": "Nuevo",
+    "close": "Cerrar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "send": "Enviar"
+  },
+  "nav": {
+    "home": "Inicio",
+    "patients": "Pacientes",
+    "chat": "Chat",
+    "knowledge": "Gráfo de Conocimiento",
+    "programs": "Programas",
+    "documents": "Documentos",
+    "genomics": "Genómica",
+    "treatments": "Tratamientos",
+    "hypotheses": "Hipótesis",
+    "history": "Historial",
+    "api": "Documentación API",
+    "settings": "Configuración"
+  },
+  "patient": {
+    "newPatient": "Nuevo Paciente",
+    "createRecord": "Crear Expediente",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "dateOfBirth": "Fecha de Nacimiento",
+    "sex": "Sexo",
+    "cancerType": "Tipo de Cáncer",
+    "primarySite": "Sitio Primario",
+    "stage": "Estadio",
+    "male": "Masculino",
+    "female": "Femenino",
+    "other": "Otro",
+    "patientHistory": "Historial del Paciente",
+    "noPatients": "No se encontraron pacientes",
+    "oncologicalConsultation": "Consulta Oncológica AI"
+  },
+  "sidebar": {
+    "threads": "Conversaciones",
+    "patients": "Pacientes",
+    "newChat": "Nuevo Chat",
+    "selectPatient": "Seleccionar paciente",
+    "theme": "Tema",
+    "help": "Ayuda y Soporte",
+    "settings": "Configuración"
+  },
+  "chat": {
+    "typeMessage": "Escribe tu mensaje...",
+    "send": "Enviar",
+    "improvePrompt": "Mejorar Prompt",
+    "improving": "Mejorando...",
+    "improved": "¡Mejorado!"
+  },
+  "auth": {
+    "signIn": "Iniciar Sesión",
+    "signUp": "Registrarse",
+    "logout": "Cerrar Sesión",
+    "loginWithGoogle": "Iniciar Sesión con Google",
+    "welcome": "¡Bienvenido de vuelta!"
+  },
+  "errors": {
+    "required": "Este campo es requerido",
+    "invalidEmail": "Por favor ingresa un email válido",
+    "error": "Ocurrió un error"
+  },
+  "success": {
+    "saved": "Guardado exitosamente",
+    "created": "Creado exitosamente",
+    "deleted": "Eliminado exitosamente"
+  },
+  "agent": {
+    "queryKnowledgeGraph": "Grafo de Conocimiento",
+    "queryingKnowledgeGraph": "Consultando Grafo de Conocimiento Biomédico...",
+    "queryAlphaFold": "AlphaFold",
+    "analyzingAlphaFold": "Analizando estructuras proteicas en AlphaFold...",
+    "generateQuery": "Estrategia",
+    "generatingStrategy": "Diseñando estrategia de búsqueda web basada en evidencia biológica...",
+    "webResearch": "Investigación Web",
+    "readingSources": "Leyendo fuentes externas y artículos científicos...",
+    "reflection": "Reflexión",
+    "evaluating": "Reflexión: evaluando si hay información suficiente...",
+    "finalizeAnswer": "Finalizando",
+    "generatingAnswer": "Generando respuesta final.",
+    "start": "Iniciar Análisis",
+    "stop": "Detener"
+  },
+  "history": {
+    "chatHistory": "Historial de Chat",
+    "localSavedHistory": "Tu historial de conversación se guarda localmente en tu navegador.",
+    "howPersistenceWorks": "Cómo funciona la persistencia",
+    "eachConversation": "Cada conversación se guarda localmente con un identificador único.",
+    "messagesAutoSaved": "Los mensajes del usuario y las respuestas del agente se guardan automáticamente en localStorage.",
+    "persistAcrossSessions": "Las conversaciones persisten entre sesiones del navegador hasta que se borren.",
+    "selectThread": "Seleccionar una conversación",
+    "noThreads": "Aún no hay conversaciones",
+    "openSelectedThread": "Abrir Conversación Seleccionada"
+  },
+  "auth": {
+    "signIn": "Iniciar Sesión",
+    "signUp": "Registrarse",
+    "logout": "Cerrar Sesión",
+    "loginWithGoogle": "Iniciar Sesión con Google",
+    "welcome": "¡Bienvenido de vuelta!"
+  },
+  "errors": {
+    "required": "Este campo es requerido",
+    "invalidEmail": "Por favor ingresa un email válido",
+    "error": "Ocurrió un error"
+  },
+  "success": {
+    "saved": "Guardado exitosamente",
+    "created": "Creado exitosamente",
+    "deleted": "Eliminado exitosamente"
+  }
+}

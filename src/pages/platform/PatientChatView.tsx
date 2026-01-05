@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import { useParams, useNavigate } from "react-router-dom"
 import { getPatient, getPatientFullName } from "@/lib/patient-record"
 import { buildPatientContextForLLM } from "@/lib/patient-context-builder"
@@ -8,6 +9,7 @@ import { ArrowLeft, User } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function PatientChatView() {
+    const { t } = useTranslation()
     const { patientId, threadId } = useParams<{ patientId: string, threadId?: string }>();
     const navigate = useNavigate();
     const [patient, setPatient] = React.useState<any>(null);
@@ -41,7 +43,7 @@ export default function PatientChatView() {
                     </Avatar>
                     <div>
                         <p className="text-xs font-bold leading-none">{getPatientFullName(patient)}</p>
-                        <p className="text-[10px] text-muted-foreground">Consulta Oncológica AI</p>
+                        <p className="text-[10px] text-muted-foreground">{t('patient.oncologicalConsultation')}</p>
                     </div>
                 </div>
             </header>

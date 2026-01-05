@@ -1,0 +1,108 @@
+{
+  "welcome": "Bem-vindo ao Sarkome",
+  "buttons": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "submit": "Enviar",
+    "back": "Voltar",
+    "create": "Criar",
+    "signOut": "Sair",
+    "search": "Pesquisar",
+    "new": "Novo",
+    "close": "Fechar",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "send": "Enviar"
+  },
+  "nav": {
+    "home": "Início",
+    "patients": "Pacientes",
+    "chat": "Chat",
+    "knowledge": "Gráfico de Conhecimento",
+    "programs": "Programas",
+    "documents": "Documentos",
+    "genomics": "Genômica",
+    "treatments": "Tratamentos",
+    "hypotheses": "Hipóteses",
+    "history": "Histórico",
+    "api": "Documentação da API",
+    "settings": "Configurações"
+  },
+  "patient": {
+    "newPatient": "Novo Paciente",
+    "createRecord": "Criar Registro",
+    "firstName": "Nome",
+    "lastName": "Sobrenome",
+    "dateOfBirth": "Data de Nascimento",
+    "sex": "Sexo",
+    "cancerType": "Tipo de Câncer",
+    "primarySite": "Local Primário",
+    "stage": "Estágio",
+    "male": "Masculino",
+    "female": "Feminino",
+    "other": "Outro",
+    "patientHistory": "Histórico do Paciente",
+    "noPatients": "Nenhum paciente encontrado",
+    "oncologicalConsultation": "Consulta Oncológica AI"
+  },
+  "sidebar": {
+    "threads": "Conversas",
+    "patients": "Pacientes",
+    "newChat": "Novo Chat",
+    "selectPatient": "Selecionar paciente",
+    "theme": "Tema",
+    "help": "Ajuda e Suporte",
+    "settings": "Configurações"
+  },
+  "chat": {
+    "typeMessage": "Digite sua mensagem...",
+    "send": "Enviar",
+    "improvePrompt": "Melhorar Prompt",
+    "improving": "Melhorando...",
+    "improved": "Melhorado!"
+  },
+  "auth": {
+    "signIn": "Entrar",
+    "signUp": "Registrar-se",
+    "logout": "Sair",
+    "loginWithGoogle": "Entrar com Google",
+    "welcome": "Bem-vindo de volta!"
+  },
+  "errors": {
+    "required": "Este campo é obrigatório",
+    "invalidEmail": "Por favor, insira um email válido",
+    "error": "Ocorreu um erro"
+  },
+  "success": {
+    "saved": "Salvo com sucesso",
+    "created": "Criado com sucesso",
+    "deleted": "Excluído com sucesso"
+  },
+  "agent": {
+    "queryKnowledgeGraph": "Gráfico de Conhecimento",
+    "queryingKnowledgeGraph": "Consultando Gráfico de Conhecimento Biomédico...",
+    "queryAlphaFold": "AlphaFold",
+    "analyzingAlphaFold": "Analisando estruturas de proteína em AlphaFold...",
+    "generateQuery": "Estratégia",
+    "generatingStrategy": "Projetando estratégia de busca web baseada em evidência biológica...",
+    "webResearch": "Pesquisa Web",
+    "readingSources": "Lendo fontes externas e artigos científicos...",
+    "reflection": "Reflexão",
+    "evaluating": "Reflexão: avaliando se há informações suficientes...",
+    "finalizeAnswer": "Finalizando",
+    "generatingAnswer": "Gerando resposta final.",
+    "start": "Iniciar Análise",
+    "stop": "Parar"
+  },
+  "history": {
+    "chatHistory": "Histórico de Chat",
+    "localSavedHistory": "Seu histórico de conversa é salvo localmente em seu navegador.",
+    "howPersistenceWorks": "Como funciona a persistência",
+    "eachConversation": "Cada conversa é salva localmente com um identificador único.",
+    "messagesAutoSaved": "As mensagens do usuário e as respostas do agente são automaticamente persistidas no localStorage.",
+    "persistAcrossSessions": "As conversas persistem entre sessões do navegador até serem limpas.",
+    "selectThread": "Selecione uma conversa",
+    "noThreads": "Nenhuma conversa ainda",
+    "openSelectedThread": "Abrir Conversa Selecionada"
+  }
+}

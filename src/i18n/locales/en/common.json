@@ -1,0 +1,125 @@
+{
+  "welcome": "Welcome to Sarkome",
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "back": "Back",
+    "create": "Create",
+    "signOut": "Sign Out",
+    "search": "Search",
+    "new": "New",
+    "close": "Close",
+    "edit": "Edit",
+    "delete": "Delete",
+    "send": "Send"
+  },
+  "nav": {
+    "home": "Home",
+    "patients": "Patients",
+    "chat": "Chat",
+    "knowledge": "Knowledge Graph",
+    "programs": "Programs",
+    "documents": "Documents",
+    "genomics": "Genomics",
+    "treatments": "Treatments",
+    "hypotheses": "Hypotheses",
+    "history": "History",
+    "api": "API Docs",
+    "settings": "Settings"
+  },
+  "patient": {
+    "newPatient": "New Patient",
+    "createRecord": "Create Record",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "dateOfBirth": "Date of Birth",
+    "sex": "Sex",
+    "cancerType": "Cancer Type",
+    "primarySite": "Primary Site",
+    "stage": "Stage",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "patientHistory": "Patient History",
+    "noPatients": "No patients found",
+    "oncologicalConsultation": "AI Oncological Consultation"
+  },
+  "sidebar": {
+    "threads": "Conversations",
+    "patients": "Patients",
+    "newChat": "New Chat",
+    "selectPatient": "Select a patient",
+    "theme": "Theme",
+    "help": "Help & Support",
+    "settings": "Settings"
+  },
+  "chat": {
+    "typeMessage": "Type your message...",
+    "send": "Send",
+    "improvePrompt": "Improve Prompt",
+    "improving": "Improving...",
+    "improved": "Improved!"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "logout": "Log Out",
+    "loginWithGoogle": "Login with Google",
+    "welcome": "Welcome back!"
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email",
+    "error": "An error occurred"
+  },
+  "success": {
+    "saved": "Saved successfully",
+    "created": "Created successfully",
+    "deleted": "Deleted successfully"
+  },
+  "agent": {
+    "queryKnowledgeGraph": "Knowledge Graph",
+    "queryingKnowledgeGraph": "Querying Biomedical Knowledge Graph...",
+    "queryAlphaFold": "AlphaFold",
+    "analyzingAlphaFold": "Analyzing protein structures in AlphaFold...",
+    "generateQuery": "Strategy",
+    "generatingStrategy": "Designing web search strategy based on biological evidence...",
+    "webResearch": "Web Research",
+    "readingSources": "Reading external sources and scientific articles...",
+    "reflection": "Reflection",
+    "evaluating": "Reflection: evaluating if there is sufficient information...",
+    "finalizeAnswer": "Finalizing",
+    "generatingAnswer": "Generating final answer.",
+    "start": "Start Analysis",
+    "stop": "Stop"
+  },
+  "history": {
+    "chatHistory": "Chat History",
+    "localSavedHistory": "Your conversation history is saved locally in your browser.",
+    "howPersistenceWorks": "How persistence works",
+    "eachConversation": "Each conversation is saved locally with a unique identifier.",
+    "messagesAutoSaved": "User messages and agent responses are automatically persisted to localStorage.",
+    "persistAcrossSessions": "Conversations persist across browser sessions until cleared.",
+    "selectThread": "Select a thread",
+    "noThreads": "No conversations yet",
+    "openSelectedThread": "Open Selected Thread"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "logout": "Log Out",
+    "loginWithGoogle": "Login with Google",
+    "welcome": "Welcome back!"
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email",
+    "error": "An error occurred"
+  },
+  "success": {
+    "saved": "Saved successfully",
+    "created": "Created successfully",
+    "deleted": "Deleted successfully"
+  }
+}

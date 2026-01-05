@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next'
 import { getAgentUrl } from '@/lib/langgraph-api';
 import { Paperclip, Rocket, Pill, Search, ArrowLeftRight, Bot, Zap, CheckCircle, Loader2 } from 'lucide-react';
 
@@ -14,6 +15,7 @@ function extractAlphaFoldNames(context?: string): string[] {
 }
 
 export const QueryBuilderView = () => {
+    const { t } = useTranslation()
     const [query, setQuery] = useState('');
     const [isStarting, setIsStarting] = useState(false);
     const [clientRunId, setClientRunId] = useState<string | null>(null);
@@ -32,12 +34,12 @@ export const QueryBuilderView = () => {
     const STEP_ORDER = ['query_knowledge_graph', 'query_alphafold', 'generate_query', 'web_research', 'reflection', 'finalize_answer'];
 
     const NODE_LABELS: Record<string, { title: string; message: string }> = {
-        query_knowledge_graph: { title: 'Grafo de Conocimiento', message: 'Consultando Grafo de Conocimiento Biomédico...' },
-        query_alphafold: { title: 'AlphaFold', message: 'Analizando estructuras proteicas en AlphaFold...' },
-        generate_query: { title: 'Estrategia', message: 'Diseñando estrategia de búsqueda web basada en evidencia biológica...' },
-        web_research: { title: 'Investigación Web', message: 'Leyendo fuentes externas y artículos científicos...' },
-        reflection: { title: 'Reflexión', message: 'Reflexión: evaluando si hay información suficiente...' },
-        finalize_answer: { title: 'Finalizando', message: 'Generando respuesta final.' },
+        query_knowledge_graph: { title: t('agent.queryKnowledgeGraph'), message: t('agent.queryingKnowledgeGraph') },
+        query_alphafold: { title: t('agent.queryAlphaFold'), message: t('agent.analyzingAlphaFold') },
+        generate_query: { title: t('agent.generateQuery'), message: t('agent.generatingStrategy') },
+        web_research: { title: t('agent.webResearch'), message: t('agent.readingSources') },
+        reflection: { title: t('agent.reflection'), message: t('agent.evaluating') },
+        finalize_answer: { title: t('agent.finalizeAnswer'), message: t('agent.generatingAnswer') },
     };
 
     const handleStart = () => {

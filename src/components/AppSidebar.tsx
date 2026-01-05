@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import {
     Search,
     MessageSquare,
@@ -47,6 +48,7 @@ import {
 import { createThreadId, listThreads, setActiveThreadId, type StoredThread } from "@/lib/local-threads"
 import { listPatients, getPatientFullName, type PatientRecord } from "@/lib/patient-record"
 import { UserPlus, Users } from "lucide-react"
+import { SettingsModal } from "@/components/SettingsModal"
 
 const data = {
     navMain: [
@@ -94,9 +96,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const location = useLocation();
     const { isMobile, setOpenMobile } = useSidebar();
     const { user, logout } = useAuth();
+    const { t } = useTranslation();
     const [searchQuery, setSearchQuery] = React.useState("");
     const [recentThreads, setRecentThreads] = React.useState<StoredThread[]>(() => listThreads().slice(0, 8));
     const [patients, setPatients] = React.useState<PatientRecord[]>(() => listPatients());
+    const [settingsOpen, setSettingsOpen] = React.useState(false);
 
     React.useEffect(() => {
         const refreshThreads = () => setRecentThreads(listThreads().slice(0, 8));
@@ -294,7 +298,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
             <SidebarFooter className="p-4">
                 <div className="flex flex-col gap-2">
-
+                    <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
 
                     <Popover>
                         <PopoverTrigger asChild>
@@ -335,42 +339,45 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             </div>
                             
                             <div className="p-1.5 flex flex-col gap-0.5">
-                                <button className="flex items-center gap-3 w-full px-2.5 py-2 text-sm text-foreground hover:bg-muted rounded-md transition-colors text-left">
-                                    <Palette className="size-4 text-muted-foreground" />
-                                    <span>Personalization</span>
+                                <button className="flex items-center gap-3 w-full px-2.5 py-2 text-sm text-foreground hover:bg-muted/60 hover:text-primary rounded-md transition-all duration-200 text-left group cursor-pointer">
+                                    <Palette className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                                    <span className="group-hover:font-medium">Personalization</span>
                                 </button>
-                                <button className="flex items-center gap-3 w-full px-2.5 py-2 text-sm text-foreground hover:bg-muted rounded-md transition-colors text-left">
-                                    <Settings className="size-4 text-muted-foreground" />
-                                    <span>Settings</span>
+                                <button 
+                                    onClick={() => setSettingsOpen(true)}
+                                    className="flex items-center gap-3 w-full px-2.5 py-2 text-sm text-foreground hover:bg-muted/60 hover:text-primary rounded-md transition-all duration-200 text-left group cursor-pointer"
+                                >
+                                    <Settings className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                                    <span className="group-hover:font-medium">Settings</span>
                                 </button>
                             </div>
 
                             <div className="h-px bg-border mx-2 my-1" />
 
                             <div className="p-1.5 flex flex-col gap-0.5">
-                                <button className="flex items-center justify-between w-full px-2.5 py-2 text-sm text-foreground hover:bg-muted rounded-md transition-colors text-left group">
+                                <button className="flex items-center justify-between w-full px-2.5 py-2 text-sm text-foreground hover:bg-muted/60 hover:text-primary rounded-md transition-all duration-200 text-left group cursor-pointer">
                                     <div className="flex items-center gap-3">
-                                        <LifeBuoy className="size-4 text-muted-foreground" />
-                                        <span>Help</span>
+                                        <LifeBuoy className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                                        <span className="group-hover:font-medium">Help</span>
                                     </div>
-                                    <ChevronRight className="size-3.5 text-muted-foreground/50 group-hover:text-foreground" />
+                                    <ChevronRight className="size-3.5 text-muted-foreground/50 group-hover:text-primary transition-colors" />
                                 </button>
                                 <button
                                     onClick={() => logout()}
-                                    className="flex items-center gap-3 w-full px-2.5 py-2 text-sm text-foreground hover:bg-destructive/10 hover:text-destructive rounded-md transition-colors text-left group"
+                                    className="flex items-center gap-3 w-full px-2.5 py-2 text-sm text-foreground hover:bg-destructive/15 hover:text-destructive rounded-md transition-all duration-200 text-left group cursor-pointer"
                                 >
                                     <LogOut className="size-4 text-muted-foreground group-hover:text-destructive transition-colors" />
-                                    <span>Sign out</span>
+                                    <span className="group-hover:font-medium">Sign out</span>
                                 </button>
 
                                 <div className="h-px bg-border mx-2 my-1" />
 
                                 <a
                                     href="/"
-                                    className="flex items-center gap-3 w-full px-2.5 py-2 text-sm text-foreground hover:bg-muted rounded-md transition-colors text-left"
+                                    className="flex items-center gap-3 w-full px-2.5 py-2 text-sm text-foreground hover:bg-muted/60 hover:text-primary rounded-md transition-all duration-200 text-left group cursor-pointer"
                                 >
-                                    <ArrowLeft className="size-4 text-muted-foreground" />
-                                    <span>Back to Site</span>
+                                    <ArrowLeft className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                                    <span className="group-hover:font-medium">Back to Site</span>
                                 </a>
                             </div>
                         </PopoverContent>
