@@ -38,7 +38,7 @@ const TECH_STACK = [
     { name: "Gemini 3.0", src: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.svg", color: "from-blue-400/20 to-purple-400/20" },
     { name: "Docker", src: "https://www.vectorlogo.zone/logos/docker/docker-tile.svg", color: "from-blue-500/10 to-blue-600/10" },
     { name: "LangGraph", src: "https://avatars.githubusercontent.com/u/126733545?s=200&v=4", color: "from-green-400/10 to-emerald-500/10" },
-    { name: "NetworkX", src: "https://logo.svgcdn.com/devicon/networkx-original.svg", color: "from-slate-700/10 to-slate-900/10" },
+    { name: "Neo4j", src: "https://www.vectorlogo.zone/logos/neo4j/neo4j-icon.svg", color: "from-blue-400/10 to-cyan-500/10" },
     { name: "Google Cloud", src: "https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg", color: "from-blue-500/10 to-red-500/10" },
     { name: "Python", src: "https://www.vectorlogo.zone/logos/python/python-icon.svg", color: "from-yellow-400/10 to-blue-500/10" },
     { name: "Alphafold", src: "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/deepmind-icon.svg", color: "from-purple-600/10 to-rose-400/10" }
@@ -78,7 +78,7 @@ export default function LandingPage() {
                                 <img alt="Sarkome Logo" className="w-12 h-12 object-contain" width="48" height="48" src="/logo_purple_nobackground.svg" />
                             </div>
                             <div>
-                                <h1 className="font-semibold text-lg text-text-main transition-none duration-0">Sarkome Institute</h1>
+                                <h1 className="font-semibold text-lg text-text-main transition-none duration-0">Sarkome</h1>
                                 <p className="text-sm text-text-main">Computational Oncology</p>
                             </div>
                         </div>
@@ -175,7 +175,7 @@ export default function LandingPage() {
                         <div className="grid md:grid-cols-2 gap-6">
                             <a href="https://www.linkedin.com/in/bryramirezp/" target="_blank" rel="noopener noreferrer" className="bg-surface border border-border-custom p-6 rounded-2xl hover:border-primary/50 transition-colors cursor-pointer block" aria-label="View LinkedIn profile of Bryan Ramírez Palacios">
                                 <p className="text-sm leading-relaxed mb-6 text-text-main">
-                                    "Building Sarkome as a generative biotechnology institute that uses AI to create missing biological knowledge, turning rare-disease treatment, such as ASPS, from probabilistic guessing into systematic causal discovery."
+                                    "We've built an AI agent that reasons over 100,000+ biomedical nodes and real-time literature to generate therapeutic hypotheses in minutes. The platform combines PrimeKG, AlphaFold, and causal reasoning to transform oncology from trial-and-error into systematic drug discovery."
                                 </p>
                                 <div className="flex items-center gap-3">
                                     <img alt="Bryan Ramírez Palacios" className="w-10 h-10 rounded-full object-cover border border-border-custom" src="/bry.png" />
@@ -188,15 +188,15 @@ export default function LandingPage() {
 
                             <div className="bg-surface border border-border-custom p-6 rounded-2xl hover:border-primary/50 transition-colors cursor-default">
                                 <p className="text-sm leading-relaxed mb-6 text-text-main">
-                                    "Sarkome seeks a Founding Biological Sciences Partner to build a causal-first discovery engine for single-driver cancers, starting with ASPS. The role focuses on mechanism-based wet-lab validation, isogenic models, and transcriptional dependency testing."
+                                    "Seeking ML Engineers with expertise in knowledge graph embeddings, agentic systems (LangGraph/LangChain), and biomedical NLP. Ideal candidates have experience building production RAG pipelines, graph neural networks, or deployed LLM agents in regulated environments."
                                 </p>
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-border-custom">
                                         <span className="text-[10px] font-bold text-primary">?</span>
                                     </div>
                                     <div>
-                                        <div className="text-sm font-medium text-text-main">[ Selection in Progress ]</div>
-                                        <div className="text-xs text-text-main">Founding Partner, Biological Sciences</div>
+                                        <div className="text-sm font-medium text-text-main">[ Open Position ]</div>
+                                        <div className="text-xs text-text-main">Senior ML Engineer, Biomedical AI</div>
                                     </div>
                                 </div>
                             </div>
@@ -226,7 +226,10 @@ export default function LandingPage() {
 
                     {/* Active Programs */}
                     <section>
-                        <h3 className="text-xs font-bold tracking-widest text-text-muted uppercase mb-8">Active Programs</h3>
+                        <h3 className="text-xs font-bold tracking-widest text-text-muted uppercase mb-4">Active Programs</h3>
+                        <p className="text-sm text-text-main/80 mb-8 leading-relaxed">
+                            Sarkome-led research initiatives to generate novel therapeutic hypotheses through systematic AI-driven discovery. Each program produces peer-reviewed publications validated by academic institutions, transforming computational insights into actionable biomedical knowledge.
+                        </p>
                         <div className="space-y-4">
                             {diseases.filter(d => d.type === 'active').map(disease => (
                                 <Link key={disease.id} to={`/programs/${disease.id}`} className="group flex items-center justify-between p-4 -mx-4 rounded-xl hover:bg-surface transition-colors" aria-label={`View details for ${disease.name} program`}>
