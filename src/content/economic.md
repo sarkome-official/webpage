@@ -1,110 +1,162 @@
-# The Economic Winning: Building Intelligence Through Human-AI Symbiosis
+# The Contributor Economy: Building Intelligence Through Collaboration
 
-## The Problem with Pure Automation
+## Beyond Pure Automation
 
-Most AI systems promise to "replace experts." Sarkome takes the opposite stance: **the system gets smarter by learning from them**.
+Most AI platforms promise to "replace experts." Sarkome takes the opposite approach: **the platform gets smarter by learning from domain specialists**.
 
-The Virtual Mind isn't born knowing everything about ASPS biology—it becomes an expert through a symbiotic relationship with human domain specialists. But we can't afford to hire every PhD in oncology. So we've architected an economic model where **expertise becomes scalable**.
+The Virtual Mind isn't born knowing everything about cancer biology—it becomes an expert through a symbiotic relationship with researchers. We've designed an economic model where **expertise becomes scalable** and **contributions are rewarded**.
 
-## The Contributor Economy
-
-### Who Can Teach the Virtual Mind?
+## Who Can Contribute?
 
 We don't need Nobel laureates. We need **verified, specialized knowledge workers** who can:
 
-1. **Curate**: Flag high-quality papers, annotate protein structures, validate drug-target interactions.
-2. **Correct**: Identify hallucinations, mark false edges in the graph, challenge weak causal chains.
-3. **Extend**: Add domain-specific context the LLMs miss—clinical nuances, experimental gotchas, negative results buried in supplementary data.
+### Curate
+- Flag high-quality papers
+- Annotate protein structures
+- Validate drug-target interactions
+- Highlight important findings that automated systems miss
 
-**Eligibility Requirement**: You must be enrolled in (or have graduated from) specific university programs:
+### Correct
+- Identify AI hallucinations
+- Mark false edges in the knowledge graph
+- Challenge weak causal chains
+- Point out outdated or superseded information
 
-- **Biology/Biochemistry/Molecular Biology** (BSc minimum)
-- **Bioinformatics/Computational Biology** (MSc preferred)
-- **Medicine/Oncology** (MD, Resident, or Clinical Fellow)
-- **Pharmaceutical Sciences/Drug Discovery** (PhD or Industry R&D)
+### Extend
+- Add domain-specific context that general AI models miss
+- Document clinical nuances and experimental details
+- Surface negative results often buried in supplementary data
+- Connect isolated findings to broader research contexts
 
-We verify credentials through university APIs or LinkedIn attestation. This isn't gatekeeping—it's **quality control**. The Virtual Mind's intelligence is only as good as the humans refining it.
+## Contribution Types
 
-## How It Works: API Access as Incentive
+### Knowledge Graph Enrichment
+- Validate or refute proposed relationships
+- Add new entities and connections
+- Annotate edge confidence levels
+- Provide context for ambiguous relationships
 
-Contributors don't work for equity or vague "impact points." They get **direct access to the most powerful oncology reasoning engine on the planet**.
+### Literature Annotation
+- Highlight key findings in papers
+- Tag relevant entities and relationships
+- Mark paper quality and reliability
+- Identify retracted or disputed claims
 
-### The Incentive Model
+### Query Feedback
+- Rate the quality of agent responses
+- Suggest improvements to reasoning chains
+- Flag missing considerations
+- Provide alternative interpretations
 
-1. **Contribution Credits**: Every validated correction, curated dataset, or graph refinement earns you credits.
-   
-2. **API Access Tiers**:
-   - **Bronze** (100 credits): 1,000 API calls/month. Suitable for thesis research, hypothesis generation.
-   - **Silver** (500 credits): 10,000 calls/month + access to molecular dynamics validation tools.
-   - **Gold** (2,000 credits): Unlimited calls + ability to spawn private research subgraphs for proprietary work.
+### Hypothesis Validation
+- Evaluate generated therapeutic hypotheses
+- Provide expert assessment of feasibility
+- Suggest additional evidence or counterarguments
+- Rate confidence in proposed mechanisms
 
-3. **Credit Velocity**: High-impact contributions (e.g., catching a critical hallucination, adding a breakthrough paper) multiply your credit earnings. The system learns *who* to trust faster.
+## The Incentive Model
+
+Contributors don't work for vague "impact points." They receive **direct value**:
+
+### API Access Tiers
+
+Validated contributions unlock platform capabilities:
+
+| Tier | Requirements | Benefits |
+|------|--------------|----------|
+| **Community** | Verified researcher account | Basic platform access, limited queries |
+| **Contributor** | Regular validated contributions | Enhanced query limits, priority processing |
+| **Expert** | High-impact contributions | Advanced features, early access to new tools |
+| **Partner** | Sustained high-quality work | Collaboration opportunities, research credits |
 
 ### What You Get
 
-- **Research Superpowers**: Query the Virtual Mind for causal hypotheses. "What metabolic vulnerabilities exist in ASPS that haven't been targeted?" The system returns not just papers, but *reasoned arguments* with molecular evidence.
-  
-- **Collaboration Network**: Contributors see anonymized patterns of what others are researching. If three labs are independently probing the same pathway, the system can broker introductions.
+#### Research Superpowers
+Query the Virtual Mind with complex questions that would take days of manual research to answer. Generate hypotheses, explore pathways, and discover connections instantly.
 
-- **Publication Priority**: If the Virtual Mind generates a novel hypothesis that you validate experimentally, you co-author with "Sarkome Institute AI" but retain first-author rights. We don't own your discoveries—we *enable* them.
+#### Network Effects
+Connect with other researchers exploring similar questions. The platform can broker introductions when multiple labs are independently investigating the same mechanisms.
 
-## The Economic Flywheel
+#### Recognition
+High-quality contributors are acknowledged in platform documentation and may be invited to collaborate on publications or projects.
+
+## The Knowledge Flywheel
 
 This model creates a self-reinforcing loop:
 
-1. **Better Data → Smarter AI**: Human experts correct the graph, making the Virtual Mind more accurate.
-2. **Smarter AI → More Users**: Researchers hear that Sarkome's predictions actually *work*, driving adoption.
-3. **More Users → More Contributions**: Higher usage means more edge cases discovered, more corrections submitted.
-4. **More Contributions → Better Data**: The cycle accelerates.
+```
+Better Data → Smarter AI → More Useful → More Users → 
+More Contributions → Better Data...
+```
 
-### Why This Beats Traditional Models
+### Stage 1: Quality Data
+Expert corrections and extensions improve the knowledge graph's accuracy.
 
-- **Pharma R&D**: Spends $2.6B per drug, mostly on failed experiments. We crowdsource the *thinking* before anyone touches a pipette.
-- **Academic Publishing**: Keeps knowledge locked in PDFs. We turn it into a living, queryable reasoning graph.
-- **AI Startups**: Hallucinate confidently. We have a **human validation firewall** at every layer.
+### Stage 2: Smarter Reasoning
+Higher-quality data leads to more reliable AI outputs.
 
-## The Business Capture
+### Stage 3: Increased Value
+Researchers discover that Sarkome's predictions actually work, driving adoption.
 
-Here's the kicker: while contributors get API access for free (via credits), **commercial entities pay**.
+### Stage 4: More Contributions
+Higher usage reveals more edge cases and opportunities for improvement.
 
-- **Biotech/Pharma**: $50K-$500K/year for enterprise API access. They get the same reasoning engine, but their queries don't earn credits—they pay cash.
-- **CROs/Consulting**: License the platform for client work. We take 20% of project value.
-- **Spin-Out Assets**: When the Virtual Mind identifies a drug candidate (e.g., "Compound X inhibits ASPS-specific fusion protein"), we form a single-asset company. Contributors who flagged key papers in that pathway get **microgrants** (~$1K-$5K) + equity options if the company raises a Series A.
+### Stage 5: Flywheel Accelerates
+Each contribution makes the platform more valuable, attracting more contributors.
 
-### The Moat
+## Why Researchers Win
 
-Other AI companies can train bigger models. They can't replicate:
+If you're a graduate student, postdoc, or researcher at any level, you're resource-constrained. You don't have:
+- A team of research assistants
+- Unlimited access to expensive databases
+- Time to manually review thousands of papers
 
-1. **The Curated Graph**: Years of expert-validated, hyperspecialized oncology topology.
-2. **The Contributor Network**: Thousands of domain experts who treat the platform as *their* research tool.
-3. **The Trust Layer**: Every prediction has a human-verified causal chain, not just an embedding similarity score.
+But you do have:
+- **Expertise** in your specific research domain
+- **Time** invested in reading papers and understanding your field
+- **Motivation** to accelerate your own research
 
-## Why Students and Early Researchers Win
+Sarkome gives you **institutional-grade AI infrastructure** in exchange for doing what you already do: reading papers, validating claims, and asking hard questions. Every contribution makes you more effective for your *next* research project.
 
-If you're a grad student or postdoc, you're resource-constrained. You don't have $100K for a Palantir Foundry license or a team of research assistants. But you have:
+## Quality Control
 
-- **Time** to read papers and annotate data.
-- **Expertise** in a narrow domain (even if you're still learning the broader field).
-- **Motivation** to publish, graduate, or pivot into industry.
+Not all contributions are equal. The platform implements multi-layer validation:
 
-Sarkome gives you **institutional-grade AI infrastructure** in exchange for doing what you already do: reading papers, validating claims, and asking hard questions. Except now, every hour you spend makes you more powerful for the *next* project.
+### Credential Verification
+- Academic email verification
+- ORCID integration
+- Publication history validation
 
-### The Long-Term Play
+### Contribution Scoring
+- Cross-validation against other expert assessments
+- Consistency tracking over time
+- Impact measurement (did this correction improve downstream outputs?)
 
-In 5 years, the best ASPS researchers in the world won't use PubMed. They'll query the Virtual Mind because it:
+### Reputation System
+- Expertise areas are tracked and weighted
+- Contributions outside one's demonstrated expertise receive additional scrutiny
+- High-reputation contributors can validate others' work
 
-- Knows *everything* about ASPS (Hot Memory).
-- Connects to adjacent fields automatically (Warm Memory).
-- Resurfaces forgotten breakthroughs when they become relevant again (Cold Memory reactivation).
+## The Long-Term Vision
 
-And they'll be contributors, not just users—shaping the intelligence that shapes their field.
+In five years, the most effective oncology researchers won't rely solely on PubMed searches. They'll query intelligent systems that:
+
+- **Know everything** relevant to their research (Hot Memory)
+- **Connect automatically** to discoveries in adjacent fields (Warm Memory)
+- **Resurface forgotten breakthroughs** when they become relevant again (Cold Memory reactivation)
+
+And these researchers will be contributors, not just users—actively shaping the intelligence that powers their discoveries.
 
 ---
 
-## The Pitch in One Sentence
+## Summary
 
-**We're building the world's most specialized oncology reasoning engine by paying domain experts in the currency they actually want: superpowers.**
+**We're building the world's most comprehensive oncology reasoning platform by rewarding domain experts with the tools they actually need: research superpowers.**
 
-You don't need to believe in altruism or open source idealism. You just need to believe that smart people will trade their knowledge for tools that make them 10x more effective. And once they do, the system becomes **unreplicably intelligent**.
+You don't need to believe in altruism. You just need to see that smart researchers will trade their domain knowledge for tools that make them dramatically more effective. And once they do, the system becomes **unreplicably intelligent**.
 
-That's the economic winning. Not extracting value from experts—**multiplying it**.
+That's the contributor economy: not extracting value from experts, but **multiplying it**.
+
+---
+
+**Join the Contributor Community**: [Get Started](/platform)

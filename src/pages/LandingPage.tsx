@@ -54,7 +54,7 @@ const SUBSTRATE_STATS = [
 
 // Data: Social Links
 const SOCIAL_LINKS = [
-    { icon: FileText, label: "Documentation", value: "sarkome.com/docs", href: "/docs/intro", disabled: true },
+    { icon: FileText, label: "Documentation", value: "sarkome.com/docs", href: "/docs/intro" },
     { icon: Mail, label: "Email", value: "contact@sarkome.com", href: "mailto:contact@sarkome.com" },
     { icon: AtSign, label: "Twitter / X", value: "@sarkome_ai", href: "https://x.com/sarkome", disabled: true },
     { icon: Code, label: "GitHub", value: "@sarkome-official", href: "https://github.com/sarkome-official" },

@@ -1,55 +1,138 @@
-Sarkome utiliza un **Knowledge Graph (KG)** de última generación para conectar datos biomédicos aislados y descubrir patrones terapéuticos ocultos. Esta tecnología permite transformar millones de documentos científicos en una red de conocimiento navegable, explicable y accionable.
+# Knowledge Graph Technology
 
-## ¿Qué es un Knowledge Graph?
+Sarkome leverages cutting-edge **Knowledge Graph (KG)** technology to connect isolated biomedical data and discover hidden therapeutic patterns. This technology transforms millions of scientific documents and databases into a navigable, explainable, and actionable network of knowledge.
 
-Un Knowledge Graph organiza la información en una estructura de red donde los conceptos no son solo texto, sino entidades conectadas con significado.
+## What is a Knowledge Graph?
 
-> "Conectar datos aislados para descubrir patrones ocultos."
+A Knowledge Graph organizes information into a network structure where concepts are not just text, but connected entities with meaning.
 
-La visualización 3D de Knowledge Graphs (grafos de conocimiento) es la representación gráfica de datos interconectados en un espacio tridimensional. A diferencia de los gráficos planos convencionales, esta técnica permite explorar redes extensas de información mediante tres dimensiones (X, Y, Z), aportando percepción de profundidad.
+> "Connecting isolated data to discover hidden patterns."
 
-### Componentes Semánticos
+Unlike traditional databases that store information in tables, a Knowledge Graph represents data as a web of relationships. This structure mirrors how biological systems actually work—through complex, interconnected pathways.
 
-1.  **Nodos (Entidades)**: Representan personas, genes, fármacos o conceptos biológicos. Se visualizan como esferas en el espacio 3D.
-    *   *Ejemplo*: `Leonardo da Vinci`, `Gen TP53`, `Fármaco Cediranib`.
-2.  **Aristas (Relaciones)**: Conectan los nodos y describen *cómo* se relacionan. Son líneas dirigidas que crean el "contexto".
-    *   *Ejemplo*: `[PINTÓ]`, `[INHIBE]`, `[CAUSA]`.
-3.  **Etiquetas Semánticas**: Clasifican los tipos de nodos ("Categoría") para darles un significado ontológico claro.
-    *   *Ejemplo*: `[Artista]`, `[Proteína]`, `[Enfermedad]`.
+### Semantic Components
 
-## Visualización 3D: La Nueva Frontera
+1. **Nodes (Entities)**: Represent genes, drugs, diseases, proteins, or biological concepts. Visualized as spheres in 3D space.
+   - *Examples*: `Gene TP53`, `Drug Cediranib`, `Disease ASPS`, `Pathway PI3K/AKT`
 
-Para manejar la complejidad del cáncer, Sarkome implementa tecnologías de visualización inmersiva inspiradas en herramientas como [Neo4j 3D Force-Graph](https://neo4j.com/blog/developer/visualizing-graphs-in-3d-with-webgl/).
+2. **Edges (Relationships)**: Connect nodes and describe *how* they relate. Directed lines that create context.
+   - *Examples*: `[INHIBITS]`, `[UPREGULATES]`, `[CAUSES]`, `[TREATS]`
 
-### ¿Por qué 3D?
-*   **Volumen de Datos Masivo**: Permite visualizar millones de nodos sin la saturación visual típica de los gráficos 2D planos.
-*   **Detección de Clusters**: Facilita ver agrupaciones naturales de fármacos o genes que trabajan en vías similares.
-*   **Navegación Intuitiva**: Permite a los investigadores "viajar" a través de las vías metabólicas usando rotación, zoom y desplazamiento (pan/tilt).
+3. **Semantic Labels**: Classify node types to provide clear ontological meaning.
+   - *Examples*: `[Gene]`, `[Protein]`, `[Disease]`, `[Drug]`, `[Phenotype]`
 
-## La Filosofía: La Mente Virtual (Virtual Mind)
+## PrimeKG: Our Knowledge Substrate
 
-Sarkome no ve el Knowledge Graph como una simple base de datos, sino como una **arquitectura cognitiva**. El sistema funciona como una "Mente Virtual" especializada en el descubrimiento de conocimiento oncológico.
+Sarkome is powered by **PrimeKG**, one of the most comprehensive biomedical knowledge graphs available:
 
-### Temperatura de Memoria (Memory Temperature)
-Inspirado en la poda sináptica biológica, Sarkome implementa un mecanismo de gestión de recursos basado en la activación:
+### Scale
+- **4+ million entities** spanning genes, proteins, diseases, drugs, side effects, and biological pathways
+- **20+ million relationships** connecting these entities
+- Integrated from 20+ authoritative biomedical databases
 
-*   **Memoria Caliente (Hot Memory)**: Índices vectoriales activos para una recuperación instantánea. Contiene el núcleo de la investigación sobre ASPS y dianas terapéuticas críticas.
-*   **Memoria Templada (Warm Memory)**: Nodos del grafo que son navegables pero no están indexados activamente. Representa el conocimiento adyacente (oncología general).
-*   **Memoria Fría (Cold Memory)**: Conocimiento archivado que no consume recursos de computación activos pero permanece en la estructura profunda del grafo, listo para ser "reactivado" mediante una señal semántica específica.
+### Coverage
+- Disease-gene associations
+- Drug-target interactions
+- Protein-protein interactions
+- Pathway memberships
+- Phenotype correlations
+- Side effect relationships
 
-### Cognición Generativa
-El Consejo de Agentes no solo lee el grafo; **piensa con él**. Utilizan inferencia transitiva y razonamiento analógico para descubrir cadenas causales que aún no han sido escritas en la literatura científica.
+### Advantages Over Search Engines
+| Search Engine | Knowledge Graph |
+|---------------|-----------------|
+| Returns documents | Returns relationships |
+| Keyword matching | Semantic understanding |
+| Manual synthesis required | Automated reasoning |
+| Single-hop results | Multi-hop inference |
+| Black-box relevance | Explainable connections |
 
-## Beneficios para la Investigación Oncológica
+## 3D Visualization: Navigating Complexity
 
-*   **Descubrimiento de Patrones**: Facilita la detección de conexiones indirectas (ej. un fármaco que trata un síntoma que activa una vía genética opuesta).
-*   **Contexto Semántico Explicable**: A diferencia de las "Cajas Negras" del Deep Learning, el KG muestra *por qué* se hace una predicción.
-*   **Integración Multimodal**: Fusiona datos de ensayos clínicos (ClinicalTrials.gov), literatura (PubMed) y bases de datos genómicas (Uniprot) en un solo "cerebro" unificado.
+To handle the complexity of cancer biology, Sarkome implements immersive 3D visualization technologies:
 
-## Stack Tecnológico
+### Why 3D?
 
-Sarkome Refinery utiliza un stack moderno para renderizar estas estructuras en el navegador:
+- **Massive Data Volume**: Visualize millions of nodes without the visual saturation of flat 2D graphs
+- **Cluster Detection**: Natural groupings of drugs, genes, or pathways working in similar mechanisms become visually apparent
+- **Intuitive Navigation**: Researchers can "travel" through metabolic pathways using rotation, zoom, and pan controls
 
-*   **Three.js / WebGL**: Motor gráfico para renderizado de alto rendimiento acelerado por GPU.
-*   **React-Force-Graph**: Algoritmos de física para la distribución orgánica de nodos.
-*   **Neo4j**: Base de datos de grafos nativa para consultas ultra-rápidas mediante Cypher.
+### Interactive Exploration
+
+The 3D graph interface enables:
+- **Semantic Querying**: Ask natural language questions and see relevant subgraphs highlighted
+- **Path Discovery**: Trace connections between any two entities to understand their relationship
+- **Neighborhood Exploration**: Expand around any node to discover related entities
+
+## Integration with AlphaFold
+
+Beyond graph-based relationships, Sarkome integrates structural biology data:
+
+### Protein Structure Database
+- Access to **200+ million predicted protein structures** from AlphaFold
+- 3D conformational analysis at atomic resolution
+- Binding pocket identification for drug design
+
+### Structure-Function Correlation
+- Link structural features to functional relationships in the knowledge graph
+- Identify druggable targets that traditional methods miss
+- Understand why certain drug-protein interactions succeed or fail
+
+## Real-Time Literature Integration
+
+The knowledge graph is not static—it's continuously enriched:
+
+### Automated Ingestion
+- New publications from PubMed are processed and integrated
+- Clinical trial updates are monitored and added
+- Preprint servers are scanned for early-stage research
+
+### Quality Control
+- Entity extraction using specialized biomedical NLP models
+- Relationship validation against existing knowledge
+- Confidence scoring based on source authority and evidence strength
+
+## Generative Cognition
+
+Sarkome's AI agents don't just *read* the graph—they **reason with it**:
+
+### Transitive Inference
+If A inhibits B, and B upregulates C, the agent can infer that A may suppress C—even if this relationship has never been explicitly documented.
+
+### Analogical Reasoning
+Solutions from one disease domain can inform research in another when the graph reveals structural or mechanistic similarities.
+
+### Negative Space Analysis
+Understanding *why* previous drugs failed provides insights into alternative approaches.
+
+## Benefits for Oncology Research
+
+### Pattern Discovery
+- Detect indirect connections (e.g., a drug that treats a symptom by activating an opposing genetic pathway)
+- Identify drug repurposing opportunities
+- Discover biomarkers from mechanistic relationships
+
+### Explainable Predictions
+- Unlike "black box" deep learning, the Knowledge Graph shows *why* a prediction is made
+- Every recommendation traces back to specific relationships and sources
+- Researchers can validate reasoning before pursuing wet-lab experiments
+
+### Multi-Modal Integration
+- Unify data from clinical trials (ClinicalTrials.gov), literature (PubMed), and genomic databases (UniProt) in a single "brain"
+- Connect across data modalities that traditionally exist in isolation
+
+## Technology Stack
+
+Sarkome's visualization and querying infrastructure is built on modern technologies:
+
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| **3D Engine** | Three.js / WebGL | GPU-accelerated rendering |
+| **Force Layout** | React-Force-Graph | Organic node distribution |
+| **Graph Database** | Neo4j | Native graph queries via Cypher |
+| **Vector Search** | Pinecone / Weaviate | Semantic similarity retrieval |
+| **LLM Integration** | LangGraph | Agent orchestration and reasoning |
+
+---
+
+**Explore the Knowledge Graph**: [Launch Visualization](/knowledge-graph)
