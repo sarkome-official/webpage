@@ -191,7 +191,7 @@ export const HistoryView = () => {
                   </div>
                   <h2 className="text-xl font-bold tracking-tight">Work in Progress</h2>
                   <p className="text-sm text-muted-foreground">
-                    Chat history is currently saved only in local storage.
+                    still woking, localstorage chat memory
                   </p>
                 </div>
                 <div className="mt-6 flex justify-center w-full">

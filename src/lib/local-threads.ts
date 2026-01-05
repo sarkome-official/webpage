@@ -6,6 +6,7 @@ export type StoredThread = {
   createdAt: number;
   updatedAt: number;
   messages: ChatMessage[];
+  patientId?: string; // Opcional: vinculación a un expediente de paciente
 };
 
 const THREADS_KEY = "sarkome.threads.v1";
@@ -28,6 +29,12 @@ function readThreadsMap(): Record<string, StoredThread> {
 
 function writeThreadsMap(map: Record<string, StoredThread>) {
   localStorage.setItem(THREADS_KEY, JSON.stringify(map));
+  // Notify same-tab listeners (storage event won't fire in the same document).
+  try {
+    window.dispatchEvent(new Event("sarkome:threads"));
+  } catch {
+    // ignore
+  }
 }
 
 export function listThreads(): StoredThread[] {

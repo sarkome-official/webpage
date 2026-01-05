@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { SignJWT } from 'jose';
 import crypto from 'crypto';
+import { Redis } from '@upstash/redis';
 import { checkRateLimit, getClientIP } from '../../../lib/rate-limit.js';
 
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
@@ -118,6 +119,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // SECURITY: Verify email is verified by Google
         if (!userInfo.email_verified) {
             return res.status(403).json({ error: 'Email not verified. Please verify your email with Google first.' });
+        }
+
+        // Store email in Redis (Collect User Emails)
+        if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+            try {
+                const redis = new Redis({
+                    url: process.env.UPSTASH_REDIS_REST_URL,
+                    token: process.env.UPSTASH_REDIS_REST_TOKEN,
+                });
+                // SADD adds member to set only if it doesn't exist (prevents duplicates)
+                await redis.sadd('sarkome:users:emails', userInfo.email);
+            } catch (err) {
+                console.error('Failed to store email in Redis:', err);
+                // Fail open: Don't block login if email storage fails
+            }
         }
 
         // Create session JWT

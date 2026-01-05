@@ -355,6 +355,7 @@ interface AiMessageBubbleProps {
   mdComponents: ReturnType<typeof makeMdComponents>;
   handleCopy: (text: string, messageId: string) => void;
   copiedMessageId: string | null;
+  onSaveHypothesis?: (message: ChatMessage) => void;
 }
 
 // AiMessageBubble Component
@@ -367,6 +368,7 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
   mdComponents,
   handleCopy,
   copiedMessageId,
+  onSaveHypothesis,
 }) => {
   const handleNewChat = () => {
     const newId = createThreadId();
@@ -489,6 +491,18 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
           </button>
 
           <div className="flex items-center gap-2">
+            {onSaveHypothesis && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 px-2 sm:px-3 text-primary hover:text-primary hover:bg-primary/10"
+                onClick={() => onSaveHypothesis(message)}
+                title="Guardar como Hipótesis"
+              >
+                <Lightbulb className="h-4 w-4" />
+                <span className="hidden sm:inline ml-1.5">Guardar Hipótesis</span>
+              </Button>
+            )}
             {message.usage && (
               <Badge variant="outline" className="text-[10px] uppercase tracking-wider font-mono py-0 px-1.5 bg-green-500/10 border-green-500/20 text-green-500/80 h-7" title={`In: ${message.usage.input_tokens}, Out: ${message.usage.output_tokens}`}>
                 {formatCost(calculateCost(message.usage.input_tokens, message.usage.output_tokens, "gemini-3.0-pro"))}
@@ -529,6 +543,7 @@ interface MessageRowProps {
   liveActivityEvents?: ProcessedEvent[];
   handleCopy: (text: string, messageId: string) => void;
   copiedMessageId: string | null;
+  onSaveHypothesis?: (message: ChatMessage) => void;
 }
 
 const MessageRow: React.FC<MessageRowProps> = ({
@@ -543,6 +558,7 @@ const MessageRow: React.FC<MessageRowProps> = ({
   liveActivityEvents,
   handleCopy,
   copiedMessageId,
+  onSaveHypothesis,
 }) => {
   const msgMdComponents = useMemo(() => {
     if (message.type === "ai" && message.id) {
@@ -575,6 +591,7 @@ const MessageRow: React.FC<MessageRowProps> = ({
             mdComponents={msgMdComponents}
             handleCopy={handleCopy}
             copiedMessageId={copiedMessageId}
+            onSaveHypothesis={onSaveHypothesis}
           />
         )}
       </div>
@@ -599,6 +616,7 @@ interface ChatMessagesViewProps {
   onCancel?: () => void;
   liveActivityEvents?: ProcessedEvent[];
   sourcesByMessageId?: Record<string, Record<string, string>>;
+  onSaveHypothesis?: (message: ChatMessage) => void;
 }
 
 export function ChatMessagesView({
@@ -612,7 +630,7 @@ export function ChatMessagesView({
   sourcesByMessageId,
   sourcesListByMessageId,
   rawEvents = [],
-
+  onSaveHypothesis,
 }: ChatMessagesViewProps) {
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const [showLogs, setShowLogs] = useState(false);
@@ -647,6 +665,7 @@ export function ChatMessagesView({
               liveActivityEvents={liveActivityEvents}
               handleCopy={handleCopy}
               copiedMessageId={copiedMessageId}
+              onSaveHypothesis={onSaveHypothesis}
             />
           ))}
           {isLoading &&

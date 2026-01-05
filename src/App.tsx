@@ -21,6 +21,9 @@ const LandingPage = lazy(() => import("@/pages/LandingPage"));
 const ProgramDetail = lazy(() => import("@/pages/programs/ProgramDetail"));
 const DocsLayout = lazy(() => import("@/pages/docs/DocsLayout").then(m => ({ default: m.DocsLayout })));
 const DocPage = lazy(() => import("@/pages/docs/DocPage"));
+const NewPatientForm = lazy(() => import("@/components/NewPatientForm"));
+const PatientRecordView = lazy(() => import("@/pages/platform/PatientRecordView"));
+const PatientChatView = lazy(() => import("@/pages/platform/PatientChatView"));
 
 const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-screen w-full">
@@ -35,6 +38,7 @@ import type { ChatMessage } from "@/lib/chat-types";
 import { useAgent } from "@/hooks/useAgent";
 import { deriveThreadTitle, getOrCreateActiveThreadId, getThread, upsertThread } from "@/lib/local-threads";
 import { RunLogs } from "@/components/RunLogs";
+import { ChatInterface } from "@/components/ChatInterface";
 
 export default function App() {
   const location = useLocation();
@@ -69,6 +73,7 @@ export default function App() {
   });
 
   const isPlatformRoute = location.pathname.startsWith("/platform") ||
+    location.pathname.startsWith("/patient") ||
     location.pathname === "/knowledge-graph" ||
 
     location.pathname === "/alphafold" ||
@@ -429,45 +434,11 @@ export default function App() {
                   <Route path="/sim" element={<SimulationView />} />
 
                   <Route path="/history" element={<HistoryView />} />
-                  <Route path="/platform" element={
-                    <div className="max-w-4xl mx-auto h-full">
-                      {thread.messages.length === 0 ? (
-                        <WelcomeScreen
-                          handleSubmit={handleSubmit}
-                          isLoading={thread.isLoading}
-                          onCancel={handleCancel}
-                        />
-                      ) : error ? (
-                        <div className="flex flex-col items-center justify-center h-full">
-                          <div className="flex flex-col items-center justify-center gap-4">
-                            <h1 className="text-2xl text-red-400 font-bold">Error</h1>
-                            <p className="text-red-400">{JSON.stringify(error)}</p>
-
-                            <Button
-                              variant="destructive"
-                              onClick={() => window.location.reload()}
-                            >
-                              Retry
-                            </Button>
-                          </div>
-                        </div>
-                      ) : (
-                        <ChatMessagesView
-                          messages={thread.messages}
-                          isLoading={thread.isLoading}
-                          scrollAreaRef={scrollAreaRef}
-                          onSubmit={handleSubmit}
-                          onCancel={handleCancel}
-                          liveActivityEvents={processedEventsTimeline}
-                          historicalActivities={historicalActivities}
-                          sourcesByMessageId={sourcesByMessageId}
-                          sourcesListByMessageId={sourcesListByMessageId}
-                          rawEvents={rawEvents}
-
-                        />
-                      )}
-                    </div>
-                  } />
+                  <Route path="/patient/new" element={<NewPatientForm />} />
+                  <Route path="/patient/:patientId" element={<PatientRecordView />} />
+                  <Route path="/patient/:patientId/chat" element={<PatientChatView />} />
+                  <Route path="/patient/:patientId/chat/:threadId" element={<PatientChatView />} />
+                  <Route path="/platform" element={<ChatInterface />} />
                 </Routes>
               </Suspense>
             </main>

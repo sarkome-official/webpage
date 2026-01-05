@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Search, Database, ExternalLink, Activity, Check, ArrowRight, Play } from 'lucide-react';
+import { KnowledgeGraphExplorer } from '@/components/molecules/KnowledgeGraphExplorer';
+import { Input } from '@/components/ui/input';
 
 export const KnowledgeGraphView = () => {
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchQuery, setSearchQuery] = useState('');
 
+    const handleSearch = () => {
+        if (searchQuery.trim()) {
+            setSearchParams({ entities: searchQuery });
+        }
+    };
 
     return (
         <div className="flex flex-col h-full w-full bg-background text-foreground font-sans overflow-hidden">
@@ -63,6 +72,26 @@ export const KnowledgeGraphView = () => {
 
                             </div>
 
+                            {/* Search Section */}
+                            <div className="flex w-full max-w-md items-center space-x-2">
+                                <Input 
+                                    type="text" 
+                                    placeholder="Search entities (e.g. 'Lung Cancer')" 
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                                    className="bg-muted/30 border-border"
+                                />
+                                <button 
+                                    onClick={handleSearch}
+                                    data-slot="button" 
+                                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 cursor-pointer"
+                                >
+                                    <Search className="size-4" />
+                                    Search
+                                </button>
+                            </div>
+
                             {/* Actions */}
                             <div className="flex flex-wrap gap-4 pt-4 mt-auto">
 
@@ -78,80 +107,7 @@ export const KnowledgeGraphView = () => {
 
                         {/* Right Column: Visualization Preview */}
                         <div className="flex flex-col h-full min-h-[500px] xl:min-h-0 order-1 xl:order-2">
-                            <div className="flex-1 bg-black/40 border border-border rounded-3xl overflow-hidden relative group">
-                                {/* Top Label */}
-                                <div className="absolute top-6 left-6 z-10 flex items-center gap-2 px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-full border border-white/10">
-                                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                                    <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Live Preview - 2900 Node Sample</span>
-                                </div>
-
-                                {/* Animated Graph Visuals (Background) */}
-                                <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-1000">
-                                    <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-500/20 rounded-full blur-[80px]"></div>
-                                    <div className="absolute bottom-1/3 right-1/4 w-48 h-48 bg-blue-500/20 rounded-full blur-[100px]"></div>
-
-                                    {/* Animated nodes */}
-                                    <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                        {/* Connecting lines - subtle pulse */}
-                                        <g className="opacity-30">
-                                            <line x1="20" y1="20" x2="50" y2="50" stroke="currentColor" strokeWidth="0.15" className="text-purple-400" />
-                                            <line x1="80" y1="30" x2="50" y2="50" stroke="currentColor" strokeWidth="0.15" className="text-purple-400" />
-                                            <line x1="30" y1="80" x2="50" y2="50" stroke="currentColor" strokeWidth="0.15" className="text-purple-400" />
-                                            <line x1="70" y1="70" x2="50" y2="50" stroke="currentColor" strokeWidth="0.15" className="text-purple-400" />
-                                            <line x1="15" y1="55" x2="50" y2="50" stroke="currentColor" strokeWidth="0.1" className="text-blue-400" />
-                                            <line x1="85" y1="65" x2="70" y2="70" stroke="currentColor" strokeWidth="0.1" className="text-blue-400" />
-                                        </g>
-
-                                        {/* Animated floating nodes */}
-                                        <circle cx="20" cy="20" r="1.2" fill="currentColor" className="text-white/70">
-                                            <animate attributeName="cy" values="20;18;22;20" dur="4s" repeatCount="indefinite" />
-                                            <animate attributeName="cx" values="20;21;19;20" dur="5s" repeatCount="indefinite" />
-                                        </circle>
-                                        <circle cx="80" cy="30" r="1" fill="currentColor" className="text-white/60">
-                                            <animate attributeName="cy" values="30;32;28;30" dur="3.5s" repeatCount="indefinite" />
-                                            <animate attributeName="cx" values="80;78;81;80" dur="4.5s" repeatCount="indefinite" />
-                                        </circle>
-                                        <circle cx="50" cy="50" r="2" fill="currentColor" className="text-purple-400">
-                                            <animate attributeName="r" values="2;2.3;1.8;2" dur="3s" repeatCount="indefinite" />
-                                        </circle>
-                                        <circle cx="30" cy="80" r="1" fill="currentColor" className="text-white/60">
-                                            <animate attributeName="cy" values="80;78;82;80" dur="4.2s" repeatCount="indefinite" />
-                                            <animate attributeName="cx" values="30;32;29;30" dur="5.5s" repeatCount="indefinite" />
-                                        </circle>
-                                        <circle cx="70" cy="70" r="1.2" fill="currentColor" className="text-white/70">
-                                            <animate attributeName="cy" values="70;72;68;70" dur="3.8s" repeatCount="indefinite" />
-                                            <animate attributeName="cx" values="70;68;71;70" dur="4.8s" repeatCount="indefinite" />
-                                        </circle>
-                                        <circle cx="15" cy="55" r="0.8" fill="currentColor" className="text-blue-400/60">
-                                            <animate attributeName="cy" values="55;53;57;55" dur="4.5s" repeatCount="indefinite" />
-                                            <animate attributeName="cx" values="15;17;14;15" dur="5.2s" repeatCount="indefinite" />
-                                        </circle>
-                                        <circle cx="85" cy="65" r="0.8" fill="currentColor" className="text-blue-400/60">
-                                            <animate attributeName="cy" values="65;67;63;65" dur="4s" repeatCount="indefinite" />
-                                            <animate attributeName="cx" values="85;83;86;85" dur="4.3s" repeatCount="indefinite" />
-                                        </circle>
-                                        <circle cx="40" cy="35" r="0.6" fill="currentColor" className="text-white/40">
-                                            <animate attributeName="cy" values="35;33;37;35" dur="5s" repeatCount="indefinite" />
-                                        </circle>
-                                        <circle cx="60" cy="85" r="0.6" fill="currentColor" className="text-white/40">
-                                            <animate attributeName="cy" values="85;83;87;85" dur="4.7s" repeatCount="indefinite" />
-                                        </circle>
-                                    </svg>
-                                </div>
-
-                                {/* Interactive Center Button */}
-                                <div className="absolute inset-0 flex items-center justify-center z-20">
-                                    <button
-                                        onClick={() => navigate('/knowledge-graph-nodes')}
-                                        className="group/btn relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden transition-transform hover:scale-105 active:scale-95 shadow-2xl shadow-white/20"
-                                    >
-                                        <span className="relative z-10 flex items-center gap-2">
-                                            <Play className="w-4 h-4 fill-current" />
-                                            Initialize Visualization
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
+                            <KnowledgeGraphExplorer />
                         </div>
 
                     </div>

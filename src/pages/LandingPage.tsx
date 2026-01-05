@@ -84,10 +84,10 @@ export default function LandingPage() {
                         </div>
                         <div className="space-y-6">
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">
-                                Oncology Reasoning <span className="text-primary">Engine</span>
+                                From Genomic Data to <span className="text-primary">Therapeutic Hypotheses</span> in Minutes.
                             </h2>
                             <p className="text-base md:text-lg text-text-main leading-relaxed max-w-xl">
-                                A graph-driven reasoning system that validates cancer hypotheses by integrating PrimeKG, AlphaFold, and context-constrained real-time literature..
+                                Accelerate precision oncology with AI Agents that reason over global biomedical knowledge to discover personalized treatments.
                             </p>
                             <div className="pt-2">
                                 <GoogleLoginButton />

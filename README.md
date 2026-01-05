@@ -73,3 +73,21 @@ Ensure your backend services are running on these ports or update `vite.config.t
 *   **State Management**: This app heavily relies on React 19 hooks and local state. Complex global state is managed via URL parameters or LangGraph streaming events.
 *   **Styling Strategy**: We use `tailwind-merge` (`cn` utility) for all class compositions. Do NOT use inline styles unless necessary for dynamic 3D values.
 *   **Strict Mode**: React Strict Mode is enabled. Effects may fire twice in dev.
+
+
+### Knowledge Graph Gateway
+
+| Method | Endpoint | Description |
+|:---|:---|:---|
+| GET | `/api/kg/health` | KG API health status |
+| GET | `/api/kg/stats` | Graph statistics (nodes, edges, embeddings) |
+| GET | `/api/kg/search/text?q=...` | Text search (exact/partial match) |
+| GET | `/api/kg/search/semantic?q=...` | AI-powered semantic search |
+| GET | `/api/kg/neighbors/{node}` | Get 1-hop neighbors |
+| GET | `/api/kg/subgraph/{entity}` | Get subgraph for visualization |
+| GET | `/api/kg/path/{source}/{target}` | Find shortest path |
+| GET | `/api/kg/hypothesis/repurposing/{disease}` | Drug repurposing candidates |
+| GET | `/api/kg/hypothesis/targets/{disease}` | Therapeutic targets |
+| GET | `/api/kg/hypothesis/mechanisms/{drug}/{disease}` | Drug-disease mechanism |
+
+npx vercel dev --listen 3001
