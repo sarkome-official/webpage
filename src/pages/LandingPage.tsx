@@ -78,8 +78,8 @@ export default function LandingPage() {
                                 <img alt="Sarkome Logo" className="w-12 h-12 object-contain" width="48" height="48" src="/logo_purple_nobackground.svg" />
                             </div>
                             <div>
-                                <h1 className="font-semibold text-lg text-text-main transition-none duration-0">Sarkome</h1>
-                                <p className="text-sm text-text-main">Computational Oncology</p>
+                                <h1 className="font-semibold text-2x3 text-text-main transition-none duration-0">Sarkome</h1>
+                                <p className="text-sm text-text-main">Clinical reasoning infrastructure</p>
                             </div>
                         </div>
                         <div className="space-y-6">
