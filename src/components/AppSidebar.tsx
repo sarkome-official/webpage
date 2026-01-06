@@ -18,6 +18,7 @@ import {
     Database,
     LogOut,
     ChevronUp,
+    ChevronDown,
     Palette,
     LifeBuoy,
     ChevronRight,
@@ -101,11 +102,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const [recentThreads, setRecentThreads] = React.useState<StoredThread[]>(() => listThreads().slice(0, 8));
     const [patients, setPatients] = React.useState<PatientRecord[]>(() => listPatients());
     const [settingsOpen, setSettingsOpen] = React.useState(false);
+    const [userMenuOpen, setUserMenuOpen] = React.useState(false);
 
     React.useEffect(() => {
         const refreshThreads = () => setRecentThreads(listThreads().slice(0, 8));
         const refreshPatients = () => setPatients(listPatients());
-        
+
         refreshThreads();
         refreshPatients();
 
@@ -118,7 +120,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         window.addEventListener("storage", onStorage);
         window.addEventListener("sarkome:threads", refreshThreads as EventListener);
         window.addEventListener("sarkome:patients", refreshPatients as EventListener);
-        
+
         return () => {
             window.removeEventListener("storage", onStorage);
             window.removeEventListener("sarkome:threads", refreshThreads as EventListener);
@@ -138,7 +140,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }, [searchQuery]);
 
     return (
-        <Sidebar variant="inset" className="bg-background" {...props}>
+        <Sidebar variant="sidebar" className="bg-background" {...props}>
             <SidebarHeader className="p-4 pt-6">
                 <div className="flex flex-col gap-4">
                     <Link to="/platform" className="flex items-center gap-3 px-1 hover:opacity-80 transition-opacity group" aria-label="Sarkome Home">
@@ -191,7 +193,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                 to={item.url}
                                                 className="flex items-center gap-3"
                                                 onClick={(e) => {
-                                                    if (item.url === "/platform" && item.title === "Nuevo chat") {
+                                                    if (item.url === "/platform" && item.title === "New Chat") {
                                                         e.preventDefault();
                                                         const newId = createThreadId();
                                                         setActiveThreadId(newId);
@@ -300,7 +302,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <div className="flex flex-col gap-2">
                     <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
 
-                    <Popover>
+                    <Popover open={userMenuOpen} onOpenChange={setUserMenuOpen}>
                         <PopoverTrigger asChild>
                             <button className="flex items-center gap-3 mt-4 px-2 py-3 rounded-xl bg-muted/30 border border-border w-full hover:bg-muted/50 transition-colors cursor-pointer text-left">
                                 <div className="size-8 rounded-full bg-gradient-to-tr from-neutral-700 to-neutral-500 p-[1px]">
@@ -316,7 +318,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     <span className="text-xs font-semibold text-foreground truncate">{user?.name || "Sarkome User"}</span>
                                     <span className="text-[10px] text-muted-foreground truncate">{user?.email || "guest@sarkome.ai"}</span>
                                 </div>
-                                <ChevronUp className="size-4 text-muted-foreground" />
+                                {userMenuOpen ? (
+                                    <ChevronDown className="size-4 text-muted-foreground transition-transform" />
+                                ) : (
+                                    <ChevronUp className="size-4 text-muted-foreground transition-transform" />
+                                )}
                             </button>
                         </PopoverTrigger>
                         <PopoverContent className="w-64 p-0 mb-2" align="start" side="top">
@@ -337,13 +343,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div className="p-1.5 flex flex-col gap-0.5">
                                 <button className="flex items-center gap-3 w-full px-2.5 py-2 text-sm text-foreground hover:bg-muted/60 hover:text-primary rounded-md transition-all duration-200 text-left group cursor-pointer">
                                     <Palette className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
                                     <span className="group-hover:font-medium">Personalization</span>
                                 </button>
-                                <button 
+                                <button
                                     onClick={() => setSettingsOpen(true)}
                                     className="flex items-center gap-3 w-full px-2.5 py-2 text-sm text-foreground hover:bg-muted/60 hover:text-primary rounded-md transition-all duration-200 text-left group cursor-pointer"
                                 >

@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { SquarePen, Brain, Send, StopCircle, Zap, Cpu, Users, Search, Activity, Box, Plus, ArrowUp, Loader2, Database, ChevronDown } from "lucide-react";
+import { SquarePen, Brain, Send, StopCircle, Zap, Cpu, Users, Search, Activity, Box, Plus, ArrowUp, Loader2, Database, ChevronDown, User, Check, X } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { listPatients, getPatientFullName, type PatientRecord } from "@/lib/patient-record";
 import { InstructionImproverButton } from "@/components/InstructionImprover";
 import {
   Select,
@@ -76,12 +77,14 @@ interface InputFormProps {
     inputValue: string,
     effort: string,
     models: { queryModel: string; answerModel: string },
-    activeAgents: string[]
+    activeAgents: string[],
+    patientContext?: string
   ) => void;
   onCancel?: () => void;
   isLoading: boolean;
   hasHistory: boolean;
   setInputControl?: string;
+  initialPatientId?: string;
 }
 
 export const InputForm = ({
@@ -90,6 +93,7 @@ export const InputForm = ({
   isLoading,
   hasHistory,
   setInputControl,
+  initialPatientId,
 }: InputFormProps) => {
   const [internalInputValue, setInternalInputValue] = useState("");
 
@@ -101,14 +105,14 @@ export const InputForm = ({
   const [effort, setEffort] = useState("medium");
   const [queryModel, setQueryModel] = useState("gemini-3-flash-preview");
   const [answerModel, setAnswerModel] = useState("gemini-3-pro-preview");
-  
+
   // Primary tools (main categories)
   const [primaryTools, setPrimaryTools] = useState<Record<string, boolean>>({
     web_search: true,
     primekg: true,
     alphafold_rag: false,
   });
-  
+
   // KG sub-tools (only active when primekg is enabled)
   const [kgSubTools, setKgSubTools] = useState<Record<string, boolean>>({
     kg_search_text: true,
@@ -123,6 +127,66 @@ export const InputForm = ({
   });
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Patient context state
+  const [patients, setPatients] = useState<PatientRecord[]>([]);
+  const [selectedPatientId, setSelectedPatientId] = useState<string | null>(initialPatientId || null);
+
+  useEffect(() => {
+    setPatients(listPatients());
+    const handlePatientChange = () => setPatients(listPatients());
+    window.addEventListener('sarkome:patients', handlePatientChange);
+    return () => window.removeEventListener('sarkome:patients', handlePatientChange);
+  }, []);
+
+  const selectedPatient = selectedPatientId ? patients.find(p => p.id === selectedPatientId) : null;
+
+  // Build patient context string for the agent
+  const buildPatientContext = (): string | undefined => {
+    if (!selectedPatient) return undefined;
+    const { identity, diagnosis, genomicProfiles, treatments, comorbidities } = selectedPatient;
+
+    const parts: string[] = [
+      `[PATIENT CONTEXT]`,
+      `Name: ${getPatientFullName(selectedPatient)}`,
+      `DOB: ${identity.dateOfBirth}, Sex: ${identity.sex}`,
+      ``,
+      `DIAGNOSIS:`,
+      `- Cancer Type: ${diagnosis.cancerType}${diagnosis.cancerSubtype ? ` (${diagnosis.cancerSubtype})` : ''}`,
+      `- Primary Site: ${diagnosis.primarySite}`,
+      diagnosis.stage ? `- Stage: ${diagnosis.stage}` : '',
+      diagnosis.histology ? `- Histology: ${diagnosis.histology}` : '',
+      diagnosis.metastasisSites?.length ? `- Metastasis: ${diagnosis.metastasisSites.join(', ')}` : '',
+    ].filter(Boolean);
+
+    if (genomicProfiles.length > 0) {
+      const profile = genomicProfiles[0];
+      parts.push('', 'GENOMIC PROFILE:');
+      if (profile.tmb) parts.push(`- TMB: ${profile.tmb}`);
+      if (profile.msi) parts.push(`- MSI: ${profile.msi}`);
+      if (profile.variants.length > 0) {
+        parts.push(`- Key Variants:`);
+        profile.variants.slice(0, 5).forEach(v => {
+          parts.push(`  * ${v.gene}${v.variant ? ` (${v.variant})` : ''} - ${v.pathogenicity}`);
+        });
+      }
+    }
+
+    if (treatments.length > 0) {
+      parts.push('', 'TREATMENT HISTORY:');
+      treatments.slice(0, 5).forEach(t => {
+        parts.push(`- ${t.name} (${t.type}): ${t.startDate}${t.endDate ? ` to ${t.endDate}` : ' - ongoing'}${t.bestResponse ? `, Response: ${t.bestResponse}` : ''}`);
+      });
+    }
+
+    if (comorbidities.length > 0) {
+      parts.push('', 'COMORBIDITIES:');
+      comorbidities.forEach(c => parts.push(`- ${c.name} (${c.status})`));
+    }
+
+    parts.push('', '[END PATIENT CONTEXT]');
+    return parts.join('\n');
+  };
 
   // Toggle primary tool
   const togglePrimaryTool = (id: string) => {
@@ -144,10 +208,10 @@ export const InputForm = ({
   // Build the list of active agents/tools for submission
   const getActiveAgents = (): string[] => {
     const agents: string[] = [];
-    
+
     if (primaryTools.web_search) agents.push('web_search');
     if (primaryTools.alphafold_rag) agents.push('alphafold_rag');
-    
+
     if (primaryTools.primekg) {
       agents.push('primekg');
       // Add active KG sub-tools
@@ -155,23 +219,26 @@ export const InputForm = ({
         if (active) agents.push(id);
       });
     }
-    
+
     return agents;
   };
 
   const handleInternalSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!internalInputValue.trim()) return;
+    if (internalInputValue.trim().length < 64) return; // Enforce minimum
     const agentsToSend = getActiveAgents();
     if (agentsToSend.length === 0) agentsToSend.push('web_search');
-    onSubmit(internalInputValue, effort, { queryModel, answerModel }, agentsToSend);
+    const patientContext = buildPatientContext();
+    onSubmit(internalInputValue, effort, { queryModel, answerModel }, agentsToSend, patientContext);
     setInternalInputValue("");
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
-      handleInternalSubmit();
+      if (internalInputValue.trim().length >= 64) {
+        handleInternalSubmit();
+      }
     }
   };
 
@@ -182,8 +249,10 @@ export const InputForm = ({
   };
 
 
-
-  const isSubmitDisabled = !internalInputValue.trim() || isLoading;
+  const MIN_CHARS = 64;
+  const charCount = internalInputValue.trim().length;
+  const meetsMinChars = charCount >= MIN_CHARS;
+  const isSubmitDisabled = !meetsMinChars || isLoading;
   const activeAgentCount = getActiveAgents().length;
   const isCollaborating = activeAgentCount > 0;
 
@@ -209,17 +278,27 @@ export const InputForm = ({
               value={internalInputValue}
               onChange={(e) => setInternalInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder={isLoading ? "Thinking..." : "Type a message..."}
+              placeholder={isLoading ? "Thinking..." : `Type a message (min ${MIN_CHARS} chars)...`}
               disabled={isLoading}
               className="w-full bg-transparent dark:bg-transparent border-0 shadow-none focus-visible:ring-0 resize-none text-[14px] py-3 px-4 min-h-[44px] max-h-[200px] leading-relaxed search-bar-input no-scrollbar overflow-y-auto"
               rows={1}
               aria-label="Scientific query input"
             />
 
+            {/* Character counter - shows when under minimum */}
+            {!isLoading && charCount > 0 && !meetsMinChars && (
+              <div className="absolute top-2 right-3 text-[10px] font-mono text-muted-foreground/60">
+                <span className={charCount < MIN_CHARS * 0.5 ? 'text-destructive/60' : 'text-amber-500/60'}>
+                  {charCount}
+                </span>
+                <span className="text-muted-foreground/40">/{MIN_CHARS}</span>
+              </div>
+            )}
+
             {/* Bottom bar with controls */}
-            <div className="flex items-center justify-between gap-2 px-3 pb-2 pt-1">
-              {/* Left side: Controls that may wrap on very small screens */}
-              <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-3 pb-3 pt-1">
+              {/* Left side: Controls - horizontal scroll on mobile */}
+              <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-1 sm:py-0">
                 <button
                   data-slot="button"
                   className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-9 h-8 w-8 rounded-full transition-colors search-bar-button"
@@ -242,7 +321,12 @@ export const InputForm = ({
                         <ChevronDown className="size-4 opacity-50" />
                       </button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-56 p-3 bg-popover border-border" align="center">
+                    <PopoverContent
+                      className="w-[calc(100vw-2rem)] sm:w-56 p-3 bg-popover border-border"
+                      align="start"
+                      sideOffset={8}
+                      collisionPadding={16}
+                    >
                       <div className="space-y-2">
                         <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 flex items-center gap-2">
                           <Brain className="size-3" />
@@ -287,7 +371,12 @@ export const InputForm = ({
                         <ChevronDown className="size-4 opacity-50" />
                       </button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-72 p-4 bg-popover border-border" align="center">
+                    <PopoverContent
+                      className="w-[calc(100vw-2rem)] sm:w-72 p-4 bg-popover border-border"
+                      align="start"
+                      sideOffset={8}
+                      collisionPadding={16}
+                    >
                       <div className="space-y-4">
                         <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 flex items-center gap-2">
                           <Cpu className="size-3" />
@@ -337,13 +426,18 @@ export const InputForm = ({
                         <ChevronDown className="size-4 opacity-50" />
                       </button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-80 p-4 bg-popover border-border max-h-[70vh] overflow-y-auto" align="center">
+                    <PopoverContent
+                      className="w-[calc(100vw-2rem)] sm:w-80 p-4 bg-popover border-border max-h-[60vh] overflow-y-auto no-scrollbar"
+                      align="end"
+                      sideOffset={8}
+                      collisionPadding={16}
+                    >
                       <div className="space-y-4">
                         <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 flex items-center gap-2">
                           <Box className="size-3" />
                           Active Tools ({activeAgentCount})
                         </div>
-                        
+
                         {/* Primary Tools */}
                         <div className="space-y-2">
                           <div className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/40 px-1">Data Sources</div>
@@ -381,7 +475,7 @@ export const InputForm = ({
                               <Database className="size-3" />
                               PrimeKG Endpoints
                             </div>
-                            
+
                             {/* Search APIs */}
                             <div className="space-y-1">
                               <div className="text-[8px] font-bold uppercase tracking-wider text-primary/60 px-3 pt-1">Search</div>
@@ -477,16 +571,99 @@ export const InputForm = ({
                     </PopoverContent>
                   </Popover>
                 </div>
+
+                {/* Patient Context selector - compact */}
+                <div className={`flex items-center border rounded-full px-2 py-0.5 backdrop-blur-sm transition-colors ${selectedPatient ? 'bg-primary/10 border-primary/30' : 'bg-accent/30 border-border'}`}>
+                  <User className={`hidden sm:block size-3 mr-1.5 ${selectedPatient ? 'text-primary' : 'text-muted-foreground/60'}`} />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        className={`flex items-center justify-between h-6 w-[55px] sm:w-[75px] bg-transparent border-none focus:ring-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider p-0 hover:text-foreground transition-all ${selectedPatient ? 'text-primary' : 'text-foreground/90'}`}
+                      >
+                        <span>{selectedPatient ? 'Active' : 'Patient'}</span>
+                        <ChevronDown className="size-4 opacity-50" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      className="w-[calc(100vw-2rem)] sm:w-72 p-4 bg-popover border-border"
+                      align="end"
+                      sideOffset={8}
+                      collisionPadding={16}
+                    >
+                      <div className="space-y-3">
+                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 flex items-center gap-2">
+                          <User className="size-3" />
+                          Patient Context
+                        </div>
+
+                        {selectedPatient && (
+                          <div className="flex items-center justify-between p-2 bg-primary/5 border border-primary/20 rounded-lg">
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-semibold text-primary truncate">{getPatientFullName(selectedPatient)}</p>
+                              <p className="text-[10px] text-muted-foreground truncate">{selectedPatient.diagnosis.cancerType}</p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setSelectedPatientId(null)}
+                              className="p-1 hover:bg-destructive/10 rounded transition-colors"
+                              aria-label="Remove patient context"
+                            >
+                              <X className="size-3.5 text-destructive" />
+                            </button>
+                          </div>
+                        )}
+
+                        <div className="space-y-1.5">
+                          <div className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground/40 px-1">
+                            {selectedPatient ? 'Switch Patient' : 'Select Patient'}
+                          </div>
+                          {patients.length === 0 ? (
+                            <p className="text-xs text-muted-foreground italic px-1">No patients registered.</p>
+                          ) : (
+                            <div className="max-h-40 overflow-y-auto space-y-1">
+                              {patients.map((p) => (
+                                <button
+                                  key={p.id}
+                                  type="button"
+                                  onClick={() => setSelectedPatientId(p.id)}
+                                  className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-colors border ${selectedPatientId === p.id
+                                    ? 'bg-primary/10 border-primary/30 text-primary'
+                                    : 'bg-transparent border-transparent hover:bg-accent/50 text-muted-foreground'
+                                    }`}
+                                >
+                                  <div className="flex-1 min-w-0 text-left">
+                                    <span className="block truncate">{getPatientFullName(p)}</span>
+                                    <span className="block text-[10px] opacity-60 truncate">{p.diagnosis.cancerType}</span>
+                                  </div>
+                                  {selectedPatientId === p.id && <Check className="size-3.5 text-primary shrink-0 ml-2" />}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {selectedPatient && (
+                          <div className="pt-2 border-t border-border/50">
+                            <p className="text-[10px] text-muted-foreground">
+                              Patient context will be included with your query to provide personalized analysis.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
 
-              {/* Right side: Action buttons - always visible and grouped */}
-              <div className="flex items-center gap-2 shrink-0">
+              {/* Right side: Action buttons - moved to its own row on mobile */}
+              <div className="flex items-center justify-end gap-2 shrink-0 border-t border-border/10 sm:border-0 pt-2 sm:pt-0">
                 <InstructionImproverButton
                   currentInput={internalInputValue}
                   onImprovedPrompt={(improved) => setInternalInputValue(improved)}
-                  disabled={isLoading}
+                  disabled={isLoading || !meetsMinChars}
                 />
-                
+
                 {isLoading ? (
                   <Button
                     type="button"

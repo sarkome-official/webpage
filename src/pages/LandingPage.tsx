@@ -87,7 +87,7 @@ export default function LandingPage() {
                                 From Genomic Data to <span className="text-primary">Therapeutic Hypotheses</span> in Minutes.
                             </h2>
                             <p className="text-base md:text-lg text-text-main leading-relaxed max-w-xl">
-                                Accelerate precision oncology with AI Agents that reason over global biomedical knowledge to discover personalized treatments.
+                                Accelerate precision oncology with AI Agent that reason over global biomedical knowledge to discover personalized treatments.
                             </p>
                             <div className="pt-2">
                                 <GoogleLoginButton />
@@ -260,7 +260,7 @@ export default function LandingPage() {
                     <section>
                         <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-6">The Computational Substrate</h3>
                         <p className="text-sm text-text-main mb-8">
-                            We don't need a physical lab to find answers. We need a map. Our agents traverse the largest integrated biological knowledge graph in existence.
+                            We don't need a physical lab to find answers. We need a map. Our agent traverse the largest integrated biological knowledge graph in existence.
                         </p>
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                             {SUBSTRATE_STATS.map((stat, i) => (

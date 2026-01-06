@@ -593,7 +593,8 @@ interface ChatMessagesViewProps {
     inputValue: string,
     effort: string,
     models: { queryModel: string; answerModel: string },
-    activeAgents: string[]
+    activeAgents: string[],
+    patientContext?: string
   ) => void;
   historicalActivities: Record<string, ProcessedEvent[]>;
   sourcesListByMessageId?: Record<string, Array<{ label?: string; url: string; id?: string }>>;

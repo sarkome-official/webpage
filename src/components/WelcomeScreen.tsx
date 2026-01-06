@@ -7,7 +7,8 @@ interface WelcomeScreenProps {
     submittedInputValue: string,
     effort: string,
     models: { queryModel: string; answerModel: string },
-    activeAgents: string[]
+    activeAgents: string[],
+    patientContext?: string
   ) => void;
   onCancel: () => void;
   isLoading: boolean;

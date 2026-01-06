@@ -1,24 +1,24 @@
 import * as React from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { 
-    getPatient, 
-    getPatientFullName, 
-    calculateAge, 
+import {
+    getPatient,
+    getPatientFullName,
+    calculateAge,
     calculateBMI,
-    type PatientRecord 
+    type PatientRecord
 } from "@/lib/patient-record"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { 
-    FileText, 
-    Beaker, 
-    Dna, 
-    Pill, 
-    Lightbulb, 
-    MessageSquare, 
+import {
+    FileText,
+    Beaker,
+    Dna,
+    Pill,
+    Lightbulb,
+    MessageSquare,
     ArrowLeft,
     Calendar,
     User,
@@ -63,16 +63,8 @@ export default function PatientRecordView() {
             {/* Header del Paciente */}
             <div className="border-b border-white/10 bg-white/5 backdrop-blur-md p-6">
                 <div className="container max-w-6xl mx-auto">
-                    <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="mb-4 -ml-2 text-muted-foreground"
-                        onClick={() => navigate(-1)}
-                    >
-                        <ArrowLeft className="mr-2 size-4" />
-                        Volver
-                    </Button>
-                    
+
+
                     <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
                         <Avatar className="size-20 border-2 border-primary/20">
                             <AvatarImage src={patient.identity.photoUrl} />
@@ -80,7 +72,7 @@ export default function PatientRecordView() {
                                 {patient.identity.firstName[0]}{patient.identity.lastName[0]}
                             </AvatarFallback>
                         </Avatar>
-                        
+
                         <div className="flex-1 space-y-2">
                             <div className="flex items-center gap-3 flex-wrap">
                                 <h1 className="text-3xl font-bold tracking-tight">{fullName}</h1>
@@ -91,7 +83,7 @@ export default function PatientRecordView() {
                                     Estadio {patient.diagnosis.stage || 'N/A'}
                                 </Badge>
                             </div>
-                            
+
                             <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                                 <div className="flex items-center gap-1.5">
                                     <Calendar className="size-4" />
@@ -108,12 +100,6 @@ export default function PatientRecordView() {
                             </div>
                         </div>
 
-                        <div className="flex gap-2">
-                            <Button onClick={() => navigate(`/patient/${patient.id}/chat`)}>
-                                <MessageSquare className="mr-2 size-4" />
-                                Consultar AI
-                            </Button>
-                        </div>
                     </div>
                 </div>
             </div>
