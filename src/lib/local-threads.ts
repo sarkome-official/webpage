@@ -10,6 +10,15 @@ const THREADS_STORAGE_KEY = "sarkome.threads";
 const ACTIVE_THREAD_KEY = "sarkome.activeThreadId";
 
 /**
+ * Represents a chat message (simplified for storage).
+ */
+export interface ChatMessage {
+    type: "human" | "ai" | "system";
+    content: string;
+    id?: string;
+}
+
+/**
  * Represents a stored chat thread.
  */
 export interface StoredThread {
@@ -18,6 +27,7 @@ export interface StoredThread {
     patientId?: string;
     createdAt: number;
     updatedAt: number;
+    messages?: ChatMessage[];
 }
 
 /**
@@ -111,8 +121,9 @@ export function getActiveThreadId(): string | null {
 /**
  * Sets the active thread ID.
  * If the thread doesn't exist yet, it creates a new one with a default title.
+ * Optionally associates the thread with a patient.
  */
-export function setActiveThreadId(threadId: string): void {
+export function setActiveThreadId(threadId: string, patientId?: string): void {
     try {
         localStorage.setItem(ACTIVE_THREAD_KEY, threadId);
 
@@ -125,8 +136,16 @@ export function setActiveThreadId(threadId: string): void {
                 title: "",
                 createdAt: now,
                 updatedAt: now,
+                patientId,
             };
             upsertThread(newThread);
+        } else if (patientId && !existingThread.patientId) {
+            // Update existing thread with patientId if it wasn't set before
+            upsertThread({
+                ...existingThread,
+                patientId,
+                updatedAt: Date.now(),
+            });
         }
 
         dispatchThreadsEvent();
@@ -151,4 +170,42 @@ export function clearActiveThreadId(): void {
  */
 function dispatchThreadsEvent(): void {
     window.dispatchEvent(new CustomEvent("sarkome:threads"));
+}
+
+/**
+ * Derives a thread title from the first human message in the conversation.
+ * Truncates to a reasonable length for display purposes.
+ */
+export function deriveThreadTitle(messages: ChatMessage[]): string {
+    const firstHumanMessage = messages.find((m) => m.type === "human");
+    if (!firstHumanMessage || !firstHumanMessage.content) {
+        return "New Conversation";
+    }
+
+    const content = typeof firstHumanMessage.content === "string"
+        ? firstHumanMessage.content
+        : JSON.stringify(firstHumanMessage.content);
+
+    // Truncate to 50 characters max
+    const maxLength = 50;
+    if (content.length <= maxLength) {
+        return content;
+    }
+    return content.substring(0, maxLength).trim() + "...";
+}
+
+/**
+ * Gets the active thread ID or creates a new one if none exists.
+ * This ensures there's always an active thread for the user session.
+ */
+export function getOrCreateActiveThreadId(): string {
+    const existingId = getActiveThreadId();
+    if (existingId) {
+        return existingId;
+    }
+
+    // Create a new thread ID and set it as active
+    const newId = createThreadId();
+    setActiveThreadId(newId);
+    return newId;
 }

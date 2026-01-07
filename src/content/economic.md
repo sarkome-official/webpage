@@ -1,162 +1,198 @@
-# The Contributor Economy: Building Intelligence Through Collaboration
+# Economic Model: Pay-Per-Use Intelligence
 
-## Beyond Pure Automation
+## Philosophy: Transparent, Usage-Based Pricing
 
-Most AI platforms promise to "replace experts." Sarkome takes the opposite approach: **the platform gets smarter by learning from domain specialists**.
+Most AI platforms lock you into expensive subscriptions whether you use them or not. Sarkome takes a different approach: **you pay for what you use, when you use it**.
 
-The Virtual Mind isn't born knowing everything about cancer biology—it becomes an expert through a symbiotic relationship with researchers. We've designed an economic model where **expertise becomes scalable** and **contributions are rewarded**.
+We believe that researchers and clinicians should have access to cutting-edge AI-powered oncology tools without prohibitive upfront costs. Our pricing model is designed to be:
 
-## Who Can Contribute?
+- **Transparent**: You see exactly what each query costs before you run it.
+- **Fair**: Costs are directly tied to actual computational resources consumed.
+- **Flexible**: Multiple tiers to match your usage patterns and budget.
 
-We don't need Nobel laureates. We need **verified, specialized knowledge workers** who can:
+---
 
-### Curate
-- Flag high-quality papers
-- Annotate protein structures
-- Validate drug-target interactions
-- Highlight important findings that automated systems miss
+## How Pricing Works
 
-### Correct
-- Identify AI hallucinations
-- Mark false edges in the knowledge graph
-- Challenge weak causal chains
-- Point out outdated or superseded information
+### The Formula
 
-### Extend
-- Add domain-specific context that general AI models miss
-- Document clinical nuances and experimental details
-- Surface negative results often buried in supplementary data
-- Connect isolated findings to broader research contexts
-
-## Contribution Types
-
-### Knowledge Graph Enrichment
-- Validate or refute proposed relationships
-- Add new entities and connections
-- Annotate edge confidence levels
-- Provide context for ambiguous relationships
-
-### Literature Annotation
-- Highlight key findings in papers
-- Tag relevant entities and relationships
-- Mark paper quality and reliability
-- Identify retracted or disputed claims
-
-### Query Feedback
-- Rate the quality of agent responses
-- Suggest improvements to reasoning chains
-- Flag missing considerations
-- Provide alternative interpretations
-
-### Hypothesis Validation
-- Evaluate generated therapeutic hypotheses
-- Provide expert assessment of feasibility
-- Suggest additional evidence or counterarguments
-- Rate confidence in proposed mechanisms
-
-## The Incentive Model
-
-Contributors don't work for vague "impact points." They receive **direct value**:
-
-### API Access Tiers
-
-Validated contributions unlock platform capabilities:
-
-| Tier | Requirements | Benefits |
-|------|--------------|----------|
-| **Community** | Verified researcher account | Basic platform access, limited queries |
-| **Contributor** | Regular validated contributions | Enhanced query limits, priority processing |
-| **Expert** | High-impact contributions | Advanced features, early access to new tools |
-| **Partner** | Sustained high-quality work | Collaboration opportunities, research credits |
-
-### What You Get
-
-#### Research Superpowers
-Query the Virtual Mind with complex questions that would take days of manual research to answer. Generate hypotheses, explore pathways, and discover connections instantly.
-
-#### Network Effects
-Connect with other researchers exploring similar questions. The platform can broker introductions when multiple labs are independently investigating the same mechanisms.
-
-#### Recognition
-High-quality contributors are acknowledged in platform documentation and may be invited to collaborate on publications or projects.
-
-## The Knowledge Flywheel
-
-This model creates a self-reinforcing loop:
+Every query has a clear cost breakdown:
 
 ```
-Better Data → Smarter AI → More Useful → More Users → 
-More Contributions → Better Data...
+Query Cost = LLM Cost + Platform Fee (50%)
 ```
 
-### Stage 1: Quality Data
-Expert corrections and extensions improve the knowledge graph's accuracy.
+| Component | Description |
+|-----------|-------------|
+| **LLM Cost** | The actual cost of tokens processed by the language model (input + output tokens) |
+| **Platform Fee** | 50% markup on LLM cost to cover infrastructure, R&D, and platform maintenance |
 
-### Stage 2: Smarter Reasoning
-Higher-quality data leads to more reliable AI outputs.
+### Example Costs
 
-### Stage 3: Increased Value
-Researchers discover that Sarkome's predictions actually work, driving adoption.
+| Query Type | Estimated LLM Cost | Platform Fee (50%) | Total Cost |
+|------------|-------------------|-------------------|------------|
+| Simple question | $0.02 | $0.01 | **$0.03** |
+| Standard research query | $0.10 | $0.05 | **$0.15** |
+| Deep analysis (high effort) | $0.40 | $0.20 | **$0.60** |
+| Complex multi-tool query | $0.80 | $0.40 | **$1.20** |
 
-### Stage 4: More Contributions
-Higher usage reveals more edge cases and opportunities for improvement.
+*Costs vary based on model selection, effort level, and tools used.*
 
-### Stage 5: Flywheel Accelerates
-Each contribution makes the platform more valuable, attracting more contributors.
+---
 
-## Why Researchers Win
+## Pricing Tiers
 
-If you're a graduate student, postdoc, or researcher at any level, you're resource-constrained. You don't have:
-- A team of research assistants
-- Unlimited access to expensive databases
-- Time to manually review thousands of papers
+### Tier 1: Pay-As-You-Go
 
-But you do have:
-- **Expertise** in your specific research domain
-- **Time** invested in reading papers and understanding your field
-- **Motivation** to accelerate your own research
+**Best for**: Occasional users, researchers exploring the platform.
 
-Sarkome gives you **institutional-grade AI infrastructure** in exchange for doing what you already do: reading papers, validating claims, and asking hard questions. Every contribution makes you more effective for your *next* research project.
+- No monthly commitment
+- Pay only for queries you run
+- Full access to all platform features
+- Real-time cost estimation before each query
 
-## Quality Control
+### Tier 2: Infrastructure Subscription + Usage
 
-Not all contributions are equal. The platform implements multi-layer validation:
+**Best for**: Regular users who want predictable baseline costs.
 
-### Credential Verification
-- Academic email verification
-- ORCID integration
-- Publication history validation
+| Plan | Monthly Base | What's Included | Usage Pricing |
+|------|--------------|-----------------|---------------|
+| **Starter** | $29/month | Priority support, query history, patient records | LLM cost + 40% (reduced fee) |
+| **Professional** | $99/month | All Starter features + API access, team collaboration | LLM cost + 30% (reduced fee) |
+| **Institution** | Custom | Dedicated infrastructure, SLA, compliance features | Volume discounts + negotiated rates |
 
-### Contribution Scoring
-- Cross-validation against other expert assessments
-- Consistency tracking over time
-- Impact measurement (did this correction improve downstream outputs?)
+The monthly base covers infrastructure maintenance, data storage, and premium features. Usage fees are reduced as a benefit of your subscription.
 
-### Reputation System
-- Expertise areas are tracked and weighted
-- Contributions outside one's demonstrated expertise receive additional scrutiny
-- High-reputation contributors can validate others' work
+### Tier 3: Bring Your Own LLM (BYOLLM)
 
-## The Long-Term Vision
+**Best for**: Organizations with existing AI infrastructure, privacy-conscious institutions.
 
-In five years, the most effective oncology researchers won't rely solely on PubMed searches. They'll query intelligent systems that:
+| Plan | Monthly Cost | What You Get |
+|------|--------------|--------------|
+| **BYOLLM Basic** | $49/month | Platform access, knowledge graph, AlphaFold integration |
+| **BYOLLM Pro** | $149/month | Basic + API access, priority routing, advanced analytics |
+| **BYOLLM Enterprise** | Custom | Pro + on-premise deployment options, custom integrations |
 
-- **Know everything** relevant to their research (Hot Memory)
-- **Connect automatically** to discoveries in adjacent fields (Warm Memory)
-- **Resurface forgotten breakthroughs** when they become relevant again (Cold Memory reactivation)
+**How it works**:
+1. Connect your own LLM API (OpenAI, Anthropic, Google AI, Azure, self-hosted)
+2. Sarkome handles orchestration, knowledge graph traversal, and tool routing
+3. You pay only for platform infrastructure; LLM costs go directly to your provider
 
-And these researchers will be contributors, not just users—actively shaping the intelligence that powers their discoveries.
+---
+
+## Cost Transparency
+
+### Before Every Query
+
+You'll see a cost estimate before submitting:
+
+```
+Estimated Cost Breakdown
+------------------------
+Model: Gemini 2.0 Flash
+Effort Level: Medium
+Tools: Web Search, Knowledge Graph
+
+Estimated tokens: ~8,000
+LLM cost: ~$0.08
+Platform fee: ~$0.04
+------------------------
+Total estimate: ~$0.12
+```
+
+### Usage Dashboard
+
+Track your spending with detailed analytics:
+
+- Daily, weekly, monthly cost breakdowns
+- Cost per query type and tool
+- Token usage patterns
+- Budget alerts and limits
+
+---
+
+## Enterprise & Research Institutions
+
+### Volume Commitments
+
+For organizations processing significant query volumes, we offer:
+
+| Commitment | Discount |
+|------------|----------|
+| $500+/month | 10% off platform fees |
+| $2,000+/month | 20% off platform fees |
+| $10,000+/month | Custom enterprise pricing |
+
+### Academic Partnerships
+
+Universities and research hospitals may qualify for:
+
+- Reduced platform fees (up to 50% off)
+- Grant-compatible invoicing
+- Collaborative research opportunities
+- Co-publication options for platform improvements
+
+---
+
+## Why This Model Works
+
+### For Researchers
+
+- **Low barrier to entry**: Try the platform without a large upfront investment
+- **Scalable costs**: Scale usage up or down as your project demands
+- **No waste**: You never pay for capacity you don't use
+
+### For Sarkome
+
+- **Sustainable growth**: Revenue scales with actual platform value delivered
+- **Aligned incentives**: We succeed when you use the platform successfully
+- **Quality focus**: We're motivated to make every query worth its cost
+
+### For the Ecosystem
+
+- **Accessible AI**: Cutting-edge oncology AI becomes available to smaller labs
+- **Fair competition**: Pricing transparency prevents vendor lock-in
+- **Innovation funding**: Platform fees directly fund R&D and improvements
+
+---
+
+## Comparison to Traditional Models
+
+| Aspect | Traditional SaaS | Sarkome Pay-Per-Use |
+|--------|------------------|---------------------|
+| Monthly cost | Fixed ($200-2000+) | Variable (based on usage) |
+| Unused capacity | You pay anyway | You pay nothing |
+| Cost predictability | High (but inflexible) | Estimable per query |
+| Barrier to try | High | Very low |
+| Scaling down | Often penalized | Automatic |
+| Scaling up | Requires plan upgrade | Seamless |
+
+---
+
+## Getting Started
+
+### Step 1: Create Account
+Sign up with Google authentication. No credit card required to explore.
+
+### Step 2: Run Your First Query
+Every new account receives **$5 in free credits** to explore the platform.
+
+### Step 3: Add Payment Method
+When you're ready for more, add a payment method and continue seamlessly.
+
+### Step 4: Choose Your Tier (Optional)
+Upgrade to a subscription tier if you want reduced fees or BYOLLM flexibility.
 
 ---
 
 ## Summary
 
-**We're building the world's most comprehensive oncology reasoning platform by rewarding domain experts with the tools they actually need: research superpowers.**
+**Sarkome's economic model is simple: pay for what you use, see what you're paying, and never get locked into something that doesn't work for you.**
 
-You don't need to believe in altruism. You just need to see that smart researchers will trade their domain knowledge for tools that make them dramatically more effective. And once they do, the system becomes **unreplicably intelligent**.
+We're building the world's most comprehensive oncology reasoning platform, and we want it to be accessible to everyone who can benefit from it—from individual researchers to major institutions.
 
-That's the contributor economy: not extracting value from experts, but **multiplying it**.
+The best AI tools shouldn't require enterprise budgets. They should be available to anyone willing to invest in better research outcomes.
 
 ---
 
-**Join the Contributor Community**: [Get Started](/platform)
+**Ready to Start?** [Access the Platform](/platform) | [Contact Sales](mailto:contact@sarkome.com)

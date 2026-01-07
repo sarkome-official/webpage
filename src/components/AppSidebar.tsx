@@ -203,7 +203,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 Sarkome
                             </h2>
                             <p className="text-[10px] text-muted-foreground font-medium leading-none tracking-tighter">
-                                Precision Research AI
+                                Precision Research AI v0.0.6 beta
                             </p>
                         </div>
                     </Link>

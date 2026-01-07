@@ -22,7 +22,13 @@ import {
     Database,
     Cpu,
     Dna,
-    Globe
+    Globe,
+    CreditCard,
+    Zap,
+    Shield,
+    Users,
+    TestTube,
+    GraduationCap
 } from 'lucide-react';
 
 // Data: Discovery Pipeline Steps
@@ -50,6 +56,14 @@ const SUBSTRATE_STATS = [
     { icon: Dna, label: "Structural Models", value: "200M+", sub: "via AlphaFold 3" },
     { icon: Cpu, label: "Inference Speed", value: "< 200ms", sub: "Causal Reasoning" },
     { icon: Globe, label: "Data Sources", value: "Real-time", sub: "PubMed & BioRxiv" }
+];
+
+// Data: Economic Model Stats
+const ECONOMIC_STATS = [
+    { icon: CreditCard, label: "Pricing Model", value: "Pay-Per-Use", sub: "No Monthly Lock-in" },
+    { icon: Zap, label: "Starting Cost", value: "$0.03", sub: "Per Simple Query" },
+    { icon: Shield, label: "BYOLLM Option", value: "From $49", sub: "Use Your Own LLM" },
+    { icon: Users, label: "Academic Discount", value: "Up to 50%", sub: "Research Institutions" }
 ];
 
 // Data: Social Links
@@ -89,62 +103,98 @@ export default function LandingPage() {
                             <p className="text-base md:text-lg text-text-main leading-relaxed max-w-xl">
                                 Accelerate precision oncology with AI Agent that reason over global biomedical knowledge to discover personalized treatments.
                             </p>
-                            <div className="pt-2">
+                            <div className="flex flex-wrap items-center gap-4 pt-2">
                                 <GoogleLoginButton />
+                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+                                    <span className="relative flex h-2 w-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                    </span>
+                                    <span className="text-[10px] font-bold uppercase tracking-wider text-primary">Beta 0.0.6 Live</span>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Platform Visualization */}
-                        <div className="relative py-12 md:py-16">
-                            <p className="text-xs font-bold tracking-widest text-text-main uppercase mb-8">Platform Visualization</p>
-                            <div className="relative h-[300px] md:h-[400px] w-full perspective-[1000px]">
-                                {/* Main Card */}
-                                <div className="absolute inset-x-0 top-0 md:left-10 md:right-10 mx-auto z-20 bg-surface border border-border-custom rounded-xl shadow-2xl overflow-hidden p-4 transform transition-transform hover:scale-[1.02] duration-500">
-                                    <div className="flex items-center justify-between mb-4 border-b border-border-custom pb-3">
-                                        <div className="flex gap-1.5">
-                                            <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
-                                            <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
-                                            <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
-                                        </div>
-                                        <div className="text-[10px] font-mono text-text-main">causal_inference_engine_v4.py</div>
+                        {/* Narrative Workflows: From Query to Discovery */}
+                        <div className="relative py-12 md:py-20 border-y border-border-custom/50">
+                            <p className="text-xs font-bold tracking-widest text-text-main uppercase mb-12 text-center">How Sarkome Works: The Path to Discovery</p>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                                {/* Decorative Connector Line (Desktop) */}
+                                <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-border-custom to-transparent -translate-y-16"></div>
+
+                                {/* Step 1: The Clinical Query */}
+                                <div className="relative flex flex-col items-center text-center space-y-4 group">
+                                    <div className="w-12 h-12 rounded-full bg-surface border border-border-custom flex items-center justify-center z-10 group-hover:border-primary/50 transition-colors shadow-xl">
+                                        <Mail className="w-5 h-5 text-primary" />
                                     </div>
-                                    <div className="relative h-[200px] md:h-[280px] bg-black rounded-lg overflow-hidden flex items-center justify-center">
-                                        <img alt="Abstract Data Visualization" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTu0_VpIa_addIxGdTpsucwH6Q83MTH8RS60p-EV4FyTg1BasX_a-IozLR5yNXBU5cAZqNlbSFGFFvs4jvddCDRvfdFmHtS76ZipuSrXg532wHWW6BbuaUyissY6pbHc4Myau1g2eIyhr40TuZtADOJSoBHoqPe_OHtMx2_A0E7RjsCZS3Ah25YSXU4kmX1_hdeSPhwfkkgr7MkB-dkQxmFll7BzIJ4g9hrj9RwPo33LfkBWMjZtyxuPHt4mywlha_qlMtEpke4jCJ" />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                                        <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-                                            <div className="bg-white/10 backdrop-blur-md p-3 rounded border border-white/20">
-                                                <div className="text-[10px] text-white/60 mb-1">Confidence Score</div>
-                                                <div className="text-xl font-bold text-white">98.4%</div>
+                                    <div className="space-y-2">
+                                        <h4 className="text-sm font-bold uppercase tracking-tight">1. Input Case</h4>
+                                        <div className="bg-surface/50 border border-border-custom p-3 rounded-lg text-left">
+                                            <p className="text-[10px] font-mono text-text-muted mb-1">// Natural Language Query</p>
+                                            <p className="text-xs italic leading-tight italic">"Identify metabolic vulnerabilities in ASPS fusion-protein driven tumors..."</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Step 2: Agent Reasoning */}
+                                <div className="relative flex flex-col items-center text-center space-y-4 group">
+                                    <div className="w-12 h-12 rounded-full bg-surface border border-border-custom flex items-center justify-center z-10 group-hover:border-primary/50 transition-colors shadow-2xl">
+                                        <Network className="w-5 h-5 text-primary" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h4 className="text-sm font-bold uppercase tracking-tight">2. Agentic Reasoning</h4>
+                                        <div className="bg-black/40 border border-primary/20 p-3 rounded-lg text-left backdrop-blur-sm">
+                                            <div className="flex gap-1 mb-2">
+                                                <div className="h-1 w-4 bg-primary/40 rounded"></div>
+                                                <div className="h-1 w-8 bg-primary rounded"></div>
+                                                <div className="h-1 w-2 bg-primary/20 rounded"></div>
                                             </div>
+                                            <p className="text-[10px] leading-tight text-white/80">Traversing PrimeKG...</p>
+                                            <p className="text-[10px] leading-tight text-white/60">Analyzing AlphaFold conformations...</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Left Decorative Card */}
-                                <div className="hidden md:block absolute top-12 -left-4 w-2/3 h-[300px] z-10 bg-surface border border-border-custom rounded-xl shadow-xl p-4 opacity-90 transform -rotate-6 scale-90 origin-bottom-right animate-float-delay">
-                                    <div className="h-full w-full bg-surface rounded border border-dashed border-border-custom flex flex-col p-4">
-                                        <div className="h-2 w-1/3 bg-border-custom rounded mb-4"></div>
-                                        <div className="h-2 w-2/3 bg-border-custom rounded mb-2 opacity-60"></div>
-                                        <div className="h-2 w-1/2 bg-border-custom rounded mb-2 opacity-60"></div>
-                                        <div className="h-2 w-3/4 bg-border-custom rounded mb-8 opacity-60"></div>
-                                        <div className="mt-auto grid grid-cols-2 gap-2">
-                                            <div className="h-16 bg-border-custom rounded opacity-40"></div>
-                                            <div className="h-16 bg-border-custom rounded opacity-40"></div>
-                                        </div>
+                                {/* Step 3: Therapeutic Hypothesis */}
+                                <div className="relative flex flex-col items-center text-center space-y-4 group">
+                                    <div className="w-12 h-12 rounded-full bg-primary border border-primary/20 flex items-center justify-center z-10 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                                        <Sparkles className="w-5 h-5 text-white" />
                                     </div>
-                                </div>
-
-                                {/* Right Decorative Card */}
-                                <div className="hidden md:block absolute top-20 -right-4 w-2/3 h-[280px] z-10 bg-surface border border-border-custom rounded-xl shadow-xl p-4 opacity-90 transform rotate-3 scale-95 origin-bottom-left animate-float">
-                                    <div className="h-full w-full bg-black rounded overflow-hidden relative">
-                                        <img alt="Gradient Texture" className="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvDgJ4_q465Dz4iqJsvyGzeugCfeRsZngNxI5FPVs9gWqq25cS70TshBDYbyU9eLxxjuzXfIK0OZAJAGKQukLR3cUwE2NOQU-9htsh_RveC3PjoMAMPlOeqxGL9Txi4Tl0liQH_EJICvjegk5sqF-vL_VqpGLYil3gj9aZ2VWcWAgmA5mcpKJyLiiSeLBDs-CVV_eY2Xzf4ZpjO3Y4PTG3eQHLygrx-O92m31zrOH4Bs669YPUgp3QdXsg4ncFQ6MytiDsU32-XTXW" />
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <div className="text-white font-mono text-xs">Simulating...</div>
+                                    <div className="space-y-2">
+                                        <h4 className="text-sm font-bold uppercase tracking-tight">3. Structured Result</h4>
+                                        <div className="bg-surface border-2 border-primary/30 p-3 rounded-lg text-left shadow-lg scale-105">
+                                            <div className="flex justify-between items-center mb-1">
+                                                <span className="text-[9px] font-bold text-primary px-1.5 py-0.5 bg-primary/10 rounded">HYPOTHESIS v1.2</span>
+                                                <span className="text-[9px] font-mono opacity-60">94.2% Conf.</span>
+                                            </div>
+                                            <p className="text-[11px] font-bold leading-tight">Targeting SLC7A11 ferroptosis pathway...</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <section className="bg-surface/30 p-8 rounded-3xl border border-border-custom">
+                            <h3 className="text-xs font-bold tracking-widest text-text-main uppercase mb-8 text-center">Built for Precision Oncology</h3>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                {[
+                                    { icon: TestTube, label: "Researchers", desc: "Accelerate hypothesis discovery" },
+                                    { icon: Briefcase, label: "Biopharma", desc: "Validate novel drug targets" },
+                                    { icon: GraduationCap, label: "Academic Labs", desc: "Scale research infrastructure" },
+                                    { icon: Activity, label: "Clinicians", desc: "Explore complex oncology cases" }
+                                ].map((type, i) => (
+                                    <div key={i} className="flex flex-col items-center text-center group">
+                                        <div className="w-10 h-10 rounded-xl bg-card border border-border-custom flex items-center justify-center mb-3 group-hover:scale-110 group-hover:border-primary/50 transition-all duration-300">
+                                            <type.icon className="w-5 h-5 opacity-70 group-hover:text-primary group-hover:opacity-100 transition-all" />
+                                        </div>
+                                        <div className="text-sm font-bold text-text-main transition-colors group-hover:text-primary">{type.label}</div>
+                                        <div className="text-[10px] text-text-muted leading-tight mt-1">{type.desc}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+
                     </section>
 
                     {/* Discovery Pipeline */}
@@ -275,6 +325,134 @@ export default function LandingPage() {
                             ))}
                         </div>
                     </section>
+
+                    {/* Economic Model - Badge/Emblem Style */}
+                    <section>
+                        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                            <h3 className="text-xs font-bold tracking-widest text-text-main uppercase">Economic Model</h3>
+                            <div className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+                                <span className="text-[10px] font-bold text-emerald-500 uppercase">Current Status: Free Beta 0.0.6</span>
+                            </div>
+                        </div>
+                        <p className="text-sm text-text-main mb-10">
+                            During our initial launch phase, <strong className="text-primary">all platform features are free to use</strong>. Our future model ensures oncology AI remains accessible with clear, usage-based pricing.
+                        </p>
+
+
+                        {/* Badge Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                            {/* Badge 1 - Pay Per Use (Emerald) */}
+                            <div className="group relative flex flex-col items-center text-center p-6 bg-surface/50 rounded-2xl border border-border-custom hover:border-emerald-500/30 transition-colors">
+                                {/* Circular Icon with Double Ring */}
+                                <div className="relative mb-4">
+                                    <div className="absolute inset-0 w-20 h-20 rounded-full bg-emerald-500/20 blur-xl group-hover:bg-emerald-500/30 transition-all duration-500" />
+                                    <div className="relative w-20 h-20 rounded-full border-2 border-emerald-500/50 flex items-center justify-center group-hover:border-emerald-400 transition-colors">
+                                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 border border-emerald-500/30 flex items-center justify-center">
+                                            <CreditCard className="w-6 h-6 text-emerald-400" />
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* Badge Content */}
+                                <div className="relative">
+                                    <div className="text-2xl font-bold text-text-main mb-1">Pay-Per-Use</div>
+                                    <div className="text-xs font-medium text-emerald-400 uppercase tracking-wider mb-3">Zero Commitment</div>
+                                    {/* Emblem/Ribbon */}
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full mb-4">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                                        <span className="text-[10px] font-semibold text-emerald-300 uppercase tracking-wider">No Monthly Fees</span>
+                                    </div>
+                                    {/* Description */}
+                                    <p className="text-xs text-text-muted leading-relaxed">
+                                        Run one query or one thousand. You see the cost estimate before every query and pay only for the AI processing used. No surprises.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Badge 2 - Starting Cost (Blue) */}
+                            <div className="group relative flex flex-col items-center text-center p-6 bg-surface/50 rounded-2xl border border-border-custom hover:border-blue-500/30 transition-colors">
+                                <div className="relative mb-4">
+                                    <div className="absolute inset-0 w-20 h-20 rounded-full bg-blue-500/20 blur-xl group-hover:bg-blue-500/30 transition-all duration-500" />
+                                    <div className="relative w-20 h-20 rounded-full border-2 border-blue-500/50 flex items-center justify-center group-hover:border-blue-400 transition-colors">
+                                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/30 flex items-center justify-center">
+                                            <Zap className="w-6 h-6 text-blue-400" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="relative">
+                                    <div className="text-2xl font-bold text-text-main mb-1">From $0.03</div>
+                                    <div className="text-xs font-medium text-blue-400 uppercase tracking-wider mb-3">Per Query</div>
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/10 border border-blue-500/30 rounded-full mb-4">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                                        <span className="text-[10px] font-semibold text-blue-300 uppercase tracking-wider">Transparent Pricing</span>
+                                    </div>
+                                    {/* Description */}
+                                    <p className="text-xs text-text-muted leading-relaxed">
+                                        Simple questions cost cents. Complex multi-tool analyses cost more but still a fraction of traditional research services.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Badge 3 - BYOLLM (Purple) */}
+                            <div className="group relative flex flex-col items-center text-center p-6 bg-surface/50 rounded-2xl border border-border-custom hover:border-purple-500/30 transition-colors">
+                                <div className="relative mb-4">
+                                    <div className="absolute inset-0 w-20 h-20 rounded-full bg-purple-500/20 blur-xl group-hover:bg-purple-500/30 transition-all duration-500" />
+                                    <div className="relative w-20 h-20 rounded-full border-2 border-purple-500/50 flex items-center justify-center group-hover:border-purple-400 transition-colors">
+                                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500/20 to-purple-600/10 border border-purple-500/30 flex items-center justify-center">
+                                            <Shield className="w-6 h-6 text-purple-400" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="relative">
+                                    <div className="text-2xl font-bold text-text-main mb-1">From $49/mo</div>
+                                    <div className="text-xs font-medium text-purple-400 uppercase tracking-wider mb-3">Bring Your Own AI</div>
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-500/10 border border-purple-500/30 rounded-full mb-4">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                                        <span className="text-[10px] font-semibold text-purple-300 uppercase tracking-wider">Full Data Privacy</span>
+                                    </div>
+                                    {/* Description */}
+                                    <p className="text-xs text-text-muted leading-relaxed">
+                                        Already have OpenAI, Anthropic, or Google AI access? Connect your own API keys. You pay for our platform, LLM costs go to your provider.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Badge 4 - Academic (Amber/Gold) */}
+                            <div className="group relative flex flex-col items-center text-center p-6 bg-surface/50 rounded-2xl border border-border-custom hover:border-amber-500/30 transition-colors">
+                                <div className="relative mb-4">
+                                    <div className="absolute inset-0 w-20 h-20 rounded-full bg-amber-500/20 blur-xl group-hover:bg-amber-500/30 transition-all duration-500" />
+                                    <div className="relative w-20 h-20 rounded-full border-2 border-amber-500/50 flex items-center justify-center group-hover:border-amber-400 transition-colors">
+                                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 flex items-center justify-center">
+                                            <Users className="w-6 h-6 text-amber-400" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="relative">
+                                    <div className="text-2xl font-bold text-text-main mb-1">Up to 50% Off</div>
+                                    <div className="text-xs font-medium text-amber-400 uppercase tracking-wider mb-3">Academic Program</div>
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full mb-4">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                                        <span className="text-[10px] font-semibold text-amber-300 uppercase tracking-wider">Universities & Labs</span>
+                                    </div>
+                                    {/* Description */}
+                                    <p className="text-xs text-text-muted leading-relaxed">
+                                        Universities, research hospitals, and academic labs qualify for reduced rates. Grant-compatible invoicing available.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Bottom CTA */}
+                        <div className="mt-10 p-8 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 text-center">
+                            <h4 className="text-xl font-bold mb-2">Ready to explore?</h4>
+                            <p className="text-sm text-text-muted mb-6">
+                                Start your research today. New accounts receive <span className="text-primary font-semibold">$5 in future credits</span> automatically, but right now, you can explore everything for free.
+                            </p>
+                            <div className="flex justify-center">
+                                <GoogleLoginButton />
+                            </div>
+                        </div>
+                    </section>
+
 
                     {/* Request Access */}
                     <section className="pt-12">

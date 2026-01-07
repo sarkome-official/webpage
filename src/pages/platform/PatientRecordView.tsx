@@ -240,8 +240,8 @@ export default function PatientRecordView() {
                                         size="sm"
                                         onClick={() => {
                                             const newThreadId = `thread_${Date.now()}_${Math.random().toString(16).slice(2)}`;
-                                            setActiveThreadId(newThreadId);
-                                            // The thread will be created with patientId when user sends first message
+                                            // Pass patientId to associate the thread with this patient
+                                            setActiveThreadId(newThreadId, patientId);
                                             navigate("/platform");
                                         }}
                                     >
@@ -261,12 +261,21 @@ export default function PatientRecordView() {
                                     ) : (
                                         <div className="space-y-2">
                                             {patientThreads.map((thread) => (
-                                                <button
+                                                <div
                                                     key={thread.id}
-                                                    className="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all text-left group"
+                                                    role="button"
+                                                    tabIndex={0}
+                                                    className="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all text-left group cursor-pointer"
                                                     onClick={() => {
                                                         setActiveThreadId(thread.id);
                                                         navigate("/platform");
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === "Enter" || e.key === " ") {
+                                                            e.preventDefault();
+                                                            setActiveThreadId(thread.id);
+                                                            navigate("/platform");
+                                                        }
                                                     }}
                                                 >
                                                     <div className="size-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
@@ -277,7 +286,7 @@ export default function PatientRecordView() {
                                                             {thread.title || thread.id}
                                                         </p>
                                                         <p className="text-xs text-muted-foreground">
-                                                            {thread.messages.length} messages
+                                                            {thread.messages?.length ?? 0} messages
                                                             {thread.updatedAt && (
                                                                 <span> - {new Date(thread.updatedAt).toLocaleDateString()}</span>
                                                             )}
@@ -301,7 +310,7 @@ export default function PatientRecordView() {
                                                             <Trash2 className="size-4 text-destructive" />
                                                         </button>
                                                     </div>
-                                                </button>
+                                                </div>
                                             ))}
                                         </div>
                                     )}
