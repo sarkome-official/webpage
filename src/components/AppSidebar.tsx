@@ -24,7 +24,7 @@ import {
     ChevronRight,
 } from "lucide-react"
 
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import {
     Sidebar,
     SidebarContent,
@@ -46,10 +46,19 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { createThreadId, listThreads, setActiveThreadId, type StoredThread } from "@/lib/local-threads"
+import { createThreadId, listThreads, setActiveThreadId, deleteThread, upsertThread, getThread, type StoredThread } from "@/lib/local-threads"
 import { listPatients, getPatientFullName, type PatientRecord } from "@/lib/patient-record"
-import { UserPlus, Users } from "lucide-react"
+import { UserPlus, Users, MoreHorizontal, Pencil, Trash2, UserCheck } from "lucide-react"
 import { SettingsModal } from "@/components/SettingsModal"
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogFooter,
+    DialogDescription,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 
 const data = {
     navMain: [
@@ -98,11 +107,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const { isMobile, setOpenMobile } = useSidebar();
     const { user, logout } = useAuth();
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = React.useState("");
     const [recentThreads, setRecentThreads] = React.useState<StoredThread[]>(() => listThreads().slice(0, 8));
     const [patients, setPatients] = React.useState<PatientRecord[]>(() => listPatients());
     const [settingsOpen, setSettingsOpen] = React.useState(false);
     const [userMenuOpen, setUserMenuOpen] = React.useState(false);
+
+    // Chat menu state
+    const [chatMenuOpen, setChatMenuOpen] = React.useState<string | null>(null);
+    const [renameDialogOpen, setRenameDialogOpen] = React.useState(false);
+    const [assignPatientOpen, setAssignPatientOpen] = React.useState(false);
+    const [selectedThread, setSelectedThread] = React.useState<StoredThread | null>(null);
+    const [renameValue, setRenameValue] = React.useState("");
 
     React.useEffect(() => {
         const refreshThreads = () => setRecentThreads(listThreads().slice(0, 8));
@@ -138,6 +155,40 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             )
         })).filter(group => group.items.length > 0);
     }, [searchQuery]);
+
+    // Chat menu handlers
+    const handleRenameThread = () => {
+        if (!selectedThread || !renameValue.trim()) return;
+        const thread = getThread(selectedThread.id);
+        if (thread) {
+            thread.title = renameValue.trim();
+            thread.updatedAt = Date.now();
+            upsertThread(thread);
+            setRecentThreads(listThreads().slice(0, 8));
+        }
+        setRenameDialogOpen(false);
+        setSelectedThread(null);
+        setRenameValue("");
+    };
+
+    const handleDeleteThread = (threadId: string) => {
+        deleteThread(threadId);
+        setRecentThreads(listThreads().slice(0, 8));
+        setChatMenuOpen(null);
+    };
+
+    const handleAssignToPatient = (patientId: string) => {
+        if (!selectedThread) return;
+        const thread = getThread(selectedThread.id);
+        if (thread) {
+            thread.patientId = patientId;
+            thread.updatedAt = Date.now();
+            upsertThread(thread);
+            setRecentThreads(listThreads().slice(0, 8));
+        }
+        setAssignPatientOpen(false);
+        setSelectedThread(null);
+    };
 
     return (
         <Sidebar variant="sidebar" className="bg-background" {...props}>
@@ -198,7 +249,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                         const newId = createThreadId();
                                                         setActiveThreadId(newId);
                                                         if (isMobile) setOpenMobile(false);
-                                                        window.location.href = "/platform";
+                                                        navigate("/platform");
                                                         return;
                                                     }
                                                     if (isMobile) setOpenMobile(false);
@@ -237,7 +288,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                             className="text-muted-foreground hover:text-foreground hover:bg-muted/50 h-10 transition-colors"
                                             onClick={() => {
                                                 if (isMobile) setOpenMobile(false);
-                                                window.location.href = `/patient/${p.id}`;
+                                                navigate(`/patient/${p.id}`);
                                             }}
                                         >
                                             <div className="flex flex-col items-start overflow-hidden">
@@ -253,7 +304,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     className="text-primary hover:text-primary/80 hover:bg-primary/5 h-8 transition-colors mt-1"
                                     onClick={() => {
                                         if (isMobile) setOpenMobile(false);
-                                        window.location.href = "/patient/new";
+                                        navigate("/patient/new");
                                     }}
                                 >
                                     <UserPlus className="size-3.5 mr-2" />
@@ -277,17 +328,65 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 </SidebarMenuItem>
                             ) : (
                                 recentThreads.filter(t => !t.patientId).map((t) => (
-                                    <SidebarMenuItem key={t.id}>
-                                        <SidebarMenuButton
-                                            className="text-muted-foreground hover:text-foreground hover:bg-muted/50 h-8 transition-colors"
-                                            onClick={() => {
-                                                setActiveThreadId(t.id);
-                                                if (isMobile) setOpenMobile(false);
-                                                window.location.href = "/platform";
-                                            }}
-                                        >
-                                            <span className="text-xs truncate">{(t.title && t.title.trim().length > 0) ? t.title : t.id}</span>
-                                        </SidebarMenuButton>
+                                    <SidebarMenuItem key={t.id} className="group/chat-item">
+                                        <div className="flex items-center w-full">
+                                            <SidebarMenuButton
+                                                className="text-muted-foreground hover:text-foreground hover:bg-muted/50 h-8 transition-colors flex-1 min-w-0"
+                                                onClick={() => {
+                                                    setActiveThreadId(t.id);
+                                                    if (isMobile) setOpenMobile(false);
+                                                    navigate("/platform");
+                                                }}
+                                            >
+                                                <span className="text-xs truncate">{(t.title && t.title.trim().length > 0) ? t.title : t.id}</span>
+                                            </SidebarMenuButton>
+                                            <Popover open={chatMenuOpen === t.id} onOpenChange={(open) => setChatMenuOpen(open ? t.id : null)}>
+                                                <PopoverTrigger asChild>
+                                                    <button
+                                                        className="opacity-0 group-hover/chat-item:opacity-100 focus:opacity-100 p-1 rounded hover:bg-muted/60 transition-all shrink-0"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setChatMenuOpen(t.id);
+                                                        }}
+                                                    >
+                                                        <MoreHorizontal className="size-3.5 text-muted-foreground" />
+                                                    </button>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-48 p-1" align="start" side="right">
+                                                    <button
+                                                        className="flex items-center gap-2 w-full px-2 py-1.5 text-xs text-foreground hover:bg-muted/60 rounded transition-colors text-left"
+                                                        onClick={() => {
+                                                            setSelectedThread(t);
+                                                            setRenameValue(t.title || "");
+                                                            setRenameDialogOpen(true);
+                                                            setChatMenuOpen(null);
+                                                        }}
+                                                    >
+                                                        <Pencil className="size-3.5 text-muted-foreground" />
+                                                        Rename
+                                                    </button>
+                                                    <button
+                                                        className="flex items-center gap-2 w-full px-2 py-1.5 text-xs text-primary hover:bg-primary/10 rounded transition-colors text-left font-medium"
+                                                        onClick={() => {
+                                                            setSelectedThread(t);
+                                                            setAssignPatientOpen(true);
+                                                            setChatMenuOpen(null);
+                                                        }}
+                                                    >
+                                                        <UserCheck className="size-3.5" />
+                                                        Assign to patient
+                                                    </button>
+                                                    <div className="h-px bg-border my-1" />
+                                                    <button
+                                                        className="flex items-center gap-2 w-full px-2 py-1.5 text-xs text-destructive hover:bg-destructive/10 rounded transition-colors text-left"
+                                                        onClick={() => handleDeleteThread(t.id)}
+                                                    >
+                                                        <Trash2 className="size-3.5" />
+                                                        Delete
+                                                    </button>
+                                                </PopoverContent>
+                                            </Popover>
+                                        </div>
                                     </SidebarMenuItem>
                                 ))
                             )}
@@ -390,6 +489,92 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </Popover>
                 </div>
             </SidebarFooter>
+
+            {/* Rename Dialog */}
+            <Dialog open={renameDialogOpen} onOpenChange={setRenameDialogOpen}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle>Rename Chat</DialogTitle>
+                        <DialogDescription>
+                            Enter a new name for this conversation.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="py-4">
+                        <input
+                            type="text"
+                            value={renameValue}
+                            onChange={(e) => setRenameValue(e.target.value)}
+                            placeholder="Chat name..."
+                            className="flex h-10 w-full items-center rounded-md border border-border bg-muted/50 px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 transition-all"
+                            autoFocus
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") handleRenameThread();
+                            }}
+                        />
+                    </div>
+                    <DialogFooter>
+                        <Button variant="ghost" onClick={() => setRenameDialogOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button onClick={handleRenameThread}>
+                            Save
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* Assign to Patient Dialog */}
+            <Dialog open={assignPatientOpen} onOpenChange={setAssignPatientOpen}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle>Assign to Patient</DialogTitle>
+                        <DialogDescription>
+                            Select a patient to associate this conversation with.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="py-4 max-h-64 overflow-y-auto">
+                        {patients.length === 0 ? (
+                            <div className="text-center py-4">
+                                <p className="text-sm text-muted-foreground mb-3">No patients registered yet.</p>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                        setAssignPatientOpen(false);
+                                        navigate("/patient/new");
+                                    }}
+                                >
+                                    <UserPlus className="size-4 mr-2" />
+                                    Create New Patient
+                                </Button>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col gap-1">
+                                {patients.map((p) => (
+                                    <button
+                                        key={p.id}
+                                        className="flex items-center gap-3 w-full px-3 py-2 text-left rounded-md hover:bg-muted/60 transition-colors"
+                                        onClick={() => handleAssignToPatient(p.id)}
+                                    >
+                                        <div className="size-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                            <User className="size-4 text-primary" />
+                                        </div>
+                                        <div className="flex flex-col overflow-hidden">
+                                            <span className="text-sm font-medium text-foreground truncate">{getPatientFullName(p)}</span>
+                                            <span className="text-xs text-muted-foreground truncate">{p.diagnosis.cancerType}</span>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <DialogFooter>
+                        <Button variant="ghost" onClick={() => setAssignPatientOpen(false)}>
+                            Cancel
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </Sidebar>
     )
 }

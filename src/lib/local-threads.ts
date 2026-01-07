@@ -1,100 +1,154 @@
-import type { ChatMessage } from "@/lib/chat-types";
+/**
+ * Local Threads Management
+ *
+ * This module handles the persistence of chat threads (conversations)
+ * in the browser's localStorage. It provides CRUD operations for threads
+ * and manages the active thread state.
+ */
 
-export type StoredThread = {
-  id: string;
-  title?: string;
-  createdAt: number;
-  updatedAt: number;
-  messages: ChatMessage[];
-  patientId?: string; // Opcional: vinculación a un expediente de paciente
-};
+const THREADS_STORAGE_KEY = "sarkome.threads";
+const ACTIVE_THREAD_KEY = "sarkome.activeThreadId";
 
-const THREADS_KEY = "sarkome.threads.v1";
-const ACTIVE_THREAD_KEY = "sarkome.activeThreadId.v1";
-
-function safeJsonParse<T>(raw: string | null): T | null {
-  if (typeof raw !== "string" || raw.trim().length === 0) return null;
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return null;
-  }
+/**
+ * Represents a stored chat thread.
+ */
+export interface StoredThread {
+    id: string;
+    title: string;
+    patientId?: string;
+    createdAt: number;
+    updatedAt: number;
 }
 
-function readThreadsMap(): Record<string, StoredThread> {
-  const parsed = safeJsonParse<Record<string, StoredThread>>(localStorage.getItem(THREADS_KEY));
-  if (!parsed || typeof parsed !== "object") return {};
-  return parsed;
-}
-
-function writeThreadsMap(map: Record<string, StoredThread>) {
-  localStorage.setItem(THREADS_KEY, JSON.stringify(map));
-  // Notify same-tab listeners (storage event won't fire in the same document).
-  try {
-    window.dispatchEvent(new Event("sarkome:threads"));
-  } catch {
-    // ignore
-  }
-}
-
-export function listThreads(): StoredThread[] {
-  const map = readThreadsMap();
-  return Object.values(map)
-    .filter((t) => t && typeof t.id === "string")
-    .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
-}
-
-export function getThread(id: string): StoredThread | null {
-  const map = readThreadsMap();
-  return map[id] ?? null;
-}
-
-export function upsertThread(next: StoredThread) {
-  const map = readThreadsMap();
-  map[next.id] = next;
-  writeThreadsMap(map);
-}
-
-export function deleteThread(id: string) {
-  const map = readThreadsMap();
-  if (map[id]) {
-    delete map[id];
-    writeThreadsMap(map);
-  }
-  const active = getActiveThreadId();
-  if (active === id) {
-    localStorage.removeItem(ACTIVE_THREAD_KEY);
-  }
-}
-
-export function getActiveThreadId(): string | null {
-  const raw = localStorage.getItem(ACTIVE_THREAD_KEY);
-  if (typeof raw !== "string" || raw.trim().length === 0) return null;
-  return raw;
-}
-
-export function setActiveThreadId(id: string) {
-  localStorage.setItem(ACTIVE_THREAD_KEY, id);
-}
-
+/**
+ * Generates a unique thread ID using timestamp and random suffix.
+ */
 export function createThreadId(): string {
-  return `thread_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+    const timestamp = Date.now();
+    const randomSuffix = Math.random().toString(36).substring(2, 8);
+    return `thread-${timestamp}-${randomSuffix}`;
 }
 
-export function getOrCreateActiveThreadId(): string {
-  const existing = getActiveThreadId();
-  if (existing) return existing;
-  const created = createThreadId();
-  setActiveThreadId(created);
-  return created;
+/**
+ * Retrieves all stored threads from localStorage.
+ * Returns threads sorted by updatedAt (most recent first).
+ */
+export function listThreads(): StoredThread[] {
+    try {
+        const data = localStorage.getItem(THREADS_STORAGE_KEY);
+        if (!data) return [];
+        const threads: StoredThread[] = JSON.parse(data);
+        return threads.sort((a, b) => b.updatedAt - a.updatedAt);
+    } catch (error) {
+        console.error("[local-threads] Error reading threads:", error);
+        return [];
+    }
 }
 
-export function deriveThreadTitle(messages: ChatMessage[]): string | undefined {
-  const firstHuman = messages.find((m) => m?.type === "human");
-  const raw = typeof firstHuman?.content === "string" ? firstHuman.content : null;
-  if (!raw) return undefined;
-  const trimmed = raw.trim();
-  if (!trimmed) return undefined;
-  const singleLine = trimmed.replace(/\s+/g, " ");
-  return singleLine.length > 64 ? `${singleLine.slice(0, 64)}…` : singleLine;
+/**
+ * Retrieves a specific thread by its ID.
+ */
+export function getThread(threadId: string): StoredThread | null {
+    const threads = listThreads();
+    return threads.find((t) => t.id === threadId) || null;
+}
+
+/**
+ * Creates or updates a thread in localStorage.
+ * If the thread exists, it updates it; otherwise, it creates a new one.
+ */
+export function upsertThread(thread: StoredThread): void {
+    try {
+        const threads = listThreads();
+        const existingIndex = threads.findIndex((t) => t.id === thread.id);
+
+        if (existingIndex >= 0) {
+            threads[existingIndex] = thread;
+        } else {
+            threads.push(thread);
+        }
+
+        localStorage.setItem(THREADS_STORAGE_KEY, JSON.stringify(threads));
+        dispatchThreadsEvent();
+    } catch (error) {
+        console.error("[local-threads] Error upserting thread:", error);
+    }
+}
+
+/**
+ * Deletes a thread by its ID.
+ */
+export function deleteThread(threadId: string): void {
+    try {
+        const threads = listThreads();
+        const filteredThreads = threads.filter((t) => t.id !== threadId);
+        localStorage.setItem(THREADS_STORAGE_KEY, JSON.stringify(filteredThreads));
+
+        // If the deleted thread was active, clear the active thread
+        const activeId = getActiveThreadId();
+        if (activeId === threadId) {
+            clearActiveThreadId();
+        }
+
+        dispatchThreadsEvent();
+    } catch (error) {
+        console.error("[local-threads] Error deleting thread:", error);
+    }
+}
+
+/**
+ * Gets the currently active thread ID.
+ */
+export function getActiveThreadId(): string | null {
+    try {
+        return localStorage.getItem(ACTIVE_THREAD_KEY);
+    } catch (error) {
+        console.error("[local-threads] Error getting active thread ID:", error);
+        return null;
+    }
+}
+
+/**
+ * Sets the active thread ID.
+ * If the thread doesn't exist yet, it creates a new one with a default title.
+ */
+export function setActiveThreadId(threadId: string): void {
+    try {
+        localStorage.setItem(ACTIVE_THREAD_KEY, threadId);
+
+        // Create thread if it doesn't exist
+        const existingThread = getThread(threadId);
+        if (!existingThread) {
+            const now = Date.now();
+            const newThread: StoredThread = {
+                id: threadId,
+                title: "",
+                createdAt: now,
+                updatedAt: now,
+            };
+            upsertThread(newThread);
+        }
+
+        dispatchThreadsEvent();
+    } catch (error) {
+        console.error("[local-threads] Error setting active thread ID:", error);
+    }
+}
+
+/**
+ * Clears the active thread ID.
+ */
+export function clearActiveThreadId(): void {
+    try {
+        localStorage.removeItem(ACTIVE_THREAD_KEY);
+    } catch (error) {
+        console.error("[local-threads] Error clearing active thread ID:", error);
+    }
+}
+
+/**
+ * Dispatches a custom event to notify components of thread changes.
+ */
+function dispatchThreadsEvent(): void {
+    window.dispatchEvent(new CustomEvent("sarkome:threads"));
 }

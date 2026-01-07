@@ -22,23 +22,42 @@ import {
     ArrowLeft,
     Calendar,
     User,
-    Activity
+    Activity,
+    Trash2
 } from "lucide-react"
 import { DocumentsManager } from "@/components/DocumentsManager"
 import { HypothesisManager } from "@/components/HypothesisManager"
 import { GenomicsManager } from "@/components/GenomicsManager"
 import { TreatmentsManager } from "@/components/TreatmentsManager"
+import { listThreads, setActiveThreadId, deleteThread, type StoredThread } from "@/lib/local-threads"
 
 export default function PatientRecordView() {
     const { patientId } = useParams<{ patientId: string }>();
     const navigate = useNavigate();
     const [patient, setPatient] = React.useState<PatientRecord | null>(null);
+    const [patientThreads, setPatientThreads] = React.useState<StoredThread[]>([]);
 
     React.useEffect(() => {
         if (patientId) {
             const data = getPatient(patientId);
             setPatient(data);
+            // Load threads associated with this patient
+            const threads = listThreads().filter(t => t.patientId === patientId);
+            setPatientThreads(threads);
         }
+    }, [patientId]);
+
+    // Listen for thread updates
+    React.useEffect(() => {
+        const refreshThreads = () => {
+            if (patientId) {
+                const threads = listThreads().filter(t => t.patientId === patientId);
+                setPatientThreads(threads);
+            }
+        };
+
+        window.addEventListener("sarkome:threads", refreshThreads as EventListener);
+        return () => window.removeEventListener("sarkome:threads", refreshThreads as EventListener);
     }, [patientId]);
 
     if (!patient) {
@@ -133,6 +152,15 @@ export default function PatientRecordView() {
                                 <Lightbulb className="size-4" />
                                 Hipótesis
                             </TabsTrigger>
+                            <TabsTrigger value="chats" className="gap-2">
+                                <MessageSquare className="size-4" />
+                                Chats
+                                {patientThreads.length > 0 && (
+                                    <span className="ml-1 px-1.5 py-0.5 text-[10px] bg-primary/20 text-primary rounded-full">
+                                        {patientThreads.length}
+                                    </span>
+                                )}
+                            </TabsTrigger>
                         </TabsList>
 
                         <TabsContent value="overview" className="space-y-6">
@@ -199,6 +227,86 @@ export default function PatientRecordView() {
 
                         <TabsContent value="hypotheses">
                             <HypothesisManager patient={patient} />
+                        </TabsContent>
+
+                        <TabsContent value="chats">
+                            <Card className="border-white/10 bg-white/5">
+                                <CardHeader className="flex flex-row items-center justify-between">
+                                    <CardTitle className="text-lg flex items-center gap-2">
+                                        <MessageSquare className="size-5 text-primary" />
+                                        Patient Conversations
+                                    </CardTitle>
+                                    <Button
+                                        size="sm"
+                                        onClick={() => {
+                                            const newThreadId = `thread_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+                                            setActiveThreadId(newThreadId);
+                                            // The thread will be created with patientId when user sends first message
+                                            navigate("/platform");
+                                        }}
+                                    >
+                                        <MessageSquare className="size-4 mr-2" />
+                                        New Chat
+                                    </Button>
+                                </CardHeader>
+                                <CardContent>
+                                    {patientThreads.length === 0 ? (
+                                        <div className="text-center py-12 text-muted-foreground">
+                                            <MessageSquare className="size-12 mx-auto mb-3 opacity-20" />
+                                            <p className="text-sm">No conversations assigned to this patient yet.</p>
+                                            <p className="text-xs mt-1 text-muted-foreground/70">
+                                                Start a new chat or assign existing chats from the sidebar.
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-2">
+                                            {patientThreads.map((thread) => (
+                                                <button
+                                                    key={thread.id}
+                                                    className="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all text-left group"
+                                                    onClick={() => {
+                                                        setActiveThreadId(thread.id);
+                                                        navigate("/platform");
+                                                    }}
+                                                >
+                                                    <div className="size-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                                        <MessageSquare className="size-5 text-primary" />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-sm font-medium text-foreground truncate">
+                                                            {thread.title || thread.id}
+                                                        </p>
+                                                        <p className="text-xs text-muted-foreground">
+                                                            {thread.messages.length} messages
+                                                            {thread.updatedAt && (
+                                                                <span> - {new Date(thread.updatedAt).toLocaleDateString()}</span>
+                                                            )}
+                                                        </p>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <span className="text-xs text-primary">Open</span>
+                                                        <button
+                                                            className="p-1.5 rounded hover:bg-destructive/20 transition-colors"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                if (confirm("Are you sure you want to permanently delete this conversation? This action cannot be undone.")) {
+                                                                    deleteThread(thread.id);
+                                                                    // Refresh threads list
+                                                                    const threads = listThreads().filter(t => t.patientId === patientId);
+                                                                    setPatientThreads(threads);
+                                                                }
+                                                            }}
+                                                            title="Delete conversation"
+                                                        >
+                                                            <Trash2 className="size-4 text-destructive" />
+                                                        </button>
+                                                    </div>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </CardContent>
+                            </Card>
                         </TabsContent>
                     </Tabs>
                 </div>
