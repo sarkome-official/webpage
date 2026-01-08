@@ -44,30 +44,50 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        let isSubscribed = true;
+
+        // Fallback timeout - if nothing happens in 5 seconds, stop loading
+        const timeout = setTimeout(() => {
+            if (isSubscribed && isLoading) {
+                console.warn('[Auth] Timeout: forcing isLoading to false');
+                setIsLoading(false);
+            }
+        }, 5000);
+
         // Handle redirect result on page load
         getRedirectResult(auth)
             .then((result) => {
+                console.log('[Auth] getRedirectResult:', result ? 'got user' : 'no result');
                 if (result?.user) {
-                    log('Login successful:', result.user.email);
+                    console.log('[Auth] Redirect login successful:', result.user.email);
+                    // User will be set by onAuthStateChanged
                 }
             })
             .catch((error) => {
-                logError('Redirect error:', error.code);
+                console.error('[Auth] Redirect error:', error.code, error.message);
             });
 
-        // Listen for Firebase Auth state changes
+        // Listen for Firebase Auth state changes - this is the main source of truth
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            log('State changed:', firebaseUser?.email || 'no user');
+            console.log('[Auth] onAuthStateChanged:', firebaseUser?.email || 'no user');
 
             if (firebaseUser) {
                 setUser(mapFirebaseUser(firebaseUser));
             } else {
                 setUser(null);
             }
-            setIsLoading(false);
+
+            if (isSubscribed) {
+                setIsLoading(false);
+                clearTimeout(timeout);
+            }
         });
 
-        return () => unsubscribe();
+        return () => {
+            isSubscribed = false;
+            clearTimeout(timeout);
+            unsubscribe();
+        };
     }, []);
 
     async function login() {
