@@ -16,27 +16,41 @@ We believe that researchers and clinicians should have access to cutting-edge AI
 
 ### The Formula
 
-Every query has a clear cost breakdown:
+Our hybrid agentic architecture optimizes costs by using specific models for different phases of reasoning:
+
+1.  **Query & Reflection (Gemini 3 Flash)**: Handling initial reasoning, tool routing, and knowledge graph queries.
+2.  **Synthesis & Answer (Gemini 3 Pro)**: Generating the final high-quality, nuanced response.
 
 ```
-Query Cost = LLM Cost + Platform Fee (50%)
+Total Cost = (Flash Cost + Pro Cost) + Platform Fee (50%)
 ```
 
-| Component | Description |
-|-----------|-------------|
-| **LLM Cost** | The actual cost of tokens processed by the language model (input + output tokens) |
-| **Platform Fee** | 50% markup on LLM cost to cover infrastructure, R&D, and platform maintenance |
+### Base Tech Pricing (Gemini 3.0 API)
 
-### Example Costs
+| Model | Input (per 1M) | Output (per 1M) | Role |
+|-------|----------------|-----------------|------|
+| **Gemini 3 Flash** | $0.50 | $3.00 | Reasoning loops, Tool usage, Reflection |
+| **Gemini 3 Pro** | $2.00 | $12.00 | Final Context Synthesis, User Answer |
 
-| Query Type | Estimated LLM Cost | Platform Fee (50%) | Total Cost |
-|------------|-------------------|-------------------|------------|
-| Simple question | $0.02 | $0.01 | **$0.03** |
-| Standard research query | $0.10 | $0.05 | **$0.15** |
-| Deep analysis (high effort) | $0.40 | $0.20 | **$0.60** |
-| Complex multi-tool query | $0.80 | $0.40 | **$1.20** |
+### Real-World Query Examples
 
-*Costs vary based on model selection, effort level, and tools used.*
+**1. Standard Research Query**
+*User asks: "Analyze the relationship between TP53 mutations and cisplatin resistance."*
+
+*   **Phase 1 (Flash)**: 25k context tokens + Tools = ~$0.015
+*   **Phase 2 (Pro)**: 20k synthesized context + 2k output = ~$0.064
+*   **Total Base Cost**: $0.079
+*   **User Price**: **~$0.12**
+
+**2. Deep Agentic Task**
+*User asks: "Find all clinical trials for glioblastoma in Phase 3 targeting EGFR, compare their outcomes, and summarize standard of care."*
+
+*   **Phase 1 (Flash)**: Multi-step reasoning (x4 loops), ~80k tokens total = ~$0.05
+*   **Phase 2 (Pro)**: Massive context synthesis, 4k output = ~$0.15
+*   **Total Base Cost**: $0.20
+*   **User Price**: **~$0.30**
+
+*Note: Simple conversational queries ("Hello", "Summarize this text") use Flash end-to-end and cost <$0.01.*
 
 ---
 
@@ -89,13 +103,15 @@ You'll see a cost estimate before submitting:
 ```
 Estimated Cost Breakdown
 ------------------------
-Model: Gemini 2.0 Flash
+Workflow: Hybrid Agent (Flash + Pro)
 Effort Level: Medium
 Tools: Web Search, Knowledge Graph
 
-Estimated tokens: ~8,000
-LLM cost: ~$0.08
-Platform fee: ~$0.04
+Phase 1 (Reasoning - Flash): ~25k tokens
+Phase 2 (Answer - Pro): ~22k tokens
+
+Est. Base Cost: $0.08
+Platform fee: $0.04
 ------------------------
 Total estimate: ~$0.12
 ```
@@ -108,6 +124,20 @@ Track your spending with detailed analytics:
 - Cost per query type and tool
 - Token usage patterns
 - Budget alerts and limits
+
+---
+
+## Scale Projection: 100 Concurrent Users
+*For institutions planning dedicated infrastructure.*
+
+**Scenario**: 100 researchers active 24/7 (e.g., global team or shift-based hospital usage).
+*Assumed Load: 12 complex queries per user/hour.*
+
+| Metric | Monthly Volume | Base Cost (LLM) | Platform Fee (Revenue) | Total Cost |
+|--------|----------------|-----------------|------------------------|------------|
+| **Total Query Volume** | ~864,000 queries | $69,120 | $34,560 | **$103,680** |
+
+*At this scale, **Volume Discounts** apply (typically 15-20% off Platform Fees), bringing the total closer to **$95,000/month** for unrestricted, 24/7 access to state-of-the-art oncology reasoning.*
 
 ---
 

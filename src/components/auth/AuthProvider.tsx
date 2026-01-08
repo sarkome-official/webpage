@@ -1,4 +1,12 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import {
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+    onAuthStateChanged,
+    type User as FirebaseUser
+} from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 interface User {
     id: string;
@@ -10,7 +18,7 @@ interface User {
 interface AuthContextType {
     user: User | null;
     isLoading: boolean;
-    login: () => void;
+    login: () => Promise<void>;
     logout: () => Promise<void>;
 }
 
@@ -21,33 +29,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Check session on mount
-        checkSession();
+        // Listen for Firebase Auth state changes
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            if (firebaseUser) {
+                // Map Firebase user to our app's User interface
+                setUser({
+                    id: firebaseUser.uid,
+                    email: firebaseUser.email || '',
+                    name: firebaseUser.displayName || 'User',
+                    picture: firebaseUser.photoURL || undefined
+                });
+            } else {
+                setUser(null);
+            }
+            setIsLoading(false);
+        });
+
+        // Cleanup subscription
+        return () => unsubscribe();
     }, []);
 
-    async function checkSession() {
+    async function login() {
         try {
-            const res = await fetch('/api/auth/session', { credentials: 'include' });
-            if (res.ok) {
-                const data = await res.json();
-                setUser(data.user);
-            }
+            const provider = new GoogleAuthProvider();
+            await signInWithPopup(auth, provider);
+            // onAuthStateChanged will handle the state update
         } catch (error) {
-            console.error('Session check failed:', error);
-        } finally {
-            setIsLoading(false);
+            console.error('Login failed:', error);
+            alert('Login failed. Please try again.');
         }
-    }
-
-    function login() {
-        // Redirect to Google OAuth via our Vercel function
-        window.location.href = '/api/auth/login';
     }
 
     async function logout() {
         try {
-            await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
-            setUser(null);
+            await signOut(auth);
+            // onAuthStateChanged will handle the state update
         } catch (error) {
             console.error('Logout failed:', error);
         }

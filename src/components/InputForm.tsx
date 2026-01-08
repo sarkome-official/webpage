@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { SquarePen, Brain, Send, StopCircle, Zap, Cpu, Users, Search, Activity, Box, Plus, ArrowUp, Loader2, Database, ChevronDown, User, Check, X } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
-import { listPatients, getPatientFullName, type PatientRecord } from "@/lib/patient-record";
+import { listPatients } from "@/lib/patient-storage-manager";
+import { getPatientFullName, type PatientRecord } from "@/lib/patient-record";
 import { InstructionImproverButton } from "@/components/InstructionImprover";
 import {
   Select,
@@ -133,10 +134,25 @@ export const InputForm = ({
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(initialPatientId || null);
 
   useEffect(() => {
-    setPatients(listPatients());
-    const handlePatientChange = () => setPatients(listPatients());
+    let isMounted = true;
+    async function fetchPatients() {
+      try {
+        const p = await listPatients();
+        if (isMounted) setPatients(p);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    fetchPatients();
+
+    const handlePatientChange = () => fetchPatients();
     window.addEventListener('sarkome:patients', handlePatientChange);
-    return () => window.removeEventListener('sarkome:patients', handlePatientChange);
+
+    return () => {
+      isMounted = false;
+      window.removeEventListener('sarkome:patients', handlePatientChange);
+    };
   }, []);
 
   const selectedPatient = selectedPatientId ? patients.find(p => p.id === selectedPatientId) : null;
@@ -385,15 +401,24 @@ export const InputForm = ({
                         <div className="space-y-3">
                           <div className="space-y-1.5">
                             <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50">Query & Reflection</span>
-                            <Select value={queryModel} onValueChange={setQueryModel}>
-                              <SelectTrigger className="h-8 w-full bg-accent/30 border-border text-xs font-semibold" aria-label="Select query model">
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent className="bg-popover border-border">
-                                <SelectItem value="gemini-3-pro-preview" className="text-xs">Gemini 3 Pro</SelectItem>
-                                <SelectItem value="gemini-3-flash-preview" className="text-xs">Gemini 3 Flash</SelectItem>
-                              </SelectContent>
-                            </Select>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <div className="w-full">
+                                  <Select value={queryModel} onValueChange={setQueryModel} disabled>
+                                    <SelectTrigger className="h-8 w-full bg-accent/30 border-border text-xs font-semibold opacity-50 cursor-not-allowed" aria-label="Select query model">
+                                      <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent className="bg-popover border-border">
+                                      <SelectItem value="gemini-3-pro-preview" className="text-xs">Gemini 3 Pro</SelectItem>
+                                      <SelectItem value="gemini-3-flash-preview" className="text-xs">Gemini 3 Flash</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                              </TooltipTrigger>
+                              <TooltipContent className="bg-destructive text-destructive-foreground font-bold">
+                                <p>Bloqueado de momento</p>
+                              </TooltipContent>
+                            </Tooltip>
                           </div>
                           <div className="space-y-1.5">
                             <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground/50">Answer</span>

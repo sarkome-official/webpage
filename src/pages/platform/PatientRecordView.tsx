@@ -1,12 +1,13 @@
 import * as React from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import {
-    getPatient,
     getPatientFullName,
     calculateAge,
     calculateBMI,
     type PatientRecord
 } from "@/lib/patient-record"
+import { getPatient } from "@/lib/patient-storage-manager"
+import { listThreads, deleteThread, setActiveThreadId, type StoredThread } from "@/lib/thread-storage-manager"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -29,7 +30,6 @@ import { DocumentsManager } from "@/components/DocumentsManager"
 import { HypothesisManager } from "@/components/HypothesisManager"
 import { GenomicsManager } from "@/components/GenomicsManager"
 import { TreatmentsManager } from "@/components/TreatmentsManager"
-import { listThreads, setActiveThreadId, deleteThread, type StoredThread } from "@/lib/local-threads"
 
 export default function PatientRecordView() {
     const { patientId } = useParams<{ patientId: string }>();
@@ -38,26 +38,39 @@ export default function PatientRecordView() {
     const [patientThreads, setPatientThreads] = React.useState<StoredThread[]>([]);
 
     React.useEffect(() => {
-        if (patientId) {
-            const data = getPatient(patientId);
-            setPatient(data);
-            // Load threads associated with this patient
-            const threads = listThreads().filter(t => t.patientId === patientId);
-            setPatientThreads(threads);
+        let isMounted = true;
+        async function loadData() {
+            if (patientId) {
+                const data = await getPatient(patientId);
+                if (isMounted) setPatient(data);
+
+                const allThreads = await listThreads();
+                if (isMounted) {
+                    setPatientThreads(allThreads.filter(t => t.patientId === patientId));
+                }
+            }
         }
+        loadData();
+        return () => { isMounted = false; };
     }, [patientId]);
 
     // Listen for thread updates
     React.useEffect(() => {
-        const refreshThreads = () => {
+        let isMounted = true;
+        const refreshThreads = async () => {
             if (patientId) {
-                const threads = listThreads().filter(t => t.patientId === patientId);
-                setPatientThreads(threads);
+                const allThreads = await listThreads();
+                if (isMounted) {
+                    setPatientThreads(allThreads.filter(t => t.patientId === patientId));
+                }
             }
         };
 
         window.addEventListener("sarkome:threads", refreshThreads as EventListener);
-        return () => window.removeEventListener("sarkome:threads", refreshThreads as EventListener);
+        return () => {
+            isMounted = false;
+            window.removeEventListener("sarkome:threads", refreshThreads as EventListener);
+        };
     }, [patientId]);
 
     if (!patient) {
@@ -296,13 +309,13 @@ export default function PatientRecordView() {
                                                         <span className="text-xs text-primary">Open</span>
                                                         <button
                                                             className="p-1.5 rounded hover:bg-destructive/20 transition-colors"
-                                                            onClick={(e) => {
+                                                            onClick={async (e) => {
                                                                 e.stopPropagation();
                                                                 if (confirm("Are you sure you want to permanently delete this conversation? This action cannot be undone.")) {
-                                                                    deleteThread(thread.id);
+                                                                    await deleteThread(thread.id);
                                                                     // Refresh threads list
-                                                                    const threads = listThreads().filter(t => t.patientId === patientId);
-                                                                    setPatientThreads(threads);
+                                                                    const allThreads = await listThreads();
+                                                                    setPatientThreads(allThreads.filter(t => t.patientId === patientId));
                                                                 }
                                                             }}
                                                             title="Delete conversation"

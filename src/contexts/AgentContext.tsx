@@ -2,13 +2,8 @@ import * as React from "react";
 import { createContext, useContext, useState, useRef, useCallback, useEffect } from "react";
 import { useAgent as useAgentHook } from "@/hooks/useAgent";
 import { getAgentUrl } from "@/lib/langgraph-api";
-import {
-    deriveThreadTitle,
-    getOrCreateActiveThreadId,
-    getThread,
-    upsertThread,
-    setActiveThreadId as persistActiveThreadId
-} from "@/lib/local-threads";
+import { type StoredThread } from "@/lib/thread-storage-manager";
+import * as threadStorage from '@/lib/thread-storage-manager';
 import type { ChatMessage } from "@/lib/chat-types";
 import type { ProcessedEvent } from "@/components/ActivityTimeline";
 
@@ -66,7 +61,7 @@ export function AgentProvider({ children, patientId, patientContext }: AgentProv
     // -------------------------------------------------------------------------
     // State: Thread & Events
     // -------------------------------------------------------------------------
-    const [activeThreadId, setInternalActiveThreadId] = useState(() => getOrCreateActiveThreadId());
+    const [activeThreadId, setInternalActiveThreadId] = useState(() => threadStorage.getOrCreateActiveThreadId());
     const [processedEventsTimeline, setProcessedEventsTimeline] = useState<ProcessedEvent[]>([]);
     const [liveSourcesByLabel, setLiveSourcesByLabel] = useState<Record<string, string>>({});
     const [liveSourcesList, setLiveSourcesList] = useState<Array<{ label?: string; url: string; id?: string }>>([]);
@@ -80,12 +75,10 @@ export function AgentProvider({ children, patientId, patientContext }: AgentProv
     const wasLoadingRef = useRef(false);
 
     // -------------------------------------------------------------------------
-    // Initial messages from localStorage
+    // Initial messages from Thread Storage
     // -------------------------------------------------------------------------
-    const initialThreadMessages = React.useMemo<ChatMessage[]>(() => {
-        const existing = getThread(activeThreadId);
-        return Array.isArray(existing?.messages) ? existing!.messages : [];
-    }, [activeThreadId]);
+    // We start empty and load asynchronously
+    const initialThreadMessages = React.useMemo<ChatMessage[]>(() => [], []);
 
     // -------------------------------------------------------------------------
     // Agent Hook (the core connection to backend)
@@ -189,19 +182,45 @@ export function AgentProvider({ children, patientId, patientContext }: AgentProv
     });
 
     // -------------------------------------------------------------------------
-    // Persist messages to localStorage
+    // Load messages when thread changes
+    // -------------------------------------------------------------------------
+    useEffect(() => {
+        let isMounted = true;
+
+        async function loadThreadData() {
+            try {
+                const loadedThread = await threadStorage.getThread(activeThreadId);
+                if (isMounted) {
+                    if (loadedThread && loadedThread.messages) {
+                        thread.setMessages(loadedThread.messages);
+                    } else {
+                        thread.setMessages([]);
+                    }
+                }
+            } catch (err) {
+                console.error("[AgentContext] Failed to load thread:", err);
+            }
+        }
+
+        loadThreadData();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [activeThreadId]);
+
+    // -------------------------------------------------------------------------
+    // Persist messages to storage (Hybrid)
     // -------------------------------------------------------------------------
     useEffect(() => {
         if (thread.messages.length > 0) {
-            const title = deriveThreadTitle(thread.messages);
-            upsertThread({
-                id: activeThreadId,
-                messages: thread.messages,
+            const title = threadStorage.deriveThreadTitle(thread.messages);
+            threadStorage.saveThread(
+                activeThreadId,
                 title,
-                updatedAt: Date.now(),
-                createdAt: getThread(activeThreadId)?.createdAt || Date.now(),
-                patientId,
-            });
+                thread.messages,
+                patientId
+            ).catch(err => console.error('[AgentContext] Save failed:', err));
         }
     }, [thread.messages, activeThreadId, patientId]);
 
@@ -237,7 +256,7 @@ export function AgentProvider({ children, patientId, patientContext }: AgentProv
     // -------------------------------------------------------------------------
     const setActiveThreadId = useCallback((id: string) => {
         setInternalActiveThreadId(id);
-        persistActiveThreadId(id);
+        threadStorage.setActiveThreadId(id);
         // Reset events for new thread
         setProcessedEventsTimeline([]);
         setRawEvents([]);

@@ -1,0 +1,105 @@
+{
+    "$schema": "https://sarkome.dev/schemas/context-module/v1",
+    "name": "sarkome-frontend",
+    "version": "1.5.0",
+    "type": "ui",
+    "domain": "biomedical-research-ui",
+    "description": {
+        "short": "React-based UI for the Sarkome biomedical research platform",
+        "long": "A modern React SPA providing chat interface, patient management, and knowledge graph visualization for biomedical researchers."
+    },
+    "capabilities": [
+        {
+            "id": "chat",
+            "name": "Chat Interface",
+            "description": "SSE streaming chat with AI agent"
+        },
+        {
+            "id": "query-builder",
+            "name": "Query Builder",
+            "description": "Tool toggles, effort slider, model selector"
+        },
+        {
+            "id": "patient-records",
+            "name": "Patient Management",
+            "description": "CRUD operations for patient profiles"
+        },
+        {
+            "id": "kg-viz",
+            "name": "Knowledge Graph Visualization",
+            "description": "Display biomedical entity relationships"
+        },
+        {
+            "id": "auth",
+            "name": "Authentication",
+            "description": "Google OAuth via Firebase"
+        }
+    ],
+    "routes": [
+        {
+            "path": "/",
+            "component": "LandingPage",
+            "auth": false
+        },
+        {
+            "path": "/faq",
+            "component": "FAQPage",
+            "auth": false
+        },
+        {
+            "path": "/platform/query",
+            "component": "QueryBuilder",
+            "auth": true
+        },
+        {
+            "path": "/platform/history",
+            "component": "ChatHistory",
+            "auth": true
+        },
+        {
+            "path": "/platform/patients/:id",
+            "component": "PatientRecordView",
+            "auth": true
+        }
+    ],
+    "files": {
+        "entryPoint": "CONTEXT.md",
+        "app": [
+            "src/App.tsx",
+            "src/main.tsx"
+        ],
+        "components": [
+            "src/components/"
+        ],
+        "pages": [
+            "src/pages/"
+        ],
+        "services": [
+            "src/services/knowledgeGraphApi.ts"
+        ],
+        "styles": [
+            "src/global.css",
+            "tailwind.config.js"
+        ]
+    },
+    "dependencies": {
+        "runtime": {
+            "node": ">=18",
+            "packages": [
+                "react",
+                "react-router-dom",
+                "tailwindcss",
+                "firebase",
+                "lucide-react"
+            ]
+        },
+        "external": [
+            "sarkome-backend",
+            "primekg-infra",
+            "sarkome_firebase"
+        ]
+    },
+    "metadata": {
+        "updatedAt": "2026-01-07T17:25:00-03:00"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "$schema": "https://sarkome.dev/schemas/changelog/v1",
+    "moduleId": "sarkome-frontend",
+    "entries": [
+        {
+            "id": "001",
+            "timestamp": "2026-01-07T17:25:00-03:00",
+            "version": "1.5.0",
+            "type": "docs",
+            "author": "antigravity",
+            "description": "Created context module structure",
+            "changes": [
+                "Created CONTEXT.md",
+                "Created .context/manifest.json",
+                "Created .context/changelog.json",
+                "Added knowledgeGraphApi.ts service"
+            ],
+            "filesAffected": [
+                "CONTEXT.md",
+                ".context/",
+                "src/services/knowledgeGraphApi.ts"
+            ]
+        }
+    ]
+}

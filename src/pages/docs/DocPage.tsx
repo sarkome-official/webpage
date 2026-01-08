@@ -1,5 +1,6 @@
 import { useParams, Navigate, Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { docsConfig } from "@/lib/docs-config";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useState } from "react";
@@ -167,19 +168,34 @@ export default function DocPage() {
                 </pre>
               ),
               table: ({ children }) => (
-                <div className="my-6 w-full overflow-y-auto">
-                  <table className="w-full border-collapse">
+                <div className="my-8 w-full overflow-x-auto rounded-xl border border-border/50 bg-gradient-to-br from-muted/20 to-muted/5 shadow-sm">
+                  <table className="w-full border-collapse min-w-[500px]">
                     {children}
                   </table>
                 </div>
               ),
+              thead: ({ children }) => (
+                <thead className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border-b border-border/50">
+                  {children}
+                </thead>
+              ),
+              tbody: ({ children }) => (
+                <tbody className="divide-y divide-border/30">
+                  {children}
+                </tbody>
+              ),
+              tr: ({ children }) => (
+                <tr className="transition-colors hover:bg-muted/30 group">
+                  {children}
+                </tr>
+              ),
               th: ({ children }) => (
-                <th className="border border-border px-4 py-2 text-left font-bold bg-muted">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-foreground/90 uppercase tracking-wider first:rounded-tl-xl last:rounded-tr-xl">
                   {children}
                 </th>
               ),
               td: ({ children }) => (
-                <td className="border border-border px-4 py-2">
+                <td className="px-4 py-3 text-sm text-muted-foreground group-hover:text-foreground transition-colors">
                   {children}
                 </td>
               ),
@@ -197,6 +213,7 @@ export default function DocPage() {
                 <hr className="my-8 border-border" />
               )
             }}
+            remarkPlugins={[remarkGfm]}
           >
             {doc.content}
           </ReactMarkdown>

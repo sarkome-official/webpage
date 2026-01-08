@@ -105,8 +105,8 @@ Concurrency: 80   # Requests per container
 
 | Model | Provider | Use Case | Cost/1M Tokens |
 |-------|----------|----------|----------------|
-| **Gemini 3.0 Flash** | Google | Entity extraction, routing, reflection | $0.075 input, $0.30 output |
-| **Gemini 3.0 Pro** | Google | Final synthesis, complex reasoning | $1.25 input, $5.00 output |
+| **Gemini 3.0 Flash** | Google | Entity extraction, routing, reflection | $0.50 input, $3.00 output |
+| **Gemini 3.0 Pro** | Google | Final synthesis, complex reasoning | $2.00 input, $12.00 output |
 
 **API Endpoints**:
 - `POST /runs/stream`: Server-Sent Events for real-time updates

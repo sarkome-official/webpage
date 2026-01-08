@@ -46,8 +46,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { createThreadId, listThreads, setActiveThreadId, deleteThread, upsertThread, getThread, type StoredThread } from "@/lib/local-threads"
-import { listPatients, getPatientFullName, type PatientRecord } from "@/lib/patient-record"
+import { type StoredThread, listThreads, deleteThread, upsertThread, getThread, createThreadId, setActiveThreadId } from "@/lib/thread-storage-manager"
+import { listPatients } from "@/lib/patient-storage-manager"
+import { getPatientFullName, type PatientRecord } from "@/lib/patient-record"
 import { UserPlus, Users, MoreHorizontal, Pencil, Trash2, UserCheck } from "lucide-react"
 import { SettingsModal } from "@/components/SettingsModal"
 import {
@@ -109,8 +110,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = React.useState("");
-    const [recentThreads, setRecentThreads] = React.useState<StoredThread[]>(() => listThreads().slice(0, 8));
-    const [patients, setPatients] = React.useState<PatientRecord[]>(() => listPatients());
+    const [recentThreads, setRecentThreads] = React.useState<StoredThread[]>([]);
+    const [patients, setPatients] = React.useState<PatientRecord[]>([]);
     const [settingsOpen, setSettingsOpen] = React.useState(false);
     const [userMenuOpen, setUserMenuOpen] = React.useState(false);
 
@@ -122,8 +123,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const [renameValue, setRenameValue] = React.useState("");
 
     React.useEffect(() => {
-        const refreshThreads = () => setRecentThreads(listThreads().slice(0, 8));
-        const refreshPatients = () => setPatients(listPatients());
+        let isMounted = true;
+
+        async function refreshThreads() {
+            const threads = await listThreads();
+            if (isMounted) setRecentThreads(threads.slice(0, 8));
+        }
+
+        async function refreshPatients() {
+            const pts = await listPatients();
+            if (isMounted) setPatients(pts);
+        }
 
         refreshThreads();
         refreshPatients();
@@ -139,6 +149,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         window.addEventListener("sarkome:patients", refreshPatients as EventListener);
 
         return () => {
+            isMounted = false;
             window.removeEventListener("storage", onStorage);
             window.removeEventListener("sarkome:threads", refreshThreads as EventListener);
             window.removeEventListener("sarkome:patients", refreshPatients as EventListener);
@@ -157,35 +168,44 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }, [searchQuery]);
 
     // Chat menu handlers
-    const handleRenameThread = () => {
+    const handleRenameThread = async () => {
         if (!selectedThread || !renameValue.trim()) return;
-        const thread = getThread(selectedThread.id);
-        if (thread) {
-            thread.title = renameValue.trim();
-            thread.updatedAt = Date.now();
-            upsertThread(thread);
-            setRecentThreads(listThreads().slice(0, 8));
-        }
+
+        // We do a partial update. Since we are renaming, we don't strictly need the full thread object
+        // if upsertThread handles merges.
+        await upsertThread({
+            id: selectedThread.id,
+            title: renameValue.trim(),
+            updatedAt: Date.now()
+        });
+
+        const threads = await listThreads();
+        setRecentThreads(threads.slice(0, 8));
+
         setRenameDialogOpen(false);
         setSelectedThread(null);
         setRenameValue("");
     };
 
-    const handleDeleteThread = (threadId: string) => {
-        deleteThread(threadId);
-        setRecentThreads(listThreads().slice(0, 8));
+    const handleDeleteThread = async (threadId: string) => {
+        await deleteThread(threadId);
+        const threads = await listThreads();
+        setRecentThreads(threads.slice(0, 8));
         setChatMenuOpen(null);
     };
 
-    const handleAssignToPatient = (patientId: string) => {
+    const handleAssignToPatient = async (patientId: string) => {
         if (!selectedThread) return;
-        const thread = getThread(selectedThread.id);
-        if (thread) {
-            thread.patientId = patientId;
-            thread.updatedAt = Date.now();
-            upsertThread(thread);
-            setRecentThreads(listThreads().slice(0, 8));
-        }
+
+        await upsertThread({
+            id: selectedThread.id,
+            patientId: patientId,
+            updatedAt: Date.now()
+        });
+
+        const threads = await listThreads();
+        setRecentThreads(threads.slice(0, 8));
+
         setAssignPatientOpen(false);
         setSelectedThread(null);
     };

@@ -4,7 +4,7 @@ import { MessageSquare, Database, Link as LinkIcon, ArrowRight } from "lucide-re
 import { useNavigate } from "react-router-dom";
 import { getAgentUrl } from "@/lib/langgraph-api";
 import type { ChatMessage } from "@/lib/chat-types";
-import { getThread, listThreads, type StoredThread, setActiveThreadId, createThreadId } from "@/lib/local-threads";
+import { getThread, listThreads, type StoredThread, setActiveThreadId, createThreadId } from "@/lib/thread-storage-manager";
 
 
 
