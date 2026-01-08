@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useRef } from 'react';
 import {
     GoogleAuthProvider,
     signInWithCredential,
+    signInWithPopup,
     signOut,
     onAuthStateChanged,
     type User as FirebaseUser
@@ -20,6 +21,8 @@ interface AuthContextType {
     isLoading: boolean;
     login: () => Promise<void>;
     logout: () => Promise<void>;
+    googleButtonRef: React.RefObject<HTMLDivElement | null>;
+    isGoogleReady: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -41,8 +44,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [googleLoaded, setGoogleLoaded] = useState(false);
+    const [isGoogleReady, setIsGoogleReady] = useState(false);
+    const googleButtonRef = useRef<HTMLDivElement | null>(null);
+    const tokenClientRef = useRef<GoogleTokenClient | null>(null);
 
-    // Handle the Google credential response
+    // Handle the Google credential response (for ID token flow)
     const handleCredentialResponse = useCallback(async (response: { credential: string }) => {
         try {
             setIsLoading(true);
@@ -54,8 +60,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             // Sign in to Firebase with the credential
             const result = await signInWithCredential(auth, credential);
             console.log('[Auth] Firebase sign-in successful:', result.user.email);
-
-            // onAuthStateChanged will handle setting the user
         } catch (error) {
             console.error('[Auth] Sign-in error:', error);
             setIsLoading(false);
@@ -67,6 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         if (!GOOGLE_CLIENT_ID) {
             console.error('[Auth] Missing VITE_GOOGLE_CLIENT_ID environment variable');
+            setIsLoading(false);
             return;
         }
 
@@ -84,11 +89,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             console.log('[Auth] Google Identity Services loaded');
             setGoogleLoaded(true);
         };
-        document.head.appendChild(script);
-
-        return () => {
-            // Cleanup: don't remove script as it might be needed
+        script.onerror = () => {
+            console.error('[Auth] Failed to load Google Identity Services');
+            setIsLoading(false);
         };
+        document.head.appendChild(script);
     }, []);
 
     // Initialize Google Identity Services when loaded
@@ -96,17 +101,65 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!googleLoaded || !GOOGLE_CLIENT_ID) return;
 
         try {
+            // Initialize the ID token flow (for One Tap and button)
             window.google.accounts.id.initialize({
                 client_id: GOOGLE_CLIENT_ID,
                 callback: handleCredentialResponse,
-                auto_select: false, // Don't auto-sign-in, let user click
+                auto_select: false,
                 cancel_on_tap_outside: true,
             });
+
+            // Initialize OAuth2 token client for popup flow (more reliable)
+            tokenClientRef.current = window.google.accounts.oauth2.initTokenClient({
+                client_id: GOOGLE_CLIENT_ID,
+                scope: 'email profile openid',
+                callback: async (tokenResponse: GoogleTokenResponse) => {
+                    if (tokenResponse.error) {
+                        console.error('[Auth] OAuth error:', tokenResponse.error);
+                        setIsLoading(false);
+                        return;
+                    }
+
+                    console.log('[Auth] OAuth token received, signing into Firebase...');
+
+                    try {
+                        // Use Firebase popup as fallback since we have the OAuth consent
+                        const provider = new GoogleAuthProvider();
+                        const result = await signInWithPopup(auth, provider);
+                        console.log('[Auth] Firebase sign-in successful:', result.user.email);
+                    } catch (error) {
+                        console.error('[Auth] Firebase sign-in error:', error);
+                        setIsLoading(false);
+                    }
+                },
+            });
+
+            setIsGoogleReady(true);
             console.log('[Auth] Google Identity Services initialized');
         } catch (error) {
             console.error('[Auth] Failed to initialize Google Identity Services:', error);
         }
     }, [googleLoaded, handleCredentialResponse]);
+
+    // Render Google button when ref is available
+    useEffect(() => {
+        if (!isGoogleReady || !googleButtonRef.current) return;
+
+        try {
+            window.google.accounts.id.renderButton(googleButtonRef.current, {
+                type: 'standard',
+                theme: 'filled_black',
+                size: 'large',
+                text: 'continue_with',
+                shape: 'pill',
+                logo_alignment: 'left',
+                width: 280,
+            });
+            console.log('[Auth] Google button rendered');
+        } catch (error) {
+            console.error('[Auth] Failed to render Google button:', error);
+        }
+    }, [isGoogleReady]);
 
     // Listen for Firebase Auth state changes
     useEffect(() => {
@@ -125,53 +178,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, []);
 
     async function login() {
-        if (!googleLoaded || !GOOGLE_CLIENT_ID) {
-            console.error('[Auth] Google Identity Services not loaded');
-            alert('Google Sign-In is not ready. Please try again.');
+        if (!GOOGLE_CLIENT_ID) {
+            alert('Google Sign-In is not configured.');
             return;
         }
 
         try {
             setIsLoading(true);
+            console.log('[Auth] Starting login flow...');
 
-            // Prompt the user to select a Google account
-            // This opens the native Google account picker - no third-party cookies needed!
-            window.google.accounts.id.prompt((notification: { isNotDisplayed: () => boolean; isSkippedMoment: () => boolean; isDismissedMoment: () => boolean }) => {
-                if (notification.isNotDisplayed()) {
-                    console.log('[Auth] Prompt not displayed, falling back to button flow');
-                    // If prompt fails (e.g., blocked by browser), try the popup flow
-                    window.google.accounts.id.renderButton(
-                        document.createElement('div'),
-                        { theme: 'outline', size: 'large' }
-                    );
-                    // Trigger the button click programmatically via popup
-                    window.google.accounts.oauth2.initCodeClient({
-                        client_id: GOOGLE_CLIENT_ID,
-                        scope: 'email profile',
-                        ux_mode: 'popup',
-                        callback: (response: { code: string }) => {
-                            console.log('[Auth] OAuth code received');
-                            // For code flow, we'd need a backend. For now, use ID token flow.
-                        }
-                    });
-                    setIsLoading(false);
-                }
-                if (notification.isSkippedMoment() || notification.isDismissedMoment()) {
-                    console.log('[Auth] User skipped or dismissed the prompt');
-                    setIsLoading(false);
-                }
-            });
-        } catch (error) {
-            console.error('[Auth] Login error:', error);
+            // Use Firebase's signInWithPopup directly - it's the most reliable
+            const provider = new GoogleAuthProvider();
+            provider.addScope('email');
+            provider.addScope('profile');
+
+            const result = await signInWithPopup(auth, provider);
+            console.log('[Auth] Login successful:', result.user.email);
+            // onAuthStateChanged will handle the rest
+        } catch (error: unknown) {
+            const firebaseError = error as { code?: string; message?: string };
+            console.error('[Auth] Login error:', firebaseError.code, firebaseError.message);
             setIsLoading(false);
+
+            // Only show alert for non-cancellation errors
+            if (firebaseError.code !== 'auth/popup-closed-by-user' &&
+                firebaseError.code !== 'auth/cancelled-popup-request') {
+                alert('Login failed. Please try again.');
+            }
         }
     }
 
     async function logout() {
         try {
             await signOut(auth);
-            // Also sign out from Google to allow account switching
-            if (googleLoaded) {
+            // Also disable auto-select from Google
+            if (googleLoaded && window.google?.accounts?.id) {
                 window.google.accounts.id.disableAutoSelect();
             }
         } catch (error) {
@@ -180,7 +221,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, isLoading, login, logout }}>
+        <AuthContext.Provider value={{ user, isLoading, login, logout, googleButtonRef, isGoogleReady }}>
             {children}
         </AuthContext.Provider>
     );
@@ -195,6 +236,16 @@ export function useAuth() {
 }
 
 // Type declarations for Google Identity Services
+interface GoogleTokenResponse {
+    access_token?: string;
+    error?: string;
+    error_description?: string;
+}
+
+interface GoogleTokenClient {
+    requestAccessToken: (options?: { prompt?: string }) => void;
+}
+
 declare global {
     interface Window {
         google: {
@@ -211,18 +262,26 @@ declare global {
                         isSkippedMoment: () => boolean;
                         isDismissedMoment: () => boolean;
                     }) => void) => void;
-                    renderButton: (parent: HTMLElement, options: { theme: string; size: string }) => void;
+                    renderButton: (parent: HTMLElement, options: {
+                        type?: string;
+                        theme?: string;
+                        size?: string;
+                        text?: string;
+                        shape?: string;
+                        logo_alignment?: string;
+                        width?: number;
+                    }) => void;
                     disableAutoSelect: () => void;
                 };
                 oauth2: {
-                    initCodeClient: (config: {
+                    initTokenClient: (config: {
                         client_id: string;
                         scope: string;
-                        ux_mode: string;
-                        callback: (response: { code: string }) => void;
-                    }) => void;
+                        callback: (response: GoogleTokenResponse) => void;
+                    }) => GoogleTokenClient;
                 };
             };
         };
     }
 }
+
