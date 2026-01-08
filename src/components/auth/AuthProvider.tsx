@@ -25,50 +25,81 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Helper to map Firebase user to our app's User interface
+function mapFirebaseUser(firebaseUser: FirebaseUser): User {
+    return {
+        id: firebaseUser.uid,
+        email: firebaseUser.email || '',
+        name: firebaseUser.displayName || 'User',
+        picture: firebaseUser.photoURL || undefined
+    };
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Handle redirect result on page load (for signInWithRedirect flow)
-        getRedirectResult(auth)
-            .then((result) => {
-                if (result?.user) {
-                    console.log('Redirect login successful');
-                }
-            })
-            .catch((error) => {
-                console.error('Redirect result error:', error);
-            });
+        let unsubscribe: (() => void) | undefined;
 
-        // Listen for Firebase Auth state changes
-        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            if (firebaseUser) {
-                // Map Firebase user to our app's User interface
-                setUser({
-                    id: firebaseUser.uid,
-                    email: firebaseUser.email || '',
-                    name: firebaseUser.displayName || 'User',
-                    picture: firebaseUser.photoURL || undefined
-                });
-            } else {
-                setUser(null);
+        async function initializeAuth() {
+            try {
+                // First, check if we're returning from a redirect
+                // This must complete before we can reliably check auth state
+                const redirectResult = await getRedirectResult(auth);
+
+                if (redirectResult?.user) {
+                    console.log('[Auth] Redirect login successful for:', redirectResult.user.email);
+                    setUser(mapFirebaseUser(redirectResult.user));
+                    setIsLoading(false);
+                }
+            } catch (error: unknown) {
+                // Handle specific redirect errors
+                const firebaseError = error as { code?: string; message?: string };
+                console.error('[Auth] Redirect result error:', firebaseError.code, firebaseError.message);
+
+                // Don't block auth initialization on redirect errors
+                // User can try logging in again
             }
-            setIsLoading(false);
-        });
+
+            // Now set up the auth state listener
+            // This will catch users who are already logged in (session persistence)
+            unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+                console.log('[Auth] State changed:', firebaseUser?.email || 'no user');
+
+                if (firebaseUser) {
+                    setUser(mapFirebaseUser(firebaseUser));
+                } else {
+                    setUser(null);
+                }
+                setIsLoading(false);
+            });
+        }
+
+        initializeAuth();
 
         // Cleanup subscription
-        return () => unsubscribe();
+        return () => {
+            if (unsubscribe) {
+                unsubscribe();
+            }
+        };
     }, []);
 
     async function login() {
         try {
+            setIsLoading(true);
             const provider = new GoogleAuthProvider();
+            // Add scopes if needed
+            provider.addScope('email');
+            provider.addScope('profile');
+
             // Use redirect instead of popup to avoid COOP/COEP policy issues
             await signInWithRedirect(auth, provider);
-            // Page will redirect to Google, then back. onAuthStateChanged will handle state update.
+            // Page will redirect to Google, then back
         } catch (error) {
-            console.error('Login failed:', error);
+            console.error('[Auth] Login failed:', error);
+            setIsLoading(false);
             alert('Login failed. Please try again.');
         }
     }
@@ -78,7 +109,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             await signOut(auth);
             // onAuthStateChanged will handle the state update
         } catch (error) {
-            console.error('Logout failed:', error);
+            console.error('[Auth] Logout failed:', error);
         }
     }
 
@@ -96,3 +127,4 @@ export function useAuth() {
     }
     return context;
 }
+

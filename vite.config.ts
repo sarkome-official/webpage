@@ -18,6 +18,54 @@ export default defineConfig(({ mode }) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
+    // Build optimizations for production
+    build: {
+      target: "esnext",
+      minify: "esbuild",
+      cssMinify: true,
+      sourcemap: false, // Disable in production for smaller bundles
+      rollupOptions: {
+        output: {
+          // Manual chunks for optimal caching and parallel loading
+          manualChunks: {
+            // Core React ecosystem - rarely changes
+            "vendor-react": ["react", "react-dom", "react-router-dom"],
+            // Firebase SDK - separate chunk for auth flow
+            "vendor-firebase": ["firebase/app", "firebase/auth", "firebase/firestore"],
+            // Heavy visualization libraries
+            "vendor-viz": ["three", "react-force-graph-3d", "mermaid"],
+            // UI components library
+            "vendor-radix": [
+              "@radix-ui/react-dialog",
+              "@radix-ui/react-popover",
+              "@radix-ui/react-dropdown-menu",
+              "@radix-ui/react-tooltip",
+              "@radix-ui/react-tabs",
+              "@radix-ui/react-select"
+            ],
+            // LangChain/AI SDK
+            "vendor-ai": ["@langchain/core", "@langchain/langgraph-sdk"],
+          },
+          // Use content hashes for cache busting
+          chunkFileNames: "assets/[name]-[hash].js",
+          entryFileNames: "assets/[name]-[hash].js",
+          assetFileNames: "assets/[name]-[hash].[ext]",
+        },
+      },
+      // Increase chunk size warning limit (some vendor chunks are large)
+      chunkSizeWarningLimit: 600,
+    },
+    // Optimize dependency pre-bundling
+    optimizeDeps: {
+      include: [
+        "react",
+        "react-dom",
+        "react-router-dom",
+        "firebase/app",
+        "firebase/auth",
+        "lucide-react",
+      ],
+    },
     server: {
       port: 3000,
       strictPort: true,
@@ -59,3 +107,4 @@ export default defineConfig(({ mode }) => {
     },
   };
 });
+
