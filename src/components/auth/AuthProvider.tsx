@@ -9,6 +9,10 @@ import {
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
+// Only log in development
+const log = import.meta.env.DEV ? console.log.bind(console, '[Auth]') : () => { };
+const logError = console.error.bind(console, '[Auth]');
+
 interface User {
     id: string;
     email: string;
@@ -44,16 +48,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         getRedirectResult(auth)
             .then((result) => {
                 if (result?.user) {
-                    console.log('[Auth] Redirect login successful:', result.user.email);
+                    log('Login successful:', result.user.email);
                 }
             })
             .catch((error) => {
-                console.error('[Auth] Redirect error:', error.code, error.message);
+                logError('Redirect error:', error.code);
             });
 
         // Listen for Firebase Auth state changes
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            console.log('[Auth] State changed:', firebaseUser?.email || 'no user');
+            log('State changed:', firebaseUser?.email || 'no user');
 
             if (firebaseUser) {
                 setUser(mapFirebaseUser(firebaseUser));
@@ -69,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async function login() {
         try {
             setIsLoading(true);
-            console.log('[Auth] Starting redirect login...');
+            log('Starting redirect login...');
 
             const provider = new GoogleAuthProvider();
             provider.addScope('email');
@@ -79,9 +83,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             await signInWithRedirect(auth, provider);
         } catch (error: unknown) {
             const firebaseError = error as { code?: string; message?: string };
-            console.error('[Auth] Login error:', firebaseError.code, firebaseError.message);
+            logError('Login error:', firebaseError.code);
             setIsLoading(false);
-            alert('Login failed. Please try again.');
         }
     }
 
@@ -89,7 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
             await signOut(auth);
         } catch (error) {
-            console.error('[Auth] Logout failed:', error);
+            logError('Logout failed:', error);
         }
     }
 
