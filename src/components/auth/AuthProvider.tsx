@@ -1,7 +1,8 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import {
     GoogleAuthProvider,
-    signInWithPopup,
+    signInWithRedirect,
+    getRedirectResult,
     signOut,
     onAuthStateChanged,
     type User as FirebaseUser
@@ -29,6 +30,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        // Handle redirect result on page load (for signInWithRedirect flow)
+        getRedirectResult(auth)
+            .then((result) => {
+                if (result?.user) {
+                    console.log('Redirect login successful');
+                }
+            })
+            .catch((error) => {
+                console.error('Redirect result error:', error);
+            });
+
         // Listen for Firebase Auth state changes
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
             if (firebaseUser) {
@@ -52,8 +64,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async function login() {
         try {
             const provider = new GoogleAuthProvider();
-            await signInWithPopup(auth, provider);
-            // onAuthStateChanged will handle the state update
+            // Use redirect instead of popup to avoid COOP/COEP policy issues
+            await signInWithRedirect(auth, provider);
+            // Page will redirect to Google, then back. onAuthStateChanged will handle state update.
         } catch (error) {
             console.error('Login failed:', error);
             alert('Login failed. Please try again.');

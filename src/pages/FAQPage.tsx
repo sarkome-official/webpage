@@ -69,11 +69,6 @@ const faqs: FAQItem[] = [
         category: "Scientific",
         question: "How accurate are Sarkome's hypotheses?",
         answer: "Every hypothesis is grounded in verifiable data from knowledge graphs and peer-reviewed literature. Confidence scores reflect evidence strength based on the number and quality of supporting sources. However, all outputs require expert validation before any research or clinical application."
-    },
-    {
-        category: "Scientific",
-        question: "What is targeted protein degradation?",
-        answer: "Targeted protein degradation (TPD) is a therapeutic modality that uses small molecules (like PROTACs) to selectively destroy disease-causing proteins rather than just inhibiting them. This approach is particularly promising for 'undruggable' targets like fusion oncoproteins."
     }
 ];
 
