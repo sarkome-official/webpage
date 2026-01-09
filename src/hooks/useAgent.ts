@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { AIMessage, HumanMessage, SystemMessage } from "@langchain/core/messages";
 import type { ChatMessage } from "@/lib/chat-types";
+import { getAuthToken } from "@/lib/auth-token";
 
 type UseAgentOptions = {
   url: string;
@@ -169,11 +170,18 @@ export function useAgent(options: UseAgentOptions) {
         const timeoutMs = 30000; // 30 seconds timeout for initial connection
         const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
+        // Get Firebase ID token for authenticated requests
+        const authToken = await getAuthToken();
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+          ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+        };
+
         let res;
         try {
           res = await fetch(endpoint, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers,
             body,
             signal: controller.signal,
           });
@@ -465,9 +473,16 @@ export function useAgent(options: UseAgentOptions) {
         console.debug("[useAgent.invoke] Posting run (stringify failed)", endpoint, JSON.stringify(payloadInvoke));
       }
 
+      // Get Firebase ID token for authenticated requests
+      const authTokenInvoke = await getAuthToken();
+      const invokeHeaders: Record<string, string> = {
+        "Content-Type": "application/json",
+        ...(authTokenInvoke ? { Authorization: `Bearer ${authTokenInvoke}` } : {}),
+      };
+
       const resp = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: invokeHeaders,
         body: JSON.stringify(payloadInvoke),
       });
 

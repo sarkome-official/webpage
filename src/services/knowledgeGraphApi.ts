@@ -5,11 +5,13 @@
  * Provides type-safe access to biomedical knowledge graph operations.
  */
 
+import { getAuthToken } from '@/lib/auth-token';
+
 // Configuration (from environment)
 const API_URL = import.meta.env.VITE_KNOWLEDGE_GRAPH_URL || 'http://localhost:8000';
 const API_KEY = import.meta.env.VITE_KNOWLEDGE_GRAPH_API_KEY || '';
 
-const headers: Record<string, string> = {
+const baseHeaders: Record<string, string> = {
     'X-API-Key': API_KEY,
     'Content-Type': 'application/json',
 };
@@ -119,17 +121,25 @@ export interface GraphStats {
 
 class KnowledgeGraphClient {
     private baseUrl: string;
-    private headers: Record<string, string>;
+    private baseHeaders: Record<string, string>;
 
     constructor() {
         this.baseUrl = API_URL;
-        this.headers = headers;
+        this.baseHeaders = baseHeaders;
     }
 
     private async fetch<T>(endpoint: string, options?: RequestInit): Promise<T> {
+        // Get auth token for authenticated requests (optional but recommended)
+        const authToken = await getAuthToken();
+        const headers = {
+            ...this.baseHeaders,
+            ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+            ...options?.headers,
+        };
+
         const response = await fetch(`${this.baseUrl}${endpoint}`, {
             ...options,
-            headers: { ...this.headers, ...options?.headers },
+            headers,
         });
 
         if (!response.ok) {

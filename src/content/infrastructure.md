@@ -58,20 +58,20 @@ Sarkome is deployed on a modern, cloud-native stack that separates concerns acro
 - **Progressive Web App**: Service worker for offline capability
 - **Edge Functions**: Serverless API routes at 300+ edge locations
 
-### Authentication Layer (Vercel Edge)
+### Authentication Layer (Firebase Authentication)
 
-**Flow**: OAuth 2.0 with PKCE (Proof Key for Code Exchange)
+**Flow**: Firebase Authentication with Google OAuth Provider
 
 ```
-User → Google SSO → /api/auth/callback → JWT Generation → 
-HttpOnly Cookie (Secure, SameSite=Lax)
+User → signInWithRedirect → Google OAuth → Firebase Auth →
+onAuthStateChanged → ID Token → API Authorization Header
 ```
 
 **Security Features**:
-- Encrypted `oauth_state` cookies (AES-256-GCM)
-- JWT with issuer/audience validation
-- Rate limiting (10 req/min/IP via Upstash Redis)
-- Email verification enforcement
+- Firebase ID Tokens (JWT signed by Google)
+- Token auto-refresh by Firebase SDK
+- ID tokens verified by Backend via `firebase-admin.auth().verifyIdToken()`
+- Firestore Security Rules using `request.auth.uid`
 
 ---
 
@@ -237,11 +237,11 @@ pulumi up --yes  # Infrastructure as Code update
 | Layer | Mechanism |
 |-------|-----------|
 | **Transport** | TLS 1.3 (HTTPS everywhere) |
-| **Authentication** | OAuth 2.0 + PKCE |
-| **Session** | HttpOnly, Secure, SameSite cookies |
-| **API** | JWT validation with HS256 |
+| **Authentication** | Firebase Auth (Google OAuth Provider) |
+| **Session** | Firebase ID Tokens (auto-refresh) |
+| **API** | Firebase ID Token verification (`verifyIdToken`) |
 | **Secrets** | GCP Secret Manager |
-| **Rate Limiting** | Upstash Redis (10 req/min) |
+| **Firestore** | Security Rules with `request.auth.uid` |
 | **CORS** | Origin whitelist (sarkome.com) |
 | **CSP** | Content Security Policy headers |
 

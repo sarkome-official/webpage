@@ -35,6 +35,9 @@ export interface FirestoreThread {
     updatedAt: Timestamp;
     status: 'active' | 'archived';
     messageCount: number;
+    // For persistent runs - tracks an active run that may still be processing
+    activeRunId?: string;
+    activeRunStatus?: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
 }
 
 // -----------------------------------------------------------------------------
@@ -191,3 +194,63 @@ export function subscribeToThreads(
         callback(threads);
     });
 }
+
+// -----------------------------------------------------------------------------
+// Active Run Management (for persistent runs)
+// -----------------------------------------------------------------------------
+
+/**
+ * Set the active run ID for a thread.
+ * Call this when starting a background run.
+ */
+export async function setActiveRun(
+    userId: string,
+    threadId: string,
+    runId: string,
+    status: 'pending' | 'running' = 'pending'
+): Promise<void> {
+    await upsertThread(userId, threadId, {
+        activeRunId: runId,
+        activeRunStatus: status
+    } as Partial<FirestoreThread>);
+}
+
+/**
+ * Update the status of an active run.
+ */
+export async function updateActiveRunStatus(
+    userId: string,
+    threadId: string,
+    status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled'
+): Promise<void> {
+    await upsertThread(userId, threadId, {
+        activeRunStatus: status
+    } as Partial<FirestoreThread>);
+}
+
+/**
+ * Clear the active run ID (call when run completes).
+ */
+export async function clearActiveRun(
+    userId: string,
+    threadId: string
+): Promise<void> {
+    const docRef = doc(getUserThreadsCollection(userId), threadId);
+    await setDoc(docRef, {
+        activeRunId: null,
+        activeRunStatus: null,
+        updatedAt: serverTimestamp()
+    }, { merge: true });
+}
+
+/**
+ * Check if a thread has an active (non-completed) run.
+ */
+export function hasActiveRun(thread: FirestoreThread): boolean {
+    return !!(
+        thread.activeRunId &&
+        thread.activeRunStatus &&
+        !['completed', 'failed', 'cancelled'].includes(thread.activeRunStatus)
+    );
+}
+

@@ -2,13 +2,24 @@
  * PrimeKG Knowledge Graph API Client
  */
 
+import { getAuthToken } from './auth-token';
+
 const API_URL = import.meta.env.VITE_KNOWLEDGE_GRAPH_URL || 'http://localhost:8000';
 const API_KEY = import.meta.env.VITE_KNOWLEDGE_GRAPH_API_KEY || '';
 
-const headers = {
+const baseHeaders = {
   'X-API-Key': API_KEY,
   'Content-Type': 'application/json',
 };
+
+// Helper to build headers with optional auth token
+async function getHeaders(): Promise<Record<string, string>> {
+  const authToken = await getAuthToken();
+  return {
+    ...baseHeaders,
+    ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+  };
+}
 
 // Types
 export interface NodeItem {
@@ -52,11 +63,13 @@ export async function getStats(): Promise<{
   total_relationships: number;
   nodes_with_embeddings: number;
 }> {
+  const headers = await getHeaders();
   const response = await fetch(`${API_URL}/stats`, { headers });
   return response.json();
 }
 
 export async function searchText(query: string, limit = 10): Promise<NodeItem[]> {
+  const headers = await getHeaders();
   const response = await fetch(
     `${API_URL}/search/text?q=${encodeURIComponent(query)}&limit=${limit}`,
     { headers }
@@ -65,6 +78,7 @@ export async function searchText(query: string, limit = 10): Promise<NodeItem[]>
 }
 
 export async function searchSemantic(query: string, limit = 10): Promise<NodeItem[]> {
+  const headers = await getHeaders();
   const response = await fetch(
     `${API_URL}/search/semantic?q=${encodeURIComponent(query)}&limit=${limit}`,
     { headers }
@@ -73,6 +87,7 @@ export async function searchSemantic(query: string, limit = 10): Promise<NodeIte
 }
 
 export async function getNeighbors(nodeName: string, limit = 50): Promise<EdgeItem[]> {
+  const headers = await getHeaders();
   const response = await fetch(
     `${API_URL}/neighbors/${encodeURIComponent(nodeName)}?limit=${limit}`,
     { headers }
@@ -86,6 +101,7 @@ export async function getSubgraph(
   hops = 2,
   limit = 100
 ): Promise<SubgraphData> {
+  const headers = await getHeaders();
   const response = await fetch(
     `${API_URL}/subgraph/${encodeURIComponent(entity)}?hops=${hops}&limit=${limit}`,
     { headers }
@@ -106,6 +122,7 @@ export async function findPath(
   paths_found: number;
   paths: Array<Array<{ node: string; node_type: string; relation?: string }>>;
 }> {
+  const headers = await getHeaders();
   const response = await fetch(
     `${API_URL}/path/${encodeURIComponent(source)}/${encodeURIComponent(target)}?max_hops=${maxHops}`,
     { headers }
@@ -120,6 +137,7 @@ export async function findRepurposingCandidates(
   disease: string,
   limit = 20
 ): Promise<RepurposingCandidate[]> {
+  const headers = await getHeaders();
   const response = await fetch(
     `${API_URL}/hypothesis/repurposing/${encodeURIComponent(disease)}?limit=${limit}`,
     { headers }
@@ -137,6 +155,7 @@ export async function findTherapeuticTargets(
   relation_to_disease: string;
   existing_drugs: number;
 }>> {
+  const headers = await getHeaders();
   const response = await fetch(
     `${API_URL}/hypothesis/targets/${encodeURIComponent(disease)}?limit=${limit}`,
     { headers }
@@ -154,6 +173,7 @@ export async function explainMechanism(
   relation: string;
   next_entity: string;
 }>> {
+  const headers = await getHeaders();
   const response = await fetch(
     `${API_URL}/hypothesis/mechanisms/${encodeURIComponent(drug)}/${encodeURIComponent(disease)}`,
     { headers }
